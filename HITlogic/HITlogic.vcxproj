@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{a4b14592-2aec-4a7d-a94f-9fdc9d663ba4}</ProjectGuid>
+    <RootNamespace>HITlogic</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg">
+    <VcpkgEnableManifest>true</VcpkgEnableManifest>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <VcpkgUseStatic>true</VcpkgUseStatic>
+    <VcpkgTriplet>x64-windows-static</VcpkgTriplet>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <VcpkgUseStatic>true</VcpkgUseStatic>
+    <VcpkgTriplet>x64-windows-static</VcpkgTriplet>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;NOMINMAX;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(MKLROOT)\include;$(SolutionDir)alglib;$(SolutionDir)Utilities;$(SolutionDir)ImageIO;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ConformanceMode>false</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;NOMINMAX;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(MKLROOT)\include;$(SolutionDir)alglib;$(SolutionDir)Utilities;$(SolutionDir)ImageIO;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ConformanceMode>false</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="3DBuffer.cpp" />
+    <ClCompile Include="3DCloud.cpp" />
+    <ClCompile Include="BorderCropper.cpp" />
+    <ClCompile Include="BrightnessCorrection.cpp" />
+    <ClCompile Include="Compositing.cpp" />
+    <ClCompile Include="Compositing3DCloud.cpp" />
+    <ClCompile Include="CompositingFactory.cpp" />
+    <ClCompile Include="CompositingFusion.cpp" />
+    <ClCompile Include="CompositingMax.cpp" />
+    <ClCompile Include="CompositingParameters.cpp" />
+    <ClCompile Include="CompositingTiling.cpp" />
+    <ClCompile Include="CompositingVoxelBuffer.cpp" />
+    <ClCompile Include="CorrelationOffset.cpp" />
+    <ClCompile Include="CorrelationOffsetClassifier.cpp" />
+    <ClCompile Include="CorrelationParameters.cpp" />
+    <ClCompile Include="DIPLOMTable.cpp" />
+    <ClCompile Include="DIPLOMTableRow.cpp" />
+    <ClCompile Include="HRTGlobalPositioning.cpp" />
+    <ClCompile Include="HRTImageClassificationData.cpp" />
+    <ClCompile Include="HRTImageDepthAndAngleCalculator.cpp" />
+    <ClCompile Include="HRTImageDepthAndAngleData.cpp" />
+    <ClCompile Include="HrtIterativeSLEWorker.cpp" />
+    <ClCompile Include="HrtPreProcessingPipeline.cpp" />
+    <ClCompile Include="ImageCorrelation.cpp" />
+    <ClCompile Include="ImageCorrelator.cpp" />
+    <ClCompile Include="ImageLoader.cpp" />
+    <ClCompile Include="ImageMasker.cpp" />
+    <ClCompile Include="ImagePair.cpp" />
+    <ClCompile Include="ImagePairVerificator.cpp" />
+    <ClCompile Include="ImageRegistrationData.cpp" />
+    <ClCompile Include="ImageRegistrationResult.cpp" />
+    <ClCompile Include="ImageRegistrator.cpp" />
+    <ClCompile Include="ImageUndistortion.cpp" />
+    <ClCompile Include="LockList.cpp" />
+    <ClCompile Include="MosaicImageProperties.cpp" />
+    <ClCompile Include="NoPairVerificator.cpp" />
+    <ClCompile Include="PairVerificatorFactory.cpp" />
+    <ClCompile Include="PiezoImageTime.cpp" />
+    <ClCompile Include="PositionAwarePairVerificator.cpp" />
+    <ClCompile Include="ProcessType.cpp" />
+    <ClCompile Include="RegistrationPostProcessor.cpp" />
+    <ClCompile Include="RegistrationProcedureParameters.cpp" />
+    <ClCompile Include="RegistrationResult.cpp" />
+    <ClCompile Include="RegistrationResultLoader.cpp" />
+    <ClCompile Include="RegistrationStrategy.cpp" />
+    <ClCompile Include="RegistrationStrategyFactory.cpp" />
+    <ClCompile Include="RegStepFlexibleRegistration.cpp" />
+    <ClCompile Include="RegStepImageScalation.cpp" />
+    <ClCompile Include="RegStepResidualFilter.cpp" />
+    <ClCompile Include="RegStepRigidRegistration.cpp" />
+    <ClCompile Include="RegStepScoreThresholdAdapter.cpp" />
+    <ClCompile Include="RegStepScoreThresholdApproximator.cpp" />
+    <ClCompile Include="RegStepScoreThresholdOptimizer.cpp" />
+    <ClCompile Include="RegStepZeroOffsetFilter.cpp" />
+    <ClCompile Include="Residual.cpp" />
+    <ClCompile Include="RigidRegistrationResult.cpp" />
+    <ClCompile Include="ScoreContainer.cpp" />
+    <ClCompile Include="ScoreNormalizer.cpp" />
+    <ClCompile Include="SNPDatasetBatchProcessor.cpp" />
+    <ClCompile Include="SNPDatasetLoader.cpp" />
+    <ClCompile Include="SNPDatasetOutputParameters.cpp" />
+    <ClCompile Include="SNPDatasetParameterExporter.cpp" />
+    <ClCompile Include="SNPDatasetParameterLoader.cpp" />
+    <ClCompile Include="SNPDatasetParameters.cpp" />
+    <ClCompile Include="SNPDatasetResultLoader.cpp" />
+    <ClCompile Include="SNPFusionDataset.cpp" />
+    <ClCompile Include="SNPFusionEvent.cpp" />
+    <ClCompile Include="SNPFusionException.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="StlImage.cpp" />
+    <ClCompile Include="StrategyBackForth.cpp" />
+    <ClCompile Include="StrategyComplete.cpp" />
+    <ClCompile Include="StrategyGraph.cpp" />
+    <ClCompile Include="StrategyPlanes.cpp" />
+    <ClCompile Include="StrategySector.cpp" />
+    <ClCompile Include="StrategyStep.cpp" />
+    <ClCompile Include="StrategyWindow.cpp" />
+    <ClCompile Include="SubImageCorrelation.cpp" />
+    <ClCompile Include="SubImageCorrelator.cpp" />
+    <ClCompile Include="TreeBasedPairVerificator.cpp" />
+    <ClCompile Include="VignettingCorrection.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="3DBuffer.h" />
+    <ClInclude Include="3DCloud.h" />
+    <ClInclude Include="BorderCropper.h" />
+    <ClInclude Include="BrightnessCorrection.h" />
+    <ClInclude Include="Compositing.h" />
+    <ClInclude Include="Compositing3DCloud.h" />
+    <ClInclude Include="CompositingFactory.h" />
+    <ClInclude Include="CompositingFusion.h" />
+    <ClInclude Include="CompositingMax.h" />
+    <ClInclude Include="CompositingParameters.h" />
+    <ClInclude Include="CompositingTiling.h" />
+    <ClInclude Include="CompositingVoxelBuffer.h" />
+    <ClInclude Include="CorrelationOffset.h" />
+    <ClInclude Include="CorrelationOffsetClassifier.h" />
+    <ClInclude Include="CorrelationParameters.h" />
+    <ClInclude Include="DIPLOMTable.h" />
+    <ClInclude Include="DIPLOMTableRow.h" />
+    <ClInclude Include="GlobalPositioningParameters.h" />
+    <ClInclude Include="HRTGlobalPositioning.h" />
+    <ClInclude Include="HRTImageClassificationData.h" />
+    <ClInclude Include="HRTImageDepthAndAngleCalculator.h" />
+    <ClInclude Include="HRTImageDepthAndAngleData.h" />
+    <ClInclude Include="HrtImageParameters.h" />
+    <ClInclude Include="HrtIterativeSLEWorker.h" />
+    <ClInclude Include="HrtPreProcessingParameters.h" />
+    <ClInclude Include="HrtPreProcessingPipeline.h" />
+    <ClInclude Include="HrtValidityCodes.h" />
+    <ClInclude Include="ImageCorrelation.h" />
+    <ClInclude Include="ImageCorrelator.h" />
+    <ClInclude Include="ImageLoader.h" />
+    <ClInclude Include="ImageMasker.h" />
+    <ClInclude Include="ImagePair.h" />
+    <ClInclude Include="ImagePairVerificator.h" />
+    <ClInclude Include="ImageRegistrationData.h" />
+    <ClInclude Include="ImageRegistrationResult.h" />
+    <ClInclude Include="ImageRegistrator.h" />
+    <ClInclude Include="ImageUndistortion.h" />
+    <ClInclude Include="LockList.h" />
+    <ClInclude Include="MosaicImageProperties.h" />
+    <ClInclude Include="NoPairVerificator.h" />
+    <ClInclude Include="PairVerificatorFactory.h" />
+    <ClInclude Include="PiezoImageTime.h" />
+    <ClInclude Include="PositionAwarePairVerificator.h" />
+    <ClInclude Include="ProcessType.h" />
+    <ClInclude Include="RegistrationPostProcessor.h" />
+    <ClInclude Include="RegistrationProcedureParameters.h" />
+    <ClInclude Include="RegistrationResult.h" />
+    <ClInclude Include="RegistrationResultLoader.h" />
+    <ClInclude Include="RegistrationScoreParameters.h" />
+    <ClInclude Include="RegistrationStrategy.h" />
+    <ClInclude Include="RegistrationStrategyFactory.h" />
+    <ClInclude Include="RegistrationStrategyParameters.h" />
+    <ClInclude Include="RegistrationVerificationParameters.h" />
+    <ClInclude Include="RegStepFlexibleRegistration.h" />
+    <ClInclude Include="RegStepImageScalation.h" />
+    <ClInclude Include="RegStepResidualFilter.h" />
+    <ClInclude Include="RegStepRigidRegistration.h" />
+    <ClInclude Include="RegStepScoreThresholdAdapter.h" />
+    <ClInclude Include="RegStepScoreThresholdApproximator.h" />
+    <ClInclude Include="RegStepScoreThresholdOptimizer.h" />
+    <ClInclude Include="RegStepZeroOffsetFilter.h" />
+    <ClInclude Include="Residual.h" />
+    <ClInclude Include="RigidRegistrationResult.h" />
+    <ClInclude Include="ScoreContainer.h" />
+    <ClInclude Include="ScoreNormalizer.h" />
+    <ClInclude Include="SNPDatasetBatchProcessor.h" />
+    <ClInclude Include="SNPDatasetLoader.h" />
+    <ClInclude Include="SNPDatasetOutputParameters.h" />
+    <ClInclude Include="SNPDatasetParameterExporter.h" />
+    <ClInclude Include="SNPDatasetParameterLoader.h" />
+    <ClInclude Include="SNPDatasetParameters.h" />
+    <ClInclude Include="SNPDatasetResultLoader.h" />
+    <ClInclude Include="SNPFusionDataset.h" />
+    <ClInclude Include="SNPFusionEvent.h" />
+    <ClInclude Include="SNPFusionEventHandler.h" />
+    <ClInclude Include="SNPFusionException.h" />
+    <ClInclude Include="SNPGroupResult.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="StlImage.h" />
+    <ClInclude Include="StlImageAlignedAllocator.h" />
+    <ClInclude Include="StrategyBackForth.h" />
+    <ClInclude Include="StrategyComplete.h" />
+    <ClInclude Include="StrategyGraph.h" />
+    <ClInclude Include="StrategyPlanes.h" />
+    <ClInclude Include="StrategySector.h" />
+    <ClInclude Include="StrategyStep.h" />
+    <ClInclude Include="StrategyWindow.h" />
+    <ClInclude Include="SubImageCorrelation.h" />
+    <ClInclude Include="SubImageCorrelator.h" />
+    <ClInclude Include="TreeBasedPairVerificator.h" />
+    <ClInclude Include="UndistortedImage.h" />
+    <ClInclude Include="VignettingCorrection.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

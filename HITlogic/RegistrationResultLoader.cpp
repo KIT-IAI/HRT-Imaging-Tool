@@ -1,0 +1,58 @@
+/*******************************************************************************
+SPDX-License-Identifier: GPL-2.0-or-later
+Copyright 2010-2025 Karlsruhe Institute of Technology (KIT)
+Contact: stephan.allgeier∂kit.edu,
+         Institute of Automation and Applied Informatics
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+this program; if not, write to the Free Software Foundation, 51 Franklin Street,
+Fifth Floor, Boston, MA 02110-1301, USA.
+*******************************************************************************/
+
+
+
+#include "stdafx.h"
+#include "RegistrationResultLoader.h"
+#include "TextFileOutput.h"
+#include "DIPLOMTable.h"
+
+void CRegistrationResultLoader::SaveToTextFile(const CImageRegistrationResult& Result, const wstring& folder, const wstring& sFilePrefix)
+{
+	if (!CFileUtilities::PathExists(folder))
+		CFileUtilities::MakeDirectory(folder, true);
+
+	WriteRegistrationsToFile(CFileUtilities::FullFile({ folder, sFilePrefix + L"pResult.txt" }), Result.GetRigidRegistrationResults());
+	WriteRegistrationsToFile(CFileUtilities::FullFile({ folder, sFilePrefix + L"pResultFlexible.txt" }), Result.GetFlexibleRegistrationResults());
+}
+void CRegistrationResultLoader::WriteRegistrationsToFile(const wstring& fileName, const vector<CRigidRegistrationResult>& RegResults)
+{
+	CTextFileOutput file;
+
+	for (auto rigResult : RegResults)
+		file << rigResult.ToString();
+
+	file.Save(fileName);
+}
+
+void CRegistrationResultLoader::SaveToSQLite(const CImageRegistrationResult& Result, CSQLiteDatabase& Database)
+{
+	CDIPLOMTable::From(L"pResult", Result.GetRigidRegistrationResults()).InsertIntoDatabase(Database);
+	CDIPLOMTable::From(L"pResultFlexible", Result.GetFlexibleRegistrationResults()).InsertIntoDatabase(Database);
+}
+
+CImageRegistrationResult CRegistrationResultLoader::LoadFromSQLite(CSQLiteDatabase& Database)
+{
+	auto RigidResults = Database.SelectAll(L"pResult").Convert<vector<CRigidRegistrationResult>>();
+	auto FlexibleResults = Database.SelectAll(L"pResultFlexible").Convert<vector<CRigidRegistrationResult>>();
+
+	return CImageRegistrationResult(RigidResults, FlexibleResults);
+}

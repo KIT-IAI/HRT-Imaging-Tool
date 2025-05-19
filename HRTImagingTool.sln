@@ -1,0 +1,72 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HITgui", "HITgui\HITgui.vcxproj", "{42DBB301-CC34-447F-AF7B-C0608FCC7BF3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{20FF6146-57C2-4DC3-A7B0-989339529A04} = {20FF6146-57C2-4DC3-A7B0-989339529A04}
+		{A4B14592-2AEC-4A7D-A94F-9FDC9D663BA4} = {A4B14592-2AEC-4A7D-A94F-9FDC9D663BA4}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HITlogic", "HITlogic\HITlogic.vcxproj", "{A4B14592-2AEC-4A7D-A94F-9FDC9D663BA4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{20FF6146-57C2-4DC3-A7B0-989339529A04} = {20FF6146-57C2-4DC3-A7B0-989339529A04}
+		{6421DFA9-A4B6-4F48-8DF4-5B78F39A287A} = {6421DFA9-A4B6-4F48-8DF4-5B78F39A287A}
+		{D0A811DE-EE94-42DE-96D3-011D30017211} = {D0A811DE-EE94-42DE-96D3-011D30017211}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Utilities", "Utilities\Utilities.vcxproj", "{20FF6146-57C2-4DC3-A7B0-989339529A04}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D0A811DE-EE94-42DE-96D3-011D30017211} = {D0A811DE-EE94-42DE-96D3-011D30017211}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notizen", "Notizen", "{C1F5A759-969C-402D-82B4-AEC6BAF0B0AE}"
+	ProjectSection(SolutionItems) = preProject
+		MilConverter.txt = MilConverter.txt
+		pch_interne_abhaengigkeiten.txt = pch_interne_abhaengigkeiten.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4CB778B6-AEA8-4D2E-8ADD-C71CF62B433C}"
+	ProjectSection(SolutionItems) = preProject
+		vcpkg.json = vcpkg.json
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImageIO", "ImageIO\ImageIO.vcxproj", "{6421DFA9-A4B6-4F48-8DF4-5B78F39A287A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "alglib", "alglib\alglib.vcxproj", "{D0A811DE-EE94-42DE-96D3-011D30017211}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{42DBB301-CC34-447F-AF7B-C0608FCC7BF3}.Debug|x64.ActiveCfg = Debug|x64
+		{42DBB301-CC34-447F-AF7B-C0608FCC7BF3}.Debug|x64.Build.0 = Debug|x64
+		{42DBB301-CC34-447F-AF7B-C0608FCC7BF3}.Release|x64.ActiveCfg = Release|x64
+		{42DBB301-CC34-447F-AF7B-C0608FCC7BF3}.Release|x64.Build.0 = Release|x64
+		{A4B14592-2AEC-4A7D-A94F-9FDC9D663BA4}.Debug|x64.ActiveCfg = Debug|x64
+		{A4B14592-2AEC-4A7D-A94F-9FDC9D663BA4}.Debug|x64.Build.0 = Debug|x64
+		{A4B14592-2AEC-4A7D-A94F-9FDC9D663BA4}.Release|x64.ActiveCfg = Release|x64
+		{A4B14592-2AEC-4A7D-A94F-9FDC9D663BA4}.Release|x64.Build.0 = Release|x64
+		{20FF6146-57C2-4DC3-A7B0-989339529A04}.Debug|x64.ActiveCfg = Debug|x64
+		{20FF6146-57C2-4DC3-A7B0-989339529A04}.Debug|x64.Build.0 = Debug|x64
+		{20FF6146-57C2-4DC3-A7B0-989339529A04}.Release|x64.ActiveCfg = Release|x64
+		{20FF6146-57C2-4DC3-A7B0-989339529A04}.Release|x64.Build.0 = Release|x64
+		{6421DFA9-A4B6-4F48-8DF4-5B78F39A287A}.Debug|x64.ActiveCfg = Debug|x64
+		{6421DFA9-A4B6-4F48-8DF4-5B78F39A287A}.Debug|x64.Build.0 = Debug|x64
+		{6421DFA9-A4B6-4F48-8DF4-5B78F39A287A}.Release|x64.ActiveCfg = Release|x64
+		{6421DFA9-A4B6-4F48-8DF4-5B78F39A287A}.Release|x64.Build.0 = Release|x64
+		{D0A811DE-EE94-42DE-96D3-011D30017211}.Debug|x64.ActiveCfg = Debug|x64
+		{D0A811DE-EE94-42DE-96D3-011D30017211}.Debug|x64.Build.0 = Debug|x64
+		{D0A811DE-EE94-42DE-96D3-011D30017211}.Release|x64.ActiveCfg = Release|x64
+		{D0A811DE-EE94-42DE-96D3-011D30017211}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {97C36465-5904-4FAC-88EB-17FA2D964F79}
+	EndGlobalSection
+EndGlobal

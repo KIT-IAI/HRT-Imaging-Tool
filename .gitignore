@@ -1,0 +1,17 @@
+/.vs
+/ipch
+*.sdf
+*.user
+Debug
+Release
+*.aps
+*.bak
+*.pb.cc
+*.pb.h
+!*/Resource.h
+Thumbs.db
+*.gpd
+*.gpc
+*.diagsession
+*.pdb
+/vcpkg_installed

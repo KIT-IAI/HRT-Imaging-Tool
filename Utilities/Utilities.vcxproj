@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{20ff6146-57c2-4dc3-a7b0-989339529a04}</ProjectGuid>
+    <RootNamespace>Utilities</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg">
+    <VcpkgEnableManifest>true</VcpkgEnableManifest>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <VcpkgUseStatic>true</VcpkgUseStatic>
+    <VcpkgTriplet>x64-windows-static</VcpkgTriplet>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <VcpkgUseStatic>true</VcpkgUseStatic>
+    <VcpkgTriplet>x64-windows-static</VcpkgTriplet>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;_CRT_SECURE_NO_WARNINGS;NOMINMAX;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)alglib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;_CRT_SECURE_NO_WARNINGS;NOMINMAX;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)alglib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="AbstractMatrix.cpp" />
+    <ClCompile Include="AbstractVector.cpp" />
+    <ClCompile Include="Compare.cpp" />
+    <ClCompile Include="DateTimeUtilities.cpp" />
+    <ClCompile Include="DenseMatrix.cpp" />
+    <ClCompile Include="DenseVector.cpp" />
+    <ClCompile Include="EnvironmentVariable.cpp" />
+    <ClCompile Include="FileUtilities.cpp" />
+    <ClCompile Include="Graph.cpp" />
+    <ClCompile Include="InsructionSet.cpp" />
+    <ClCompile Include="Log.cpp" />
+    <ClCompile Include="MathTools.cpp" />
+    <ClCompile Include="Point.cpp" />
+    <ClCompile Include="Regex.cpp" />
+    <ClCompile Include="SettingsStore.cpp" />
+    <ClCompile Include="SimpleReadWriteLock.cpp" />
+    <ClCompile Include="SLESolver.cpp" />
+    <ClCompile Include="SparseMatrix.cpp" />
+    <ClCompile Include="SparseVector.cpp" />
+    <ClCompile Include="SQLiteDatabase.cpp" />
+    <ClCompile Include="SQLiteException.cpp" />
+    <ClCompile Include="SQLiteTable.cpp" />
+    <ClCompile Include="SQLiteTableRow.cpp" />
+    <ClCompile Include="StdAfx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="StringUtilities.cpp" />
+    <ClCompile Include="SynchronizedGraph.cpp" />
+    <ClCompile Include="TextFileOutput.cpp" />
+    <ClCompile Include="TimeMeasurement.cpp" />
+    <ClCompile Include="Utilities.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AbstractMatrix.h" />
+    <ClInclude Include="AbstractVector.h" />
+    <ClInclude Include="ArrayUtilities.h" />
+    <ClInclude Include="Cancelable.h" />
+    <ClInclude Include="Compare.h" />
+    <ClInclude Include="Computable.h" />
+    <ClInclude Include="DateTimeUtilities.h" />
+    <ClInclude Include="DenseMatrix.h" />
+    <ClInclude Include="DenseVector.h" />
+    <ClInclude Include="EnvironmentVariable.h" />
+    <ClInclude Include="FileUtilities.h" />
+    <ClInclude Include="Graph.h" />
+    <ClInclude Include="InstructionSet.h" />
+    <ClInclude Include="Log.h" />
+    <ClInclude Include="MathTools.h" />
+    <ClInclude Include="Point.h" />
+    <ClInclude Include="Progress.h" />
+    <ClInclude Include="ProgressForwarder.h" />
+    <ClInclude Include="Progressing.h" />
+    <ClInclude Include="ProgressListener.h" />
+    <ClInclude Include="Regex.h" />
+    <ClInclude Include="SettingsStore.h" />
+    <ClInclude Include="SimpleReadWriteLock.h" />
+    <ClInclude Include="SLESolver.h" />
+    <ClInclude Include="SparseMatrix.h" />
+    <ClInclude Include="SparseVector.h" />
+    <ClInclude Include="SQLiteDatabase.h" />
+    <ClInclude Include="SQLiteException.h" />
+    <ClInclude Include="SQLiteTable.h" />
+    <ClInclude Include="SQLiteTableRow.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="StringUtilities.h" />
+    <ClInclude Include="SynchronizedGraph.h" />
+    <ClInclude Include="TextFileOutput.h" />
+    <ClInclude Include="TimeMeasurement.h" />
+    <ClInclude Include="Utilities.h" />
+    <ClInclude Include="Vectors.h" />
+    <ClInclude Include="Win32HeapRAII.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
