@@ -39,7 +39,6 @@ public:
 	static std::wstring DefaultTissueClassFilePath(const std::wstring& datasetFilePath);
 
 private:
-
 	static std::vector<std::wstring> ReadImagesFromSQLite(CSQLiteDatabase& Database);
 
 };

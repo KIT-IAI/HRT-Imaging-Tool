@@ -23,13 +23,13 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #pragma once
 
 #include <future>
+
 #include <wx/arrstr.h>
 
 #include "Cancelable.h"
 #include "HRTImagingToolResource.h"
-#include "SNPFusionEventHandler.h"
-
 #include "SNPDatasetBatchProcessor.h"
+#include "SNPFusionEventHandler.h"
 
 class HRTImagingToolDialog : public wxHITDialog_Base, protected ICancelable, protected ISNPFusionEventHandler
 {
@@ -85,6 +85,5 @@ private:
 	std::future<void> m_PreprocessingResult;
 
 	wxDECLARE_EVENT_TABLE();
+
 };
-
-

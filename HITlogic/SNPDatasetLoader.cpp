@@ -23,8 +23,6 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "SNPDatasetLoader.h"
 
-#include "Log.h"
-
 
 
 CSNPFusionDataset CSNPDatasetLoader::FromMultiPageTifFile(const std::wstring& datasetFilePath, bool exportImages, const std::wstring& exportPath)
