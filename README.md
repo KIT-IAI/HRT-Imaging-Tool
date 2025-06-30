@@ -12,7 +12,7 @@ HIT does not need installation, you can simply start the compiled executable `HI
 
 HIT requires datasets in the form of multi-page TIFF files. Since the HRT doesn't offer such an export option, you need to create the dataset files yourself. There are plenty of tools that can create multi-page TIFF files from a given set of single-page TIFF files (or other image formats). One option is the free image viewer software [IrfanView](https://www.irfanview.com/), which offers either a graphical user interface or alternatively also a command line interface for this. On the command line, you can create a multi-page TIFF file as follows:
 
-'i_view64.exe /cmdexit /multitif=("C:\path\to\outputfile.tif","C:\path\to\inputfolder\*.tif")'
+`i_view64.exe /cmdexit /multitif=("C:\path\to\outputfile.tif","C:\path\to\inputfolder\*.tif")`
 
 ## Advanced
 
