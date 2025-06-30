@@ -30,7 +30,7 @@ using namespace std;
 class CRegistrationScoreParameters
 {
 public:
-	explicit CRegistrationScoreParameters(double minscoreRigid = 4.5, double minscoreFlexible = 10.0, double certaintyScoreRigid = 17.0)
+	explicit CRegistrationScoreParameters(double minscoreRigid = 8.0, double minscoreFlexible = 16.0, double certaintyScoreRigid = 24.0)
 		:
 		fMinScore(minscoreRigid),
 		fCertainScore(certaintyScoreRigid),

@@ -80,14 +80,14 @@ public:
 
 	// Registration Preprocessing
 	bool										bBrightnessCorrectionBeforeRegistration = false;		// Index = 1
-	bool										bVignettingCorrectionBeforeRegistration = false;		// Index = 2
+	bool										bVignettingCorrectionBeforeRegistration = true;			// Index = 2
 	bool										bShiftCorrection = false;								// Index = 3
 	std::wstring								sVignettingFileBeforeRegistration;						// Index = 4
 	size_t										nVignettingSmoothingBeforeRegistration = 0;				// Index = 5
 	size_t										nVignettingCreationMaxImages = 0;						// Index = 6
 
 	// Registration Strategy
-	CProcessType::EProcessType					eProcessType = CProcessType::eHRTStreamRegistration;	// Index = 7
+	CProcessType::EProcessType					eProcessType = CProcessType::eHRTImageRegistration;		// Index = 7
 	CSLESolver::EAlgorithm						eSolver = CSLESolver::EAlgorithm::eCGALGLIB;			// Index = 8
 	long										nMaxImageDistance = 400;								// Index = 9
 	long										nMaxRegDistance = 8;									// Index = 10
@@ -98,39 +98,39 @@ public:
 
 	// Registration Procedure
 	EImagePairVerificator						eImagePairVerificator = EImagePairVerificator::eNone;	// Index = 14
-	ERegistrationStrategy						eStrategie = ERegistrationStrategy::ePositionBased;		// Index = 15
+	ERegistrationStrategy						eStrategie = ERegistrationStrategy::eComplete;			// Index = 15
 
 	// Correlation Procedure
 	size_t										nSubImageHeight = 32;									// Index = 16
 	bool										bConsistencyCheck = false;								// Index = 17
-	float										fScalation = 1;											// Index = 18
-	float										fScalationSubImages = 1;								// Index = 19
+	float										fScalation = 3.0;										// Index = 18
+	float										fScalationSubImages = 2.0;								// Index = 19
 
 	// Score Parameters
-	double										fMinScore = 4.5;										// Index = 20
-	double										fCertainScore = 20;										// Index = 21
-	double										fMinScoreFlexible = 9;									// Index = 22
+	double										fMinScore = 8.0;										// Index = 20
+	double										fCertainScore = 24.0;									// Index = 21
+	double										fMinScoreFlexible = 16.0;								// Index = 22
 	std::shared_ptr<double>						fScoreThreshold = std::make_shared<double>(fMinScore);	// Index = 23
 	bool										bAutomaticThresholdDetection = false;					// Index = 24
 
 	// Compositing Preprocessing
-	bool										bVignettingCorrectionBeforeCompositing = false;			// Index = 25
+	bool										bVignettingCorrectionBeforeCompositing = true;			// Index = 25
 	bool										bBrightnessCorrectionBeforeCompositing = false;			// Index = 26
 	std::wstring								sVignettingFileBeforeCompositing;						// Index = 27
 	size_t										nVignettingSmoothingBeforeCompositing = 0;				// Index = 28
 
 	// New Registration Strategy
-	/*size_t										nPlaneCount = 1;										// Index = 29
-	size_t										nPlaneIncrement = 1;									// Index = 30*/
-	double										fSelectionHeight = 1;									// Index = 31
+	//size_t										nPlaneCount = 1;									// Index = 29
+	//size_t										nPlaneIncrement = 1;								// Index = 30
+	double										fSelectionHeight = 1.0;									// Index = 31
 
 	// Compositing
 	CCompositingParameters::EWeightMode			eWeightMode = CCompositingParameters::EWeightMode::eCos2;				/**	\brief Gewichtung der Quellbilder beim Erzeugen des Mosaikbilds.*/
-	size_t										nBorder = 10;															/**	\brief Größe der Umrandung des Mosaikbilds.*/
-	double										cBackgroundColor = 0;													/**	\brief Hintergrundfarbe des Mosaikbilds.*/
+	size_t										nBorder = 0;															/**	\brief Größe der Umrandung des Mosaikbilds.*/
+	double										cBackgroundColor = 0.0;													/**	\brief Hintergrundfarbe des Mosaikbilds.*/
 	CCompositingParameters::ECompositingType	eCompositingMode = CCompositingParameters::ECompositingType::eFusion;	/**	\brief Algorithmus zur Bildmontage.*/
-	float										fIntensityLimit = 0;													/**	Für 3D-Compositer: Wenn Punkte herausgefiltert werden sollen.*/
-	float										fZMultiplier = 2;														/**	Für 3D-Compositer: Legt fest ob Punktwolke in x_achse gestreckt werden soll.*/
+	float										fIntensityLimit = 0.0;													/**	Für 3D-Compositer: Wenn Punkte herausgefiltert werden sollen.*/
+	float										fZMultiplier = 2.0;														/**	Für 3D-Compositer: Legt fest ob Punktwolke in x_achse gestreckt werden soll.*/
 	bool										bExcludeNonSNPImages = false;
 
 	// Export
