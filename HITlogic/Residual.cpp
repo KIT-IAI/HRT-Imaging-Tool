@@ -38,6 +38,48 @@ CResidual CResidual::CreateFromRegistration(const CRigidRegistrationResult& regR
 	return residual;
 }
 
+CResidual CResidual::CreateFromSubimageRegistration(const CRigidRegistrationResult& reg, DPoint referenceImageCoordinates, DPoint templateImageCoordinates)
+{
+    CResidual residual;
+    int nSubPerImg = 12;
+    int nSubHeight = 32;
+
+    //index of the subimage in templateImage
+    int subImgIndex1 = static_cast<int>(reg.GetSpecialSubImageRowIndex());
+
+    //indices of the subimages in referenceImage
+    double sub = -static_cast<double>(reg.GetY()) / nSubHeight;
+    int subImgIndex21 = subImgIndex1 + static_cast<int>(std::floor(sub));
+    int subImgIndex22 = subImgIndex21 + 1;
+
+    if (subImgIndex21 < 0 || subImgIndex22 >= nSubPerImg)
+        return residual;  // not valid
+
+
+    const DPoint pos1 = DPoint(templateImageCoordinates.m_x, templateImageCoordinates.m_y);
+
+    const DPoint pos21 = DPoint(referenceImageCoordinates.m_x, referenceImageCoordinates.m_y);
+    const DPoint pos22 = DPoint(referenceImageCoordinates.m_x, referenceImageCoordinates.m_y);
+
+
+
+    double q = sub - std::floor(sub);
+    double p = 1.0 - q;
+
+    DPoint pos2;
+    pos2.m_x = p * pos21.m_x + q * pos22.m_x;
+    pos2.m_y = p * pos21.m_y + q * pos22.m_y;
+
+    double res_x = pos2.m_x - pos1.m_x - reg.GetX();
+    double res_y = pos2.m_y - pos1.m_y - reg.GetY();
+
+    residual.m_fX = res_x;
+    residual.m_fY = res_y;
+    residual.m_fValue = std::sqrt(res_x * res_x + res_y * res_y);
+    residual.m_bIsInitialized = true;
+
+    return residual;
+}
 
 CResidual::CResidual()
 {
@@ -47,6 +89,8 @@ CResidual::CResidual()
 CResidual::~CResidual()
 {
 }
+
+
 double CResidual::CalculateMeanResidual(vector<CResidual>& allResiduals)
 {
 	if (allResiduals.empty())

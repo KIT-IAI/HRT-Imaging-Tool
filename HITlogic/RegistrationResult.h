@@ -52,6 +52,8 @@ public:
 	bool IsValid() const;
 
 	void CalculateResidual(DPoint image_coordinates, DPoint coordinates);
+	void CalculateSubImageResidual(DPoint referenceImageCoordinates, DPoint templateImageCoordinates);
+
 	void Scale(const CRegistrationResult& source, double fScalationFactor);
 
 

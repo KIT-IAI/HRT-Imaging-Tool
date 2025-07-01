@@ -30,6 +30,7 @@ public:
 	CResidual();
 	~CResidual();
 	static CResidual CreateFromRegistration(const CRigidRegistrationResult& regResult, DPoint referenceImageCoordinates, DPoint templateImageCoordinates);
+	static CResidual CreateFromSubimageRegistration(const CRigidRegistrationResult& reg, DPoint referenceImageCoordinates, DPoint templateImageCoordinates);
 
 	static double CalculateMeanResidual(std::vector<CResidual>& allResiduals);
 	static double CalculateStdevResidual(std::vector<CResidual>& allResiduals, double fMean);

@@ -94,6 +94,12 @@ void CRegistrationResult::CalculateResidual(DPoint referenceImageCoordinates, DP
 	RigidRegistrationResult.SetPhi((float)m_Residual.GetValue());
 }
 
+void CRegistrationResult::CalculateSubImageResidual(DPoint referenceImageCoordinates, DPoint templateImageCoordinates)
+{
+	m_Residual = CResidual::CreateFromSubimageRegistration(RigidRegistrationResult, referenceImageCoordinates, templateImageCoordinates);
+	RigidRegistrationResult.SetPhi((float)m_Residual.GetValue());
+}
+
 void CRegistrationResult::Scale(const CRegistrationResult& source, double fScalationFactor)
 {
 	RigidRegistrationResult.Scale(source.RigidRegistrationResult, fScalationFactor);
