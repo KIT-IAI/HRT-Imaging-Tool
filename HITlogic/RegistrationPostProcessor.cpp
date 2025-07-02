@@ -54,6 +54,16 @@ void CRegistrationPostProcessor::CalculateResiduals(vector<CRegistrationResult>&
 	}
 }
 
+void CRegistrationPostProcessor::CalculateSubImageResiduals(std::vector<CRegistrationResult>& RegistrationResults, std::shared_ptr<CDenseMatrix> pRigidSolution)
+{
+	for (auto& Registration : RegistrationResults)
+	{
+		auto nReferenceIndex = Registration.RigidRegistrationResult.GetReferenceImageIndex();
+		auto nTemplateIndex = Registration.RigidRegistrationResult.GetTemplateImageIndex();
+		Registration.CalculateSubImageResidual(DPoint::FromMatrixRow(nReferenceIndex, pRigidSolution), DPoint::FromMatrixRow(nTemplateIndex, pRigidSolution));
+	}
+}
+
 void CRegistrationPostProcessor::SolveRigidPositioning(const vector<CRegistrationResult>& RegistrationResults, std::shared_ptr<CDenseMatrix> pRigidSolution, CSLESolver::EAlgorithm eSolverAlgorithm, size_t nImageCount)
 {
 	CGlobalPositioningParameters SolverParameters;

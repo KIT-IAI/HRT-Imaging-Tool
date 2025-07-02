@@ -42,7 +42,10 @@ public:
 protected:
 	static bool AreResidualsInitialized(const std::vector<CRegistrationResult>& CorrelationResults);
 	static std::vector<CRigidRegistrationResult> GetRigidRegistrationResults(const std::vector<CRegistrationResult>& RegistrationResults);
+
 	static void CalculateResiduals(std::vector<CRegistrationResult>& RegistrationResults, std::shared_ptr<CDenseMatrix> pRigidSolution);
+	static void CalculateSubImageResiduals(std::vector<CRegistrationResult>& RegistrationResults, std::shared_ptr<CDenseMatrix> pRigidSolution);
+
 	static void SolveRigidPositioning(const std::vector<CRegistrationResult>& RegistrationResults, std::shared_ptr<CDenseMatrix> pRigidSolution, CSLESolver::EAlgorithm eSolverAlgorithm, size_t nImageCount);
 	static std::vector<CResidual> GetAllResiduals(const std::vector<CRegistrationResult>& RegistrationResults);
 	static void RemoveRegistration(const CRegistrationResult& registration, std::vector<CRegistrationResult>& validResults, std::vector<CRegistrationResult>& invalidResults);

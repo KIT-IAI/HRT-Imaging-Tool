@@ -113,3 +113,58 @@ double CResidual::CalculateStdevResidual(vector<CResidual>& allResiduals, double
 	fStdev = sqrt(fStdev / allResiduals.size());
 	return fStdev;
 }
+
+double CResidual::CalculateMedianResidual(vector<CResidual>& allResiduals)
+{
+	if (allResiduals.empty())
+		return 0.0;
+
+	std::vector<double> values;
+	values.reserve(allResiduals.size());
+
+	for (const auto& residual : allResiduals)
+		values.push_back(residual.GetValue());
+
+	std::sort(values.begin(), values.end());
+
+	size_t n = values.size();
+	if (n % 2 == 0)
+		return (values[n / 2 - 1] + values[n / 2]) / 2.0;
+	else
+		return values[n / 2];
+}
+
+double CResidual::CalculateQuantileResidual(vector<CResidual>& allResiduals, double quantile)
+{
+	if (allResiduals.empty() || quantile <= 0.0 || quantile >= 1.0)
+		return 0.0;
+
+	std::vector<double> values;
+	values.reserve(allResiduals.size());
+
+	for (const auto& residual : allResiduals)
+		values.push_back(residual.GetValue());
+
+	std::sort(values.begin(), values.end());
+
+	size_t index = static_cast<size_t>(std::ceil(quantile * values.size())) - 1;
+	if (index >= values.size())
+		index = values.size() - 1;
+
+	return values[index];
+}
+
+double CResidual::CalculateMaximumResidual(vector<CResidual>& allResiduals)
+{
+	if (allResiduals.empty())
+		return 0.0;
+
+	double maxVal = allResiduals[0].GetValue();
+	for (const auto& residual : allResiduals)
+	{
+		double val = residual.GetValue();
+		if (val > maxVal)
+			maxVal = val;
+	}
+	return maxVal;
+}
