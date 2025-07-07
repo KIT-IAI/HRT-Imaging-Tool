@@ -5,7 +5,8 @@
     "sqlite3",
     "libpng",
     "wxwidgets",
-    "tiff"
+    "tiff",
+    "intel-mkl"
   ],
   "builtin-baseline": "f5398d978f8843c03ed466c7fdb8a54167cd5f51"
 }
