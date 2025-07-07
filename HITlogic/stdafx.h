@@ -36,6 +36,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 // Standard library
 #include <algorithm>
 #include <array>
+#include <chrono>
 #include <fstream>
 #include <iomanip>
 #include <memory>
