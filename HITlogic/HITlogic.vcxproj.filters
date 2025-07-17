@@ -67,12 +67,6 @@
     <Filter Include="Quelldateien\0_Else">
       <UniqueIdentifier>{ffb8cf59-886e-42d0-8e5e-0d525ac4c373}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Headerdateien\SubImageScoreOptimization">
-      <UniqueIdentifier>{6b91544f-8f0a-4be0-bc45-5eef71503d30}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Quelldateien\SubImageScoreOptimization">
-      <UniqueIdentifier>{21757c3c-62ac-4ed5-9b67-53737e314e91}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RegStepZeroOffsetFilter.h">
@@ -351,8 +345,8 @@
     <ClInclude Include="VignettingCorrection.h">
       <Filter>Headerdateien\0_Else</Filter>
     </ClInclude>
-    <ClInclude Include="SubImageScoreThresholdAdapter.h">
-      <Filter>Headerdateien\SubImageScoreOptimization</Filter>
+    <ClInclude Include="RegStepSubImageScoreThresholdAdapter.h">
+      <Filter>Headerdateien\RegSteps</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -599,8 +593,8 @@
     <ClCompile Include="VignettingCorrection.cpp">
       <Filter>Quelldateien\0_Else</Filter>
     </ClCompile>
-    <ClCompile Include="SubImageScoreThresholdAdapter.cpp">
-      <Filter>Quelldateien\SubImageScoreOptimization</Filter>
+    <ClCompile Include="RegStepSubImageScoreThresholdAdapter.cpp">
+      <Filter>Quelldateien\RegSteps</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

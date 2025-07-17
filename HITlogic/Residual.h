@@ -34,9 +34,9 @@ public:
 
 	static double CalculateMeanResidual(std::vector<CResidual>& allResiduals);
 	static double CalculateStdevResidual(std::vector<CResidual>& allResiduals, double fMean);
-	double CResidual::CalculateMedianResidual(vector<CResidual>& allResiduals);
-	double CResidual::CalculateQuantileResidual(vector<CResidual>& allResiduals, double quantile);
-	double CResidual::CalculateMaximumResidual(vector<CResidual>& allResiduals);
+	static double CalculateMedianResidual(std::vector<CResidual>& allResiduals);
+	static double CalculateQuantileResidual(std::vector<CResidual>& allResiduals, double quantile);
+	static double CalculateMaximumResidual(std::vector<CResidual>& allResiduals);
 
 
 	double GetValue() const { return m_fValue; };

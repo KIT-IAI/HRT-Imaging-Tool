@@ -81,6 +81,8 @@ void CRegistrationPostProcessor::SolveRigidPositioning(const vector<CRegistratio
 		throw L"Solution of Rigid Registration-System unsuccesful.";
 }
 
+
+
 vector<CResidual> CRegistrationPostProcessor::GetAllResiduals(const vector<CRegistrationResult>& RegistrationResults)
 {
 	vector<CResidual> residuals;
@@ -91,6 +93,7 @@ vector<CResidual> CRegistrationPostProcessor::GetAllResiduals(const vector<CRegi
 	}
 	return residuals;
 }
+
 
 void CRegistrationPostProcessor::move_if(vector<CRegistrationResult>& valid, vector<CRegistrationResult>& invalid, std::function<bool(const CRegistrationResult&)> condition)
 {
@@ -136,13 +139,16 @@ void CRegistrationPostProcessor::DoWork(CImageRegistrationData& registrationData
 	vector<CRegistrationResult>& validRegistrationResults = allRegistrationResults.RegistrationResults;
 	vector<CRegistrationResult> invalidRegistrationResults;
 
+	//Important for the ThresholdAdapter for SubImage registration
+	vector<std::list<size_t>>& imagegroups = allRegistrationResults.ForceSingleImageGroup();
+
 	auto isInvalid = [&](const CRegistrationResult& reg)
 		{
 			return !(reg.RigidRegistrationResult.IsValid());
 		};
 	move_if(validRegistrationResults, invalidRegistrationResults, isInvalid);
 
-	ProcessRegistrationData(registrationData.Images, validRegistrationResults, invalidRegistrationResults);
+	ProcessRegistrationData(registrationData.Images, validRegistrationResults, invalidRegistrationResults, imagegroups);
 
 	move_if(invalidRegistrationResults, validRegistrationResults, [](const CRegistrationResult&) {return true; });
 }

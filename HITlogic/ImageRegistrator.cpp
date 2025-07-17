@@ -30,6 +30,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "RegStepScoreThresholdApproximator.h"
 #include "RegStepFlexibleRegistration.h"
 #include "RegStepImageScalation.h"
+#include "RegStepSubImageScoreThresholdAdapter.h"
 
 CImageRegistrator::CImageRegistrator(CRegistrationProcedureParameters registration_parameters)
 	:m_Parameters(registration_parameters)
@@ -52,6 +53,7 @@ std::shared_ptr<IComputable<CImageRegistrationData, CImageRegistrationResult>> C
 	auto ScoreOptimizer = std::make_shared<CRegStepScoreThresholdOptimizer>(RigidScaledParameters.ScoreParameters, nImageCount, RigidScaledParameters.GetSolverAlgorithm());
 
 	auto FlexibleRegistration = std::make_shared<CRegStepFlexibleRegistration>(FlexibleScaledParameters);
+	auto FlexibleThresholdAdapter = std::make_shared<CRegStepSubImageScoreThresholdAdapter>(RigidScaledParameters.ScoreParameters, nImageCount, RigidScaledParameters.GetSolverAlgorithm());
 
 	if (m_Parameters.fScaleReduction != 1)
 	{
@@ -61,7 +63,7 @@ std::shared_ptr<IComputable<CImageRegistrationData, CImageRegistrationResult>> C
 	if (m_Parameters.fSubImageScaleReduction != 1)
 	{
 		FlexibleRegistration->AddPreceedingComputationStep(FlexibleImageScalator);
-		FlexibleRegistration->AddSubsequentComputationStep(FlexibleImageScalator);
+	    FlexibleRegistration->AddSubsequentComputationStep(FlexibleImageScalator);
 	}
 
 	RigidRegistration->AddSubsequentComputationStep(ZeroOffsetFilter);
@@ -79,6 +81,7 @@ std::shared_ptr<IComputable<CImageRegistrationData, CImageRegistrationResult>> C
 	if (m_Parameters.GetProcessType() != CProcessType::eRigidRegistration)
 	{
 		RigidRegistration->AddSubsequentComputationStep(FlexibleRegistration);
+		RigidRegistration->AddSubsequentComputationStep(FlexibleThresholdAdapter);
 	}
 
 	return RigidRegistration;

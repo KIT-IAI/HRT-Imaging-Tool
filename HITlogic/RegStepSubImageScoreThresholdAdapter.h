@@ -1,8 +1,8 @@
-/*******************************************************************************
+﻿/*******************************************************************************
 SPDX-License-Identifier: GPL-2.0-or-later
 Copyright 2010-2025 Karlsruhe Institute of Technology (KIT)
 Contact: stephan.allgeier∂kit.edu,
-         Institute of Automation and Applied Informatics
+		 Institute of Automation and Applied Informatics
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -24,34 +24,46 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "RegistrationPostProcessor.h"
 #include "RegistrationScoreParameters.h"
 
-class CScoreThresholdAdapter :
+class CRegStepSubImageScoreThresholdAdapter :
 	public CRegistrationPostProcessor
 {
 public:
-	CScoreThresholdAdapter(CRegistrationScoreParameters ScoreParameters, size_t nImageCount, CSLESolver::EAlgorithm eSolverAlgorithm)
+	CRegStepSubImageScoreThresholdAdapter(CRegistrationScoreParameters ScoreParameters, size_t nImageCount, CSLESolver::EAlgorithm eSolverAlgorithm)
 		: m_nImageCount(nImageCount),
 		m_eSolverAlgorithm(eSolverAlgorithm),
 		m_ScoreParameters(ScoreParameters) {
 	};
 
-	virtual void ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults, vector<std::list<size_t>>& imagegroups) override;
+	void ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults, vector<std::list<size_t>>& imagegroups);
 
 	static void EnableDetailedLogging(bool bEnable = true);
+
 
 private:
 	void AdaptScoreThreshold();
 	void RemoveWrongRegistrations(std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults) const;
-	bool IsThresholdSufficient(std::vector<CRegistrationResult>& RegistrationResults);
+	bool ShouldTheAdapterStop(vector<CRegistrationResult>& RegistrationResults, std::ofstream& csv);
 	bool IsMaximumThresholdReached() const;
 
-	virtual bool IsScoreThresholdSufficient(std::vector<CRegistrationResult>& RegistrationResults) = 0;
+	std::shared_ptr<CDenseMatrix> SolveFlexiblePositioning(vector<StlImage<float>*>& images, vector<CRegistrationResult>& validRegistrationResults, vector<std::list<size_t>>& imagegroup);
+
+	bool IsScoreThresholdSufficient(std::vector<CRegistrationResult>& RegistrationResults, std::ofstream& csv);
+	void CalculateStochasticValues(std::vector<CResidual> allResiduals, std::ofstream& csv);
 
 protected:
 	size_t m_nImageCount;
 	CSLESolver::EAlgorithm m_eSolverAlgorithm;
 	CRegistrationScoreParameters m_ScoreParameters;
 
-	double m_fAdaptScoreThresholdBy = 0;
+	double m_fAdaptScoreThresholdBy = 0.1;
+
+	double pMean;
+	double pStdev;
+	double pMedian;
+	double p9Quantile;
+	double p99Quantile;
+	double p999Quantile;
+	double pMax;
 
 private:
 	static bool s_bDetailedLogging;
