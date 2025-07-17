@@ -29,6 +29,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notizen", "Notizen", "{C1F5
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4CB778B6-AEA8-4D2E-8ADD-C71CF62B433C}"
 	ProjectSection(SolutionItems) = preProject
+		.gitlab-ci.yml = .gitlab-ci.yml
 		vcpkg.json = vcpkg.json
 	EndProjectSection
 EndProject
