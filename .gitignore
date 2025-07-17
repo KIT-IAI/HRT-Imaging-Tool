@@ -8,6 +8,8 @@ Release
 *.bak
 *.pb.cc
 *.pb.h
+HRTImagingToolResource.cpp
+HRTImagingToolResource.h
 !*/Resource.h
 Thumbs.db
 *.gpd
