@@ -1,5 +1,12 @@
 # HIT (HRT Imaging Tool)
 
+## Installation
+
+_HIT_ does not require any installation, you just run the executable HITgui.exe, that's all. There are two ways to obtain the executable:
+
+- Download the latest release version from the [Releases](https://gitlab.kit.edu/kit/iai/ml4time/cornea/hit/-/releases) page
+- Get the source code and compile it yourself (see below for further instructions)
+
 ## Description
 
 This project provides algorithms to create mosaic images (i.e. mappings or wide-field montages) from image datasets acquired with the _HRT_ (a commercial laser-scanning confocal microscope for ophthalmological imaging; Heidelberg Engineering GmbH, Heidelberg, Germany). The algorithms have been developed for datasets of corneal tissue which are imaged using the _RCM_ (a commercial objective module for the _HRT_ system; Heidelberg Engineering GmbH, Heidelberg, Germany) or the [_RCM2.0_](https://doi.org/10.1364/BOE.9.002511) (an experimental research device to replace the _RCM_, developed at the University of Rostock).
