@@ -21,12 +21,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Utilities", "Utilities\Util
 		{D0A811DE-EE94-42DE-96D3-011D30017211} = {D0A811DE-EE94-42DE-96D3-011D30017211}
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notizen", "Notizen", "{C1F5A759-969C-402D-82B4-AEC6BAF0B0AE}"
-	ProjectSection(SolutionItems) = preProject
-		MilConverter.txt = MilConverter.txt
-		pch_interne_abhaengigkeiten.txt = pch_interne_abhaengigkeiten.txt
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4CB778B6-AEA8-4D2E-8ADD-C71CF62B433C}"
 	ProjectSection(SolutionItems) = preProject
 		.gitlab-ci.yml = .gitlab-ci.yml
