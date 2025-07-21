@@ -25,9 +25,11 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #include <cstdio>
 
-#include <boost/process.hpp>
-#include <boost/process/windows.hpp>
 #include <boost/asio.hpp>
+#include <boost/process/v1/child.hpp>
+#include <boost/process/v1/io.hpp>
+#include <boost/process/v1/windows.hpp>
+#include <boost/process/v1/async_system.hpp>
 
 #include "StringUtilities.h"
 
@@ -101,11 +103,12 @@ void CUtilities::RestartWithAdminRights(HINSTANCE instance)
 }
 std::wstring CUtilities::Exec(std::wstring command)
 {
-	boost::asio::io_service ios;
+	boost::asio::io_context ios;
 
 	std::future<std::string> data;
 
-	boost::process::child c(command, boost::process::std_in.close(), (boost::process::std_out & boost::process::std_err) > data, ios, ::boost::process::windows::hide);
+	boost::process::v1::child c(command, boost::process::v1::std_in.close(), (boost::process::v1::std_out & boost::process::v1::std_err) > data, ios, ::boost::process::v1::windows::hide);
+
 
 	ios.run();
 
