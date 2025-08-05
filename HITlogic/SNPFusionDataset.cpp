@@ -374,7 +374,7 @@ void CSNPFusionDataset::TruncateImageFileList()
 		m_ImageFiles.resize(m_Parameters.nMaxSequenceLength);
 		if (m_VolImages.size() > m_Parameters.nMaxSequenceLength)
 		{
-			for (int i = m_Parameters.nMaxSequenceLength; i < m_VolImages.size();i++)
+			for (size_t i = m_Parameters.nMaxSequenceLength; i < m_VolImages.size(); i++)
 			{
 				delete m_VolImages[i];
 			}
