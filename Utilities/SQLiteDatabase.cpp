@@ -85,7 +85,7 @@ void CSQLiteDatabase::Open(const std::wstring& sFilePath)
 	if (sqliteError)
 		throw CSQLException(L"Failed to open sqlite database " + GetName());
 
-	sqliteError = sqlite3_exec(m_pConnection, "PRAGMA journal_mode = WAL", nullptr, nullptr, nullptr);
+	sqliteError = sqlite3_exec(m_pConnection, "PRAGMA journal_mode = DELETE", nullptr, nullptr, nullptr);
 	if (sqliteError)
 		throw CSQLException(L"Failed to open sqlite database " + GetName());
 	sqliteError = sqlite3_exec(m_pConnection, "PRAGMA synchronous = NORMAL", nullptr, nullptr, nullptr);
