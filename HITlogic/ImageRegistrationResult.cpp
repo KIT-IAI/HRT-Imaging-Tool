@@ -242,7 +242,7 @@ void CImageRegistrationResult::Sort()
 		});
 }
 
-std::vector<std::list<size_t>> CImageRegistrationResult::ForceSingleImageGroup()
+void CImageRegistrationResult::ForceSingleImageGroup()
 {
 	size_t imageCount = DetermineImageCount();
 	std::list<size_t> singleGroup;
@@ -252,5 +252,4 @@ std::vector<std::list<size_t>> CImageRegistrationResult::ForceSingleImageGroup()
     ImageGroups.clear();
 	ImageGroups.push_back(singleGroup);
 
-	return ImageGroups;
 }

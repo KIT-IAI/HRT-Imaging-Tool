@@ -30,18 +30,27 @@ public:
 	CResidual();
 	~CResidual();
 	static CResidual CreateFromRegistration(const CRigidRegistrationResult& regResult, DPoint referenceImageCoordinates, DPoint templateImageCoordinates);
-	static CResidual CreateFromSubimageRegistration(const CRigidRegistrationResult& reg, DPoint referenceImageCoordinates, DPoint templateImageCoordinates);
+	static CResidual CreateFromSubimageRegistration(const CRigidRegistrationResult& reg, std::shared_ptr<CDenseMatrix> pRigidSolution);
 
 	static double CalculateMeanResidual(std::vector<CResidual>& allResiduals);
 	static double CalculateStdevResidual(std::vector<CResidual>& allResiduals, double fMean);
 	static double CalculateMedianResidual(std::vector<CResidual>& allResiduals);
 	static double CalculateQuantileResidual(std::vector<CResidual>& allResiduals, double quantile);
 	static double CalculateMaximumResidual(std::vector<CResidual>& allResiduals);
+	static int CResidual::CountResidualsAboveThreshold(const std::vector<CResidual>& allResiduals, double lowerBound, double upperBound);
 
 
 	double GetValue() const { return m_fValue; };
 	double GetX() const { return m_fX; };
 	double GetY() const { return m_fY; };
+	double GetXreg() const { return m_fXreg; };
+	double GetYreg() const { return m_fYreg; };
+	double GetScore() const { return m_fScore; };
+	size_t GetSubImageIndex() const { return m_fSubImageIndex; };
+	size_t GetReferenceImageIndex() const { return m_fReferenceImageIndex; };
+	size_t GetTemplateImageIndex() const { return m_fTemplateImageIndex; };
+	CHrtValidityCodes::EValidityCode GetValidity() const { return m_fValidity; };
+
 	bool IsInitialized() const { return m_bIsInitialized; };
 
 	bool operator<(double value) const { return m_fValue < value; };
@@ -59,9 +68,17 @@ public:
 
 private:
 
+	size_t m_fSubImageIndex = 0;
+	size_t m_fReferenceImageIndex = 0;
+	size_t m_fTemplateImageIndex = 0;
+	CHrtValidityCodes::EValidityCode m_fValidity;
+	double m_fXreg = 0.0;
+	double m_fYreg = 0.0;
+	double m_fScore = 0.0;
 	double m_fValue = 0.0;
 	double m_fX = 0.0;
 	double m_fY = 0.0;
 	bool m_bIsInitialized = false;
+
 };
 

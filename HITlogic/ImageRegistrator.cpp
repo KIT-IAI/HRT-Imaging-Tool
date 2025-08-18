@@ -53,7 +53,7 @@ std::shared_ptr<IComputable<CImageRegistrationData, CImageRegistrationResult>> C
 	auto ScoreOptimizer = std::make_shared<CRegStepScoreThresholdOptimizer>(RigidScaledParameters.ScoreParameters, nImageCount, RigidScaledParameters.GetSolverAlgorithm());
 
 	auto FlexibleRegistration = std::make_shared<CRegStepFlexibleRegistration>(FlexibleScaledParameters);
-	auto FlexibleThresholdAdapter = std::make_shared<CRegStepSubImageScoreThresholdAdapter>(RigidScaledParameters.ScoreParameters, nImageCount, RigidScaledParameters.GetSolverAlgorithm());
+	auto FlexibleThresholdAdapter = std::make_shared<CRegStepSubImageScoreThresholdAdapter>(RigidScaledParameters.ScoreParameters, nImageCount, RigidScaledParameters.GetSolverAlgorithm(), RigidScaledParameters.GetProcessType());
 
 	if (m_Parameters.fScaleReduction != 1)
 	{

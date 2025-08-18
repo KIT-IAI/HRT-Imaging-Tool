@@ -23,47 +23,55 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #pragma once
 #include "RegistrationPostProcessor.h"
 #include "RegistrationScoreParameters.h"
+#include "ProcessType.h"
 
 class CRegStepSubImageScoreThresholdAdapter :
 	public CRegistrationPostProcessor
 {
 public:
-	CRegStepSubImageScoreThresholdAdapter(CRegistrationScoreParameters ScoreParameters, size_t nImageCount, CSLESolver::EAlgorithm eSolverAlgorithm)
+	CRegStepSubImageScoreThresholdAdapter(CRegistrationScoreParameters ScoreParameters, size_t nImageCount, CSLESolver::EAlgorithm eSolverAlgorithm, CProcessType::EProcessType eProcessType)
 		: m_nImageCount(nImageCount),
 		m_eSolverAlgorithm(eSolverAlgorithm),
+		m_eProcessType(eProcessType),
 		m_ScoreParameters(ScoreParameters) {
 	};
 
-	void ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults, vector<std::list<size_t>>& imagegroups);
+	void ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults, CImageRegistrationResult allRegistrationResults);
 
 	static void EnableDetailedLogging(bool bEnable = true);
 
 
 private:
 	void AdaptScoreThreshold();
+	void CRegStepSubImageScoreThresholdAdapter::ChangeValidity(std::vector<CRegistrationResult>& validRegistrationResults);
 	void RemoveWrongRegistrations(std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults) const;
-	bool ShouldTheAdapterStop(vector<CRegistrationResult>& RegistrationResults, std::ofstream& csv);
 	bool IsMaximumThresholdReached() const;
 
-	std::shared_ptr<CDenseMatrix> SolveFlexiblePositioning(vector<StlImage<float>*>& images, vector<CRegistrationResult>& validRegistrationResults, vector<std::list<size_t>>& imagegroup);
+	CDenseMatrix SolveFlexiblePositioning(vector<StlImage<float>*>& images, CImageRegistrationResult& ImageRegistrationResult, std::ofstream& csv);
 
-	bool IsScoreThresholdSufficient(std::vector<CRegistrationResult>& RegistrationResults, std::ofstream& csv);
-	void CalculateStochasticValues(std::vector<CResidual> allResiduals, std::ofstream& csv);
+	bool IsScoreThresholdSufficient(std::vector<CRegistrationResult>& RegistrationResults);
+	void CalculateStochasticValues(std::vector<CResidual>& allResiduals, std::ofstream& csv);
 
 protected:
 	size_t m_nImageCount;
 	CSLESolver::EAlgorithm m_eSolverAlgorithm;
 	CRegistrationScoreParameters m_ScoreParameters;
+	CProcessType::EProcessType m_eProcessType;
 
 	double m_fAdaptScoreThresholdBy = 0.1;
 
-	double pMean;
-	double pStdev;
-	double pMedian;
-	double p9Quantile;
-	double p99Quantile;
-	double p999Quantile;
-	double pMax;
+	double pMean = 0;
+	double pStdev = 0;
+	double pMedian = 0;
+	double p9Quantile = 0;
+	double p99Quantile = 0;
+	double p999Quantile = 0;
+	double pMax = 0;
+
+	double m_fLastQ999 = 0;
+
+	size_t m_nLastRemovedRegistrations = 0;
+	size_t m_nLastRegistrationCount = 0;
 
 private:
 	static bool s_bDetailedLogging;

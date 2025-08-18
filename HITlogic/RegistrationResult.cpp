@@ -94,10 +94,10 @@ void CRegistrationResult::CalculateResidual(DPoint referenceImageCoordinates, DP
 	RigidRegistrationResult.SetPhi((float)m_Residual.GetValue());
 }
 
-void CRegistrationResult::CalculateSubImageResidual(DPoint referenceImageCoordinates, DPoint templateImageCoordinates)
+CResidual CRegistrationResult::CalculateSubImageResidual(CRigidRegistrationResult& registrationresult, std::shared_ptr<CDenseMatrix> pRigidSolution)
 {
-	m_Residual = CResidual::CreateFromSubimageRegistration(RigidRegistrationResult, referenceImageCoordinates, templateImageCoordinates);
-	RigidRegistrationResult.SetPhi((float)m_Residual.GetValue());
+	CResidual subImgResidual = CResidual::CreateFromSubimageRegistration(registrationresult, pRigidSolution);
+	return subImgResidual;
 }
 
 void CRegistrationResult::Scale(const CRegistrationResult& source, double fScalationFactor)
@@ -122,10 +122,18 @@ void CRegistrationResult::Scale(const CRegistrationResult& source, double fScala
 	}
 	RowOffset = newOffsetArray;
 }
+
 CResidual CRegistrationResult::GetResidual() const
 {
 	return m_Residual;
 }
+
+std::vector<CResidual> CRegistrationResult::GetSubImageResiduals() const
+{
+	return m_ValidSubImageResiduals;
+}
+
+
 size_t CRegistrationResult::GetReferenceImageIndex() const
 {
 	return RigidRegistrationResult.GetReferenceImageIndex();
@@ -145,4 +153,9 @@ void CRegistrationResult::SetTemplateImageIndex(size_t nIndex)
 	RigidRegistrationResult.SetTemplateImageIndex(nIndex);
 	for (auto& FlexRes : FlexibleRegistrationResults)
 		FlexRes.SetTemplateImageIndex(nIndex);
+}
+
+void CRegistrationResult::SetSubImageResiduals(std::vector<CResidual> newSubImageResiduals)
+{
+	m_ValidSubImageResiduals = newSubImageResiduals;
 }

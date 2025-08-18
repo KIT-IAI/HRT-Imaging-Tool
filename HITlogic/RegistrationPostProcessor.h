@@ -34,7 +34,7 @@ public:
 	virtual ~CRegistrationPostProcessor() {};
 	//* raus, check auf vector &
 
-	virtual void ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults, vector<std::list<size_t>>& imagegroups) = 0;
+	virtual void ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults, CImageRegistrationResult allRegistrationResults) = 0;
 
 	void DoWork(CImageRegistrationData& registrationData, CImageRegistrationResult& regResults) override;
 	virtual void GetWorkUnits(size_t& nCompletedWorkUnits, size_t& nTotalWorkUnits) override;
@@ -44,11 +44,12 @@ protected:
 	static std::vector<CRigidRegistrationResult> GetRigidRegistrationResults(const std::vector<CRegistrationResult>& RegistrationResults);
 
 	static void CalculateResiduals(std::vector<CRegistrationResult>& RegistrationResults, std::shared_ptr<CDenseMatrix> pRigidSolution);
-	static void CalculateSubImageResiduals(std::vector<CRegistrationResult>& RegistrationResults, std::shared_ptr<CDenseMatrix> pRigidSolution);
+	static void CalculateSubImageResiduals(std::vector<CRegistrationResult>& RegistrationResults, const std::shared_ptr<CDenseMatrix> pRigidSolution);
 
 	static void SolveRigidPositioning(const std::vector<CRegistrationResult>& RegistrationResults, std::shared_ptr<CDenseMatrix> pRigidSolution, CSLESolver::EAlgorithm eSolverAlgorithm, size_t nImageCount);
 	
 	static std::vector<CResidual> GetAllResiduals(const std::vector<CRegistrationResult>& RegistrationResults);
+	static std::vector<CResidual> CRegistrationPostProcessor::GetSubImageResiduals(const vector<CRegistrationResult>& RegistrationResults);
 
 	static void RemoveRegistration(const CRegistrationResult& registration, std::vector<CRegistrationResult>& validResults, std::vector<CRegistrationResult>& invalidResults);
 

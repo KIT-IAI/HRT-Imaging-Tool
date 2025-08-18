@@ -45,14 +45,17 @@ public:
 public:
 	void SetReferenceImageIndex(size_t nIndex);
 	void SetTemplateImageIndex(size_t nIndex);
+	void SetSubImageResiduals(std::vector<CResidual> newSubImageResiduals);
+
 	size_t GetReferenceImageIndex() const;
 	size_t GetTemplateImageIndex() const;
 	int GetValidFlexibleRegistrationCount() const;
 	CResidual GetResidual() const;
+	std::vector<CResidual> GetSubImageResiduals() const;
 	bool IsValid() const;
 
 	void CalculateResidual(DPoint image_coordinates, DPoint coordinates);
-	void CalculateSubImageResidual(DPoint referenceImageCoordinates, DPoint templateImageCoordinates);
+	CResidual CalculateSubImageResidual(CRigidRegistrationResult& registrationresult, std::shared_ptr<CDenseMatrix> pRigidSolution);
 
 	void Scale(const CRegistrationResult& source, double fScalationFactor);
 
@@ -61,5 +64,6 @@ public:
 
 private:
 	CResidual m_Residual;
+	std::vector<CResidual> m_ValidSubImageResiduals;
 };
 
