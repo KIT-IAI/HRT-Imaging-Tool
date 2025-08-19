@@ -68,7 +68,7 @@ private:
 
 	void ClearLogState();
 	void RaiseLogError();
-	void AppendOutputLine(const wxString& sLine);
+	void AppendOutputLine(const wxString& sLine, CLog::ELogLevel logLevel);
 
 	void Start();
 

@@ -37,12 +37,12 @@ CSNPDatasetParameters HRTImagingToolDialog::GenerateParameters()
 	auto parameters = CSNPDatasetParameterLoader::FromRegistry(regpath);
 
 	if (!parameters.VignettingProfileBeforeRegistrationIsValid())
-		throw std::exception("Vignettierungsprofil1 konnte nicht geladen werden.");
+		throw std::exception("Vignetting profile (for image registration) could not be loaded.");
 	if (!parameters.VignettingProfileBeforeCompositingIsValid())
-		throw std::exception("Vignettierungsprofil2 konnte nicht geladen werden.");
+		throw std::exception("Vignetting profile (for mosaic image montage) could not be loaded.");
 
 	if (!parameters.IsValidParameterset())
-		throw std::exception("Die Parameterüberschreibungen konnten nicht geladen werden oder sind ungültig!");
+		throw std::exception("Invalid process parameters in the parameter database file.");
 
 	return parameters;
 }
@@ -85,7 +85,7 @@ void HRTImagingToolDialog::OnBnClickedAddFiles(wxCommandEvent& event)
 {
 	ASSERT(!m_bProcessing);
 
-	wxFileDialog dlgFile(this, wxFileSelectorPromptStr, wxEmptyString, wxEmptyString, L"Multi-Page-TIFF-Dateien (*.tif)|*.tif|Alle Dateien (*.*)|*.*", wxFD_OPEN | wxFD_FILE_MUST_EXIST | wxFD_MULTIPLE | wxFD_CHANGE_DIR);
+	wxFileDialog dlgFile(this, wxFileSelectorPromptStr, wxEmptyString, wxEmptyString, L"Multi-Page TIFF Files (*.tif)|*.tif|All Files (*.*)|*.*", wxFD_OPEN | wxFD_FILE_MUST_EXIST | wxFD_MULTIPLE | wxFD_CHANGE_DIR);
 	if (dlgFile.ShowModal() != wxID_OK)
 	{
 		return;
@@ -107,9 +107,11 @@ void HRTImagingToolDialog::AddFiles(wxArrayString& files)
 		// Dataset already is in list
 		if (m_listBoxFiles->FindString(sFileName, false) != wxNOT_FOUND)
 		{
-			wxString sLogLine = wxString::Format(L"Datei %s ist bereits geladen. Die neu hinzugefügte Datei wird daher ignoriert.", sFileName);
-			AppendOutputLine(sLogLine);
-			CLog::Log(CLog::eError, s_sModuleName.wc_str(), sLogLine.wc_str());
+			wxString sMsg = wxString::Format(L"Dataset %s is already in the batch list, it cannot be added a second time.", sFileName);
+			if (!m_bAutomationMode)
+			{
+				wxMessageBox(sMsg);
+			}
 			continue;
 		}
 
@@ -173,38 +175,38 @@ void HRTImagingToolDialog::OnClose(wxCloseEvent& event)
 
 void HRTImagingToolDialog::OnSNPFusionEvent(CSNPFusionEvent Event)
 {
-	CLog::ELogLevel LogSeverity;
+	CLog::ELogLevel logLevel = CLog::eNotice;
 	switch (Event.Severity)
 	{
 	case CSNPFusionEvent::eDatasetDone:
-		AppendOutputLine(Event.sMessage);
+		logLevel = CLog::eNotice;
 		QueueEvent(new wxThreadEvent(EVT_PROCESSING_FINISHED));
-		LogSeverity = CLog::eInformational;
 		break;
 	case CSNPFusionEvent::eError:
-	case CSNPFusionEvent::eWarning:
+		logLevel = CLog::eError;
 		RaiseLogError();
-		LogSeverity = CLog::eError;
+		break;
+	case CSNPFusionEvent::eWarning:
+		logLevel = CLog::eWarning;
+		RaiseLogError();
 		break;
 	case CSNPFusionEvent::eInformation:
 	case CSNPFusionEvent::eProgress:
-		AppendOutputLine(wxString::Format(L"%s: %s", Event.pSource->Name, Event.sMessage));
-		LogSeverity = CLog::eInformational;
+		logLevel = CLog::eNotice;
 		break;
 	default:
 		ASSERT(false);
 		return;
 	}
-
-	CLog::Log(LogSeverity, CSNPFusionDataset::s_sModuleName.c_str(), Event.sMessage.c_str());
+	AppendOutputLine(wxString::Format(L"Dataset %s: %s", Event.pSource->Name, Event.sMessage), logLevel);
 }
 
 void HRTImagingToolDialog::OnCancel()
 {
-	if (wxMessageBox(L"Die Verarbeitung wird nach dem momentan verarbeiteten Datensatz abgebrochen."
-		L"Dies kann einige Minuten in Anspruch nehmen."
-		L"Sie werden erneut benachrichtigt, wenn die Verarbeitung abgeschlossen ist."
-		L" Wollen Sie die Verarbeitung wirklich abbrechen?", L"Abbruch der Verarbeitung", wxYES_NO | wxCANCEL) == wxYES)
+	if (wxMessageBox(L"Do you really want to stop the batch process?"
+		L"If you confirm, the batch process will be stopped after the currently processed dataset."
+		L"This can take several minutes. You will be notified again as soon as the process has been stopped.",
+		L"Stopping the batch process", wxYES_NO | wxCANCEL) == wxYES)
 	{
 		m_BatchProcessor.Cancel();
 		LockStopButton();
@@ -249,12 +251,12 @@ void HRTImagingToolDialog::ClearLogState()
 void HRTImagingToolDialog::RaiseLogError()
 {
 	m_staticTextState->SetBackgroundColour(c_crError);
-	m_staticTextState->SetLabel(L"Status: Log-Datei prüfen!");
+	m_staticTextState->SetLabel(L"Status: Error! (Check log file)");
 }
 
-void HRTImagingToolDialog::AppendOutputLine(const wxString& sLine)
+void HRTImagingToolDialog::AppendOutputLine(const wxString& sLine, CLog::ELogLevel logLevel)
 {
-	CLog::Log(CLog::eNotice, L"Dlg-AppendOutputLine", sLine.wc_str());
+	CLog::Log(logLevel, s_sModuleName.wc_str(), sLine.wc_str());
 	m_textCtrlLog->AppendText(wxString::Format(L"%s\r\n", sLine));
 }
 
@@ -277,9 +279,8 @@ void HRTImagingToolDialog::InitProcessing()
 
 void HRTImagingToolDialog::PreprocessDatasets()
 {
-	wxString sLogLine(L"Bitte warten. Datensätze werden vorverarbeitet.");
-	AppendOutputLine(sLogLine);
-	CLog::Log(CLog::eInformational, s_sModuleName.wc_str(), sLogLine.wc_str());
+	wxString sLogLine(L"Initializing datasets");
+	AppendOutputLine(sLogLine, CLog::eNotice);
 
 	for (const auto& sFile : m_Files)
 	{
@@ -290,15 +291,13 @@ void HRTImagingToolDialog::PreprocessDatasets()
 		try
 		{
 			UnpackDataset(sFile, Dataset);
-			sLogLine = wxString::Format(L"Datensatz %s (%Id Bilder) geladen.", Dataset.Name, Dataset.GetImageCount());
-			AppendOutputLine(sLogLine);
-			CLog::Log(CLog::eInformational, s_sModuleName.wc_str(), sLogLine.wc_str());
+			sLogLine = wxString::Format(L"Dataset %s: Dataset file successfully loaded (%Id images)", Dataset.Name, Dataset.GetImageCount());
+			AppendOutputLine(sLogLine, CLog::eNotice);
 		}
 		catch (std::exception ex)
 		{
-			sLogLine = wxString::Format(L"Datensatz %s konnte nicht geladen werden und wird ignoriert.", Dataset.Name);
-			AppendOutputLine(sLogLine);
-			CLog::Log(CLog::eError, s_sModuleName.wc_str(), sLogLine.wc_str());
+			sLogLine = wxString::Format(L"Dataset %s: Dataset file could not be loaded, skipping dataset", Dataset.Name);
+			AppendOutputLine(sLogLine, CLog::eError);
 			continue;
 		}
 		ClassifyDataset(sFile, Dataset);
@@ -325,25 +324,22 @@ void HRTImagingToolDialog::ClassifyDataset(const wxString& datasetFilePath, CSNP
 	wxString sLogLine;
 	if (CFileUtilities::FileExists(targetClassFile))
 	{
-		sLogLine = wxString::Format(L"Datensatz %s ist bereits klassifiziert.", dataset.Name);
-		AppendOutputLine(sLogLine);
-		CLog::Log(CLog::eInformational, s_sModuleName.wc_str(), sLogLine.wc_str());
+		sLogLine = wxString::Format(L"Dataset %s: Tissue class file found", dataset.Name);
+		AppendOutputLine(sLogLine, CLog::eNotice);
 	}
 	else if (GetGSS()->ReadValue(L"HIT/Offline", L"XPIWIT", xpiwit) && CFileUtilities::FileExists(xpiwit))
 	{
 		auto result = CUtilities::Exec(L"\"" + xpiwit + L"\" -f \"" + imageFolder.wstring() + L"\"");
-		CLog::Log(CLog::eInformational, s_sModuleName.wc_str(), result.c_str());
+		//CLog::Log(CLog::eNotice, s_sModuleName.wc_str(), result.c_str());
 		std::filesystem::rename(createdClassFile, targetClassFile);
 
-		sLogLine = wxString::Format(L"Datensatz %s klassifiziert.", dataset.Name);
-		AppendOutputLine(sLogLine);
-		CLog::Log(CLog::eInformational, s_sModuleName.wc_str(), sLogLine.wc_str());
+		sLogLine = wxString::Format(L"Dataset %s: Tissue classification sucessfully finished", dataset.Name);
+		AppendOutputLine(sLogLine, CLog::eNotice);
 	}
 	else
 	{
-		sLogLine = wxString::Format(L"Konfigurationsfehler. Klassifizierung wird übersprungen");
-		AppendOutputLine(sLogLine);
-		CLog::Log(CLog::eInformational, s_sModuleName.wc_str(), sLogLine.wc_str());
+		sLogLine = wxString::Format(L"Dataset %s: No tissue class file found, continuing without tissue class data", dataset.Name);
+		AppendOutputLine(sLogLine, CLog::eWarning);
 		return;
 	}
 
@@ -351,17 +347,20 @@ void HRTImagingToolDialog::ClassifyDataset(const wxString& datasetFilePath, CSNP
 	int nErrorLines = ClassData.ReadFromFile(targetClassFile);
 	if (nErrorLines == -1)
 	{
-		sLogLine = wxString::Format(L"Die Klassifikationsdaten konnten nicht geladen werden.");
-		AppendOutputLine(sLogLine);
-		CLog::Log(CLog::eWarning, s_sModuleName.wc_str(), sLogLine.wc_str());
+		sLogLine = wxString::Format(L"Dataset %s: Tissue class file could not be loaded, continuing without tissue class data", dataset.Name);
+		AppendOutputLine(sLogLine, CLog::eWarning);
 	}
 	else
 	{
 		if (nErrorLines != 0)
 		{
-			sLogLine = wxString::Format(L"Die Klassifikationsdaten enthalten ungültige Zeilen.");
-			AppendOutputLine(sLogLine);
-			CLog::Log(CLog::eWarning, s_sModuleName.wc_str(), sLogLine.wc_str());
+			sLogLine = wxString::Format(L"Dataset %s: Tissue class file contains invalid lines, trying to continue with successfully read data", dataset.Name);
+			AppendOutputLine(sLogLine, CLog::eWarning);
+		}
+		else
+		{
+			sLogLine = wxString::Format(L"Dataset %s: Tissue class file successfully loaded", dataset.Name);
+			AppendOutputLine(sLogLine, CLog::eNotice);
 		}
 		dataset.SetImageClassificationData(ClassData);
 	}
@@ -374,14 +373,14 @@ void HRTImagingToolDialog::StartProcessing()
 
 	if (m_bIsCanceled)
 	{
-		AppendOutputLine(L"Berechnung durch Nutzer abgebrochen.");
+		AppendOutputLine(L"Batch process stopped by user", CLog::eWarning);
 		FinishProcessing();
 		return;
 	}
 
 	if (m_BatchProcessor.GetAllDatasets().size() == 0)
 	{
-		AppendOutputLine(L"Fehler: Keine Datensätze geladen!");
+		AppendOutputLine(L"No datasets loaded", CLog::eError);
 		FinishProcessing();
 		return;
 	}
@@ -393,7 +392,7 @@ void HRTImagingToolDialog::StartProcessing()
 	}
 	catch (std::exception ex)
 	{
-		AppendOutputLine(wxString::Format(L"Fehler: %s", wxString(ex.what())));
+		AppendOutputLine(wxString(ex.what()), CLog::eError);
 		RaiseLogError();
 		FinishProcessing();
 		return;
@@ -413,7 +412,7 @@ void HRTImagingToolDialog::FinishProcessing()
 {
 	ASSERT(m_bProcessing);
 
-	wxString sMsg = wxString::Format(L"Verarbeitung beendet. Es wurden %zu der %zu Datensätze verarbeitet.",
+	wxString sMsg = wxString::Format(L"Batch process finished (%zu of %zu datasets processed).",
 		m_BatchProcessor.GetFinishedDatasets().size(),
 		m_BatchProcessor.GetAllDatasets().size());
 

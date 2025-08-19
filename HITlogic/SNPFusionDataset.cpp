@@ -234,15 +234,15 @@ bool CSNPFusionDataset::ProcessDataset()
 
 	stopWatch.Stop();
 
-	RaiseEvent(this, CSNPFusionEvent::eInformation, CSNPFusionEvent::eCalculationTime, L"Berechnungsdauer: " + wstring(stopWatch.GetTimeStr()));
+	RaiseEvent(this, CSNPFusionEvent::eInformation, CSNPFusionEvent::eCalculationTime, L"Total process duration: " + wstring(stopWatch.GetTimeStr()));
 
 	if (m_bIsCanceled)
 	{
-		RaiseEvent(this, CSNPFusionEvent::eDatasetDone, CSNPFusionEvent::eProcessingCanceled, L"Berechnung durch Nutzer abgebrochen.");
+		RaiseEvent(this, CSNPFusionEvent::eDatasetDone, CSNPFusionEvent::eProcessingCanceled, L"Process stopped stopped by user");
 		bSuccess = false;
 	}
 	else
-		RaiseEvent(this, CSNPFusionEvent::eDatasetDone, CSNPFusionEvent::eProcessingSuccessful, L"Berechnung abgeschlossen.");
+		RaiseEvent(this, CSNPFusionEvent::eDatasetDone, CSNPFusionEvent::eProcessingSuccessful, L"Process finished");
 
 	return bSuccess;
 }
@@ -254,12 +254,12 @@ void CSNPFusionDataset::PerformHrtWorkflow()
 
 	if (m_ImageInfo.isAvailable() && (m_ImageFiles.size() != m_ImageInfo.getCount()))
 	{
-		RaiseEvent(this, CSNPFusionEvent::eWarning, CSNPFusionEvent::eLoadingImages, L"Fokusinformationen nicht kompatibel mit dem Datensatz; sie werden ignoriert.");
+		RaiseEvent(this, CSNPFusionEvent::eWarning, CSNPFusionEvent::eLoadingImages, L"Stored focus data do not match the dataset, continuing without focus data");
 	}
 
 	if (m_ImageClasses.IsLoaded() && (m_ImageFiles.size() != m_ImageClasses.GetSize()))
 	{
-		RaiseEvent(this, CSNPFusionEvent::eWarning, CSNPFusionEvent::eLoadingImages, L"Klassifikationsdaten nicht kompatibel mit dem Datensatz; sie werden ignoriert.");
+		RaiseEvent(this, CSNPFusionEvent::eWarning, CSNPFusionEvent::eLoadingImages, L"Stored tissue class data do not match the dataset, continuing without tissue class data");
 	}
 
 	auto UnProcessedImages = LoadImages();
@@ -287,7 +287,7 @@ void CSNPFusionDataset::PerformHrtWorkflow()
 void CSNPFusionDataset::CheckParameters() const
 {
 	if (!m_Parameters.IsValidParameterset())
-		throw CSNPFusionException(L"Invalid parameterset.");
+		throw CSNPFusionException(L"Invalid process parameters");
 }
 
 void CSNPFusionDataset::ApplyGlobalParameters() const
@@ -331,7 +331,7 @@ vector<CSNPGroupResult> CSNPFusionDataset::ProcessRegistrationGroups(const CImag
 
 	for (const auto& ResultGroup : AllRegistrationResults.GetResultsByGroup())
 	{
-		RaiseEvent(this, CSNPFusionEvent::eProgress, CSNPFusionEvent::eProcessingImageGroup, L"Bildgruppe " + std::to_wstring(nGroupIndex + 1) + L" wird bearbeitet.");
+		RaiseEvent(this, CSNPFusionEvent::eProgress, CSNPFusionEvent::eProcessingImageGroup, L"Processing image group " + std::to_wstring(nGroupIndex + 1));
 
 		auto GroupIndices = AllRegistrationResults.ImageGroups[nGroupIndex];
 		//auto GroupUnprocessedImages = CArrayUtilities::FilterByIndex(PreprocessedImages, GroupIndices);
@@ -363,7 +363,7 @@ void CSNPFusionDataset::FreeImages(vector<StlImage<float>*>& Images)
 void CSNPFusionDataset::StartProcessing()
 {
 	m_bIsCanceled = false;
-	wstring sLogLine = L"Beginn der Berechnung (" + std::to_wstring(m_ImageFiles.size()) + L" Bilder)";
+	wstring sLogLine = L"Starting process (" + std::to_wstring(m_ImageFiles.size()) + L" images)";
 	RaiseEvent(this, CSNPFusionEvent::eInformation, CSNPFusionEvent::eProcessingStart, sLogLine);
 }
 
@@ -395,7 +395,7 @@ vector<StlImage<float>*> CSNPFusionDataset::LoadImages()
 
 		Loader.AddProgressListener(this);
 		m_pCurrentCancelable = &Loader;
-		RaiseEvent(this, CSNPFusionEvent::eProgress, CSNPFusionEvent::eLoadingImages, L"Bilder werden geladen.");
+		RaiseEvent(this, CSNPFusionEvent::eProgress, CSNPFusionEvent::eLoadingImages, L"Loading image data");
 
 		auto result = Loader.LoadImages(m_ImageFiles);;
 
@@ -404,7 +404,7 @@ vector<StlImage<float>*> CSNPFusionDataset::LoadImages()
 	}
 	else
 	{
-		RaiseEvent(this, CSNPFusionEvent::eProgress, CSNPFusionEvent::eLoadingImages, L"Bilder werden kopiert.");
+		RaiseEvent(this, CSNPFusionEvent::eProgress, CSNPFusionEvent::eLoadingImages, L"Copying image data");
 
 		vector<StlImage<float>*> result;
 		for (auto img : m_VolImages)
@@ -451,7 +451,7 @@ vector<StlImage<float>*> CSNPFusionDataset::PreprocessImages(const vector<StlIma
 
 	Preprocessor.AddProgressListener(this);
 	m_pCurrentCancelable = &Preprocessor;
-	RaiseEvent(this, CSNPFusionEvent::eProgress, CSNPFusionEvent::ePreprocessingImages, L"Bilder werden vorverarbeitet.");
+	RaiseEvent(this, CSNPFusionEvent::eProgress, CSNPFusionEvent::ePreprocessingImages, L"Preprocessing image data");
 
 	auto result = Preprocessor.ProcessImages(InputImages);
 
@@ -468,7 +468,7 @@ CImageRegistrationResult CSNPFusionDataset::RegisterImages(const CImageRegistrat
 
 	Registrator.AddProgressListener(this);
 	m_pCurrentCancelable = &Registrator;
-	RaiseEvent(this, CSNPFusionEvent::eProgress, CSNPFusionEvent::eRegisteringImages, L"Bilder werden registriert.");
+	RaiseEvent(this, CSNPFusionEvent::eProgress, CSNPFusionEvent::eRegisteringImages, L"Registering dataset");
 
 	auto result = Registrator.RegisterImages(ImageData);
 
@@ -489,7 +489,7 @@ void CSNPFusionDataset::GlobalPositioning(CSNPGroupResult& groupResult)
 	CHRTGlobalPositioning GlobalPositioning(m_Parameters.GenerateGlobalPositioningParameters());
 
 	m_pCurrentCancelable = &GlobalPositioning;
-	RaiseEvent(this, CSNPFusionEvent::eProgress, CSNPFusionEvent::ePositioningImages, L"Bilder werden positioniert.");
+	RaiseEvent(this, CSNPFusionEvent::eProgress, CSNPFusionEvent::ePositioningImages, L"Positioning image data");
 
 	groupResult.PositioningSolution = GlobalPositioning.SolvePositioning(groupResult.RegistrationResult, m_ImageParameters);
 
@@ -502,18 +502,18 @@ void CSNPFusionDataset::Compose(const CImageRegistrationData& GroupImageData, CS
 		return;
 
 	auto Compositer = CCompositingFactory::CreateCompositing(m_Parameters.GenerateCompositingParameters());
-	wstring modeName = L"Mosaikbild";
+	wstring modeName = L"mosaic image";
 
 	//je nach Modus andere Ausgabe
 	if (m_Parameters.eCompositingMode == CCompositingParameters::ECompositingType::e3DCloud) {
-		modeName = L"3D-Punktwolke";
+		modeName = L"3D point cloud";
 	}
 	else if (m_Parameters.eCompositingMode == CCompositingParameters::ECompositingType::eVoxelBuffer) {
-		modeName = L"VoxelBuffer";
+		modeName = L"voxel buffer";
 	}
 
 	m_pCurrentCancelable = Compositer.get();
-	RaiseEvent(this, CSNPFusionEvent::eProgress, CSNPFusionEvent::eCompositing, modeName + L" wird erstellt.");
+	RaiseEvent(this, CSNPFusionEvent::eProgress, CSNPFusionEvent::eCompositing, L"Creating " + modeName);
 
 	GroupResult.pResult = Compositer->Fuse(GroupImageData, GroupResult.PositioningSolution);
 
@@ -533,7 +533,7 @@ void CSNPFusionDataset::OutputResults(const CImageRegistrationResult& AllRegistr
 {
 	if (m_bIsCanceled)
 		return;
-	RaiseEvent(this, CSNPFusionEvent::eProgress, CSNPFusionEvent::eOutputingResults, L"Finale Ausgabedateien werden erstellt.");
+	RaiseEvent(this, CSNPFusionEvent::eProgress, CSNPFusionEvent::eOutputingResults, L"Exporting result files");
 
 	auto ImageGroups = AllRegistrationResults.ImageGroups;
 

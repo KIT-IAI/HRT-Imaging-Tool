@@ -51,21 +51,21 @@ bool HRTImagingToolApp::OnInit()
 #ifdef __AVX__
 	if (!CInstructionSet::AVX())
 	{
-		wxMessageBox(L"AVX-Befehlssatz nicht verfügbar!");
+		wxMessageBox(L"AVX instruction set not available!");
 		return false;
 	}
 #endif
 #ifdef __AVX2__
 	if (!CInstructionSet::AVX2())
 	{
-		wxMessageBox(L"AVX2-Befehlssatz nicht verfügbar!");
+		wxMessageBox(L"AVX2 instruction set not available!");
 		return false;
 	}
 #endif
 #ifdef __AVX512F__
 	if (!CInstructionSet::AVX512F())
 	{
-		wxMessageBox(L"AVX512-Befehlssatz nicht verfügbar!");
+		wxMessageBox(L"AVX512 instruction set not available!");
 		return false;
 	}
 #endif
@@ -76,7 +76,7 @@ bool HRTImagingToolApp::OnInit()
 		wxMessageBox(L"The HIT log file directory does not exist.\nPlease run HIT once with administrator privileges.");
 		return false;
 	}
-	CLog::Log(CLog::eInformational, L"HIT", L"Starting application");
+	CLog::Log(CLog::eNotice, L"HIT", L"Starting application");
 	LogEnvironment();
 
 	SettingsStore::GetInstance(L"HIT");
@@ -87,14 +87,14 @@ bool HRTImagingToolApp::OnInit()
 
 	if (m_bShowParameterDialog)
 	{
-		CLog::Log(CLog::eInformational, L"HIT", L"Starting Parameter dialog");
+		CLog::Log(CLog::eNotice, L"HIT", L"Starting parameter dialog");
 		// The object is deleted automatically after the dialog window destruction
 		HRTImagingToolParameterDialog* pDialogWindow = new HRTImagingToolParameterDialog();
 		pDialogWindow->Show();
 	}
 	else
 	{
-		CLog::Log(CLog::eInformational, L"HIT", L"Starting Offline mode");
+		CLog::Log(CLog::eNotice, L"HIT", L"Starting offline mode");
 		// The object is deleted automatically after the dialog window destruction
 		HRTImagingToolDialog* pDialogWindow = new HRTImagingToolDialog();
 		pDialogWindow->m_bAutomationMode = m_bAutomation;
@@ -106,7 +106,7 @@ bool HRTImagingToolApp::OnInit()
 
 int HRTImagingToolApp::OnExit()
 {
-	CLog::Log(CLog::eInformational, L"HIT", L"Shutting down application");
+	CLog::Log(CLog::eNotice, L"HIT", L"Shutting down application");
 	SettingsStore::DestroyInstance();
 
 	return 0;
@@ -139,7 +139,7 @@ bool HRTImagingToolApp::InitLogging() const
 }
 
 void HRTImagingToolApp::LogEnvironment() const {
-	CLog::Log(CLog::eNotice, L"CONFIG", L"_M_IX86_FP: "  STRINGIZE(_M_IX86_FP));
+	CLog::Log(CLog::eNotice, L"CONFIG", L"_M_IX86_FP: " STRINGIZE(_M_IX86_FP));
 #ifdef __AVX__
 	CLog::Log(CLog::eNotice, L"CONFIG", L"__AVX__ is enabled");
 #endif
@@ -162,13 +162,11 @@ void HRTImagingToolApp::LogEnvironment() const {
 	CLog::Log(CLog::eNotice, L"CONFIG", L"__AVX512VL__ is enabled");
 #endif
 
-	CLog::Log(CLog::eNotice, L"WIN_INFO", L"WINVER: "  STRINGIZE(WINVER));
+	CLog::Log(CLog::eNotice, L"WIN_INFO", L"WINVER: " STRINGIZE(WINVER));
 	CLog::Log(CLog::eNotice, L"WIN_INFO", L"_WIN32_IE: " STRINGIZE(_WIN32_IE));
 	CLog::Log(CLog::eNotice, L"WIN_INFO", L"_WIN32_WINNT: " STRINGIZE(_WIN32_WINNT));
 	CLog::Log(CLog::eNotice, L"WIN_INFO", L"NTDDI_VERSION: " STRINGIZE(NTDDI_VERSION));
 }
-
-
 
 void HRTImagingToolApp::OnInitCmdLine(wxCmdLineParser& parser)
 {
@@ -194,4 +192,3 @@ bool HRTImagingToolApp::OnCmdLineParsed(wxCmdLineParser& parser)
 
 	return true;
 }
-
