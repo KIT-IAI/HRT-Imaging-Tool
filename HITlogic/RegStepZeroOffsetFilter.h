@@ -26,6 +26,6 @@ class CRegStepZeroOffsetFilter :
 	public CRegistrationPostProcessor
 {
 public:
-	virtual void ProcessRegistrationData(std::vector<StlImage<float>*>& /*images*/, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults) override;
+	virtual void ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults, CImageRegistrationResult allRegistrationResults) override;
 };
 

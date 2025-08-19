@@ -28,7 +28,7 @@ CRegStepResidualFilter::~CRegStepResidualFilter()
 {
 }
 
-void CRegStepResidualFilter::ProcessRegistrationData(vector<StlImage<float>*>& /*images*/, vector<CRegistrationResult>& validRegistrationResults, vector<CRegistrationResult>& invalidRegistrationResults)
+void CRegStepResidualFilter::ProcessRegistrationData(vector<StlImage<float>*>& /*images*/, vector<CRegistrationResult>& validRegistrationResults, vector<CRegistrationResult>& invalidRegistrationResults, CImageRegistrationResult allRegistrationResults)
 {
 	size_t validRegistrationCount = validRegistrationResults.size();
 	auto pRigidSolution = std::make_shared<CDenseMatrix>(m_nImageCount, 2);

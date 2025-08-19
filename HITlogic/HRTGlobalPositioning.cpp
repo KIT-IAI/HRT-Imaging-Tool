@@ -54,7 +54,10 @@ CDenseMatrix CHRTGlobalPositioning::SolvePositioning(const CImageRegistrationRes
 
 	index_pair_t minMaxImageIndexes = { group.front(), group.back() };
 	auto RigidRegistrationResults = RegistrationResult.GetRigidRegistrationResults();
-	CDenseMatrix Solution = CreateStartVector(minMaxImageIndexes, ImageParameters.GetSubImageCountWithGap(), m_Parameters.eAlgorithm, RigidRegistrationResults);
+
+	size_t test = ImageParameters.GetSubImageCountWithGap();
+
+	CDenseMatrix Solution = CreateStartVector(minMaxImageIndexes, test, m_Parameters.eAlgorithm, RigidRegistrationResults);
 
 	if (RigidRegistrationResults.size() == 0)
 	{

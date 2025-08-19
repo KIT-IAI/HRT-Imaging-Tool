@@ -54,6 +54,29 @@ void CRegistrationPostProcessor::CalculateResiduals(vector<CRegistrationResult>&
 	}
 }
 
+void CRegistrationPostProcessor::CalculateSubImageResiduals(std::vector<CRegistrationResult>& RegistrationResults, const std::shared_ptr<CDenseMatrix> pSolution)
+{
+
+	for (auto& Registration : RegistrationResults)
+	{
+		std::vector<CResidual> validSubImageResiduals;
+		std::vector<CResidual> allSubImageResiduals;
+
+		for (auto& FlexibleRegistration : Registration.FlexibleRegistrationResults)
+		{
+			allSubImageResiduals.push_back(Registration.CalculateSubImageResidual(FlexibleRegistration, pSolution));
+		}
+
+		for (CResidual& residual : allSubImageResiduals)
+		{		
+			if (residual.GetValidity() > 0) {
+				validSubImageResiduals.push_back(residual);
+			}
+		}
+		Registration.SetSubImageResiduals(validSubImageResiduals);
+	}
+}
+
 void CRegistrationPostProcessor::SolveRigidPositioning(const vector<CRegistrationResult>& RegistrationResults, std::shared_ptr<CDenseMatrix> pRigidSolution, CSLESolver::EAlgorithm eSolverAlgorithm, size_t nImageCount)
 {
 	CGlobalPositioningParameters SolverParameters;
@@ -71,6 +94,8 @@ void CRegistrationPostProcessor::SolveRigidPositioning(const vector<CRegistratio
 		throw L"Solution of Rigid Registration-System unsuccesful.";
 }
 
+
+
 vector<CResidual> CRegistrationPostProcessor::GetAllResiduals(const vector<CRegistrationResult>& RegistrationResults)
 {
 	vector<CResidual> residuals;
@@ -81,6 +106,21 @@ vector<CResidual> CRegistrationPostProcessor::GetAllResiduals(const vector<CRegi
 	}
 	return residuals;
 }
+
+std::vector<CResidual> CRegistrationPostProcessor::GetSubImageResiduals(const vector<CRegistrationResult>& RegistrationResults)
+{
+	vector<CResidual> subImageResiduals;
+	for (const auto& registrationResult : RegistrationResults)
+	{
+		vector<CResidual> subImgResidualsForOneRegistration = registrationResult.GetSubImageResiduals();
+		for (const auto& res : subImgResidualsForOneRegistration) 
+		{
+			subImageResiduals.push_back(res);
+		}
+	}
+	return subImageResiduals;
+}
+
 
 void CRegistrationPostProcessor::move_if(vector<CRegistrationResult>& valid, vector<CRegistrationResult>& invalid, std::function<bool(const CRegistrationResult&)> condition)
 {
@@ -123,6 +163,9 @@ void CRegistrationPostProcessor::RemoveRegistration(const CRegistrationResult& r
 */
 void CRegistrationPostProcessor::DoWork(CImageRegistrationData& registrationData, CImageRegistrationResult& allRegistrationResults)
 {
+	//Important for the SubImageThresholdAdapter
+	allRegistrationResults.ForceSingleImageGroup();
+
 	vector<CRegistrationResult>& validRegistrationResults = allRegistrationResults.RegistrationResults;
 	vector<CRegistrationResult> invalidRegistrationResults;
 
@@ -132,7 +175,8 @@ void CRegistrationPostProcessor::DoWork(CImageRegistrationData& registrationData
 		};
 	move_if(validRegistrationResults, invalidRegistrationResults, isInvalid);
 
-	ProcessRegistrationData(registrationData.Images, validRegistrationResults, invalidRegistrationResults);
+
+	ProcessRegistrationData(registrationData.Images, validRegistrationResults, invalidRegistrationResults, allRegistrationResults);
 
 	move_if(invalidRegistrationResults, validRegistrationResults, [](const CRegistrationResult&) {return true; });
 }
