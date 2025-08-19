@@ -75,4 +75,5 @@ protected:
 
 private:
 	static bool s_bDetailedLogging;
+	//
 };
