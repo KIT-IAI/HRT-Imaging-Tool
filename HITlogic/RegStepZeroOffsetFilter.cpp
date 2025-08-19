@@ -40,5 +40,9 @@ void CRegStepZeroOffsetFilter::ProcessRegistrationData(vector<StlImage<float>*>&
 	auto nCount2 = validRegistrationResults.size();
 
 	if (nCount > nCount2)
-		CLog::Log(CLog::eWarning, _T("ZeroOffsetFilter"), L"Removing %d Registrations, which don't meet the criteria.", nCount - nCount2);
+	{
+		std::wostringstream oss;
+		oss << L"Removing " << nCount - nCount2 << L" registrations)";
+		CLog::Log(CLog::eNotice, L"CRegStepZeroOffsetFilter", oss.str().c_str());
+	}
 }

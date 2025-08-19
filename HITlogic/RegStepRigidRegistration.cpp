@@ -63,7 +63,6 @@ list<CRegistrationResult> CRegStepRigidRegistration::RegisterImages(vector<StlIm
 	threads.reserve(thread_count);
 
 	auto start = std::chrono::high_resolution_clock::now();
-	CLog::Log(CLog::eWarning, L"RigidRegistration-Stopwatch", L"Startet");
 	for (auto i = 0u; i < thread_count; i++)
 	{
 		threads.push_back(std::thread([i, thread_count, &Images, &image_correlator, &resultListMutex, &listRegistrationResults, this]() {
@@ -117,12 +116,13 @@ list<CRegistrationResult> CRegStepRigidRegistration::RegisterImages(vector<StlIm
 
 	m_pStrategy->Finalize();
 
-
 	auto finish = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double> elapsed = finish - start;
-	CLog::Log(CLog::eWarning, L"RigidRegistration-Stopwatch", L"Stopped: %f", elapsed.count());
-
-
+	auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(finish - start);
+	std::wostringstream oss;
+	oss.setf(std::ios::fixed);
+	oss.precision(3);
+	oss << L"Rigid image registration finished (measured time: " << elapsed.count() / 1000.0 << L" seconds)";
+	CLog::Log(CLog::eNotice, L"CRegStepRigidRegistration", oss.str().c_str());
 
 	ReportProgress();
 

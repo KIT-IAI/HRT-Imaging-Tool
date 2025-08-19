@@ -22,21 +22,24 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #include "stdafx.h"
 
+#include <ppl.h>
+
+#include <boost/thread/barrier.hpp>
+
+#include "Log.h"
 #include "RegStepFlexibleRegistration.h"
 #include "ScoreContainer.h"
 #include "SubImageCorrelator.h"
-#include <ppl.h>
-#include <boost/thread/barrier.hpp>
 
 CRegStepFlexibleRegistration::CRegStepFlexibleRegistration(CRegistrationProcedureParameters params)
 	:m_RegistrationParameters(params)
 {
 }
 
-
 CRegStepFlexibleRegistration::~CRegStepFlexibleRegistration()
 {
 }
+
 void CRegStepFlexibleRegistration::ProcessRegistrationData(vector<StlImage<float>*>& images, vector<CRegistrationResult>& validRegistrationResults, vector<CRegistrationResult>& /*invalidRegistrationResults*/)
 {
 	// StlImage<float>* --> StlImage<float> ???
@@ -67,6 +70,7 @@ void CRegStepFlexibleRegistration::RegisterImages(vector<StlImage<float>*>& Imag
 
 	boost::barrier barrier(thread_count);
 
+	auto start = std::chrono::high_resolution_clock::now();
 	for (auto i = 0u; i < thread_count; i++)
 	{
 		threads.push_back(std::thread([i, thread_count, this, &registrationIterator, &ValidRegistrationResults, &Images, &ImagesSmooth, &imageCorrelator, &barrier]() {
@@ -114,13 +118,22 @@ void CRegStepFlexibleRegistration::RegisterImages(vector<StlImage<float>*>& Imag
 		threads[i].join();
 	}
 
+	auto finish = std::chrono::high_resolution_clock::now();
+	auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(finish - start);
+	std::wostringstream oss;
+	oss.setf(std::ios::fixed);
+	oss.precision(3);
+	oss << L"Sub-image registration finished (measured time: " << elapsed.count() / 1000.0 << L" seconds)";
+	CLog::Log(CLog::eNotice, L"CRegStepFlexibleRegistration", oss.str().c_str());
 }
+
 CImagePair CRegStepFlexibleRegistration::GenerateImageParameters(CRegistrationResult registrationResult, vector<StlImage<float>*>& Images, vector<StlImage<float>>& ImagesSmooth) const
 {
 	auto refIndex = registrationResult.RigidRegistrationResult.GetReferenceImageIndex();
 	auto tempIndex = registrationResult.RigidRegistrationResult.GetTemplateImageIndex();
 	return CImagePair(Images[refIndex], Images[tempIndex], &ImagesSmooth[refIndex], &ImagesSmooth[tempIndex], refIndex, tempIndex);
 }
+
 void CRegStepFlexibleRegistration::GetWorkUnits(size_t& nCompletedWorkUnits, size_t& nTotalWorkUnits)
 {
 	std::lock_guard<std::mutex> lock(calculationMutex);

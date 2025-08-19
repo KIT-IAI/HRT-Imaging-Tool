@@ -91,7 +91,11 @@ void CCompositing3DCloud::PerformCompositing(const CImageRegistrationData& Image
 	// being strictly monotonic increasing.
 	size_t nMonotonyViolatedCount = GetMonotonyViolationCount(matPosY);
 	if (nMonotonyViolatedCount > 0)
-		CLog::Log(CLog::eWarning, _T("HRT Image Motion Correction"), _T("Unexpected condition: Violation of monotony of image line Y-positions. Occured %d times."), nMonotonyViolatedCount);
+	{
+		std::wostringstream oss;
+		oss << L"Violation of monotony of image line y-positions (this occurred " << nMonotonyViolatedCount << L" times)";
+		CLog::Log(CLog::eWarning, L"CCompositing3DCloud", oss.str().c_str());
+	}
 	//!!!kontrolieren !
 
 
