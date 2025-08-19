@@ -52,13 +52,12 @@ void CRegStepSubImageScoreThresholdAdapter::ProcessRegistrationData(std::vector<
 	m_ScoreParameters.SetScoreThreshold(m_ScoreParameters.fMinScoreFlexible);
 	double fThreshold = m_ScoreParameters.GetScoreThreshold();
 
-	std::ofstream csv("C:\\Users\\bt3410\\Desktop\\test_data\\TestOrdner3\\residuals_stats.csv");
+	std::ofstream csv("C:\\Users\\bt3410\\Desktop\\Daten\\TestOrdner\\residuals_stats.csv");
 	csv << "ScoreThreshold" << ";" << "Mean" << ";" << "Stdev" << ";" << "Median" << ";"
 		<< "9Quantile" << ";" << "99Quantile" << ";" << "999Quantile" << ";" << "MaxResidual" << ";" << "LastRemovedRegistrations" << ";" << "LastRegistrationCount" << "\n";
 
 	CDenseMatrix sol = SolveFlexiblePositioning(images, validRegistrationResults, imagegroups);
-	sol.WriteMatrix(L"C:\\Users\\bt3410\\Desktop\\test_data\\TestOrdner3\\solution.csv", L";", L"\n", 6);
-
+	sol.WriteMatrix(L"C:\\Users\\bt3410\\Desktop\\Daten\\TestOrdner\\solution.csv", L";", L"\n", 6);
 	std::shared_ptr<CDenseMatrix> solution = std::make_shared<CDenseMatrix>(sol);
 
 

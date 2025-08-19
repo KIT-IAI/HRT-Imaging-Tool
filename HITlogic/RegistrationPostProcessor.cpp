@@ -62,29 +62,38 @@ void CRegistrationPostProcessor::CalculateSubImageResiduals(std::vector<CRegistr
 	std::string s = oss.str();
 	std::replace(s.begin(), s.end(), '.', '_');  // → "3_50"
 	std::string dateiname = "threshold_" + s + ".csv";  // → "threshold_3_50.csv"
-	std::ofstream csv_res("C:\\Users\\bt3410\\Desktop\\test_data\\TestOrdner3\\" + dateiname);
+	std::ofstream csv_res("C:\\Users\\bt3410\\Desktop\\Daten\\TestOrdner\\" + dateiname);
 	csv_res << "ReferenceImageIndex" << ";" << "TemplateImageIndex" << ";" << "SubImageIndex" << ";" << "Score" << ";" << "Validity" << ";" << "X" << ";" << "Y"
 			<< ";" << "X-res" << ";" << "Y-res" << ";" << "Residual-abs" << "\n";
 
 	for (auto& Registration : RegistrationResults)
 	{
+		//needs to be changed
+		int sub_img_reg_counter = 0;
+
 		std::vector<CResidual> validSubImageResiduals;
-		std::vector<CResidual> allSubImageResiduals;
 
 		for (auto& FlexibleRegistration : Registration.FlexibleRegistrationResults)
 		{
-			allSubImageResiduals.push_back(Registration.CalculateSubImageResidual(FlexibleRegistration, pSolution));
-		}
+			CResidual& residual = Registration.CalculateSubImageResidual(FlexibleRegistration, pSolution);
 
-		for (CResidual& residual : allSubImageResiduals)
-		{
 			csv_res << residual.GetReferenceImageIndex() << ";" << residual.GetTemplateImageIndex() << ";" << residual.GetSubImageIndex() << ";" << residual.GetScore()
-					<< ";" << residual.GetValidity() << ";" << residual.GetXreg() << ";" << residual.GetYreg() << ";"
-					<< residual.GetX() << ";" << residual.GetY() << ";" << residual.GetValue() << "\n";
-		
+				<< ";" << residual.GetValidity() << ";" << residual.GetXreg() << ";" << residual.GetYreg() << ";"
+				<< residual.GetX() << ";" << residual.GetY() << ";" << residual.GetValue() << "\n";
+
 			if (residual.GetValidity() > 0) {
 				validSubImageResiduals.push_back(residual);
+				sub_img_reg_counter++;
 			}
+		}
+
+		if (sub_img_reg_counter < 3) 
+		{
+			for (auto& FlexibleRegistration : Registration.FlexibleRegistrationResults)
+			{
+				FlexibleRegistration.SetValidity(CHrtValidityCodes::eInvalidSubImagesCriterion);
+			}
+			validSubImageResiduals.clear();
 		}
 
 		Registration.SetSubImageResiduals(validSubImageResiduals);
