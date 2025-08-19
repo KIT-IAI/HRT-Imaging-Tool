@@ -42,7 +42,7 @@ void CScoreThresholdAdapter::EnableDetailedLogging(bool bEnable /* = true*/)
 	s_bDetailedLogging = bEnable;
 }
 
-void CScoreThresholdAdapter::ProcessRegistrationData(vector<StlImage<float>*>& /*images*/, vector<CRegistrationResult>& validRegistrationResults, vector<CRegistrationResult>& invalidRegistrationResults, CImageRegistrationResult allRegistrationResults)
+void CScoreThresholdAdapter::ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults, vector<std::list<size_t>>& imagegroups)
 {
 	size_t nValidRegistrations = validRegistrationResults.size();
 	auto fThreshold = m_ScoreParameters.GetScoreThreshold();
