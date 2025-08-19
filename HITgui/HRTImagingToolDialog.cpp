@@ -170,6 +170,13 @@ void HRTImagingToolDialog::OnDatasetFinished(wxEvent& event)
 
 void HRTImagingToolDialog::OnClose(wxCloseEvent& event)
 {
+	if (m_bAutomationMode)
+	{
+		// Without the sleep, the last thread can still be active, trying to write into the log box. This creates a deadlock.
+		// We should eventually try to find a better way around this deadlock (like querying here for the last thread to finish or something).
+		std::this_thread::sleep_for(1000ms);
+	}
+
 	Destroy();
 }
 
@@ -180,7 +187,6 @@ void HRTImagingToolDialog::OnSNPFusionEvent(CSNPFusionEvent Event)
 	{
 	case CSNPFusionEvent::eDatasetDone:
 		logLevel = CLog::eNotice;
-		QueueEvent(new wxThreadEvent(EVT_PROCESSING_FINISHED));
 		break;
 	case CSNPFusionEvent::eError:
 		logLevel = CLog::eError;
@@ -199,6 +205,11 @@ void HRTImagingToolDialog::OnSNPFusionEvent(CSNPFusionEvent Event)
 		return;
 	}
 	AppendOutputLine(wxString::Format(L"Dataset %s: %s", Event.pSource->Name, Event.sMessage), logLevel);
+
+	if (Event.Severity == CSNPFusionEvent::eDatasetDone)
+	{
+		QueueEvent(new wxThreadEvent(EVT_PROCESSING_FINISHED));
+	}
 }
 
 void HRTImagingToolDialog::OnCancel()
