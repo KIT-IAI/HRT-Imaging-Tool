@@ -36,7 +36,7 @@ public:
 		m_ScoreParameters(ScoreParameters) {
 	};
 
-	void ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults, CImageRegistrationResult allRegistrationResults);
+	void ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults, std::vector<std::list<size_t>>& imagegroups);
 
 	static void EnableDetailedLogging(bool bEnable = true);
 
@@ -47,7 +47,7 @@ private:
 	void RemoveWrongRegistrations(std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults) const;
 	bool IsMaximumThresholdReached() const;
 
-	CDenseMatrix SolveFlexiblePositioning(vector<StlImage<float>*>& images, CImageRegistrationResult& ImageRegistrationResult, std::ofstream& csv);
+	CDenseMatrix SolveFlexiblePositioning(vector<StlImage<float>*>& images, vector<CRegistrationResult>& validRegistrationResults, vector<std::list<size_t>>& imagegroups);
 
 	bool IsScoreThresholdSufficient(std::vector<CRegistrationResult>& RegistrationResults);
 	void CalculateStochasticValues(std::vector<CResidual>& allResiduals, std::ofstream& csv);

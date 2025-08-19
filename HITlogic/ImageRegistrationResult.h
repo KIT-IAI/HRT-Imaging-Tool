@@ -34,7 +34,7 @@ public:
 	CImageRegistrationResult(const std::vector<CRigidRegistrationResult>& RigidRegistrations, const std::vector<CRigidRegistrationResult>& FlexibleRegistrations);
 
 	void RecalulateImageGroups();
-	void CImageRegistrationResult::ForceSingleImageGroup();
+	std::vector<std::list<size_t>> CImageRegistrationResult::ForceSingleImageGroup();
 
 	bool HasOnlySingleImageGroups() const;
 	std::vector<CRigidRegistrationResult>	GetRigidRegistrationResults() const;

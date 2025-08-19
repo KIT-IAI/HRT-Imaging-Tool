@@ -25,7 +25,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "Log.h"
 
 
-void CRegStepZeroOffsetFilter::ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults, CImageRegistrationResult allRegistrationResults)
+void CRegStepZeroOffsetFilter::ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults, vector<std::list<size_t>>& imagegroups)
 {
 	auto condition = [&](const CRegistrationResult& reg)
 		{
