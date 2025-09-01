@@ -44,7 +44,7 @@ protected:
 	static std::vector<CRigidRegistrationResult> GetRigidRegistrationResults(const std::vector<CRegistrationResult>& RegistrationResults);
 
 	static void CalculateResiduals(std::vector<CRegistrationResult>& RegistrationResults, std::shared_ptr<CDenseMatrix> pRigidSolution);
-	static void CalculateSubImageResiduals(std::vector<CRegistrationResult>& RegistrationResults, std::shared_ptr<CDenseMatrix> pRigidSolution, double fThreshold);
+	static void CalculateSubImageResiduals(std::vector<CRegistrationResult>& RegistrationResults, std::shared_ptr<CDenseMatrix> pRigidSolution, size_t nSubImageHeight);
 
 	static void SolveRigidPositioning(const std::vector<CRegistrationResult>& RegistrationResults, std::shared_ptr<CDenseMatrix> pRigidSolution, CSLESolver::EAlgorithm eSolverAlgorithm, size_t nImageCount);
 	

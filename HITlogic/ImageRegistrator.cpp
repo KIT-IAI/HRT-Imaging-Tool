@@ -53,7 +53,7 @@ std::shared_ptr<IComputable<CImageRegistrationData, CImageRegistrationResult>> C
 	auto ScoreOptimizer = std::make_shared<CRegStepScoreThresholdOptimizer>(RigidScaledParameters.ScoreParameters, nImageCount, RigidScaledParameters.GetSolverAlgorithm());
 
 	auto FlexibleRegistration = std::make_shared<CRegStepFlexibleRegistration>(FlexibleScaledParameters);
-	auto FlexibleThresholdAdapter = std::make_shared<CRegStepSubImageScoreThresholdAdapter>(RigidScaledParameters.ScoreParameters, nImageCount, RigidScaledParameters.GetSolverAlgorithm(), RigidScaledParameters.GetProcessType());
+	auto FlexibleThresholdAdapter = std::make_shared<CRegStepSubImageScoreThresholdAdapter>(RigidScaledParameters.ScoreParameters, nImageCount, RigidScaledParameters.GetSolverAlgorithm(), RigidScaledParameters.GetProcessType(), m_Parameters.CorrelationParameters.nSubImageHeight);
 
 	if (m_Parameters.fScaleReduction != 1)
 	{
@@ -68,20 +68,21 @@ std::shared_ptr<IComputable<CImageRegistrationData, CImageRegistrationResult>> C
 
 	RigidRegistration->AddSubsequentComputationStep(ZeroOffsetFilter);
 
-	if (m_Parameters.bAutomaticThresholdDetection)
+	if (m_Parameters.bAutomaticThresholdDetection && m_Parameters.GetProcessType() == CProcessType::eRigidRegistration)
 		RigidRegistration->AddSubsequentComputationStep(ScoreApproximator);
 
-	if (m_Parameters.bConsistencyCheck)
+	if (m_Parameters.bConsistencyCheck && m_Parameters.GetProcessType() == CProcessType::eRigidRegistration)
 		RigidRegistration->AddSubsequentComputationStep(ResidualFilter);
 
-	if (m_Parameters.bAutomaticThresholdDetection)
+	if (m_Parameters.bAutomaticThresholdDetection && m_Parameters.GetProcessType() == CProcessType::eRigidRegistration)
 		RigidRegistration->AddSubsequentComputationStep(ScoreOptimizer);
 
 
 	if (m_Parameters.GetProcessType() != CProcessType::eRigidRegistration)
 	{
 		RigidRegistration->AddSubsequentComputationStep(FlexibleRegistration);
-		RigidRegistration->AddSubsequentComputationStep(FlexibleThresholdAdapter);
+		if (m_Parameters.bAutomaticThresholdDetection)
+			RigidRegistration->AddSubsequentComputationStep(FlexibleThresholdAdapter);
 	}
 
 	return RigidRegistration;

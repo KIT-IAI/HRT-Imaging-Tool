@@ -38,12 +38,9 @@ CResidual CResidual::CreateFromRegistration(const CRigidRegistrationResult& regR
 	return residual;
 }
 
-CResidual CResidual::CreateFromSubimageRegistration(const CRigidRegistrationResult& reg, std::shared_ptr<CDenseMatrix> pRigidSolution)
+CResidual CResidual::CreateFromSubimageRegistration(const CRigidRegistrationResult& reg, std::shared_ptr<CDenseMatrix> pRigidSolution, size_t subImageHeight, size_t subPerImg)
 {
 	CResidual residual;
-
-	size_t nSubPerImg = 12;
-	size_t nSubHeight = 32;
 
 	residual.m_fReferenceImageIndex = reg.GetReferenceImageIndex();
 	residual.m_fTemplateImageIndex = reg.GetTemplateImageIndex();
@@ -58,17 +55,17 @@ CResidual CResidual::CreateFromSubimageRegistration(const CRigidRegistrationResu
 	residual.m_fScore = reg.GetScore();
 
 	//indices in templateImage
-    double subImg2 = -static_cast<double>(reg.GetY()) /	nSubHeight;
+    double subImg2 = -static_cast<double>(reg.GetY()) / subImageHeight;
 	int subImg21 = subImg1 + static_cast<int>(std::floor(subImg2));
 	int subImg22 = subImg21 + 1;
 
-    if (subImg21 < 0 || subImg22 >= nSubPerImg)
+    if (subImg21 < 0 || subImg22 >= subPerImg)
         return residual;  // not valid
 
 
-	size_t subImgIndex1 = residual.m_fReferenceImageIndex * nSubPerImg + subImg1;
-	size_t subImgIndex21 = residual.m_fTemplateImageIndex * nSubPerImg + subImg21;
-	size_t subImgIndex22 = residual.m_fTemplateImageIndex * nSubPerImg + subImg22;
+	size_t subImgIndex1 = residual.m_fReferenceImageIndex * subPerImg + subImg1;
+	size_t subImgIndex21 = residual.m_fTemplateImageIndex * subPerImg + subImg21;
+	size_t subImgIndex22 = residual.m_fTemplateImageIndex * subPerImg + subImg22;
 
     const DPoint pos1 = DPoint::FromMatrixRow(subImgIndex1, pRigidSolution);
     const DPoint pos21 = DPoint::FromMatrixRow(subImgIndex21, pRigidSolution);

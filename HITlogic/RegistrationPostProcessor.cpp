@@ -54,40 +54,23 @@ void CRegistrationPostProcessor::CalculateResiduals(vector<CRegistrationResult>&
 	}
 }
 
-void CRegistrationPostProcessor::CalculateSubImageResiduals(std::vector<CRegistrationResult>& RegistrationResults, const std::shared_ptr<CDenseMatrix> pSolution, double fThreshold)
+void CRegistrationPostProcessor::CalculateSubImageResiduals(std::vector<CRegistrationResult>& RegistrationResults, const std::shared_ptr<CDenseMatrix> pSolution, size_t nSubImageHeight)
 {
-	////Nur zum testen!
-	//std::ostringstream oss;
-	//oss << std::fixed << std::setprecision(2) << fThreshold;  // z. B. "3.50"
-	//std::string s = oss.str();
-	//std::replace(s.begin(), s.end(), '.', '_');  // → "3_50"
-	//std::string dateiname = "threshold_" + s + ".csv";  // → "threshold_3_50.csv"
-	//std::ofstream csv_res("C:\\Users\\bt3410\\Desktop\\Daten\\TestOrdner\\" + dateiname);
-	//csv_res << "ReferenceImageIndex" << ";" << "TemplateImageIndex" << ";" << "SubImageIndex" << ";" << "Score" << ";" << "Validity" << ";" << "X" << ";" << "Y"
-	//		<< ";" << "X-res" << ";" << "Y-res" << ";" << "Residual-abs" << "\n";
-
 	for (auto& Registration : RegistrationResults)
 	{
-		//needs to be changed
-		int sub_img_reg_counter = 0;
-
 		std::vector<CResidual> validSubImageResiduals;
 
 		for (auto& FlexibleRegistration : Registration.FlexibleRegistrationResults)
 		{
-			CResidual& residual = Registration.CalculateSubImageResidual(FlexibleRegistration, pSolution);
-
-			/*csv_res << residual.GetReferenceImageIndex() << ";" << residual.GetTemplateImageIndex() << ";" << residual.GetSubImageIndex() << ";" << residual.GetScore()
-				<< ";" << residual.GetValidity() << ";" << residual.GetXreg() << ";" << residual.GetYreg() << ";"
-				<< residual.GetX() << ";" << residual.GetY() << ";" << residual.GetValue() << "\n";*/
+			CResidual& residual = Registration.CalculateSubImageResidual(FlexibleRegistration, pSolution, nSubImageHeight, Registration.FlexibleRegistrationResults.size());
 
 			if (residual.GetValidity() > 0) {
 				validSubImageResiduals.push_back(residual);
-				sub_img_reg_counter++;
 			}
 		}
 
-		if (sub_img_reg_counter < 3) 
+		//validity check
+		if (validSubImageResiduals.size() < Registration.FlexibleRegistrationResults.size() / 4)
 		{
 			for (auto& FlexibleRegistration : Registration.FlexibleRegistrationResults)
 			{
@@ -99,7 +82,6 @@ void CRegistrationPostProcessor::CalculateSubImageResiduals(std::vector<CRegistr
 		Registration.SetSubImageResiduals(validSubImageResiduals);
 	}
 
-	/*csv_res.close();*/
 }
 
 void CRegistrationPostProcessor::SolveRigidPositioning(const vector<CRegistrationResult>& RegistrationResults, std::shared_ptr<CDenseMatrix> pRigidSolution, CSLESolver::EAlgorithm eSolverAlgorithm, size_t nImageCount)
@@ -137,8 +119,7 @@ std::vector<CResidual> CRegistrationPostProcessor::GetSubImageResiduals(const ve
 	vector<CResidual> subImageResiduals;
 	for (const auto& registrationResult : RegistrationResults)
 	{
-		vector<CResidual> subImgResidualsForOneRegistration = registrationResult.GetSubImageResiduals();
-		for (const auto& res : subImgResidualsForOneRegistration) 
+		for (const auto& res : registrationResult.GetValidSubImageResiduals())
 		{
 			subImageResiduals.push_back(res);
 		}

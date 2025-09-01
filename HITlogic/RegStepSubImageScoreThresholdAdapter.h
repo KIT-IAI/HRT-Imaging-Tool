@@ -29,11 +29,13 @@ class CRegStepSubImageScoreThresholdAdapter :
 	public CRegistrationPostProcessor
 {
 public:
-	CRegStepSubImageScoreThresholdAdapter(CRegistrationScoreParameters ScoreParameters, size_t nImageCount, CSLESolver::EAlgorithm eSolverAlgorithm, CProcessType::EProcessType eProcessType)
+	CRegStepSubImageScoreThresholdAdapter(CRegistrationScoreParameters ScoreParameters, size_t nImageCount, CSLESolver::EAlgorithm eSolverAlgorithm, CProcessType::EProcessType eProcessType, size_t nSubImageHeight)
 		: m_nImageCount(nImageCount),
 		m_eSolverAlgorithm(eSolverAlgorithm),
 		m_eProcessType(eProcessType),
-		m_ScoreParameters(ScoreParameters) {
+		m_ScoreParameters(ScoreParameters),
+		m_nSubImageHeight(nSubImageHeight)
+	{
 	};
 
 	void ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults, std::vector<std::list<size_t>>& imagegroups);
@@ -44,19 +46,18 @@ public:
 private:
 	void AdaptScoreThreshold();
 	void CRegStepSubImageScoreThresholdAdapter::ChangeValidity(std::vector<CRegistrationResult>& validRegistrationResults);
-	void RemoveWrongRegistrations(std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults) const;
-	bool IsMaximumThresholdReached() const;
 
 	CDenseMatrix SolveFlexiblePositioning(vector<StlImage<float>*>& images, vector<CRegistrationResult>& validRegistrationResults, vector<std::list<size_t>>& imagegroups);
 
 	bool IsScoreThresholdSufficient(std::vector<CRegistrationResult>& RegistrationResults);
-	void CalculateStochasticValues(std::vector<CResidual>& allResiduals, std::ofstream& csv);
+	void CalculateStochasticValues(std::vector<CResidual>& allResiduals);
 
 protected:
 	size_t m_nImageCount;
 	CSLESolver::EAlgorithm m_eSolverAlgorithm;
 	CRegistrationScoreParameters m_ScoreParameters;
 	CProcessType::EProcessType m_eProcessType;
+	size_t m_nSubImageHeight;
 
 	double m_fAdaptScoreThresholdBy = 0.1;
 
@@ -68,12 +69,11 @@ protected:
 	double p999Quantile = 0;
 	double pMax = 0;
 
-	double m_fLastQ999 = 0;
-
-	size_t m_nLastRemovedRegistrations = 0;
 	size_t m_nLastRegistrationCount = 0;
-	size_t m_nImageGroups = 0;
-	size_t m_nImagesInTheBiggestGroup = 0;
+	size_t m_nLastRemovedRegistrations = 0;
+
+
+
 
 private:
 	static bool s_bDetailedLogging;

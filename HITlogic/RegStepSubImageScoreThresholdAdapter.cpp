@@ -48,53 +48,49 @@ void CRegStepSubImageScoreThresholdAdapter::EnableDetailedLogging(bool bEnable /
 
 void CRegStepSubImageScoreThresholdAdapter::ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults, vector<std::list<size_t>>& imagegroups)
 {
-
 	m_ScoreParameters.SetScoreThreshold(m_ScoreParameters.fMinScoreFlexible); 
-	double fThreshold = m_ScoreParameters.GetScoreThreshold();
+	size_t counterForRemovedRegs = 0;
 
-	std::ofstream csv("C:\\Users\\bt3410\\Desktop\\Daten\\TestOrdner\\DREY_001_setup2_2.csv");
-	csv << "ScoreThreshold" << ";" << "Mean" << ";" << "Stdev" << ";" << "Median" << ";"
-		<< "9Quantile" << ";" << "99Quantile" << ";" << "999Quantile" << ";" << "MaxResidual" << ";" << "LastRemovedRegistrations" << ";" << "LastRegistrationCount" << "\n";
+	//std::ofstream csv("\\residual_stats.csv");
+	//csv << "ScoreThreshold" << ";" << "Mean" << ";" << "Stdev" << ";" << "Median" << ";"
+	//	<< "9Quantile" << ";" << "99Quantile" << ";" << "999Quantile" << ";" << "MaxResidual" << ";" << "LastRemovedRegistrations" << ";" << "LastRegistrationCount" << "\n";
 
-	CDenseMatrix sol = SolveFlexiblePositioning(images, validRegistrationResults, imagegroups);
-	/*sol.WriteMatrix(L"C:\\Users\\bt3410\\Desktop\\Daten\\TestOrdner\\solution.csv", L";", L"\n", 6);*/
-	std::shared_ptr<CDenseMatrix> solution = std::make_shared<CDenseMatrix>(sol);
-
-
-	CRegistrationPostProcessor::CalculateSubImageResiduals(validRegistrationResults, solution, fThreshold);
+	std::shared_ptr<CDenseMatrix> solution = std::make_shared<CDenseMatrix>(SolveFlexiblePositioning(images, validRegistrationResults, imagegroups));
+	CRegistrationPostProcessor::CalculateSubImageResiduals(validRegistrationResults, solution, m_nSubImageHeight);
 	auto allResiduals = CRegistrationPostProcessor::GetSubImageResiduals(validRegistrationResults);
-	CalculateStochasticValues(allResiduals, csv);
-
-	auto logStep = [&](double fCurrentThreshold, double fPreviousThreshold, size_t nPreviousRegs, const vector<CRegistrationResult>& regResults)->void {
-		CLog::Log(CLog::eInformational, _T("ScoreThresholdAdapter"), L"Adapted score threshold from %f to %f and removed %d registrations, Residual stats: %f +- %f", fPreviousThreshold, fCurrentThreshold, nPreviousRegs - regResults.size(), pMean, pStdev, pMedian, p9Quantile, p99Quantile, p999Quantile, pMax);
-	 };
-
-	if (s_bDetailedLogging)
-	{
-	CLog::Log(CLog::eInformational, _T("SubImageScoreThresholdAdapter"), L"Initial score threshold at %f, Residual stats: %f +- %f", fThreshold, pMean, pStdev, pMedian, p9Quantile, p99Quantile, p999Quantile, pMax);
-	}
-
-	size_t nPreviousRegs = m_nLastRegistrationCount;
-	double fPreviousThreshold = fThreshold;
+	CalculateStochasticValues(allResiduals);
 
 	while (!IsScoreThresholdSufficient(validRegistrationResults))
 	{
 		AdaptScoreThreshold();
 		ChangeValidity(validRegistrationResults);
+		counterForRemovedRegs += m_nLastRemovedRegistrations;
 		std::shared_ptr<CDenseMatrix> solution = std::make_shared<CDenseMatrix>(SolveFlexiblePositioning(images, validRegistrationResults, imagegroups));
-		CRegistrationPostProcessor::CalculateSubImageResiduals(validRegistrationResults, solution, m_ScoreParameters.GetScoreThreshold());
+		CRegistrationPostProcessor::CalculateSubImageResiduals(validRegistrationResults, solution, m_nSubImageHeight);
 	    auto allResiduals = CRegistrationPostProcessor::GetSubImageResiduals(validRegistrationResults);
-		CalculateStochasticValues(allResiduals, csv);
+		CalculateStochasticValues(allResiduals);
 
-		if (s_bDetailedLogging)
-		{
-			logStep(m_ScoreParameters.GetScoreThreshold(), fPreviousThreshold, nPreviousRegs, validRegistrationResults);
-			nPreviousRegs = validRegistrationResults.size();
-			fPreviousThreshold = m_ScoreParameters.GetScoreThreshold();
-		}
+		//// CSV-Ausgabe
+		//csv << std::to_string(m_ScoreParameters.GetScoreThreshold()) << ";"
+		//	<< std::to_string(pMean) << ";"
+		//	<< std::to_string(pStdev) << ";"
+		//	<< std::to_string(pMedian) << ";"
+		//	<< std::to_string(p9Quantile) << ";"
+		//	<< std::to_string(p99Quantile) << ";"
+		//	<< std::to_string(p999Quantile) << ";"
+		//	<< std::to_string(pMax) << ";"
+		//	<< m_nLastRemovedRegistrations << ";"
+		//	<< m_nLastRegistrationCount << "\n";
+
 	}
-	CLog::Log(CLog::eInformational, _T("SubImageScoreThresholdAdapter"), L"Adapted score threshold from %f to %f and removed %d registrations.", fThreshold, m_ScoreParameters.GetScoreThreshold(), nPreviousRegs - validRegistrationResults.size());
-	csv.close();
+
+	std::wostringstream oss;
+	oss.setf(std::ios::fixed);
+	oss.precision(3);
+	oss << L"Adapted score threshold to " << m_ScoreParameters.GetScoreThreshold()  << " and removed " << counterForRemovedRegs << L" registrations, max. Residual: " << pMax;
+	CLog::Log(CLog::eInformational, _T("SubImageScoreThresholdAdapter"), oss.str().c_str());
+
+	/*csv.close();*/
 }
 
 
@@ -129,32 +125,17 @@ void CRegStepSubImageScoreThresholdAdapter::ChangeValidity(std::vector<CRegistra
 }
 
 
-bool CRegStepSubImageScoreThresholdAdapter::IsMaximumThresholdReached() const
-{
-	return m_ScoreParameters.GetScoreThreshold() >= m_ScoreParameters.fCertainScore;
-}
-
-
 CDenseMatrix CRegStepSubImageScoreThresholdAdapter::SolveFlexiblePositioning(vector<StlImage<float>*>& images, vector<CRegistrationResult>& validRegistrationResults, vector<std::list<size_t>>& imagegroups)
 {
 	StlImage<float>* pImage = images[0];
 	StlImageSize size = pImage->GetSize();
-	size_t subImageHeight = 32;
 
-	CHrtImageParameters standardParameters(size, subImageHeight);
-
+	CHrtImageParameters standardParameters(size, m_nSubImageHeight);
 	CGlobalPositioningParameters stdPositioningParameters(m_eSolverAlgorithm, m_eProcessType);
 	CHRTGlobalPositioning globalPositioning(stdPositioningParameters);
-
 	CImageRegistrationResult ImageRegistrationResult = CImageRegistrationResult(validRegistrationResults, imagegroups);
 
-	CDenseMatrix solution = globalPositioning.SolvePositioning(ImageRegistrationResult, standardParameters);
-
-	ImageRegistrationResult.RecalulateImageGroups();
-	m_nImageGroups = ImageRegistrationResult.ImageGroups.size();
-	m_nImagesInTheBiggestGroup = ImageRegistrationResult.ImageGroups[0].size();
-
-	return solution;
+	return globalPositioning.SolvePositioning(ImageRegistrationResult, standardParameters);
 }
 
 bool CRegStepSubImageScoreThresholdAdapter::IsScoreThresholdSufficient(std::vector<CRegistrationResult>& RegistrationResults)
@@ -180,43 +161,15 @@ bool CRegStepSubImageScoreThresholdAdapter::IsScoreThresholdSufficient(std::vect
 
 
 
-void CRegStepSubImageScoreThresholdAdapter::CalculateStochasticValues(std::vector<CResidual>& allResiduals, std::ofstream& csv)
+void CRegStepSubImageScoreThresholdAdapter::CalculateStochasticValues(std::vector<CResidual>& allResiduals)
 {
-	pMean = CResidual::CalculateMeanResidual(allResiduals);
-	pStdev = CResidual::CalculateStdevResidual(allResiduals, pMean);
-	pMedian = CResidual::CalculateMedianResidual(allResiduals);
-	p9Quantile = CResidual::CalculateQuantileResidual(allResiduals, 0.90);
-	p99Quantile = CResidual::CalculateQuantileResidual(allResiduals, 0.99);
-	p999Quantile = CResidual::CalculateQuantileResidual(allResiduals, 0.999);
+	//pMean = CResidual::CalculateMeanResidual(allResiduals);
+	//pStdev = CResidual::CalculateStdevResidual(allResiduals, pMean);
+	//pMedian = CResidual::CalculateMedianResidual(allResiduals);
+	//p9Quantile = CResidual::CalculateQuantileResidual(allResiduals, 0.90);
+	//p99Quantile = CResidual::CalculateQuantileResidual(allResiduals, 0.99);
+	//p999Quantile = CResidual::CalculateQuantileResidual(allResiduals, 0.999);
 	pMax = CResidual::CalculateMaximumResidual(allResiduals);
 
-
-	// CSV-Ausgabe
-	csv << std::to_string(m_ScoreParameters.GetScoreThreshold()) << ";"
-		<< std::to_string(pMean) << ";"
-		<< std::to_string(pStdev) << ";"
-		<< std::to_string(pMedian) << ";"
-		<< std::to_string(p9Quantile) << ";"
-		<< std::to_string(p99Quantile) << ";"
-		<< std::to_string(p999Quantile) << ";"
-		<< std::to_string(pMax) << ";"
-		<< m_nLastRemovedRegistrations << ";"
-		<< m_nLastRegistrationCount << "\n";
-
-}
-
-
-
-void CRegStepSubImageScoreThresholdAdapter::RemoveWrongRegistrations(vector<CRegistrationResult>& validRegistrationResults, vector<CRegistrationResult>& invalidRegistrationResults) const
-{
-	auto condition = [&](const CRegistrationResult& reg)
-		{
-			return reg.RigidRegistrationResult.GetScore() < m_ScoreParameters.GetScoreThreshold();
-		};
-	auto invalidOperation = [](CRegistrationResult& reg)
-		{
-			reg.RigidRegistrationResult.SetValidity(CHrtValidityCodes::eInvalidRoughCorrelationMinScore);
-		};
-	move_if(validRegistrationResults, invalidRegistrationResults, condition, invalidOperation);
 }
 
