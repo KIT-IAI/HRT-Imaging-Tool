@@ -38,6 +38,62 @@ CResidual CResidual::CreateFromRegistration(const CRigidRegistrationResult& regR
 	return residual;
 }
 
+CResidual CResidual::CreateFromSubimageRegistration(const CRigidRegistrationResult& reg, std::shared_ptr<CDenseMatrix> pRigidSolution)
+{
+	CResidual residual;
+
+	size_t nSubPerImg = 12;
+	size_t nSubHeight = 32;
+
+	residual.m_fReferenceImageIndex = reg.GetReferenceImageIndex();
+	residual.m_fTemplateImageIndex = reg.GetTemplateImageIndex();
+	residual.m_fValidity = reg.GetValidity();
+	residual.m_fXreg = reg.GetX();
+	residual.m_fYreg = reg.GetY();
+
+    //index of the subimage in referenceImage
+	size_t subImg1 = reg.GetSubImageRowIndex();
+
+	residual.m_fSubImageIndex = subImg1;
+	residual.m_fScore = reg.GetScore();
+
+	//indices in templateImage
+    double subImg2 = -static_cast<double>(reg.GetY()) /	nSubHeight;
+	int subImg21 = subImg1 + static_cast<int>(std::floor(subImg2));
+	int subImg22 = subImg21 + 1;
+
+    if (subImg21 < 0 || subImg22 >= nSubPerImg)
+        return residual;  // not valid
+
+
+	size_t subImgIndex1 = residual.m_fReferenceImageIndex * nSubPerImg + subImg1;
+	size_t subImgIndex21 = residual.m_fTemplateImageIndex * nSubPerImg + subImg21;
+	size_t subImgIndex22 = residual.m_fTemplateImageIndex * nSubPerImg + subImg22;
+
+    const DPoint pos1 = DPoint::FromMatrixRow(subImgIndex1, pRigidSolution);
+    const DPoint pos21 = DPoint::FromMatrixRow(subImgIndex21, pRigidSolution);
+    const DPoint pos22 = DPoint::FromMatrixRow(subImgIndex22, pRigidSolution);
+
+    double q = subImg2 - std::floor(subImg2);
+    double p = 1.0 - q;
+
+
+    DPoint pos2;
+    pos2.m_x = p * pos21.m_x + q * pos22.m_x;
+    pos2.m_y = p * pos21.m_y + q * pos22.m_y;
+
+    double res_x = (pos2.m_x - pos1.m_x) - reg.GetX();
+    double res_y = (pos2.m_y - pos1.m_y) - reg.GetY();
+
+    residual.m_fX = res_x;
+    residual.m_fY = res_y;
+
+    residual.m_fValue = std::sqrt(res_x * res_x + res_y * res_y);
+
+    residual.m_bIsInitialized = true;
+
+    return residual;
+}
 
 CResidual::CResidual()
 {
@@ -47,6 +103,8 @@ CResidual::CResidual()
 CResidual::~CResidual()
 {
 }
+
+
 double CResidual::CalculateMeanResidual(vector<CResidual>& allResiduals)
 {
 	if (allResiduals.empty())
@@ -68,4 +126,71 @@ double CResidual::CalculateStdevResidual(vector<CResidual>& allResiduals, double
 		fStdev += pow(residual.GetValue() - fMean, 2);
 	fStdev = sqrt(fStdev / allResiduals.size());
 	return fStdev;
+}
+
+double CResidual::CalculateMedianResidual(vector<CResidual>& allResiduals)
+{
+	if (allResiduals.empty())
+		return 0.0;
+
+	std::vector<double> values;
+	values.reserve(allResiduals.size());
+
+	for (const auto& residual : allResiduals)
+		values.push_back(residual.GetValue());
+
+	std::sort(values.begin(), values.end());
+
+	size_t n = values.size();
+	if (n % 2 == 0)
+		return (values[n / 2 - 1] + values[n / 2]) / 2.0;
+	else
+		return values[n / 2];
+}
+
+double CResidual::CalculateQuantileResidual(vector<CResidual>& allResiduals, double quantile)
+{
+	if (allResiduals.empty() || quantile <= 0.0 || quantile >= 1.0)
+		return 0.0;
+
+	std::vector<double> values;
+	values.reserve(allResiduals.size());
+
+	for (const auto& residual : allResiduals)
+		values.push_back(residual.GetValue());
+
+	std::sort(values.begin(), values.end());
+
+	size_t index = static_cast<size_t>(std::ceil(quantile * values.size())) - 1;
+	if (index >= values.size())
+		index = values.size() - 1;
+
+	return values[index];
+}
+
+double CResidual::CalculateMaximumResidual(vector<CResidual>& allResiduals)
+{
+	if (allResiduals.empty())
+		return 0.0;
+
+	double maxVal = allResiduals[0].GetValue();
+	for (const auto& residual : allResiduals)
+	{
+		double val = residual.GetValue();
+		if (val > maxVal)
+			maxVal = val;
+	}
+	return maxVal;
+}
+
+int CResidual::CountResidualsAboveThreshold(const std::vector<CResidual>& allResiduals, double lowerBound, double upperBound)
+{
+	int count = 0;
+	for (const auto& residual : allResiduals)
+	{
+		double val = residual.GetValue();
+		if (val > lowerBound && val <= upperBound)
+			++count;
+	}
+	return count;
 }

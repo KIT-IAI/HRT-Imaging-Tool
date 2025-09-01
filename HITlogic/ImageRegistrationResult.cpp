@@ -241,3 +241,20 @@ void CImageRegistrationResult::Sort()
 			return lhs.RigidRegistrationResult.GetSubImageRowIndex() < rhs.RigidRegistrationResult.GetSubImageRowIndex();
 		});
 }
+
+std::vector<std::list<size_t>>CImageRegistrationResult::ForceSingleImageGroup()
+{
+	std::vector<std::list<size_t>> imageGroup;
+	size_t imageCount = DetermineImageCount();
+
+	std::list<size_t> singleGroup;
+
+	for (size_t i = 0; i < imageCount; ++i) {
+		singleGroup.push_back(i);
+	}
+
+
+	imageGroup.push_back(singleGroup);
+	return imageGroup;
+
+}

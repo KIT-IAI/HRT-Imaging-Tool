@@ -91,6 +91,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(MKLROOT)\include;$(SolutionDir)alglib;$(SolutionDir)Utilities;$(SolutionDir)ImageIO;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ConformanceMode>false</ConformanceMode>
+      <SupportJustMyCode>false</SupportJustMyCode>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -183,6 +184,7 @@
     <ClCompile Include="StrategyWindow.cpp" />
     <ClCompile Include="SubImageCorrelation.cpp" />
     <ClCompile Include="SubImageCorrelator.cpp" />
+    <ClCompile Include="RegStepSubImageScoreThresholdAdapter.cpp" />
     <ClCompile Include="TreeBasedPairVerificator.cpp" />
     <ClCompile Include="VignettingCorrection.cpp" />
   </ItemGroup>
@@ -276,6 +278,7 @@
     <ClInclude Include="StrategyWindow.h" />
     <ClInclude Include="SubImageCorrelation.h" />
     <ClInclude Include="SubImageCorrelator.h" />
+    <ClInclude Include="RegStepSubImageScoreThresholdAdapter.h" />
     <ClInclude Include="TreeBasedPairVerificator.h" />
     <ClInclude Include="UndistortedImage.h" />
     <ClInclude Include="VignettingCorrection.h" />

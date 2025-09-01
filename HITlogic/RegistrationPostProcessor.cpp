@@ -54,6 +54,54 @@ void CRegistrationPostProcessor::CalculateResiduals(vector<CRegistrationResult>&
 	}
 }
 
+void CRegistrationPostProcessor::CalculateSubImageResiduals(std::vector<CRegistrationResult>& RegistrationResults, const std::shared_ptr<CDenseMatrix> pSolution, double fThreshold)
+{
+	////Nur zum testen!
+	//std::ostringstream oss;
+	//oss << std::fixed << std::setprecision(2) << fThreshold;  // z. B. "3.50"
+	//std::string s = oss.str();
+	//std::replace(s.begin(), s.end(), '.', '_');  // → "3_50"
+	//std::string dateiname = "threshold_" + s + ".csv";  // → "threshold_3_50.csv"
+	//std::ofstream csv_res("C:\\Users\\bt3410\\Desktop\\Daten\\TestOrdner\\" + dateiname);
+	//csv_res << "ReferenceImageIndex" << ";" << "TemplateImageIndex" << ";" << "SubImageIndex" << ";" << "Score" << ";" << "Validity" << ";" << "X" << ";" << "Y"
+	//		<< ";" << "X-res" << ";" << "Y-res" << ";" << "Residual-abs" << "\n";
+
+	for (auto& Registration : RegistrationResults)
+	{
+		//needs to be changed
+		int sub_img_reg_counter = 0;
+
+		std::vector<CResidual> validSubImageResiduals;
+
+		for (auto& FlexibleRegistration : Registration.FlexibleRegistrationResults)
+		{
+			CResidual& residual = Registration.CalculateSubImageResidual(FlexibleRegistration, pSolution);
+
+			/*csv_res << residual.GetReferenceImageIndex() << ";" << residual.GetTemplateImageIndex() << ";" << residual.GetSubImageIndex() << ";" << residual.GetScore()
+				<< ";" << residual.GetValidity() << ";" << residual.GetXreg() << ";" << residual.GetYreg() << ";"
+				<< residual.GetX() << ";" << residual.GetY() << ";" << residual.GetValue() << "\n";*/
+
+			if (residual.GetValidity() > 0) {
+				validSubImageResiduals.push_back(residual);
+				sub_img_reg_counter++;
+			}
+		}
+
+		if (sub_img_reg_counter < 3) 
+		{
+			for (auto& FlexibleRegistration : Registration.FlexibleRegistrationResults)
+			{
+				FlexibleRegistration.SetValidity(CHrtValidityCodes::eInvalidSubImagesCriterion);
+			}
+			validSubImageResiduals.clear();
+		}
+
+		Registration.SetSubImageResiduals(validSubImageResiduals);
+	}
+
+	/*csv_res.close();*/
+}
+
 void CRegistrationPostProcessor::SolveRigidPositioning(const vector<CRegistrationResult>& RegistrationResults, std::shared_ptr<CDenseMatrix> pRigidSolution, CSLESolver::EAlgorithm eSolverAlgorithm, size_t nImageCount)
 {
 	CGlobalPositioningParameters SolverParameters;
@@ -71,6 +119,8 @@ void CRegistrationPostProcessor::SolveRigidPositioning(const vector<CRegistratio
 		throw L"Solution of Rigid Registration-System unsuccesful.";
 }
 
+
+
 vector<CResidual> CRegistrationPostProcessor::GetAllResiduals(const vector<CRegistrationResult>& RegistrationResults)
 {
 	vector<CResidual> residuals;
@@ -81,6 +131,21 @@ vector<CResidual> CRegistrationPostProcessor::GetAllResiduals(const vector<CRegi
 	}
 	return residuals;
 }
+
+std::vector<CResidual> CRegistrationPostProcessor::GetSubImageResiduals(const vector<CRegistrationResult>& RegistrationResults)
+{
+	vector<CResidual> subImageResiduals;
+	for (const auto& registrationResult : RegistrationResults)
+	{
+		vector<CResidual> subImgResidualsForOneRegistration = registrationResult.GetSubImageResiduals();
+		for (const auto& res : subImgResidualsForOneRegistration) 
+		{
+			subImageResiduals.push_back(res);
+		}
+	}
+	return subImageResiduals;
+}
+
 
 void CRegistrationPostProcessor::move_if(vector<CRegistrationResult>& valid, vector<CRegistrationResult>& invalid, std::function<bool(const CRegistrationResult&)> condition)
 {
@@ -132,7 +197,10 @@ void CRegistrationPostProcessor::DoWork(CImageRegistrationData& registrationData
 		};
 	move_if(validRegistrationResults, invalidRegistrationResults, isInvalid);
 
-	ProcessRegistrationData(registrationData.Images, validRegistrationResults, invalidRegistrationResults);
+	//Important for the ThresholdAdapter for SubImage registration
+	std::vector<std::list<size_t>>& imagegroups = allRegistrationResults.ForceSingleImageGroup();
+
+	ProcessRegistrationData(registrationData.Images, validRegistrationResults, invalidRegistrationResults, imagegroups);
 
 	move_if(invalidRegistrationResults, validRegistrationResults, [](const CRegistrationResult&) {return true; });
 }
