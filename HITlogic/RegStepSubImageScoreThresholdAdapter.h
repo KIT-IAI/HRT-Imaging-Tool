@@ -72,8 +72,9 @@ protected:
 
 	size_t m_nLastRemovedRegistrations = 0;
 	size_t m_nLastRegistrationCount = 0;
+	size_t m_nImageGroups = 0;
+	size_t m_nImagesInTheBiggestGroup = 0;
 
 private:
 	static bool s_bDetailedLogging;
-	//
 };

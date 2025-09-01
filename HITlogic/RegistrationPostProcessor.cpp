@@ -56,15 +56,15 @@ void CRegistrationPostProcessor::CalculateResiduals(vector<CRegistrationResult>&
 
 void CRegistrationPostProcessor::CalculateSubImageResiduals(std::vector<CRegistrationResult>& RegistrationResults, const std::shared_ptr<CDenseMatrix> pSolution, double fThreshold)
 {
-	//Nur zum testen!
-	std::ostringstream oss;
-	oss << std::fixed << std::setprecision(2) << fThreshold;  // z. B. "3.50"
-	std::string s = oss.str();
-	std::replace(s.begin(), s.end(), '.', '_');  // → "3_50"
-	std::string dateiname = "threshold_" + s + ".csv";  // → "threshold_3_50.csv"
-	std::ofstream csv_res("C:\\Users\\bt3410\\Desktop\\Daten\\TestOrdner\\" + dateiname);
-	csv_res << "ReferenceImageIndex" << ";" << "TemplateImageIndex" << ";" << "SubImageIndex" << ";" << "Score" << ";" << "Validity" << ";" << "X" << ";" << "Y"
-			<< ";" << "X-res" << ";" << "Y-res" << ";" << "Residual-abs" << "\n";
+	////Nur zum testen!
+	//std::ostringstream oss;
+	//oss << std::fixed << std::setprecision(2) << fThreshold;  // z. B. "3.50"
+	//std::string s = oss.str();
+	//std::replace(s.begin(), s.end(), '.', '_');  // → "3_50"
+	//std::string dateiname = "threshold_" + s + ".csv";  // → "threshold_3_50.csv"
+	//std::ofstream csv_res("C:\\Users\\bt3410\\Desktop\\Daten\\TestOrdner\\" + dateiname);
+	//csv_res << "ReferenceImageIndex" << ";" << "TemplateImageIndex" << ";" << "SubImageIndex" << ";" << "Score" << ";" << "Validity" << ";" << "X" << ";" << "Y"
+	//		<< ";" << "X-res" << ";" << "Y-res" << ";" << "Residual-abs" << "\n";
 
 	for (auto& Registration : RegistrationResults)
 	{
@@ -77,9 +77,9 @@ void CRegistrationPostProcessor::CalculateSubImageResiduals(std::vector<CRegistr
 		{
 			CResidual& residual = Registration.CalculateSubImageResidual(FlexibleRegistration, pSolution);
 
-			csv_res << residual.GetReferenceImageIndex() << ";" << residual.GetTemplateImageIndex() << ";" << residual.GetSubImageIndex() << ";" << residual.GetScore()
+			/*csv_res << residual.GetReferenceImageIndex() << ";" << residual.GetTemplateImageIndex() << ";" << residual.GetSubImageIndex() << ";" << residual.GetScore()
 				<< ";" << residual.GetValidity() << ";" << residual.GetXreg() << ";" << residual.GetYreg() << ";"
-				<< residual.GetX() << ";" << residual.GetY() << ";" << residual.GetValue() << "\n";
+				<< residual.GetX() << ";" << residual.GetY() << ";" << residual.GetValue() << "\n";*/
 
 			if (residual.GetValidity() > 0) {
 				validSubImageResiduals.push_back(residual);
@@ -99,7 +99,7 @@ void CRegistrationPostProcessor::CalculateSubImageResiduals(std::vector<CRegistr
 		Registration.SetSubImageResiduals(validSubImageResiduals);
 	}
 
-	csv_res.close();
+	/*csv_res.close();*/
 }
 
 void CRegistrationPostProcessor::SolveRigidPositioning(const vector<CRegistrationResult>& RegistrationResults, std::shared_ptr<CDenseMatrix> pRigidSolution, CSLESolver::EAlgorithm eSolverAlgorithm, size_t nImageCount)
