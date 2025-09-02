@@ -173,6 +173,7 @@ CSQLiteTable CDIPLOMTable::From(const wstring& Name, const CSNPDatasetParameters
 		ADD_PARAM(L"fCertainScore", Parameters.fCertainScore)
 		ADD_PARAM(L"fMinScoreFlexible", Parameters.fMinScoreFlexible)
 		ADD_PARAM(L"bAutomaticThresholdDetection", Parameters.bAutomaticThresholdDetection)
+		ADD_PARAM(L"fResidualThreshold", Parameters.fResidualThreshold)
 		ADD_PARAM(L"bVignettingCorrectionBeforeCompositing", Parameters.bVignettingCorrectionBeforeCompositing)
 		ADD_PARAM(L"bBrightnessCorrectionBeforeCompositing", Parameters.bBrightnessCorrectionBeforeCompositing)
 		ADD_PARAM(L"sVignettingFileBeforeCompositing", Parameters.sVignettingFileBeforeCompositing)
@@ -230,6 +231,7 @@ template <> CSNPDatasetParameters CSQLiteTable::Convert() const
 		ADD_PARAM(L"fCertainScore", Param.fCertainScore);
 		ADD_PARAM(L"fMinScoreFlexible", Param.fMinScoreFlexible);
 		ADD_PARAM(L"bAutomaticThresholdDetection", Param.bAutomaticThresholdDetection);
+		ADD_PARAM(L"fResidualThreshold", Param.fResidualThreshold);
 		ADD_PARAM(L"bVignettingCorrectionBeforeCompositing", Param.bVignettingCorrectionBeforeCompositing);
 		ADD_PARAM(L"bBrightnessCorrectionBeforeCompositing", Param.bBrightnessCorrectionBeforeCompositing);
 		ADD_PARAM(L"sVignettingFileBeforeCompositing", Param.sVignettingFileBeforeCompositing);

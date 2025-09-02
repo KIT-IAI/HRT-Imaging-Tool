@@ -113,6 +113,7 @@ CRegistrationScoreParameters CSNPDatasetParameters::GenerateScoreParameters() co
 	param.fCertainScore = fCertainScore;
 	param.bAutomaticThresholdDetection = bAutomaticThresholdDetection;
 	param.SetScoreThresholdPrt(fScoreThreshold);
+	param.fResidualThreshold = fResidualThreshold;
 
 	*fScoreThreshold = fMinScore;
 
@@ -273,6 +274,7 @@ bool operator==(const CSNPDatasetParameters& lhs, const CSNPDatasetParameters& r
 		&& lhs.fCertainScore == rhs.fCertainScore
 		&& lhs.fMinScoreFlexible == rhs.fMinScoreFlexible
 		&& lhs.bAutomaticThresholdDetection == rhs.bAutomaticThresholdDetection
+		&& lhs.fResidualThreshold == rhs.fResidualThreshold
 		&& lhs.bVignettingCorrectionBeforeCompositing == rhs.bVignettingCorrectionBeforeCompositing
 		&& lhs.bBrightnessCorrectionBeforeCompositing == rhs.bBrightnessCorrectionBeforeCompositing
 		&& lhs.sVignettingFileBeforeCompositing == rhs.sVignettingFileBeforeCompositing

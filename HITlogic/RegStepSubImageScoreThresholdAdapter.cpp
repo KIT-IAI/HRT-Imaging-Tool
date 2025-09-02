@@ -146,12 +146,12 @@ bool CRegStepSubImageScoreThresholdAdapter::IsScoreThresholdSufficient(std::vect
 		return false;
 	}
 
-	if (pMax > 50 && pMax <= 200) {
+	if (pMax > 51 && pMax <= 200) {
 		m_fAdaptScoreThresholdBy = 0.1;
 		return false;
 	}
 
-	if (pMax > 10 && pMax <= 50) {
+	if (pMax > m_ScoreParameters.fResidualThreshold && pMax <= 51) {
 		m_fAdaptScoreThresholdBy = 0.01;
 		return false;	
 	}

@@ -65,6 +65,7 @@ void CSNPDatasetParameterExporter::ExportChangesToRegistry(const wstring& regPat
 	PARAM(L"CertainScore", parameters.fCertainScore, reference.fCertainScore);
 	PARAM(L"MinScoreFlexible", parameters.fMinScoreFlexible, reference.fMinScoreFlexible);
 	PARAM(L"AutomaticThresholdDetection", parameters.bAutomaticThresholdDetection, reference.bAutomaticThresholdDetection);
+	PARAM(L"ResidualThreshold", parameters.fResidualThreshold, reference.fResidualThreshold);
 
 	// Compositing Preprocessing
 	PARAM(L"VignettingCorrectionBeforeCompositing", parameters.bVignettingCorrectionBeforeCompositing, reference.bVignettingCorrectionBeforeCompositing);

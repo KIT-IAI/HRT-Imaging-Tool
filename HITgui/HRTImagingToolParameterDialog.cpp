@@ -143,6 +143,8 @@ const std::vector<std::pair<wxString, wxString>> HRTImagingToolParameterDialog::
 		L"activated, it is recommended to also activate consistency checking. "
 		L"Deactivate this option and find appropriate fixed threshold values if "
 		L"the resulting images become very fragmented."},
+	{L"fResidualThreshold (default: 10.0)",
+		L"TO-DO"},
 	{L"eSolver (default: 6)",
 		L"Algorithm for solving the system of linear equations defined by the "
 		L"registration results. It is strongly recommended to select one of the "
@@ -350,20 +352,21 @@ void HRTImagingToolParameterDialog::BindChildCtrlEvents() const
 	BindEvents(m_staticTextPar22, m_spinCtrlPar22, 21);
 	BindEvents(m_staticTextPar23, m_checkBoxPar23, 22);
 	BindEvents(m_staticTextPar24, m_checkBoxPar24, 23);
-	BindEvents(m_staticTextPar25, m_choicePar25, 24);
-	BindEvents(m_staticTextPar26, m_checkBoxPar26, 25);
-	BindEvents(m_staticTextPar27, m_checkBoxPar27, 26);
-	BindEvents(m_staticTextPar28, m_filePickerPar28, 27);
-	BindEvents(m_staticTextPar29, m_spinCtrlPar29, 28);
-	BindEvents(m_staticTextPar30, m_choicePar30, 29);
-	BindEvents(m_staticTextPar31, m_choicePar31, 30);
-	BindEvents(m_staticTextPar32, m_spinCtrlPar32, 31);
-	BindEvents(m_staticTextPar33, m_spinCtrlPar33, 32);
-	BindEvents(m_staticTextPar34, m_spinCtrlDoublePar34, 33);
-	BindEvents(m_staticTextPar35, m_spinCtrlDoublePar35, 34);
-	BindEvents(m_staticTextPar36, m_checkBoxPar36, 35);
-	BindEvents(m_staticTextPar37, m_checkBoxPar37, 36);
-	BindEvents(m_staticTextPar38, m_checkBoxPar38, 37);
+	BindEvents(m_staticText43, m_spinCtrlDouble9, 24);
+	BindEvents(m_staticTextPar25, m_choicePar25, 25);
+	BindEvents(m_staticTextPar26, m_checkBoxPar26, 26);
+	BindEvents(m_staticTextPar27, m_checkBoxPar27, 27);
+	BindEvents(m_staticTextPar28, m_filePickerPar28, 28);
+	BindEvents(m_staticTextPar29, m_spinCtrlPar29, 29);
+	BindEvents(m_staticTextPar30, m_choicePar30, 30);
+	BindEvents(m_staticTextPar31, m_choicePar31, 31);
+	BindEvents(m_staticTextPar32, m_spinCtrlPar32, 32);
+	BindEvents(m_staticTextPar33, m_spinCtrlPar33, 33);
+	BindEvents(m_staticTextPar34, m_spinCtrlDoublePar34, 34);
+	BindEvents(m_staticTextPar35, m_spinCtrlDoublePar35, 35);
+	BindEvents(m_staticTextPar36, m_checkBoxPar36, 36);
+	BindEvents(m_staticTextPar37, m_checkBoxPar37, 37);
+	BindEvents(m_staticTextPar38, m_checkBoxPar38, 38);
 }
 
 void HRTImagingToolParameterDialog::SyncParToDlg(const CSNPDatasetParameters& parameters) const
@@ -408,6 +411,7 @@ void HRTImagingToolParameterDialog::SyncParToDlg(const CSNPDatasetParameters& pa
 	m_spinCtrlPar22->SetValue(parameters.nSubImageHeight);
 	m_checkBoxPar23->SetValue(parameters.bConsistencyCheck);
 	m_checkBoxPar24->SetValue(parameters.bAutomaticThresholdDetection);
+	m_spinCtrlDouble9->SetValue(parameters.fResidualThreshold);
 	SelectChoiceEntry(m_choicePar25, static_cast<ptrdiff_t>(parameters.eSolver));
 	m_checkBoxPar26->SetValue(parameters.bBrightnessCorrectionBeforeCompositing);
 	m_checkBoxPar27->SetValue(parameters.bVignettingCorrectionBeforeCompositing);
@@ -465,6 +469,7 @@ void HRTImagingToolParameterDialog::SyncDlgToPar(CSNPDatasetParameters& paramete
 	parameters.nSubImageHeight = m_spinCtrlPar22->GetValue();
 	parameters.bConsistencyCheck = m_checkBoxPar23->GetValue();
 	parameters.bAutomaticThresholdDetection = m_checkBoxPar24->GetValue();
+	parameters.fResidualThreshold = m_spinCtrlDouble9->GetValue();
 	if (ParseChoiceEntry(m_choicePar25, enumValue)) parameters.eSolver = static_cast<CSLESolver::EAlgorithm>(enumValue);
 	parameters.bBrightnessCorrectionBeforeCompositing = m_checkBoxPar26->GetValue();
 	parameters.bVignettingCorrectionBeforeCompositing = m_checkBoxPar27->GetValue();
@@ -527,6 +532,7 @@ CSNPDatasetParameters HRTImagingToolParameterDialog::CreateDefaults()
 	parameters.nSubImageHeight = 32;
 	parameters.bConsistencyCheck = false;
 	parameters.bAutomaticThresholdDetection = false;
+	parameters.fResidualThreshold = 10.0;
 	parameters.eSolver = CSLESolver::EAlgorithm::eCGALGLIB;
 	parameters.bBrightnessCorrectionBeforeCompositing = false;
 	parameters.bVignettingCorrectionBeforeCompositing = true;
@@ -558,6 +564,7 @@ CSNPDatasetParameters HRTImagingToolParameterDialog::CreateDefaults2D()
 	parameters.fScalationSubImages = 2.0;
 	parameters.bConsistencyCheck = true;
 	parameters.bAutomaticThresholdDetection = true;
+	parameters.fResidualThreshold = 10.0;
 	parameters.fZMultiplier = 1.0;
 
 	return parameters;

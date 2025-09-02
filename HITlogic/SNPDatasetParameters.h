@@ -112,6 +112,7 @@ public:
 	double										fMinScoreFlexible = 16.0;								// Index = 22
 	std::shared_ptr<double>						fScoreThreshold = std::make_shared<double>(fMinScore);	// Index = 23
 	bool										bAutomaticThresholdDetection = false;					// Index = 24
+	double										fResidualThreshold = 10.0;
 
 	// Compositing Preprocessing
 	bool										bVignettingCorrectionBeforeCompositing = true;			// Index = 25

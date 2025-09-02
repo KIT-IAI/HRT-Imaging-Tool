@@ -86,6 +86,7 @@ CSNPDatasetParameters CSNPDatasetParameterLoader::FromRegistry(const wstring& re
 	PARAM(L"CertainScore", parameters.fCertainScore);
 	PARAM(L"MinScoreFlexible", parameters.fMinScoreFlexible);
 	PARAM(L"AutomaticThresholdDetection", parameters.bAutomaticThresholdDetection);
+	PARAM(L"ResidualThreshold", parameters.fResidualThreshold);
 
 	// Compositing Preprocessing
 	PARAM(L"VignettingCorrectionBeforeCompositing", parameters.bVignettingCorrectionBeforeCompositing);
