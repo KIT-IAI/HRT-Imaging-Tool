@@ -47,6 +47,7 @@ Before compilation, open a terminal window from within _Visual Studio_ and execu
 
 - [Stephan Allgeier](https://www.iai.kit.edu/english/2154_2149.php) (email: stephan.allgeier (at) kit.edu)
 - [Klaus-Martin Reichert](https://www.iai.kit.edu/english/2154_2422.php)
+- [Ekaterina Sorokovaia](https://www.iai.kit.edu/english/2154_4363.php)
 - Many, many former colleagues and students (please contact me (Stephan Allgeier) if you want to be named here, I will gladly add any of you with your approval)
 
 ## Literature
