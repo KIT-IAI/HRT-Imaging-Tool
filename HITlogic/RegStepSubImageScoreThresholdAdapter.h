@@ -72,8 +72,9 @@ protected:
 	size_t m_nLastRegistrationCount = 0;
 	size_t m_nLastRemovedRegistrations = 0;
 
-
-
+	int round_counter = 0;
+	std::vector<CRegistrationResult> lastValidRegistrationResults;
+	double lastThreshold;
 
 private:
 	static bool s_bDetailedLogging;

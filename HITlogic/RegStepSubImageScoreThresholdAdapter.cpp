@@ -48,12 +48,12 @@ void CRegStepSubImageScoreThresholdAdapter::EnableDetailedLogging(bool bEnable /
 
 void CRegStepSubImageScoreThresholdAdapter::ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults, vector<std::list<size_t>>& imagegroups)
 {
-	m_ScoreParameters.SetScoreThreshold(m_ScoreParameters.fMinScoreFlexible); 
-	size_t counterForRemovedRegs = 0;
+	CLog::Log(CLog::eInformational, _T("SubImageScoreThresholdAdapter"), L"SubImageScoreThresholdAdapter started");
 
-	//std::ofstream csv("\\residual_stats.csv");
-	//csv << "ScoreThreshold" << ";" << "Mean" << ";" << "Stdev" << ";" << "Median" << ";"
-	//	<< "9Quantile" << ";" << "99Quantile" << ";" << "999Quantile" << ";" << "MaxResidual" << ";" << "LastRemovedRegistrations" << ";" << "LastRegistrationCount" << "\n";
+	m_ScoreParameters.SetScoreThreshold(m_ScoreParameters.fMinScoreFlexible); 
+
+	//std::ofstream csv("C:\\Users\\bt3410\\Desktop\\residual_stats.csv");
+	//csv << "ScoreThreshold" << ";" << "MaxResidual" << "\n";
 
 	std::shared_ptr<CDenseMatrix> solution = std::make_shared<CDenseMatrix>(SolveFlexiblePositioning(images, validRegistrationResults, imagegroups));
 	CRegistrationPostProcessor::CalculateSubImageResiduals(validRegistrationResults, solution, m_nSubImageHeight);
@@ -62,9 +62,10 @@ void CRegStepSubImageScoreThresholdAdapter::ProcessRegistrationData(std::vector<
 
 	while (!IsScoreThresholdSufficient(validRegistrationResults))
 	{
+		lastValidRegistrationResults = validRegistrationResults;
+		lastThreshold = m_ScoreParameters.GetScoreThreshold();
 		AdaptScoreThreshold();
 		ChangeValidity(validRegistrationResults);
-		counterForRemovedRegs += m_nLastRemovedRegistrations;
 		std::shared_ptr<CDenseMatrix> solution = std::make_shared<CDenseMatrix>(SolveFlexiblePositioning(images, validRegistrationResults, imagegroups));
 		CRegistrationPostProcessor::CalculateSubImageResiduals(validRegistrationResults, solution, m_nSubImageHeight);
 	    auto allResiduals = CRegistrationPostProcessor::GetSubImageResiduals(validRegistrationResults);
@@ -72,25 +73,17 @@ void CRegStepSubImageScoreThresholdAdapter::ProcessRegistrationData(std::vector<
 
 		//// CSV-Ausgabe
 		//csv << std::to_string(m_ScoreParameters.GetScoreThreshold()) << ";"
-		//	<< std::to_string(pMean) << ";"
-		//	<< std::to_string(pStdev) << ";"
-		//	<< std::to_string(pMedian) << ";"
-		//	<< std::to_string(p9Quantile) << ";"
-		//	<< std::to_string(p99Quantile) << ";"
-		//	<< std::to_string(p999Quantile) << ";"
-		//	<< std::to_string(pMax) << ";"
-		//	<< m_nLastRemovedRegistrations << ";"
-		//	<< m_nLastRegistrationCount << "\n";
+		//	<< std::to_string(pMax) << "\n";
 
 	}
 
 	std::wostringstream oss;
 	oss.setf(std::ios::fixed);
 	oss.precision(3);
-	oss << L"Adapted score threshold to " << m_ScoreParameters.GetScoreThreshold()  << " and removed " << counterForRemovedRegs << L" registrations, max. Residual: " << pMax;
+	oss << L"Adapted score threshold to " << m_ScoreParameters.GetScoreThreshold() << L", max. Residual: " << pMax;
 	CLog::Log(CLog::eInformational, _T("SubImageScoreThresholdAdapter"), oss.str().c_str());
 
-	/*csv.close();*/
+	//csv.close();
 }
 
 
@@ -141,19 +134,37 @@ CDenseMatrix CRegStepSubImageScoreThresholdAdapter::SolveFlexiblePositioning(vec
 bool CRegStepSubImageScoreThresholdAdapter::IsScoreThresholdSufficient(std::vector<CRegistrationResult>& RegistrationResults)
 {
 
-	if (pMax > 200) {
+	if (pMax > m_ScoreParameters.fResidualThreshold && round_counter == 0) {
 		m_fAdaptScoreThresholdBy = 1;
 		return false;
 	}
 
-	if (pMax > 51 && pMax <= 200) {
+	if (pMax < m_ScoreParameters.fResidualThreshold && round_counter == 0) {
+		RegistrationResults = lastValidRegistrationResults;
+		m_ScoreParameters.SetScoreThreshold(lastThreshold);
+		round_counter++;
 		m_fAdaptScoreThresholdBy = 0.1;
 		return false;
 	}
 
-	if (pMax > m_ScoreParameters.fResidualThreshold && pMax <= 51) {
+	if (pMax > m_ScoreParameters.fResidualThreshold && round_counter == 1) {
+		return false;
+	}
+
+	if (pMax < m_ScoreParameters.fResidualThreshold && round_counter == 1) {
+		RegistrationResults = lastValidRegistrationResults;
+		m_ScoreParameters.SetScoreThreshold(lastThreshold);
+		round_counter++;
 		m_fAdaptScoreThresholdBy = 0.01;
+		return false;
+	}
+
+	if (pMax > m_ScoreParameters.fResidualThreshold && round_counter == 2) {
 		return false;	
+	}
+
+	if (pMax < m_ScoreParameters.fResidualThreshold && round_counter == 2) {
+		return true;
 	}
 
 	return true;
