@@ -39,13 +39,13 @@ CRegStepFlexibleRegistration::CRegStepFlexibleRegistration(CRegistrationProcedur
 CRegStepFlexibleRegistration::~CRegStepFlexibleRegistration()
 {
 }
-void CRegStepFlexibleRegistration::ProcessRegistrationData(vector<StlImage<float>*>& images, vector<CRegistrationResult>& validRegistrationResults, vector<CRegistrationResult>& /*invalidRegistrationResults*/, vector<std::list<size_t>>& imagegroups)
+
+void CRegStepFlexibleRegistration::ProcessRegistrationData(vector<StlImage<float>*>& images, vector<CRegistrationResult>& validRegistrationResults, vector<CRegistrationResult>& /*invalidRegistrationResults*/, const vector<std::list<size_t>>& imagegroups)
 {
 	// StlImage<float>* --> StlImage<float> ???
 	RegisterImages(images, validRegistrationResults);
 
 	ReportProgress();
-
 }
 
 void CRegStepFlexibleRegistration::RegisterImages(vector<StlImage<float>*>& Images, std::vector<CRegistrationResult>& ValidRegistrationResults)

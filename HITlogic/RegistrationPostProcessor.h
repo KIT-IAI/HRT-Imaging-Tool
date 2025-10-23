@@ -34,7 +34,7 @@ class CRegistrationPostProcessor : public IComputable<CImageRegistrationData, CI
 public:
 	virtual ~CRegistrationPostProcessor() {};
 
-	virtual void ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults, vector<std::list<size_t>>& imagegroups) = 0;
+	virtual void ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults, const std::vector<std::list<size_t>>& imagegroups) = 0;
 
 	void DoWork(CImageRegistrationData& registrationData, CImageRegistrationResult& regResults) override;
 	virtual void GetWorkUnits(size_t& nCompletedWorkUnits, size_t& nTotalWorkUnits) override;

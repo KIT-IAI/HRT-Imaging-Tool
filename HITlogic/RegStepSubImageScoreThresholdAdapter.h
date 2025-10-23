@@ -40,19 +40,18 @@ public:
 	{
 	};
 
-	void ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults, std::vector<std::list<size_t>>& imagegroups);
+	void ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults, const std::vector<std::list<size_t>>& imagegroups) override;
 
 	static void EnableDetailedLogging(bool bEnable = true);
-
 
 private:
 	void AdaptScoreThreshold();
 	void CRegStepSubImageScoreThresholdAdapter::ChangeValidity(std::vector<CRegistrationResult>& validRegistrationResults);
 
-	CDenseMatrix SolveFlexiblePositioning(vector<StlImage<float>*>& images, vector<CRegistrationResult>& validRegistrationResults, vector<std::list<size_t>>& imagegroups);
+	CDenseMatrix SolveFlexiblePositioning(const vector<StlImage<float>*>& images, const vector<CRegistrationResult>& validRegistrationResults, const vector<std::list<size_t>>& imagegroups) const;
 
-	bool IsScoreThresholdSufficient(std::vector<CRegistrationResult>& RegistrationResults);
-	void CalculateStochasticValues(std::vector<CResidual>& allResiduals);
+	bool IsScoreThresholdSufficient(const std::vector<CRegistrationResult>& RegistrationResults);
+	void CalculateStochasticValues(const std::vector<CResidual>& allResiduals);
 
 protected:
 	size_t m_nImageCount;

@@ -35,11 +35,11 @@ public:
 	static CResidual CreateFromRegistration(const CRigidRegistrationResult& regResult, DPoint referenceImageCoordinates, DPoint templateImageCoordinates);
 	static CResidual CreateFromSubimageRegistration(const CRigidRegistrationResult& reg, std::shared_ptr<CDenseMatrix> pRigidSolution, size_t subImageHeight, size_t subPerImg);
 
-	static double CalculateMeanResidual(std::vector<CResidual>& allResiduals);
-	static double CalculateStdevResidual(std::vector<CResidual>& allResiduals, double fMean);
-	static double CalculateMedianResidual(std::vector<CResidual>& allResiduals);
-	static double CalculateQuantileResidual(std::vector<CResidual>& allResiduals, double quantile);
-	static double CalculateMaximumResidual(std::vector<CResidual>& allResiduals);
+	static double CalculateMeanResidual(const std::vector<CResidual>& allResiduals);
+	static double CalculateStdevResidual(const std::vector<CResidual>& allResiduals, double fMean);
+	static double CalculateMedianResidual(const std::vector<CResidual>& allResiduals);
+	static double CalculateQuantileResidual(const std::vector<CResidual>& allResiduals, double quantile);
+	static double CalculateMaximumResidual(const std::vector<CResidual>& allResiduals);
 	static int CResidual::CountResidualsAboveThreshold(const std::vector<CResidual>& allResiduals, double lowerBound, double upperBound);
 
 	double GetValue() const { return m_fValue; };

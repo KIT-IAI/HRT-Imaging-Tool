@@ -48,7 +48,7 @@ void CRegStepSubImageScoreThresholdAdapter::EnableDetailedLogging(bool bEnable /
 	s_bDetailedLogging = bEnable;
 }
 
-void CRegStepSubImageScoreThresholdAdapter::ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults, vector<std::list<size_t>>& imagegroups)
+void CRegStepSubImageScoreThresholdAdapter::ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults, const vector<std::list<size_t>>& imagegroups)
 {
 	m_ScoreParameters.SetScoreThreshold(m_ScoreParameters.fMinScoreFlexible); 
 	size_t counterForRemovedRegs = 0;
@@ -128,8 +128,7 @@ void CRegStepSubImageScoreThresholdAdapter::ChangeValidity(std::vector<CRegistra
 	m_nLastRegistrationCount = validCount;
 }
 
-
-CDenseMatrix CRegStepSubImageScoreThresholdAdapter::SolveFlexiblePositioning(vector<StlImage<float>*>& images, vector<CRegistrationResult>& validRegistrationResults, vector<std::list<size_t>>& imagegroups)
+CDenseMatrix CRegStepSubImageScoreThresholdAdapter::SolveFlexiblePositioning(const vector<StlImage<float>*>& images, const vector<CRegistrationResult>& validRegistrationResults, const vector<std::list<size_t>>& imagegroups) const
 {
 	StlImage<float>* pImage = images[0];
 	StlImageSize size = pImage->GetSize();
@@ -142,7 +141,7 @@ CDenseMatrix CRegStepSubImageScoreThresholdAdapter::SolveFlexiblePositioning(vec
 	return globalPositioning.SolvePositioning(ImageRegistrationResult, standardParameters);
 }
 
-bool CRegStepSubImageScoreThresholdAdapter::IsScoreThresholdSufficient(std::vector<CRegistrationResult>& RegistrationResults)
+bool CRegStepSubImageScoreThresholdAdapter::IsScoreThresholdSufficient(const std::vector<CRegistrationResult>& RegistrationResults)
 {
 	if (pMax > 200)
 	{
@@ -165,9 +164,7 @@ bool CRegStepSubImageScoreThresholdAdapter::IsScoreThresholdSufficient(std::vect
 	return true;
 }
 
-
-
-void CRegStepSubImageScoreThresholdAdapter::CalculateStochasticValues(std::vector<CResidual>& allResiduals)
+void CRegStepSubImageScoreThresholdAdapter::CalculateStochasticValues(const std::vector<CResidual>& allResiduals)
 {
 	//pMean = CResidual::CalculateMeanResidual(allResiduals);
 	//pStdev = CResidual::CalculateStdevResidual(allResiduals, pMean);
