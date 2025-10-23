@@ -110,8 +110,7 @@ const std::vector<std::pair<wxString, wxString>> HRTImagingToolParameterDialog::
 		L"Correlation value threshold for sub-image registration. Registration "
 		L"results with a lower correlation value are considered to be incorrect. "
 		L"Registration results with a higher correlation value may be considered "
-		L"to be correct after further validation. This parameter has no effect if "
-		L"automatic threshold determination is activated."},
+		L"to be correct after further validation."},
 	{L"fCertainScore (default: 20.0)",
 		L"Correlation value threshold for rigid image registration. Registration "
 		L"results with a higher correlation value are considered to be correct "
@@ -126,7 +125,7 @@ const std::vector<std::pair<wxString, wxString>> HRTImagingToolParameterDialog::
 		L"Scaling factor for sub-image registration. A value greater than 1.0 "
 		L"means that the images are down-scaled by the respective factor. A value "
 		L"of 1.0 means that no down-scaling of the images happens (i.e. the "
-		L"original images are used)." },
+		L"original images are used)."},
 	{L"nSubImageHeight (default: 32)",
 		L"The height (i.e. the number of image rows) of the sub-images used for "
 		L"sub-image registration. The number should be a divisor of the original "
@@ -139,12 +138,18 @@ const std::vector<std::pair<wxString, wxString>> HRTImagingToolParameterDialog::
 		L"selection strategies. It only works well for a relatively small number "
 		L"of inconsistent equations."},
 	{L"bAutomaticThresholdDetection (default: off)",
-		L"Determine the correlation value threshold automatically. If this is "
-		L"activated, it is recommended to also activate consistency checking. "
-		L"Deactivate this option and find appropriate fixed threshold values if "
-		L"the resulting images become very fragmented."},
+		L"Determine the correlation value threshold (for rigid image registration "
+		L"or sub-image registration, depending on the selected image registration "
+		L"approach) automatically. In case of rigid image registration, it is "
+		L"recommended to also activate consistency checking. Deactivate this "
+		L"option and find appropriate fixed threshold values if the resulting "
+		L"images become very fragmented."},
 	{L"fResidualThreshold (default: 10.0)",
-		L"TO-DO"},
+		L"Largest allowed residual error value during automatic correlation value "
+		L"threshold detection. The correlation value threshold is increased until "
+		L"all residual errors are smaller than this value.This parameter has no "
+		L"effect if automatic correlation value threhold detection is not "
+		L"activated or if rigid image registration is used."},
 	{L"eSolver (default: 6)",
 		L"Algorithm for solving the system of linear equations defined by the "
 		L"registration results. It is strongly recommended to select one of the "
@@ -352,7 +357,7 @@ void HRTImagingToolParameterDialog::BindChildCtrlEvents() const
 	BindEvents(m_staticTextPar22, m_spinCtrlPar22, 21);
 	BindEvents(m_staticTextPar23, m_checkBoxPar23, 22);
 	BindEvents(m_staticTextPar24, m_checkBoxPar24, 23);
-	BindEvents(m_staticText43, m_spinCtrlDouble9, 24);
+	BindEvents(m_staticTextPar39, m_spinCtrlDoublePar39, 24);
 	BindEvents(m_staticTextPar25, m_choicePar25, 25);
 	BindEvents(m_staticTextPar26, m_checkBoxPar26, 26);
 	BindEvents(m_staticTextPar27, m_checkBoxPar27, 27);
@@ -411,7 +416,7 @@ void HRTImagingToolParameterDialog::SyncParToDlg(const CSNPDatasetParameters& pa
 	m_spinCtrlPar22->SetValue(parameters.nSubImageHeight);
 	m_checkBoxPar23->SetValue(parameters.bConsistencyCheck);
 	m_checkBoxPar24->SetValue(parameters.bAutomaticThresholdDetection);
-	m_spinCtrlDouble9->SetValue(parameters.fResidualThreshold);
+	m_spinCtrlDoublePar39->SetValue(parameters.fResidualThreshold);
 	SelectChoiceEntry(m_choicePar25, static_cast<ptrdiff_t>(parameters.eSolver));
 	m_checkBoxPar26->SetValue(parameters.bBrightnessCorrectionBeforeCompositing);
 	m_checkBoxPar27->SetValue(parameters.bVignettingCorrectionBeforeCompositing);
@@ -469,7 +474,7 @@ void HRTImagingToolParameterDialog::SyncDlgToPar(CSNPDatasetParameters& paramete
 	parameters.nSubImageHeight = m_spinCtrlPar22->GetValue();
 	parameters.bConsistencyCheck = m_checkBoxPar23->GetValue();
 	parameters.bAutomaticThresholdDetection = m_checkBoxPar24->GetValue();
-	parameters.fResidualThreshold = m_spinCtrlDouble9->GetValue();
+	parameters.fResidualThreshold = m_spinCtrlDoublePar39->GetValue();
 	if (ParseChoiceEntry(m_choicePar25, enumValue)) parameters.eSolver = static_cast<CSLESolver::EAlgorithm>(enumValue);
 	parameters.bBrightnessCorrectionBeforeCompositing = m_checkBoxPar26->GetValue();
 	parameters.bVignettingCorrectionBeforeCompositing = m_checkBoxPar27->GetValue();

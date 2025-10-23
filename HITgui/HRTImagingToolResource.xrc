@@ -869,10 +869,10 @@
                       </object>
                     </object>
                     <object class="sizeritem">
-                      <flag>wxALL</flag>
+                      <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                       <border>5</border>
                       <option>0</option>
-                      <object class="wxStaticText" name="m_staticText43">
+                      <object class="wxStaticText" name="m_staticTextPar39">
                         <label>Residual threshold</label>
                         <wrap>-1</wrap>
                       </object>
@@ -881,11 +881,11 @@
                       <flag>wxALIGN_CENTER_VERTICAL|wxALL|wxEXPAND</flag>
                       <border>5</border>
                       <option>0</option>
-                      <object class="wxSpinCtrlDouble" name="m_spinCtrlDouble9">
+                      <object class="wxSpinCtrlDouble" name="m_spinCtrlDoublePar39">
                         <style>wxSP_ARROW_KEYS</style>
                         <value>10</value>
                         <min>0</min>
-                        <max>50</max>
+                        <max>100</max>
                         <inc>0.10000000000000001</inc>
                         <digits>1</digits>
                       </object>
