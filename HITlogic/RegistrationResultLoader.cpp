@@ -21,6 +21,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #include "stdafx.h"
+
 #include "RegistrationResultLoader.h"
 #include "TextFileOutput.h"
 #include "DIPLOMTable.h"
@@ -33,6 +34,7 @@ void CRegistrationResultLoader::SaveToTextFile(const CImageRegistrationResult& R
 	WriteRegistrationsToFile(CFileUtilities::FullFile({ folder, sFilePrefix + L"pResult.txt" }), Result.GetRigidRegistrationResults());
 	WriteRegistrationsToFile(CFileUtilities::FullFile({ folder, sFilePrefix + L"pResultFlexible.txt" }), Result.GetFlexibleRegistrationResults());
 }
+
 void CRegistrationResultLoader::WriteRegistrationsToFile(const wstring& fileName, const vector<CRigidRegistrationResult>& RegResults)
 {
 	CTextFileOutput file;

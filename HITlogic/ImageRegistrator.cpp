@@ -37,7 +37,6 @@ CImageRegistrator::CImageRegistrator(CRegistrationProcedureParameters registrati
 {
 }
 
-
 std::shared_ptr<IComputable<CImageRegistrationData, CImageRegistrationResult>> CImageRegistrator::CreateProcessingPipeline(size_t nImageCount)
 {
 	auto RigidImageScalator = std::make_shared<CRegStepImageScalation>(m_Parameters.fScaleReduction);
@@ -53,7 +52,7 @@ std::shared_ptr<IComputable<CImageRegistrationData, CImageRegistrationResult>> C
 	auto ScoreOptimizer = std::make_shared<CRegStepScoreThresholdOptimizer>(RigidScaledParameters.ScoreParameters, nImageCount, RigidScaledParameters.GetSolverAlgorithm());
 
 	auto FlexibleRegistration = std::make_shared<CRegStepFlexibleRegistration>(FlexibleScaledParameters);
-	auto FlexibleThresholdAdapter = std::make_shared<CRegStepSubImageScoreThresholdAdapter>(RigidScaledParameters.ScoreParameters, nImageCount, RigidScaledParameters.GetSolverAlgorithm(), RigidScaledParameters.GetProcessType(), m_Parameters.CorrelationParameters.nSubImageHeight);
+	auto FlexibleThresholdAdapter = std::make_shared<CRegStepSubImageScoreThresholdAdapter>(FlexibleScaledParameters.ScoreParameters, nImageCount, FlexibleScaledParameters.GetSolverAlgorithm(), FlexibleScaledParameters.GetProcessType(), m_Parameters.CorrelationParameters.nSubImageHeight);
 
 	if (m_Parameters.fScaleReduction != 1)
 	{
@@ -63,7 +62,7 @@ std::shared_ptr<IComputable<CImageRegistrationData, CImageRegistrationResult>> C
 	if (m_Parameters.fSubImageScaleReduction != 1)
 	{
 		FlexibleRegistration->AddPreceedingComputationStep(FlexibleImageScalator);
-	    FlexibleRegistration->AddSubsequentComputationStep(FlexibleImageScalator);
+		FlexibleRegistration->AddSubsequentComputationStep(FlexibleImageScalator);
 	}
 
 	RigidRegistration->AddSubsequentComputationStep(ZeroOffsetFilter);
@@ -77,17 +76,15 @@ std::shared_ptr<IComputable<CImageRegistrationData, CImageRegistrationResult>> C
 	if (m_Parameters.bAutomaticThresholdDetection && m_Parameters.GetProcessType() == CProcessType::eRigidRegistration)
 		RigidRegistration->AddSubsequentComputationStep(ScoreOptimizer);
 
-
 	if (m_Parameters.GetProcessType() != CProcessType::eRigidRegistration)
 	{
 		RigidRegistration->AddSubsequentComputationStep(FlexibleRegistration);
 		if (m_Parameters.bAutomaticThresholdDetection)
-			RigidRegistration->AddSubsequentComputationStep(FlexibleThresholdAdapter);
+			FlexibleRegistration->AddSubsequentComputationStep(FlexibleThresholdAdapter);
 	}
 
 	return RigidRegistration;
 }
-
 
 CImageRegistrationResult CImageRegistrator::RegisterImages(CImageRegistrationData registrationData)
 {
@@ -104,7 +101,6 @@ CImageRegistrationResult CImageRegistrator::RegisterImages(CImageRegistrationDat
 	regResults.RecalulateImageGroups();
 
 	return regResults;
-
 }
 
 void CImageRegistrator::OnCancel()
@@ -112,15 +108,18 @@ void CImageRegistrator::OnCancel()
 	if (m_pCurrentPipeline != nullptr)
 		m_pCurrentPipeline->Cancel();
 }
+
 void CImageRegistrator::OnUncancel()
 {
 	if (m_pCurrentPipeline != nullptr)
 		m_pCurrentPipeline->OnUncancel();
 }
+
 CProgress CImageRegistrator::GetProgress()
 {
 	return m_CurrentProgress;
 }
+
 void CImageRegistrator::OnProgress(CProgress progress)
 {
 	m_CurrentProgress = progress;

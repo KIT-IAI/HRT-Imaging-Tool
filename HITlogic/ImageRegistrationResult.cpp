@@ -47,6 +47,7 @@ void CImageRegistrationResult::RecalulateImageGroups()
 
 	registrationGraph.ListSubGraphs(ImageGroups);
 }
+
 CGraph CImageRegistrationResult::CreateRegistrationGraph() const
 {
 	size_t nImageCount = DetermineImageCount();
@@ -225,6 +226,7 @@ bool CImageRegistrationResult::operator==(const CImageRegistrationResult& rhs) c
 	return RegistrationResults == rhs.RegistrationResults
 		&& ImageGroups == rhs.ImageGroups;
 }
+
 bool CImageRegistrationResult::operator!=(const CImageRegistrationResult& rhs) const
 {
 	return !(*this == rhs);
@@ -242,9 +244,8 @@ void CImageRegistrationResult::Sort()
 		});
 }
 
-std::vector<std::list<size_t>>CImageRegistrationResult::ForceSingleImageGroup()
+std::vector<std::list<size_t>> CImageRegistrationResult::CreateSingleImageGroupList() const
 {
-	std::vector<std::list<size_t>> imageGroup;
 	size_t imageCount = DetermineImageCount();
 
 	std::list<size_t> singleGroup;
@@ -253,8 +254,7 @@ std::vector<std::list<size_t>>CImageRegistrationResult::ForceSingleImageGroup()
 		singleGroup.push_back(i);
 	}
 
-
+	std::vector<std::list<size_t>> imageGroup;
 	imageGroup.push_back(singleGroup);
 	return imageGroup;
-
 }

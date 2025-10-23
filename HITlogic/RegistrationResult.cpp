@@ -53,6 +53,7 @@ CRegistrationResult CRegistrationResult::InvalidThroughRoughCorrelationResult(CI
 	correlationResult.eClassification = EClassification::eInvalid;
 	return correlationResult;
 }
+
 CRegistrationResult CRegistrationResult::InvalidThroughSubImageCriterion(CRegistrationResult correlationResult)
 {
 
@@ -64,6 +65,7 @@ CRegistrationResult CRegistrationResult::InvalidThroughSubImageCriterion(CRegist
 	correlationResult.RigidRegistrationResult.SetValidity(CHrtValidityCodes::eInvalidSubImagesCriterion);
 	return correlationResult;
 }
+
 bool CRegistrationResult::operator==(const CRegistrationResult& other) const
 {
 	return RigidRegistrationResult == other.RigidRegistrationResult
@@ -114,7 +116,6 @@ void CRegistrationResult::Scale(const CRegistrationResult& source, double fScala
 	}
 	FlexibleRegistrationResults = newFlexResults;
 
-
 	newOffsetArray.assign(source.RowOffset.size(), CVector2d<float>());
 	for (unsigned int i = 0; i < source.RowOffset.size(); i++)
 	{
@@ -133,21 +134,23 @@ std::vector<CResidual> CRegistrationResult::GetValidSubImageResiduals() const
 	return m_ValidSubImageResiduals;
 }
 
-
 size_t CRegistrationResult::GetReferenceImageIndex() const
 {
 	return RigidRegistrationResult.GetReferenceImageIndex();
 }
+
 size_t CRegistrationResult::GetTemplateImageIndex() const
 {
 	return RigidRegistrationResult.GetTemplateImageIndex();
 }
+
 void CRegistrationResult::SetReferenceImageIndex(size_t nIndex)
 {
 	RigidRegistrationResult.SetReferenceImageIndex(nIndex);
 	for (auto& FlexRes : FlexibleRegistrationResults)
 		FlexRes.SetReferenceImageIndex(nIndex);
 }
+
 void CRegistrationResult::SetTemplateImageIndex(size_t nIndex)
 {
 	RigidRegistrationResult.SetTemplateImageIndex(nIndex);

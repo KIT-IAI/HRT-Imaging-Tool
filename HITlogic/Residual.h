@@ -21,14 +21,17 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #pragma once
+
 #include "RigidRegistrationResult.h"
 #include "Point.h"
 
 class CResidual
 {
+
 public:
 	CResidual();
 	~CResidual();
+
 	static CResidual CreateFromRegistration(const CRigidRegistrationResult& regResult, DPoint referenceImageCoordinates, DPoint templateImageCoordinates);
 	static CResidual CreateFromSubimageRegistration(const CRigidRegistrationResult& reg, std::shared_ptr<CDenseMatrix> pRigidSolution, size_t subImageHeight, size_t subPerImg);
 
@@ -38,7 +41,6 @@ public:
 	static double CalculateQuantileResidual(std::vector<CResidual>& allResiduals, double quantile);
 	static double CalculateMaximumResidual(std::vector<CResidual>& allResiduals);
 	static int CResidual::CountResidualsAboveThreshold(const std::vector<CResidual>& allResiduals, double lowerBound, double upperBound);
-
 
 	double GetValue() const { return m_fValue; };
 	double GetX() const { return m_fX; };
@@ -67,11 +69,10 @@ public:
 	bool operator!=(const CResidual& value) const { return m_fValue != value.m_fValue; };
 
 private:
-
 	size_t m_fSubImageIndex = 0;
 	size_t m_fReferenceImageIndex = 0;
 	size_t m_fTemplateImageIndex = 0;
-	CHrtValidityCodes::EValidityCode m_fValidity;
+	CHrtValidityCodes::EValidityCode m_fValidity = CHrtValidityCodes::EValidityCode::eValidityInitialization;
 	double m_fXreg = 0.0;
 	double m_fYreg = 0.0;
 	double m_fScore = 0.0;
@@ -81,4 +82,3 @@ private:
 	bool m_bIsInitialized = false;
 
 };
-

@@ -23,16 +23,16 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #pragma once
 
 #include "RegistrationResult.h"
-#include <SLESolver.h>
+#include "SLESolver.h"
 #include "Computable.h"
 #include "ImageRegistrationResult.h"
 #include "ImageRegistrationData.h"
 
 class CRegistrationPostProcessor : public IComputable<CImageRegistrationData, CImageRegistrationResult>
 {
+
 public:
 	virtual ~CRegistrationPostProcessor() {};
-	//* raus, check auf vector &
 
 	virtual void ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults, vector<std::list<size_t>>& imagegroups) = 0;
 
@@ -47,7 +47,7 @@ protected:
 	static void CalculateSubImageResiduals(std::vector<CRegistrationResult>& RegistrationResults, std::shared_ptr<CDenseMatrix> pRigidSolution, size_t nSubImageHeight);
 
 	static void SolveRigidPositioning(const std::vector<CRegistrationResult>& RegistrationResults, std::shared_ptr<CDenseMatrix> pRigidSolution, CSLESolver::EAlgorithm eSolverAlgorithm, size_t nImageCount);
-	
+
 	static std::vector<CResidual> GetAllResiduals(const std::vector<CRegistrationResult>& RegistrationResults);
 	static std::vector<CResidual> CRegistrationPostProcessor::GetSubImageResiduals(const vector<CRegistrationResult>& RegistrationResults);
 
@@ -55,4 +55,5 @@ protected:
 
 	static void move_if(std::vector<CRegistrationResult>& valid, std::vector<CRegistrationResult>& invalid, std::function<bool(const CRegistrationResult&)> condition);
 	static void move_if(std::vector<CRegistrationResult>& valid, std::vector<CRegistrationResult>& invalid, std::function<bool(const CRegistrationResult&)> condition, std::function<void(CRegistrationResult&)> invalidOperation);
+
 };

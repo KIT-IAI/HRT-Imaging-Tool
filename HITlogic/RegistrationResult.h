@@ -29,13 +29,13 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 class CRegistrationResult
 {
+
 public:
 	CRegistrationResult();
 	CRegistrationResult(CRigidRegistrationResult rigidRegistration);
 	~CRegistrationResult();
 	static CRegistrationResult InvalidThroughRoughCorrelationResult(CImagePair imageParameters);
 	static CRegistrationResult InvalidThroughSubImageCriterion(CRegistrationResult correlationResult);
-
 
 	CRigidRegistrationResult RigidRegistrationResult;
 	std::vector<CRigidRegistrationResult> FlexibleRegistrationResults;
@@ -59,11 +59,10 @@ public:
 
 	void Scale(const CRegistrationResult& source, double fScalationFactor);
 
-
 	bool operator==(const CRegistrationResult& other) const;
 
 private:
 	CResidual m_Residual;
 	std::vector<CResidual> m_ValidSubImageResiduals;
-};
 
+};

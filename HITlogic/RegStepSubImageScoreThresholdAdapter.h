@@ -2,7 +2,7 @@
 SPDX-License-Identifier: GPL-2.0-or-later
 Copyright 2010-2025 Karlsruhe Institute of Technology (KIT)
 Contact: stephan.allgeier∂kit.edu,
-		 Institute of Automation and Applied Informatics
+         Institute of Automation and Applied Informatics
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -21,6 +21,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #pragma once
+
 #include "RegistrationPostProcessor.h"
 #include "RegistrationScoreParameters.h"
 #include "ProcessType.h"
@@ -28,6 +29,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 class CRegStepSubImageScoreThresholdAdapter :
 	public CRegistrationPostProcessor
 {
+
 public:
 	CRegStepSubImageScoreThresholdAdapter(CRegistrationScoreParameters ScoreParameters, size_t nImageCount, CSLESolver::EAlgorithm eSolverAlgorithm, CProcessType::EProcessType eProcessType, size_t nSubImageHeight)
 		: m_nImageCount(nImageCount),
@@ -72,9 +74,7 @@ protected:
 	size_t m_nLastRegistrationCount = 0;
 	size_t m_nLastRemovedRegistrations = 0;
 
-
-
-
 private:
 	static bool s_bDetailedLogging;
+
 };

@@ -21,8 +21,8 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #include "stdafx.h"
-#include "Residual.h"
 
+#include "Residual.h"
 
 CResidual CResidual::CreateFromRegistration(const CRigidRegistrationResult& regResult, DPoint referenceImageCoordinates, DPoint templateImageCoordinates)
 {
@@ -48,54 +48,53 @@ CResidual CResidual::CreateFromSubimageRegistration(const CRigidRegistrationResu
 	residual.m_fXreg = reg.GetX();
 	residual.m_fYreg = reg.GetY();
 
-    //index of the subimage in referenceImage
+	//index of the subimage in referenceImage
 	size_t subImg1 = reg.GetSubImageRowIndex();
 
 	residual.m_fSubImageIndex = subImg1;
 	residual.m_fScore = reg.GetScore();
 
 	//indices in templateImage
-    double subImg2 = -static_cast<double>(reg.GetY()) / subImageHeight;
-	int subImg21 = subImg1 + static_cast<int>(std::floor(subImg2));
+	double subImg2 = -static_cast<double>(reg.GetY()) / subImageHeight;
+	int subImg21 = static_cast<int>(subImg1) + static_cast<int>(std::floor(subImg2));
 	int subImg22 = subImg21 + 1;
 
-    if (subImg21 < 0 || subImg22 >= subPerImg)
-        return residual;  // not valid
+	if (subImg21 < 0 || subImg22 >= subPerImg)
+		return residual;  // not valid
 
 
 	size_t subImgIndex1 = residual.m_fReferenceImageIndex * subPerImg + subImg1;
 	size_t subImgIndex21 = residual.m_fTemplateImageIndex * subPerImg + subImg21;
 	size_t subImgIndex22 = residual.m_fTemplateImageIndex * subPerImg + subImg22;
 
-    const DPoint pos1 = DPoint::FromMatrixRow(subImgIndex1, pRigidSolution);
-    const DPoint pos21 = DPoint::FromMatrixRow(subImgIndex21, pRigidSolution);
-    const DPoint pos22 = DPoint::FromMatrixRow(subImgIndex22, pRigidSolution);
+	const DPoint pos1 = DPoint::FromMatrixRow(subImgIndex1, pRigidSolution);
+	const DPoint pos21 = DPoint::FromMatrixRow(subImgIndex21, pRigidSolution);
+	const DPoint pos22 = DPoint::FromMatrixRow(subImgIndex22, pRigidSolution);
 
-    double q = subImg2 - std::floor(subImg2);
-    double p = 1.0 - q;
+	double q = subImg2 - std::floor(subImg2);
+	double p = 1.0 - q;
 
 
-    DPoint pos2;
-    pos2.m_x = p * pos21.m_x + q * pos22.m_x;
-    pos2.m_y = p * pos21.m_y + q * pos22.m_y;
+	DPoint pos2;
+	pos2.m_x = p * pos21.m_x + q * pos22.m_x;
+	pos2.m_y = p * pos21.m_y + q * pos22.m_y;
 
-    double res_x = (pos2.m_x - pos1.m_x) - reg.GetX();
-    double res_y = (pos2.m_y - pos1.m_y) - reg.GetY();
+	double res_x = (pos2.m_x - pos1.m_x) - reg.GetX();
+	double res_y = (pos2.m_y - pos1.m_y) - reg.GetY();
 
-    residual.m_fX = res_x;
-    residual.m_fY = res_y;
+	residual.m_fX = res_x;
+	residual.m_fY = res_y;
 
-    residual.m_fValue = std::sqrt(res_x * res_x + res_y * res_y);
+	residual.m_fValue = std::sqrt(res_x * res_x + res_y * res_y);
 
-    residual.m_bIsInitialized = true;
+	residual.m_bIsInitialized = true;
 
-    return residual;
+	return residual;
 }
 
 CResidual::CResidual()
 {
 }
-
 
 CResidual::~CResidual()
 {
