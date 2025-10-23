@@ -13,588 +13,534 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Headerdateien\Strategies">
-      <UniqueIdentifier>{ed3e195f-184f-411a-a6fc-6089b708af1e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Headerdateien\SNP">
-      <UniqueIdentifier>{f4c42fe9-936d-43d4-b9f8-364d50ecb4bd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Headerdateien\Compositing">
-      <UniqueIdentifier>{e1203d27-8aad-4d2b-b928-2116bf9c3167}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Headerdateien\Registration">
-      <UniqueIdentifier>{453aff00-f135-4253-a476-820dc28c5ae7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Headerdateien\Correlation">
-      <UniqueIdentifier>{ed91ef65-b36e-40e8-94ea-c7408746a330}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Headerdateien\Image">
-      <UniqueIdentifier>{dae18d6a-50a3-4597-bada-723d6bfd3dd5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Quelldateien\Compositing">
-      <UniqueIdentifier>{60496fa8-fd17-4f21-a1ef-4f16db44e015}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Quelldateien\Correlation">
-      <UniqueIdentifier>{ef76e53e-6016-4e74-9ca8-c202c074bcb3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Quelldateien\Image">
-      <UniqueIdentifier>{5bafe1cc-b7c1-4c7d-8d1d-cb8b4c3e0941}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Quelldateien\SNP">
-      <UniqueIdentifier>{e95d0ddf-ece1-450d-98a0-0d0d764bbf39}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Quelldateien\Strategies">
-      <UniqueIdentifier>{8c4ee017-bfb3-4bdf-ade7-d20f1506a723}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Quelldateien\HRT">
-      <UniqueIdentifier>{b039106f-4452-480c-9075-7f1049e5063b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Quelldateien\RegSteps">
-      <UniqueIdentifier>{b589c4ae-2b25-469e-b1eb-997400e090a3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Quelldateien\Registration">
-      <UniqueIdentifier>{ad2e0fc1-b404-41e8-bea6-42c4a646ad14}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Headerdateien\HRT">
-      <UniqueIdentifier>{4d47f621-2aaf-4bf6-b3c9-fa774d8cf2bd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Headerdateien\RegSteps">
-      <UniqueIdentifier>{bddb1588-2f86-4d53-97a3-ece242111333}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Headerdateien\0_Else">
-      <UniqueIdentifier>{3de9177c-28da-479d-9c80-5930cfa158b1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Quelldateien\0_Else">
-      <UniqueIdentifier>{ffb8cf59-886e-42d0-8e5e-0d525ac4c373}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="RegStepZeroOffsetFilter.h">
-      <Filter>Headerdateien\RegSteps</Filter>
-    </ClInclude>
-    <ClInclude Include="RegStepScoreThresholdOptimizer.h">
-      <Filter>Headerdateien\RegSteps</Filter>
-    </ClInclude>
-    <ClInclude Include="RegStepScoreThresholdApproximator.h">
-      <Filter>Headerdateien\RegSteps</Filter>
-    </ClInclude>
-    <ClInclude Include="RegStepScoreThresholdAdapter.h">
-      <Filter>Headerdateien\RegSteps</Filter>
-    </ClInclude>
-    <ClInclude Include="RegStepRigidRegistration.h">
-      <Filter>Headerdateien\RegSteps</Filter>
-    </ClInclude>
-    <ClInclude Include="RegStepResidualFilter.h">
-      <Filter>Headerdateien\RegSteps</Filter>
-    </ClInclude>
-    <ClInclude Include="RegStepImageScalation.h">
-      <Filter>Headerdateien\RegSteps</Filter>
-    </ClInclude>
-    <ClInclude Include="RegStepFlexibleRegistration.h">
-      <Filter>Headerdateien\RegSteps</Filter>
-    </ClInclude>
-    <ClInclude Include="StrategyBackForth.h">
-      <Filter>Headerdateien\Strategies</Filter>
-    </ClInclude>
-    <ClInclude Include="StrategyComplete.h">
-      <Filter>Headerdateien\Strategies</Filter>
-    </ClInclude>
-    <ClInclude Include="StrategyGraph.h">
-      <Filter>Headerdateien\Strategies</Filter>
-    </ClInclude>
-    <ClInclude Include="StrategyPlanes.h">
-      <Filter>Headerdateien\Strategies</Filter>
-    </ClInclude>
-    <ClInclude Include="StrategySector.h">
-      <Filter>Headerdateien\Strategies</Filter>
-    </ClInclude>
-    <ClInclude Include="StrategyStep.h">
-      <Filter>Headerdateien\Strategies</Filter>
-    </ClInclude>
-    <ClInclude Include="StrategyWindow.h">
-      <Filter>Headerdateien\Strategies</Filter>
-    </ClInclude>
-    <ClInclude Include="SNPDatasetBatchProcessor.h">
-      <Filter>Headerdateien\SNP</Filter>
-    </ClInclude>
-    <ClInclude Include="SNPDatasetLoader.h">
-      <Filter>Headerdateien\SNP</Filter>
-    </ClInclude>
-    <ClInclude Include="SNPDatasetOutputParameters.h">
-      <Filter>Headerdateien\SNP</Filter>
-    </ClInclude>
-    <ClInclude Include="SNPDatasetParameterExporter.h">
-      <Filter>Headerdateien\SNP</Filter>
-    </ClInclude>
-    <ClInclude Include="SNPDatasetParameterLoader.h">
-      <Filter>Headerdateien\SNP</Filter>
-    </ClInclude>
-    <ClInclude Include="SNPDatasetParameters.h">
-      <Filter>Headerdateien\SNP</Filter>
-    </ClInclude>
-    <ClInclude Include="SNPDatasetResultLoader.h">
-      <Filter>Headerdateien\SNP</Filter>
-    </ClInclude>
-    <ClInclude Include="SNPFusionDataset.h">
-      <Filter>Headerdateien\SNP</Filter>
-    </ClInclude>
-    <ClInclude Include="SNPFusionEvent.h">
-      <Filter>Headerdateien\SNP</Filter>
-    </ClInclude>
-    <ClInclude Include="SNPFusionEventHandler.h">
-      <Filter>Headerdateien\SNP</Filter>
-    </ClInclude>
-    <ClInclude Include="SNPFusionException.h">
-      <Filter>Headerdateien\SNP</Filter>
-    </ClInclude>
-    <ClInclude Include="SNPGroupResult.h">
-      <Filter>Headerdateien\SNP</Filter>
-    </ClInclude>
-    <ClInclude Include="Compositing.h">
-      <Filter>Headerdateien\Compositing</Filter>
-    </ClInclude>
-    <ClInclude Include="Compositing3DCloud.h">
-      <Filter>Headerdateien\Compositing</Filter>
-    </ClInclude>
-    <ClInclude Include="CompositingFactory.h">
-      <Filter>Headerdateien\Compositing</Filter>
-    </ClInclude>
-    <ClInclude Include="CompositingFusion.h">
-      <Filter>Headerdateien\Compositing</Filter>
-    </ClInclude>
-    <ClInclude Include="CompositingMax.h">
-      <Filter>Headerdateien\Compositing</Filter>
-    </ClInclude>
-    <ClInclude Include="CompositingParameters.h">
-      <Filter>Headerdateien\Compositing</Filter>
-    </ClInclude>
-    <ClInclude Include="CompositingTiling.h">
-      <Filter>Headerdateien\Compositing</Filter>
-    </ClInclude>
-    <ClInclude Include="CompositingVoxelBuffer.h">
-      <Filter>Headerdateien\Compositing</Filter>
-    </ClInclude>
-    <ClInclude Include="HRTGlobalPositioning.h">
-      <Filter>Headerdateien\HRT</Filter>
-    </ClInclude>
-    <ClInclude Include="HRTImageClassificationData.h">
-      <Filter>Headerdateien\HRT</Filter>
-    </ClInclude>
-    <ClInclude Include="HRTImageDepthAndAngleCalculator.h">
-      <Filter>Headerdateien\HRT</Filter>
-    </ClInclude>
-    <ClInclude Include="HRTImageDepthAndAngleData.h">
-      <Filter>Headerdateien\HRT</Filter>
-    </ClInclude>
-    <ClInclude Include="HrtImageParameters.h">
-      <Filter>Headerdateien\HRT</Filter>
-    </ClInclude>
-    <ClInclude Include="HrtIterativeSLEWorker.h">
-      <Filter>Headerdateien\HRT</Filter>
-    </ClInclude>
-    <ClInclude Include="HrtPreProcessingParameters.h">
-      <Filter>Headerdateien\HRT</Filter>
-    </ClInclude>
-    <ClInclude Include="HrtPreProcessingPipeline.h">
-      <Filter>Headerdateien\HRT</Filter>
-    </ClInclude>
-    <ClInclude Include="HrtValidityCodes.h">
-      <Filter>Headerdateien\HRT</Filter>
-    </ClInclude>
-    <ClInclude Include="RegistrationProcedureParameters.h">
-      <Filter>Headerdateien\Registration</Filter>
-    </ClInclude>
-    <ClInclude Include="RegistrationResult.h">
-      <Filter>Headerdateien\Registration</Filter>
-    </ClInclude>
-    <ClInclude Include="RegistrationResultLoader.h">
-      <Filter>Headerdateien\Registration</Filter>
-    </ClInclude>
-    <ClInclude Include="RegistrationScoreParameters.h">
-      <Filter>Headerdateien\Registration</Filter>
-    </ClInclude>
-    <ClInclude Include="RegistrationStrategy.h">
-      <Filter>Headerdateien\Registration</Filter>
-    </ClInclude>
-    <ClInclude Include="RegistrationStrategyFactory.h">
-      <Filter>Headerdateien\Registration</Filter>
-    </ClInclude>
-    <ClInclude Include="RegistrationStrategyParameters.h">
-      <Filter>Headerdateien\Registration</Filter>
-    </ClInclude>
-    <ClInclude Include="RegistrationVerificationParameters.h">
-      <Filter>Headerdateien\Registration</Filter>
-    </ClInclude>
-    <ClInclude Include="CorrelationOffset.h">
-      <Filter>Headerdateien\Correlation</Filter>
-    </ClInclude>
-    <ClInclude Include="CorrelationOffsetClassifier.h">
-      <Filter>Headerdateien\Correlation</Filter>
-    </ClInclude>
-    <ClInclude Include="CorrelationParameters.h">
-      <Filter>Headerdateien\Correlation</Filter>
-    </ClInclude>
-    <ClInclude Include="ImageCorrelation.h">
-      <Filter>Headerdateien\Image</Filter>
-    </ClInclude>
-    <ClInclude Include="ImageCorrelator.h">
-      <Filter>Headerdateien\Image</Filter>
-    </ClInclude>
-    <ClInclude Include="ImageLoader.h">
-      <Filter>Headerdateien\Image</Filter>
-    </ClInclude>
-    <ClInclude Include="ImageMasker.h">
-      <Filter>Headerdateien\Image</Filter>
-    </ClInclude>
-    <ClInclude Include="ImagePair.h">
-      <Filter>Headerdateien\Image</Filter>
-    </ClInclude>
-    <ClInclude Include="ImagePairVerificator.h">
-      <Filter>Headerdateien\Image</Filter>
-    </ClInclude>
-    <ClInclude Include="ImageRegistrationData.h">
-      <Filter>Headerdateien\Image</Filter>
-    </ClInclude>
-    <ClInclude Include="ImageRegistrationResult.h">
-      <Filter>Headerdateien\Image</Filter>
-    </ClInclude>
-    <ClInclude Include="ImageRegistrator.h">
-      <Filter>Headerdateien\Image</Filter>
-    </ClInclude>
-    <ClInclude Include="ImageUndistortion.h">
-      <Filter>Headerdateien\Image</Filter>
-    </ClInclude>
-    <ClInclude Include="RegistrationPostProcessor.h">
-      <Filter>Headerdateien\Registration</Filter>
-    </ClInclude>
     <ClInclude Include="3DBuffer.h">
-      <Filter>Headerdateien\0_Else</Filter>
+      <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="3DCloud.h">
-      <Filter>Headerdateien\0_Else</Filter>
+      <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="BorderCropper.h">
-      <Filter>Headerdateien\0_Else</Filter>
+      <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="BrightnessCorrection.h">
-      <Filter>Headerdateien\0_Else</Filter>
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Compositing.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Compositing3DCloud.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="CompositingFactory.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="CompositingFusion.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="CompositingMax.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="CompositingParameters.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="CompositingTiling.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="CompositingVoxelBuffer.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="CorrelationOffset.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="CorrelationOffsetClassifier.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="CorrelationParameters.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="DIPLOMTable.h">
-      <Filter>Headerdateien\0_Else</Filter>
+      <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="DIPLOMTableRow.h">
-      <Filter>Headerdateien\0_Else</Filter>
+      <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="GlobalPositioningParameters.h">
-      <Filter>Headerdateien\0_Else</Filter>
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="HRTGlobalPositioning.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="HRTImageClassificationData.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="HRTImageDepthAndAngleCalculator.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="HRTImageDepthAndAngleData.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="HrtImageParameters.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="HrtIterativeSLEWorker.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="HrtPreProcessingParameters.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="HrtPreProcessingPipeline.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="HrtValidityCodes.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageCorrelation.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageCorrelator.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageLoader.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageMasker.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="ImagePair.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="ImagePairVerificator.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageRegistrationData.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageRegistrationResult.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageRegistrator.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageUndistortion.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="LockList.h">
-      <Filter>Headerdateien\0_Else</Filter>
+      <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="MosaicImageProperties.h">
-      <Filter>Headerdateien\0_Else</Filter>
+      <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="NoPairVerificator.h">
-      <Filter>Headerdateien\0_Else</Filter>
+      <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="PairVerificatorFactory.h">
-      <Filter>Headerdateien\0_Else</Filter>
+      <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="PiezoImageTime.h">
-      <Filter>Headerdateien\0_Else</Filter>
+      <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="PositionAwarePairVerificator.h">
-      <Filter>Headerdateien\0_Else</Filter>
+      <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="ProcessType.h">
-      <Filter>Headerdateien\0_Else</Filter>
+      <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="Residual.h">
-      <Filter>Headerdateien\0_Else</Filter>
+    <ClInclude Include="RegistrationPostProcessor.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="RigidRegistrationResult.h">
-      <Filter>Headerdateien\0_Else</Filter>
+    <ClInclude Include="RegistrationProcedureParameters.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="ScoreContainer.h">
-      <Filter>Headerdateien\0_Else</Filter>
+    <ClInclude Include="RegistrationResult.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="ScoreNormalizer.h">
-      <Filter>Headerdateien\0_Else</Filter>
+    <ClInclude Include="RegistrationResultLoader.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="stdafx.h">
-      <Filter>Headerdateien\0_Else</Filter>
+    <ClInclude Include="RegistrationScoreParameters.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="StlImage.h">
-      <Filter>Headerdateien\0_Else</Filter>
+    <ClInclude Include="RegistrationStrategy.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="StlImageAlignedAllocator.h">
-      <Filter>Headerdateien\0_Else</Filter>
+    <ClInclude Include="RegistrationStrategyFactory.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="SubImageCorrelation.h">
-      <Filter>Headerdateien\0_Else</Filter>
+    <ClInclude Include="RegistrationStrategyParameters.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="SubImageCorrelator.h">
-      <Filter>Headerdateien\0_Else</Filter>
+    <ClInclude Include="RegistrationVerificationParameters.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="TreeBasedPairVerificator.h">
-      <Filter>Headerdateien\0_Else</Filter>
+    <ClInclude Include="RegStepFlexibleRegistration.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="UndistortedImage.h">
-      <Filter>Headerdateien\0_Else</Filter>
+    <ClInclude Include="RegStepImageScalation.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="VignettingCorrection.h">
-      <Filter>Headerdateien\0_Else</Filter>
+    <ClInclude Include="RegStepResidualFilter.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="RegStepRigidRegistration.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="RegStepScoreThresholdAdapter.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="RegStepScoreThresholdApproximator.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="RegStepScoreThresholdOptimizer.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="RegStepSubImageScoreThresholdAdapter.h">
-      <Filter>Headerdateien\RegSteps</Filter>
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="RegStepZeroOffsetFilter.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Residual.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidRegistrationResult.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreContainer.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreNormalizer.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="SNPDatasetBatchProcessor.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="SNPDatasetLoader.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="SNPDatasetOutputParameters.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="SNPDatasetParameterExporter.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="SNPDatasetParameterLoader.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="SNPDatasetParameters.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="SNPDatasetResultLoader.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="SNPFusionDataset.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="SNPFusionEvent.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="SNPFusionEventHandler.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="SNPFusionException.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="SNPGroupResult.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="StlImage.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="StlImageAlignedAllocator.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="StrategyBackForth.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="StrategyComplete.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="StrategyGraph.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="StrategyPlanes.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="StrategySector.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="StrategyStep.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="StrategyWindow.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="SubImageCorrelation.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="SubImageCorrelator.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="TreeBasedPairVerificator.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="UndistortedImage.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="VignettingCorrection.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Compositing.cpp">
-      <Filter>Quelldateien\Compositing</Filter>
-    </ClCompile>
-    <ClCompile Include="Compositing3DCloud.cpp">
-      <Filter>Quelldateien\Compositing</Filter>
-    </ClCompile>
-    <ClCompile Include="CompositingFactory.cpp">
-      <Filter>Quelldateien\Compositing</Filter>
-    </ClCompile>
-    <ClCompile Include="CompositingFusion.cpp">
-      <Filter>Quelldateien\Compositing</Filter>
-    </ClCompile>
-    <ClCompile Include="CompositingMax.cpp">
-      <Filter>Quelldateien\Compositing</Filter>
-    </ClCompile>
-    <ClCompile Include="CompositingParameters.cpp">
-      <Filter>Quelldateien\Compositing</Filter>
-    </ClCompile>
-    <ClCompile Include="CompositingTiling.cpp">
-      <Filter>Quelldateien\Compositing</Filter>
-    </ClCompile>
-    <ClCompile Include="CompositingVoxelBuffer.cpp">
-      <Filter>Quelldateien\Compositing</Filter>
-    </ClCompile>
-    <ClCompile Include="CorrelationOffset.cpp">
-      <Filter>Quelldateien\Correlation</Filter>
-    </ClCompile>
-    <ClCompile Include="CorrelationOffsetClassifier.cpp">
-      <Filter>Quelldateien\Correlation</Filter>
-    </ClCompile>
-    <ClCompile Include="CorrelationParameters.cpp">
-      <Filter>Quelldateien\Correlation</Filter>
-    </ClCompile>
-    <ClCompile Include="HRTGlobalPositioning.cpp">
-      <Filter>Quelldateien\HRT</Filter>
-    </ClCompile>
-    <ClCompile Include="HRTImageClassificationData.cpp">
-      <Filter>Quelldateien\HRT</Filter>
-    </ClCompile>
-    <ClCompile Include="HRTImageDepthAndAngleCalculator.cpp">
-      <Filter>Quelldateien\HRT</Filter>
-    </ClCompile>
-    <ClCompile Include="HRTImageDepthAndAngleData.cpp">
-      <Filter>Quelldateien\HRT</Filter>
-    </ClCompile>
-    <ClCompile Include="HrtIterativeSLEWorker.cpp">
-      <Filter>Quelldateien\HRT</Filter>
-    </ClCompile>
-    <ClCompile Include="HrtPreProcessingPipeline.cpp">
-      <Filter>Quelldateien\HRT</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageCorrelation.cpp">
-      <Filter>Quelldateien\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageCorrelator.cpp">
-      <Filter>Quelldateien\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageLoader.cpp">
-      <Filter>Quelldateien\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageMasker.cpp">
-      <Filter>Quelldateien\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="ImagePair.cpp">
-      <Filter>Quelldateien\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="ImagePairVerificator.cpp">
-      <Filter>Quelldateien\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageRegistrationData.cpp">
-      <Filter>Quelldateien\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageRegistrationResult.cpp">
-      <Filter>Quelldateien\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageRegistrator.cpp">
-      <Filter>Quelldateien\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageUndistortion.cpp">
-      <Filter>Quelldateien\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="RegistrationPostProcessor.cpp">
-      <Filter>Quelldateien\Registration</Filter>
-    </ClCompile>
-    <ClCompile Include="RegistrationProcedureParameters.cpp">
-      <Filter>Quelldateien\Registration</Filter>
-    </ClCompile>
-    <ClCompile Include="RegistrationResult.cpp">
-      <Filter>Quelldateien\Registration</Filter>
-    </ClCompile>
-    <ClCompile Include="RegistrationResultLoader.cpp">
-      <Filter>Quelldateien\Registration</Filter>
-    </ClCompile>
-    <ClCompile Include="RegistrationStrategy.cpp">
-      <Filter>Quelldateien\Registration</Filter>
-    </ClCompile>
-    <ClCompile Include="RegistrationStrategyFactory.cpp">
-      <Filter>Quelldateien\Registration</Filter>
-    </ClCompile>
-    <ClCompile Include="RegStepFlexibleRegistration.cpp">
-      <Filter>Quelldateien\RegSteps</Filter>
-    </ClCompile>
-    <ClCompile Include="RegStepImageScalation.cpp">
-      <Filter>Quelldateien\RegSteps</Filter>
-    </ClCompile>
-    <ClCompile Include="RegStepResidualFilter.cpp">
-      <Filter>Quelldateien\RegSteps</Filter>
-    </ClCompile>
-    <ClCompile Include="RegStepRigidRegistration.cpp">
-      <Filter>Quelldateien\RegSteps</Filter>
-    </ClCompile>
-    <ClCompile Include="RegStepScoreThresholdAdapter.cpp">
-      <Filter>Quelldateien\RegSteps</Filter>
-    </ClCompile>
-    <ClCompile Include="RegStepScoreThresholdApproximator.cpp">
-      <Filter>Quelldateien\RegSteps</Filter>
-    </ClCompile>
-    <ClCompile Include="RegStepScoreThresholdOptimizer.cpp">
-      <Filter>Quelldateien\RegSteps</Filter>
-    </ClCompile>
-    <ClCompile Include="RegStepZeroOffsetFilter.cpp">
-      <Filter>Quelldateien\RegSteps</Filter>
-    </ClCompile>
-    <ClCompile Include="SNPDatasetBatchProcessor.cpp">
-      <Filter>Quelldateien\SNP</Filter>
-    </ClCompile>
-    <ClCompile Include="SNPDatasetLoader.cpp">
-      <Filter>Quelldateien\SNP</Filter>
-    </ClCompile>
-    <ClCompile Include="SNPDatasetOutputParameters.cpp">
-      <Filter>Quelldateien\SNP</Filter>
-    </ClCompile>
-    <ClCompile Include="SNPDatasetParameterExporter.cpp">
-      <Filter>Quelldateien\SNP</Filter>
-    </ClCompile>
-    <ClCompile Include="SNPDatasetParameterLoader.cpp">
-      <Filter>Quelldateien\SNP</Filter>
-    </ClCompile>
-    <ClCompile Include="SNPDatasetParameters.cpp">
-      <Filter>Quelldateien\SNP</Filter>
-    </ClCompile>
-    <ClCompile Include="SNPDatasetResultLoader.cpp">
-      <Filter>Quelldateien\SNP</Filter>
-    </ClCompile>
-    <ClCompile Include="SNPFusionDataset.cpp">
-      <Filter>Quelldateien\SNP</Filter>
-    </ClCompile>
-    <ClCompile Include="SNPFusionEvent.cpp">
-      <Filter>Quelldateien\SNP</Filter>
-    </ClCompile>
-    <ClCompile Include="SNPFusionException.cpp">
-      <Filter>Quelldateien\SNP</Filter>
-    </ClCompile>
-    <ClCompile Include="StrategyBackForth.cpp">
-      <Filter>Quelldateien\Strategies</Filter>
-    </ClCompile>
-    <ClCompile Include="StrategyComplete.cpp">
-      <Filter>Quelldateien\Strategies</Filter>
-    </ClCompile>
-    <ClCompile Include="StrategyGraph.cpp">
-      <Filter>Quelldateien\Strategies</Filter>
-    </ClCompile>
-    <ClCompile Include="StrategyPlanes.cpp">
-      <Filter>Quelldateien\Strategies</Filter>
-    </ClCompile>
-    <ClCompile Include="StrategySector.cpp">
-      <Filter>Quelldateien\Strategies</Filter>
-    </ClCompile>
-    <ClCompile Include="StrategyStep.cpp">
-      <Filter>Quelldateien\Strategies</Filter>
-    </ClCompile>
-    <ClCompile Include="StrategyWindow.cpp">
-      <Filter>Quelldateien\Strategies</Filter>
-    </ClCompile>
     <ClCompile Include="3DBuffer.cpp">
-      <Filter>Quelldateien\0_Else</Filter>
+      <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="3DCloud.cpp">
-      <Filter>Quelldateien\0_Else</Filter>
+      <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="BorderCropper.cpp">
-      <Filter>Quelldateien\0_Else</Filter>
+      <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="BrightnessCorrection.cpp">
-      <Filter>Quelldateien\0_Else</Filter>
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Compositing.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Compositing3DCloud.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="CompositingFactory.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="CompositingFusion.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="CompositingMax.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="CompositingParameters.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="CompositingTiling.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="CompositingVoxelBuffer.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="CorrelationOffset.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="CorrelationOffsetClassifier.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="CorrelationParameters.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="DIPLOMTable.cpp">
-      <Filter>Quelldateien\0_Else</Filter>
+      <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="DIPLOMTableRow.cpp">
-      <Filter>Quelldateien\0_Else</Filter>
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="HRTGlobalPositioning.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="HRTImageClassificationData.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="HRTImageDepthAndAngleCalculator.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="HRTImageDepthAndAngleData.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="HrtIterativeSLEWorker.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="HrtPreProcessingPipeline.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageCorrelation.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageCorrelator.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageLoader.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageMasker.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="ImagePair.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="ImagePairVerificator.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageRegistrationData.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageRegistrationResult.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageRegistrator.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageUndistortion.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="LockList.cpp">
-      <Filter>Quelldateien\0_Else</Filter>
+      <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="MosaicImageProperties.cpp">
-      <Filter>Quelldateien\0_Else</Filter>
+      <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="NoPairVerificator.cpp">
-      <Filter>Quelldateien\0_Else</Filter>
+      <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="PairVerificatorFactory.cpp">
-      <Filter>Quelldateien\0_Else</Filter>
+      <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="PiezoImageTime.cpp">
-      <Filter>Quelldateien\0_Else</Filter>
+      <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="PositionAwarePairVerificator.cpp">
-      <Filter>Quelldateien\0_Else</Filter>
+      <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="ProcessType.cpp">
-      <Filter>Quelldateien\0_Else</Filter>
+      <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="Residual.cpp">
-      <Filter>Quelldateien\0_Else</Filter>
+    <ClCompile Include="RegistrationPostProcessor.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="RigidRegistrationResult.cpp">
-      <Filter>Quelldateien\0_Else</Filter>
+    <ClCompile Include="RegistrationProcedureParameters.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="ScoreContainer.cpp">
-      <Filter>Quelldateien\0_Else</Filter>
+    <ClCompile Include="RegistrationResult.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="ScoreNormalizer.cpp">
-      <Filter>Quelldateien\0_Else</Filter>
+    <ClCompile Include="RegistrationResultLoader.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Quelldateien\0_Else</Filter>
+    <ClCompile Include="RegistrationStrategy.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="StlImage.cpp">
-      <Filter>Quelldateien\0_Else</Filter>
+    <ClCompile Include="RegistrationStrategyFactory.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="SubImageCorrelation.cpp">
-      <Filter>Quelldateien\0_Else</Filter>
+    <ClCompile Include="RegStepFlexibleRegistration.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="SubImageCorrelator.cpp">
-      <Filter>Quelldateien\0_Else</Filter>
+    <ClCompile Include="RegStepImageScalation.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="TreeBasedPairVerificator.cpp">
-      <Filter>Quelldateien\0_Else</Filter>
+    <ClCompile Include="RegStepResidualFilter.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="VignettingCorrection.cpp">
-      <Filter>Quelldateien\0_Else</Filter>
+    <ClCompile Include="RegStepRigidRegistration.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="RegStepScoreThresholdAdapter.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="RegStepScoreThresholdApproximator.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="RegStepScoreThresholdOptimizer.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="RegStepSubImageScoreThresholdAdapter.cpp">
-      <Filter>Quelldateien\RegSteps</Filter>
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="RegStepZeroOffsetFilter.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Residual.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidRegistrationResult.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreContainer.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreNormalizer.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="SNPDatasetBatchProcessor.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="SNPDatasetLoader.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="SNPDatasetOutputParameters.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="SNPDatasetParameterExporter.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="SNPDatasetParameterLoader.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="SNPDatasetParameters.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="SNPDatasetResultLoader.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="SNPFusionDataset.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="SNPFusionEvent.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="SNPFusionException.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="StlImage.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="StrategyBackForth.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="StrategyComplete.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="StrategyGraph.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="StrategyPlanes.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="StrategySector.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="StrategyStep.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="StrategyWindow.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="SubImageCorrelation.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="SubImageCorrelator.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="TreeBasedPairVerificator.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="VignettingCorrection.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
