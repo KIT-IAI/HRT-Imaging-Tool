@@ -50,7 +50,7 @@ private:
 
 	CDenseMatrix SolveFlexiblePositioning(const vector<StlImage<float>*>& images, const vector<CRegistrationResult>& validRegistrationResults, const vector<std::list<size_t>>& imagegroups) const;
 
-	bool IsScoreThresholdSufficient(const std::vector<CRegistrationResult>& RegistrationResults);
+	bool IsScoreThresholdSufficient(std::vector<CRegistrationResult>& RegistrationResults);
 	void CalculateStochasticValues(const std::vector<CResidual>& allResiduals);
 
 protected:
@@ -72,6 +72,10 @@ protected:
 
 	size_t m_nLastRegistrationCount = 0;
 	size_t m_nLastRemovedRegistrations = 0;
+
+	int round_counter = 0;
+	std::vector<CRegistrationResult> lastValidRegistrationResults;
+	double lastThreshold;
 
 private:
 	static bool s_bDetailedLogging;
