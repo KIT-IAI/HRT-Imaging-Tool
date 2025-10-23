@@ -44,7 +44,7 @@ const std::vector<std::pair<wxString, wxString>> HRTImagingToolParameterDialog::
 		L"Adjust global image brightness differences within a dataset before "
 		L"performing image registration. This parameter only affects the image "
 		L"registration process, it has no effect on the result image composition."},
-	{L"bVignettingCorrectionBeforeRegistration (default: off)",
+	{L"bVignettingCorrectionBeforeRegistration (default: on)",
 		L"Correct vignetting (illumination falloff) effects in the images before "
 		L"performing image registration. The same (global or dataset-specific) "
 		L"profile is used for all images in a dataset. This parameter only affects "
@@ -59,7 +59,7 @@ const std::vector<std::pair<wxString, wxString>> HRTImagingToolParameterDialog::
 		L"Perform a smoothing operation on the vignetting correction profile for "
 		L"the image registration process n times before usage. This parameter has "
 		L"no effect if vignetting correction is not activated."},
-	{L"eStrategie (default: 8)",
+	{L"eStrategie (default: 4)",
 		L"The image pair selection strategy used for the image registration "
 		L"process. Extensive selection strategies lead to longer computation "
 		L"times, but are more likely to yield a better result quality than more "
@@ -96,32 +96,32 @@ const std::vector<std::pair<wxString, wxString>> HRTImagingToolParameterDialog::
 		L"Apply an additional validation filter to the image pairs returned by the "
 		L"image pair selection strategy before performing the image registration "
 		L"process."},
-	{L"eProcessType (default: 4)",
+	{L"eProcessType (default: 3)",
 		L"The image registration approach. Determines whether to perform only a "
 		L"fast rigid image registration or the more elaborate motion artifact "
 		L"correction procedure. The latter requires a further discrimination "
 		L"between continuous datasets and datasets containing independent images."},
-	{L"fMinScore (default: 4.5)",
+	{L"fMinScore (default: 8.0)",
 		L"Correlation value threshold for rigid image registration. Registration "
 		L"results with a lower correlation value are considered to be incorrect. "
 		L"Registration results with a higher correlation value may be considered "
 		L"to be correct after further validation."},
-	{L"fMinScoreFlexible (default: 9.0)",
+	{L"fMinScoreFlexible (default: 16.0)",
 		L"Correlation value threshold for sub-image registration. Registration "
 		L"results with a lower correlation value are considered to be incorrect. "
 		L"Registration results with a higher correlation value may be considered "
 		L"to be correct after further validation."},
-	{L"fCertainScore (default: 20.0)",
+	{L"fCertainScore (default: 24.0)",
 		L"Correlation value threshold for rigid image registration. Registration "
 		L"results with a higher correlation value are considered to be correct "
 		L"without further validation. Registration results with a lower "
 		L"correlation value undergo further validation."},
-	{L"fScalation (default: 1.0)",
+	{L"fScalation (default: 3.0)",
 		L"Scaling factor for rigid image registration. A value greater than 1.0 "
 		L"means that the images are down-scaled by the respective factor. A value "
 		L"of 1.0 means that no down-scaling of the images happens (i.e. the "
 		L"original images are used)."},
-	{L"fScalationSubImages (default: 1.0)",
+	{L"fScalationSubImages (default: 2.0)",
 		L"Scaling factor for sub-image registration. A value greater than 1.0 "
 		L"means that the images are down-scaled by the respective factor. A value "
 		L"of 1.0 means that no down-scaling of the images happens (i.e. the "
@@ -159,7 +159,7 @@ const std::vector<std::pair<wxString, wxString>> HRTImagingToolParameterDialog::
 		L"performing result image composition. This parameter only affects the "
 		L"result image composition, it has no effect on the image registration "
 		L"process."},
-	{L"bVignettingCorrectionBeforeCompositing (default: off)",
+	{L"bVignettingCorrectionBeforeCompositing (default: on)",
 		L"Correct vignetting (illumination falloff) effects in the images before "
 		L"performing result image composition. The same (global or "
 		L"dataset-specific) profile is used for all images in a dataset. This "
@@ -181,7 +181,7 @@ const std::vector<std::pair<wxString, wxString>> HRTImagingToolParameterDialog::
 		L"The weighting function used to weight image pixel values for the "
 		L"composition process. Using any setting other than '2D cosine' is not "
 		L"recommended."},
-	{L"nBorder (default: 10)",
+	{L"nBorder (default: 0)",
 		L"Frame the result image with a border of n pixels/voxels."},
 	{L"cBackgroundColor (default: 0)",
 		L"The intensity value used for result pixels/voxels that contain no "
