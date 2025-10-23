@@ -62,20 +62,11 @@ protected:
 
 	double m_fAdaptScoreThresholdBy = 0.1;
 
-	double pMean = 0;
-	double pStdev = 0;
-	double pMedian = 0;
-	double p9Quantile = 0;
-	double p99Quantile = 0;
-	double p999Quantile = 0;
 	double pMax = 0;
-
-	size_t m_nLastRegistrationCount = 0;
-	size_t m_nLastRemovedRegistrations = 0;
 
 	int round_counter = 0;
 	std::vector<CRegistrationResult> lastValidRegistrationResults;
-	double lastThreshold;
+	double lastThreshold = 0.0;
 
 private:
 	static bool s_bDetailedLogging;

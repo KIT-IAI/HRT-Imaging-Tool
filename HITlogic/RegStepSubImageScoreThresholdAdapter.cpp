@@ -59,9 +59,6 @@ void CRegStepSubImageScoreThresholdAdapter::ProcessRegistrationData(std::vector<
 	auto allResiduals = CRegistrationPostProcessor::GetSubImageResiduals(validRegistrationResults);
 	CalculateStochasticValues(allResiduals);
 
-	//std::ofstream csv("C:\\Users\\bt3410\\Desktop\\residual_stats.csv");
-	//csv << "ScoreThreshold" << ";" << "MaxResidual" << "\n";
-
 	while (!IsScoreThresholdSufficient(validRegistrationResults))
 	{
 		lastValidRegistrationResults = validRegistrationResults;
@@ -72,13 +69,7 @@ void CRegStepSubImageScoreThresholdAdapter::ProcessRegistrationData(std::vector<
 		CRegistrationPostProcessor::CalculateSubImageResiduals(validRegistrationResults, solution, m_nSubImageHeight);
 		auto allResiduals = CRegistrationPostProcessor::GetSubImageResiduals(validRegistrationResults);
 		CalculateStochasticValues(allResiduals);
-
-		//// CSV-Ausgabe
-		//csv << std::to_string(m_ScoreParameters.GetScoreThreshold()) << ";"
-		//	<< std::to_string(pMax) << "\n";
 	}
-
-	//csv.close();
 
 	std::wostringstream oss;
 	oss.setf(std::ios::fixed);
@@ -117,8 +108,6 @@ void CRegStepSubImageScoreThresholdAdapter::ChangeValidity(std::vector<CRegistra
 			}
 		}
 	}
-	m_nLastRemovedRegistrations = invalidCount;
-	m_nLastRegistrationCount = validCount;
 }
 
 CDenseMatrix CRegStepSubImageScoreThresholdAdapter::SolveFlexiblePositioning(const vector<StlImage<float>*>& images, const vector<CRegistrationResult>& validRegistrationResults, const vector<std::list<size_t>>& imagegroups) const
@@ -180,11 +169,5 @@ bool CRegStepSubImageScoreThresholdAdapter::IsScoreThresholdSufficient(std::vect
 
 void CRegStepSubImageScoreThresholdAdapter::CalculateStochasticValues(const std::vector<CResidual>& allResiduals)
 {
-	//pMean = CResidual::CalculateMeanResidual(allResiduals);
-	//pStdev = CResidual::CalculateStdevResidual(allResiduals, pMean);
-	//pMedian = CResidual::CalculateMedianResidual(allResiduals);
-	//p9Quantile = CResidual::CalculateQuantileResidual(allResiduals, 0.90);
-	//p99Quantile = CResidual::CalculateQuantileResidual(allResiduals, 0.99);
-	//p999Quantile = CResidual::CalculateQuantileResidual(allResiduals, 0.999);
 	pMax = CResidual::CalculateMaximumResidual(allResiduals);
 }
