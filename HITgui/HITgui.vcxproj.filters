@@ -57,6 +57,8 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <None Include="HRTImagingToolResource.fbp" />
+    <None Include="HRTImagingToolResource.fbp">
+      <Filter>Ressourcendateien</Filter>
+    </None>
   </ItemGroup>
 </Project>
