@@ -560,14 +560,9 @@ CSNPDatasetParameters HRTImagingToolParameterDialog::CreateDefaults2D()
 {
 	CSNPDatasetParameters parameters = CreateDefaults();
 
-	parameters.eStrategie = ERegistrationStrategy::eComplete;
-	parameters.fSelectionHeight = 8.0;
-	parameters.fMinScore = 5.0;
-	parameters.fMinScoreFlexible = 10.0;
+	parameters.fMinScore = 8.0;
+	parameters.fMinScoreFlexible = 12.0;
 	parameters.fCertainScore = 30.0;
-	parameters.fScalation = 3.0;
-	parameters.fScalationSubImages = 2.0;
-	parameters.bConsistencyCheck = true;
 	parameters.bAutomaticThresholdDetection = true;
 	parameters.fResidualThreshold = 10.0;
 	parameters.fZMultiplier = 1.0;
@@ -579,15 +574,11 @@ CSNPDatasetParameters HRTImagingToolParameterDialog::CreateDefaultsSNP()
 {
 	CSNPDatasetParameters parameters = CreateDefaults();
 
-	parameters.eStrategie = ERegistrationStrategy::eComplete;
-	parameters.fSelectionHeight = 8.0;
-	parameters.fMinScore = 5.0;
-	parameters.fMinScoreFlexible = 10.0;
+	parameters.fMinScore = 8.0;
+	parameters.fMinScoreFlexible = 12.0;
 	parameters.fCertainScore = 30.0;
-	parameters.fScalation = 3.0;
-	parameters.fScalationSubImages = 2.0;
-	parameters.bConsistencyCheck = true;
 	parameters.bAutomaticThresholdDetection = true;
+	parameters.fResidualThreshold = 10.0;
 	parameters.fZMultiplier = 1.0;
 	parameters.bExcludeNonSNPImages = true;
 
@@ -600,12 +591,9 @@ CSNPDatasetParameters HRTImagingToolParameterDialog::CreateDefaults3DVoxel()
 
 	parameters.eStrategie = ERegistrationStrategy::ePlaneSelect;
 	parameters.fSelectionHeight = 8.0;
-	parameters.fMinScore = 5.0;
-	parameters.fMinScoreFlexible = 10.0;
+	parameters.fMinScore = 8.0;
+	parameters.fMinScoreFlexible = 12.0;
 	parameters.fCertainScore = 30.0;
-	parameters.fScalation = 3.0;
-	parameters.fScalationSubImages = 2.0;
-	parameters.bConsistencyCheck = true;
 	parameters.bAutomaticThresholdDetection = true;
 	parameters.eCompositingMode = CCompositingParameters::ECompositingType::eVoxelBuffer;
 	parameters.fZMultiplier = 1.0;
