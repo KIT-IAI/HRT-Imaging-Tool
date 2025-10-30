@@ -15,6 +15,8 @@ The datasets can either be continuous consecutive _HRT_ image sequences (which i
 
 In addition to the source code, this repository also offers the option to download precompiled binaries for convenient usage. __HIT__ does not need installation, you can simply start the (downloaded or compiled) executable `HITgui.exe`. This opens a simple graphical user interface, which let's you add or remove datasets to be processed and finally start the process.
 
+If you use __HIT__ for the first time, you should open the process parameter dialog once (using the `-p` switch from the command line, see the _Advanced_ section below) and choose one of the process parameter presets available via the buttons at the very top. If you are unsure which one is the correct one for your purpose, then chances are good that it's the first one, titled "Defaults for 2D datasets without oscillation".
+
 ## Dataset preparation
 
 __HIT__ requires datasets in the form of multi-page TIFF files. Since the _HRT_ doesn't offer such an export option, you need to create the dataset files yourself. There are plenty of tools that can create multi-page TIFF files from a given set of single-page TIFF files (or other image formats). One option is the free image viewer software [_IrfanView_](https://www.irfanview.com/), which offers either a graphical user interface or alternatively also a command line interface for this. On the command line, you can create a multi-page TIFF file as follows:
