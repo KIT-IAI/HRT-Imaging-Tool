@@ -22,7 +22,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #include "stdafx.h"
 #include "StrategyPlanes.h"
-#include "Log.h"
+
 
 
 CStrategyPlanes::CStrategyPlanes()
@@ -39,7 +39,6 @@ size_t CStrategyPlanes::InitialWorkloadEstimation() const
 	// This number is veeeeeeeeeeery arbitrary.
 	return m_Parameters.nPlaneCount * m_nImageCount * int((m_Parameters.nPlaneCount * m_Parameters.nPlaneIncrement) / m_Parameters.fSelectionHeight);
 }
-
 
 void CStrategyPlanes::InitializeAdditionalParameters(CImageRegistrationData addData)
 {
@@ -83,10 +82,6 @@ bool CStrategyPlanes::PrepareNextPair()
 	m_aNextPair[0] = mainImage;
 	m_aNextPair[1] = imageRunner;
 
-	/*CString toLog;
-	toLog.Format(L" ; %d ; %d", m_aNextPair[0], m_aNextPair[1]);
-	CLog::Log(CLog::eNotice, L"Strategyplanes: suggesting", toLog);
-	*/
 	return true;
 }
 

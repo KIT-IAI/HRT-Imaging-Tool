@@ -21,8 +21,9 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #include "stdafx.h"
-#include "Log.h"
 #include "RegStepScoreThresholdAdapter.h"
+
+
 
 ///	<summary> Specifies whether detailed logging of the score threshold computation process is enabled (default: <c>false</c>) </summary>
 ///	<remarks>
@@ -56,7 +57,9 @@ void CScoreThresholdAdapter::ProcessRegistrationData(std::vector<StlImage<float>
 		auto allResiduals = CRegistrationPostProcessor::GetAllResiduals(regResults);
 		double fMean = CResidual::CalculateMeanResidual(allResiduals);
 		double fStdev = CResidual::CalculateStdevResidual(allResiduals, fMean);
-		CLog::Log(CLog::eInformational, _T("ScoreThresholdAdapter"), L"Adapted score threshold from %f to %f and removed %d registrations, Residual stats: %f +- %f", fPreviousThreshold, fCurrentThreshold, nPreviousRegs - regResults.size(), fMean, fStdev);
+		std::wstring formatString(L"Adapted score threshold from %f to %f and removed %d registrations, Residual stats: %f +- %f");
+		auto formatted = boost::wformat(formatString) % fPreviousThreshold % fCurrentThreshold % (nPreviousRegs - regResults.size()) % fMean % fStdev;
+		CLog::Log(CLog::eInformational, L"ScoreThresholdAdapter", formatted.str());
 		};
 
 	if (s_bDetailedLogging)
@@ -64,7 +67,8 @@ void CScoreThresholdAdapter::ProcessRegistrationData(std::vector<StlImage<float>
 		auto allResiduals = CRegistrationPostProcessor::GetAllResiduals(validRegistrationResults);
 		double fMean = CResidual::CalculateMeanResidual(allResiduals);
 		double fStdev = CResidual::CalculateStdevResidual(allResiduals, fMean);
-		CLog::Log(CLog::eInformational, _T("ScoreThresholdAdapter"), L"Initial score threshold at %f, Residual stats: %f +- %f", fThreshold, fMean, fStdev);
+		auto formatted = boost::wformat(L"Initial score threshold at %f, Residual stats: %f +- %f") % fThreshold % fMean % fStdev;
+		CLog::Log(CLog::eInformational, L"ScoreThresholdAdapter", formatted.str());
 	}
 
 	size_t nPreviousRegs = nValidRegistrations;
@@ -85,7 +89,9 @@ void CScoreThresholdAdapter::ProcessRegistrationData(std::vector<StlImage<float>
 		}
 	}
 
-	CLog::Log(CLog::eInformational, _T("ScoreThresholdAdapter"), L"Adapted score threshold from %f to %f and removed %d registrations.", fThreshold, m_ScoreParameters.GetScoreThreshold(), nValidRegistrations - validRegistrationResults.size());
+	std::wstring formatString(L"Adapted score threshold from %f to %f and removed %d registrations.");
+	auto formatted = boost::wformat(formatString) % fThreshold % m_ScoreParameters.GetScoreThreshold() % (nValidRegistrations - validRegistrationResults.size());
+	CLog::Log(CLog::eInformational, L"ScoreThresholdAdapter", formatted.str());
 }
 
 void CScoreThresholdAdapter::AdaptScoreThreshold()

@@ -456,19 +456,6 @@ std::shared_ptr<std::string> CStringUtilities::getenv(const std::string& name)
 	}
 }
 
-//DO NOT MAKE THE FIRST PARAMETER A CSTRING&!!!!
-//IF YOU DO THAT IT WILL FUCK UP ON WIN32
-//THE VA_LIST HAS AN OFFSET OF 4 TO 8 BYTES TO THE REAL DATA
-std::wstring CStringUtilities::Format(const LPCTSTR FormatString, ...)
-{
-	CString tmp;
-	va_list v;
-	va_start(v, FormatString);
-	tmp.FormatV(FormatString, v);
-	va_end(v);
-	return std::wstring(tmp.GetBuffer());
-}
-
 std::string CStringUtilities::ConvertToStdString(const std::wstring& str)
 {
 	char* a = new char[str.size() + 2];

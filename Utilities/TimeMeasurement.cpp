@@ -20,11 +20,10 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-#include "StdAfx.h"
-
+#include "stdafx.h"
 #include "TimeMeasurement.h"
-#include "StringUtilities.h"
-#include <string>
+
+
 
 /**	\brief Der Standardkonstruktor.
  */
@@ -231,5 +230,6 @@ std::wstring CTimeMeasurement::GetTimeStr()
 	long nMinutes = GetMinutes() % 60;
 	long nHours = GetHours();
 
-	return CStringUtilities::Format(_T("%d:%02d:%02d.%03d"), nHours, nMinutes, nSeconds, nMillis);
+	auto formatted = boost::wformat(L"%d:%02d:%02d.%03d") % nHours % nMinutes % nSeconds % nMillis;
+	return formatted.str();
 }

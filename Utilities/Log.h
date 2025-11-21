@@ -21,8 +21,12 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #pragma once
+
 #include <string>
 #include <string_view>
+
+
+
 /**	\brief Die Klasse CLog implementiert ein Applikationsprotokoll mit
  *	Dateiausgabe.
  *
@@ -53,9 +57,8 @@ public:
 public:
 
 	static void InitLogging(const std::wstring_view sFilePath);
-	//Do not change the const LPCTSTR to CString or a reference without reading the Comment at CStringUtilities::FormatString
-	static void Log(ELogLevel nLogLevel, const LPCTSTR sModule, const LPCTSTR sMessage, ...);
+	static void Log(ELogLevel nLogLevel, const std::wstring& sModule, const std::wstring& sMessage);
 	static void SetSeverityCeiling(ELogLevel ceiling);
 	static std::wstring SeverityToString(ELogLevel nLogLevel);
-};
 
+};

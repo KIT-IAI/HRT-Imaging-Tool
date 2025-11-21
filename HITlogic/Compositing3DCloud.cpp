@@ -22,8 +22,10 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #include "stdafx.h"
 #include "Compositing3DCloud.h"
+
 #include "ImageUndistortion.h"
-#include "Log.h"
+
+
 
 CCompositing3DCloud::CCompositing3DCloud(const CCompositingParameters& Param)
 	: CCompositing(Param)

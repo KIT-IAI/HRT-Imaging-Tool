@@ -21,14 +21,15 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #include "stdafx.h"
+#include "RegStepSubImageScoreThresholdAdapter.h"
 
 #include <iostream>
 
-#include "Log.h"
-#include "RegStepSubImageScoreThresholdAdapter.h"
 #include "HRTGlobalPositioning.h"
 #include "SNPDatasetOutputParameters.h"
 #include "SNPGroupResult.h"
+
+
 
 ///	<summary> Specifies whether detailed logging of the score threshold computation process is enabled (default: <c>false</c>) </summary>
 ///	<remarks>

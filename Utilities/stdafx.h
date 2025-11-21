@@ -39,6 +39,7 @@ using std::max;
 #include <string>
 
 #include <boost/asio.hpp>
+#include <boost/format.hpp>
 
 #include <afxwin.h>         // MFC core and standard components
 

@@ -612,13 +612,9 @@ bool CSLESolver::SolveEquationCGALGLIB(const CSparseMatrix& A, const CDenseVecto
 
 	if (!param.m_bQuiet && areport.terminationtype <= 0)
 	{
-		std::wstring stdMsg =
-			CStringUtilities::Format(L"Solver terminated with termination code %d\n\nNumber of iterations: %d\nNumber of multiplications: %d\n R2: %f",
-				areport.terminationtype,
-				areport.iterationscount,
-				areport.nmv,
-				areport.r2);
-		CLog::Log(CLog::eError, L"SolveEquationCGALGLIB", stdMsg.c_str());
+		std::wstring formatString(L"Solver terminated with termination code %d\n\nNumber of iterations: %d\nNumber of multiplications: %d\n R2: %f");
+		auto formatted = boost::wformat(formatString) % areport.terminationtype % areport.iterationscount % areport.nmv % areport.r2;
+		CLog::Log(CLog::eError, L"SolveEquationCGALGLIB", formatted.str());
 	}
 
 	return areport.terminationtype > 0;

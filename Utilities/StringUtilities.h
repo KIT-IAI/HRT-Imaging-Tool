@@ -81,11 +81,6 @@ public:
 	static std::shared_ptr<std::wstring> getenv(const std::wstring& name);
 	static std::shared_ptr<std::string> getenv(const std::string& name);
 
-	//DO NOT MAKE THE FIRST PARAMETER A CSTRING&!!!!
-	//IF YOU DO THAT IT WILL FUCK UP ON WIN32
-	//THE VA_LIST HAS AN OFFSET OF 4 TO 8 BYTES TO THE REAL DATA
-	static std::wstring Format(const LPCTSTR FormatString, ...);
-
 	static std::string ConvertToStdString(const std::wstring& str);
 	static std::wstring ConvertToStdWstring(const std::string& str);
 	static std::string ConvertToStdString(const std::wstring_view str);

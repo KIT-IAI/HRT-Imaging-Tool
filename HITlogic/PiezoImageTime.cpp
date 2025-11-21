@@ -22,13 +22,12 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #include "stdafx.h"
 #include "PiezoImageTime.h"
-#include "Log.h"
+
 
 
 PiezoImageTime::PiezoImageTime()
 {
 }
-
 
 PiezoImageTime::~PiezoImageTime()
 {
@@ -469,15 +468,18 @@ void PiezoImageTime::syncImagePiezoHeight(int Pstep, int Inum) {
 			}
 
 			tmp.height = after.height - (after.height - before.height) * transFakt;
-			/*CString out;
-			out.Format("%d", tmp.Inumber);*/
-			if (timePiezoDif > 100000.0) {
-				CLog::Log(CLog::eWarning, L"MosaikbildDlg", L"timePiezoDif very high at: Inum: %d, Piezostep(counter) %d, Before: %f, After %f, timePiezoDif: %f, timeImageDif %f", tmp.Inumber, counter, before.calcJustMili(), after.calcJustMili(), timePiezoDif, timeImageDif);
+			if (timePiezoDif > 100000.0)
+			{
+				std::wstring formatString(L"timePiezoDif very high at: Inum: %d, Piezostep(counter) %d, Before: %f, After %f, timePiezoDif: %f, timeImageDif %f");
+				auto formatted = boost::wformat(formatString) % tmp.Inumber % counter % before.calcJustMili() % after.calcJustMili() % timePiezoDif % timeImageDif;
+				CLog::Log(CLog::eWarning, L"MosaikbildDlg", formatted.str());
 			}
-			/*else {
-				CLog::Log(CLog::eWarning, L"MosaikbildDlg", L"Inum: %d, Counter %d, Before: %f, After %f, timePiezoDif: %f, timeImageDif %f", tmp.Inumber, counter, before.calcJustMili(), after.calcJustMili(), timePiezoDif, timeImageDif);
-
-			}*/
+			//else
+			//{
+			//	std::wstring formatString(L"Inum: %d, Piezostep(counter) %d, Before: %f, After %f, timePiezoDif: %f, timeImageDif %f");
+			//	auto formatted = boost::wformat(formatString) % tmp.Inumber % counter % before.calcJustMili() % after.calcJustMili() % timePiezoDif % timeImageDif;
+			//	CLog::Log(CLog::eWarning, L"MosaikbildDlg", formatted.str());
+			//}
 		}
 		/*if (tmp.height < m_minPiezoHeight || tmp.height > m_maxPiezoHeight) {
 		int stop = 0;

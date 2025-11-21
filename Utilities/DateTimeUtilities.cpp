@@ -22,12 +22,15 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #include "stdafx.h"
 #include "DateTimeUtilities.h"
+
 #include <boost\date_time.hpp>
-#include "StringUtilities.h"
+
+
 
 std::wstring CDateTimeUtilities::CDateTime::ToString() const
 {
-	return CStringUtilities::Format(L"%04d-%02d-%02d %02d:%02d:%02d", year, month, day, hour, minute, second);
+	auto formatted = boost::wformat(L"%04d-%02d-%02d %02d:%02d:%02d") % year % month % day % hour % minute % second;
+	return formatted.str();
 }
 
 CDateTimeUtilities::CDateTime CDateTimeUtilities::Now()

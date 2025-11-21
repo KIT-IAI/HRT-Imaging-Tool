@@ -20,10 +20,10 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-#include <algorithm>
 #include "stdafx.h"
 #include "HRTImageDepthAndAngleData.h"
-#include "Log.h"
+
+
 
 CHRTImageDepthAndAngleData::CHRTImageDepthAndAngleData()
 {

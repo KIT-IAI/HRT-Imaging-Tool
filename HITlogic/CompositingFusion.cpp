@@ -21,9 +21,11 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #include "stdafx.h"
-#include "Log.h"
 #include "CompositingFusion.h"
+
 #include "ImageUndistortion.h"
+
+
 
 CCompositingFusion::CCompositingFusion(const CCompositingParameters& Param)
 	: CCompositing(Param)

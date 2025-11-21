@@ -20,15 +20,11 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-#include "StdAfx.h"
+#include "stdafx.h"
+#include "Log.h"
 
 #pragma comment(lib, "Kernel32.lib")
 #pragma comment(lib, "psapi.lib")
-
-#include "Log.h"
-#include "StringUtilities.h"
-//Be carefull this supresses a lot of noise and the Unreferenced Parameter warning for this file.
-#pragma warning(disable: 4503 4714 4510 4610 4100)
 
 #include <boost/log/core.hpp>
 #include <boost/log/trivial.hpp>
@@ -42,6 +38,13 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include <boost/log/sources/record_ostream.hpp>
 #include <boost/log/support/date_time.hpp>
 
+#include "StringUtilities.h"
+
+//Be carefull this supresses a lot of noise and the Unreferenced Parameter warning for this file.
+#pragma warning(disable: 4503 4714 4510 4610 4100)
+
+
+
 namespace logging = boost::log;
 namespace keywords = boost::log::keywords;
 namespace sinks = boost::log::sinks;
@@ -51,6 +54,8 @@ namespace trv = boost::log::trivial;
 typedef sinks::synchronous_sink< sinks::debug_output_backend > sink_t;
 typedef sinks::synchronous_sink< sinks::simple_event_log_backend > sink2_t;
 typedef sinks::synchronous_sink< sinks::text_file_backend > sink3_t;
+
+
 
 boost::shared_ptr<sink3_t> CLogFileLogger;
 
@@ -175,18 +180,14 @@ void CLog::InitLogging(const std::wstring_view sFilePath)
  *		Wichtigkeitsgrads kann das Protokoll gefiltert werden.
  *	\param[in] sModule Der Name des Moduls, welches den Protokolleintrag
  *		verursacht. Der Modulname kann frei definiert werden.
- *	\param[in] sEvent Der Protokolleintrag. Kann FormatStrings enthalten.
- * \param[in, out] ... Die Parameter für den Formatstring in sEvent
+ *	\param[in] sMessage Der Protokolleintrag.
  */
-void CLog::Log(ELogLevel nLogLevel, const LPCTSTR sModule, const LPCTSTR sMessage, ...)
+void CLog::Log(ELogLevel nLogLevel, const std::wstring& sModule, const std::wstring& sMessage)
 {
 	std::wstring msg(sModule);
 	msg.append(L": ");
 
-	va_list v;
-	va_start(v, sMessage);
-	msg.append(CStringUtilities::Format(sMessage, v));
-	va_end(v);
+	msg.append(sMessage);
 
 	using namespace logging::trivial;
 	src::severity_logger< severity_level > lg;

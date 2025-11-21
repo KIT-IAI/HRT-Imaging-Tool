@@ -21,8 +21,9 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #include "stdafx.h"
-#include "Log.h"
 #include "RegStepResidualFilter.h"
+
+
 
 CRegStepResidualFilter::~CRegStepResidualFilter()
 {
@@ -42,7 +43,8 @@ void CRegStepResidualFilter::ProcessRegistrationData(std::vector<StlImage<float>
 		CRegistrationPostProcessor::SolveRigidPositioning(validRegistrationResults, pRigidSolution, m_eSolverAlgorithm, m_nImageCount);
 		CRegistrationPostProcessor::CalculateResiduals(validRegistrationResults, pRigidSolution);
 	}
-	CLog::Log(CLog::eInformational, _T("ResidualFilter"), L"Removed %d registration due to a high residual.", validRegistrationCount - validRegistrationResults.size());
+	auto formatted = boost::wformat(L"Removed %d registration due to a high residual.") % (validRegistrationCount - validRegistrationResults.size());
+	CLog::Log(CLog::eInformational, L"ResidualFilter", formatted.str());
 }
 
 bool CRegStepResidualFilter::AreResidualsAcceptable(vector<CRegistrationResult>& RegistrationResults) const

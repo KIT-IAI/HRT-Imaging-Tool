@@ -4,6 +4,7 @@
     "boost-algorithm",
     "boost-date-time",
     "boost-filesystem",
+    "boost-format",
     "boost-lexical-cast",
     "boost-property-tree",
     "boost-rational",

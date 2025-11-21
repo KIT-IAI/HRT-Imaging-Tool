@@ -64,8 +64,12 @@ using std::wfstream;
 using std::wifstream;
 using std::wofstream;
 
+// Boost libraries
+#include <boost/format.hpp>
+
 // Utilities project
 #include "ArrayUtilities.h"
 #include "FileUtilities.h"
+#include "Log.h"
 #include "MathTools.h"
 #include "StringUtilities.h"

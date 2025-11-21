@@ -21,14 +21,15 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #include "stdafx.h"
-
 #include "RegStepRigidRegistration.h"
-#include "ImageCorrelator.h"
-#include "RegistrationStrategyFactory.h"
-#include "PairVerificatorFactory.h"
-#include "Log.h"
-#include "ImageCorrelation.h"
+
 using namespace std;
+
+#include "ImageCorrelation.h"
+#include "ImageCorrelator.h"
+#include "PairVerificatorFactory.h"
+#include "RegistrationStrategyFactory.h"
+
 
 
 CRegStepRigidRegistration::CRegStepRigidRegistration(CRegistrationProcedureParameters params)
