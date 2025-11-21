@@ -43,8 +43,8 @@ void CRegStepResidualFilter::ProcessRegistrationData(std::vector<StlImage<float>
 		CRegistrationPostProcessor::SolveRigidPositioning(validRegistrationResults, pRigidSolution, m_eSolverAlgorithm, m_nImageCount);
 		CRegistrationPostProcessor::CalculateResiduals(validRegistrationResults, pRigidSolution);
 	}
-	auto formatted = boost::wformat(L"Removed %d registration due to a high residual.") % (validRegistrationCount - validRegistrationResults.size());
-	CLog::Log(CLog::eInformational, L"ResidualFilter", formatted.str());
+	CLog::Log(CLog::eInformational, L"ResidualFilter",
+		boost::wformat(L"Removed %d registration due to a high residual.") % (validRegistrationCount - validRegistrationResults.size()));
 }
 
 bool CRegStepResidualFilter::AreResidualsAcceptable(vector<CRegistrationResult>& RegistrationResults) const

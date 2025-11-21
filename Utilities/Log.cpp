@@ -174,28 +174,33 @@ void CLog::InitLogging(const std::wstring_view sFilePath)
 #endif
 }
 
-/**	\brief Fügt dem Protokoll einen Eintrag hinzu.
- *
- *	\param[in] nLogLevel Die Wichtigkeitsgrad des Eintrags. Anhand des
- *		Wichtigkeitsgrads kann das Protokoll gefiltert werden.
- *	\param[in] sModule Der Name des Moduls, welches den Protokolleintrag
- *		verursacht. Der Modulname kann frei definiert werden.
- *	\param[in] sMessage Der Protokolleintrag.
- */
-void CLog::Log(ELogLevel nLogLevel, const std::wstring& sModule, const std::wstring& sMessage)
+/// <summary> Adds a single log entry </summary>
+/// <param name="logLevel"> Severity level of the log entry </param>
+/// <param name="moduleName"> Name of the module that created the log entry </param>
+/// <param name="formattedMessage"> Log entry message </param>
+void CLog::Log(ELogLevel logLevel, const std::wstring& moduleName, const std::wstring& message)
 {
-	std::wstring msg(sModule);
+	std::wstring msg(moduleName);
 	msg.append(L": ");
 
-	msg.append(sMessage);
+	msg.append(message);
 
 	using namespace logging::trivial;
 	src::severity_logger< severity_level > lg;
-	BOOST_LOG_SEV(lg, TranslateSeverity(nLogLevel)) << CStringUtilities::ConvertToStdString(msg);
+	BOOST_LOG_SEV(lg, TranslateSeverity(logLevel)) << CStringUtilities::ConvertToStdString(msg);
 	if (CLogFileLogger.get())
 	{
 		CLogFileLogger->flush();
 	}
+}
+
+/// <summary> Adds a single log entry </summary>
+/// <param name="logLevel"> Severity level of the log entry </param>
+/// <param name="moduleName"> Name of the module that created the log entry </param>
+/// <param name="message"> Log entry message </param>
+void CLog::Log(ELogLevel logLevel, const std::wstring& moduleName, const boost::wformat& message)
+{
+	CLog::Log(logLevel, moduleName, message.str());
 }
 
 void CLog::SetSeverityCeiling(ELogLevel ceiling)

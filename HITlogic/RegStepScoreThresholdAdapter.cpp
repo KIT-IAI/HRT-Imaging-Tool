@@ -58,8 +58,8 @@ void CScoreThresholdAdapter::ProcessRegistrationData(std::vector<StlImage<float>
 		double fMean = CResidual::CalculateMeanResidual(allResiduals);
 		double fStdev = CResidual::CalculateStdevResidual(allResiduals, fMean);
 		std::wstring formatString(L"Adapted score threshold from %f to %f and removed %d registrations, Residual stats: %f +- %f");
-		auto formatted = boost::wformat(formatString) % fPreviousThreshold % fCurrentThreshold % (nPreviousRegs - regResults.size()) % fMean % fStdev;
-		CLog::Log(CLog::eInformational, L"ScoreThresholdAdapter", formatted.str());
+		CLog::Log(CLog::eInformational, L"ScoreThresholdAdapter",
+			boost::wformat(formatString) % fPreviousThreshold % fCurrentThreshold % (nPreviousRegs - regResults.size()) % fMean % fStdev);
 		};
 
 	if (s_bDetailedLogging)
@@ -67,8 +67,8 @@ void CScoreThresholdAdapter::ProcessRegistrationData(std::vector<StlImage<float>
 		auto allResiduals = CRegistrationPostProcessor::GetAllResiduals(validRegistrationResults);
 		double fMean = CResidual::CalculateMeanResidual(allResiduals);
 		double fStdev = CResidual::CalculateStdevResidual(allResiduals, fMean);
-		auto formatted = boost::wformat(L"Initial score threshold at %f, Residual stats: %f +- %f") % fThreshold % fMean % fStdev;
-		CLog::Log(CLog::eInformational, L"ScoreThresholdAdapter", formatted.str());
+		CLog::Log(CLog::eInformational, L"ScoreThresholdAdapter",
+			boost::wformat(L"Initial score threshold at %f, Residual stats: %f +- %f") % fThreshold % fMean % fStdev);
 	}
 
 	size_t nPreviousRegs = nValidRegistrations;
@@ -90,8 +90,8 @@ void CScoreThresholdAdapter::ProcessRegistrationData(std::vector<StlImage<float>
 	}
 
 	std::wstring formatString(L"Adapted score threshold from %f to %f and removed %d registrations.");
-	auto formatted = boost::wformat(formatString) % fThreshold % m_ScoreParameters.GetScoreThreshold() % (nValidRegistrations - validRegistrationResults.size());
-	CLog::Log(CLog::eInformational, L"ScoreThresholdAdapter", formatted.str());
+	CLog::Log(CLog::eInformational, L"ScoreThresholdAdapter",
+		boost::wformat(formatString) % fThreshold % m_ScoreParameters.GetScoreThreshold() % (nValidRegistrations - validRegistrationResults.size()));
 }
 
 void CScoreThresholdAdapter::AdaptScoreThreshold()

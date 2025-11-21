@@ -471,14 +471,14 @@ void PiezoImageTime::syncImagePiezoHeight(int Pstep, int Inum) {
 			if (timePiezoDif > 100000.0)
 			{
 				std::wstring formatString(L"timePiezoDif very high at: Inum: %d, Piezostep(counter) %d, Before: %f, After %f, timePiezoDif: %f, timeImageDif %f");
-				auto formatted = boost::wformat(formatString) % tmp.Inumber % counter % before.calcJustMili() % after.calcJustMili() % timePiezoDif % timeImageDif;
-				CLog::Log(CLog::eWarning, L"MosaikbildDlg", formatted.str());
+				CLog::Log(CLog::eWarning, L"MosaikbildDlg",
+					boost::wformat(formatString) % tmp.Inumber % counter % before.calcJustMili() % after.calcJustMili() % timePiezoDif % timeImageDif);
 			}
 			//else
 			//{
 			//	std::wstring formatString(L"Inum: %d, Piezostep(counter) %d, Before: %f, After %f, timePiezoDif: %f, timeImageDif %f");
-			//	auto formatted = boost::wformat(formatString) % tmp.Inumber % counter % before.calcJustMili() % after.calcJustMili() % timePiezoDif % timeImageDif;
-			//	CLog::Log(CLog::eWarning, L"MosaikbildDlg", formatted.str());
+			//	CLog::Log(CLog::eWarning, L"MosaikbildDlg",
+			//		boost::wformat(formatString) % tmp.Inumber % counter % before.calcJustMili() % after.calcJustMili() % timePiezoDif % timeImageDif);
 			//}
 		}
 		/*if (tmp.height < m_minPiezoHeight || tmp.height > m_maxPiezoHeight) {

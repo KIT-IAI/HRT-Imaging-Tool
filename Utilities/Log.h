@@ -25,6 +25,8 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include <string>
 #include <string_view>
 
+#include <boost/format.hpp>
+
 
 
 /**	\brief Die Klasse CLog implementiert ein Applikationsprotokoll mit
@@ -57,7 +59,8 @@ public:
 public:
 
 	static void InitLogging(const std::wstring_view sFilePath);
-	static void Log(ELogLevel nLogLevel, const std::wstring& sModule, const std::wstring& sMessage);
+	static void Log(ELogLevel logLevel, const std::wstring& moduleName, const std::wstring& message);
+	static void Log(ELogLevel logLevel, const std::wstring& moduleName, const boost::wformat& message);
 	static void SetSeverityCeiling(ELogLevel ceiling);
 	static std::wstring SeverityToString(ELogLevel nLogLevel);
 
