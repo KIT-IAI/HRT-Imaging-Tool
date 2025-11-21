@@ -22,30 +22,3 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #include "stdafx.h"
 #include "CompositingParameters.h"
-
-#include <map>
-
-
-
-std::map<CCompositingParameters::EWeightMode, wstring> CCompositingParameters::EWeightModeMap = {
-	{ EWeightMode::eNone, _T("eNone") },
-	{ EWeightMode::eDistance, _T("eDistance") },
-	{ EWeightMode::eCos2, _T("eCos2") }
-};
-
-wstring CCompositingParameters::GetWeightModeName(EWeightMode eWeightMode)
-{
-	return EWeightModeMap[eWeightMode];
-}
-CCompositingParameters::EWeightMode CCompositingParameters::GetWeightModeID(wstring sWeightMode)
-{
-	for (auto e : EWeightModeMap)
-	{
-		if (CStringUtilities::CompareNoCase(e.second, sWeightMode))
-		{
-			return e.first;
-		}
-	}
-	//use as error value
-	return EWeightMode::eInvalid;
-}

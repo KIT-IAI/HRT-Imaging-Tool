@@ -31,74 +31,90 @@ PiezoImageTime::PiezoImageTime()
 
 PiezoImageTime::~PiezoImageTime()
 {
-
 }
 
-int PiezoImageTime::readPiezo(CString file) {
+int PiezoImageTime::readPiezo(const std::wstring& filepath)
+{
 	m_PiezoValues.clear();
-	synced = FALSE;
+	synced = false;
 
-	CStdioFile f(file, CStdioFile::modeRead + CStdioFile::typeText);
-	CString line = _T("");
+	m_minPiezoHeight = std::numeric_limits<int>::max();
+	m_maxPiezoHeight = std::numeric_limits<int>::min();
 
-	m_minPiezoHeight = INT_MAX;
-	m_maxPiezoHeight = INT_MIN;
+	std::wifstream ifs(filepath);
+	if (!ifs.is_open())
+		return -1;
 
 	int errorlines = 0;
-	BOOL errorfree = true;
 
-	while (f.ReadString(line)) { //Zeilenweise lesen
-		vector<int> cuts;
-		cuts.push_back(0);
-		cuts.push_back(line.Find(L'T', cuts.at(0) + 1));
-		cuts.push_back(line.Find(L'.', cuts.at(0) + 1));
-		cuts.push_back(line.Find(L';', cuts.at(0) + 1));
+	int year = 0;
+	int month = 0;
+	int day = 0;
+	int hour = 0;
+	int minute = 0;
+	int second = 0;
+	int millis = 0;
+	double height = 0.0;
+	std::wstring heightString;
+	wchar_t delim;
 
-		errorfree = true;
-		for (int tmp : cuts) { //wenn teilzeichen nicht gefunden ist Zeile fehlerhaft
-			if (tmp == -1) {
-				errorfree = false;
-				break;
+	// example line:
+	// 2021-01-22T13:52:49.907569;496,184825897
+	while (!ifs.eof())
+	{
+		if (ifs >> year >> delim >> month >> delim >> day >> delim >> hour >> delim >> minute >> delim >> second >> delim >> millis >> delim >> heightString)
+		{
+			// potentially correct line
+			std::replace(heightString.begin(), heightString.end(), L',', L'.');
+			std::wistringstream iss(heightString);
+			if ((iss >> height) && iss.eof())
+			{
+				// correct line
+				Timestamp tmp;
+				tmp.hms = hour * 3600 + minute * 60 + second;
+				tmp.mili = static_cast<double>(millis);
+				tmp.height = height;
+				tmp.Inumber = 0;
+				m_PiezoValues.push_back(tmp);
+			}
+			else
+			{
+				// incorrect line
+				errorlines++;
+				continue;
 			}
 		}
-		if (errorfree) {
-
-			//Datum wird weg gelassen
-			/*CString date = line.Mid(cuts.at(0), cuts.at(1));
-			date.Remove(L'-');*/
-			CString timeTmp = line.Mid(cuts.at(1) + 1, cuts.at(2) - cuts.at(1) - 1);
-			UINT time = 0;
-			time += _ttoi(timeTmp.Mid(0, 2)) * 3600;
-			time += _ttoi(timeTmp.Mid(3, 2)) * 60;
-			time += _ttoi(timeTmp.Mid(6, 2));
-			CString mili = line.Mid(cuts.at(2) + 1, cuts.at(3) - cuts.at(2) - 1);
-			CString height = line.Right(line.GetLength() - cuts.at(3) - 1);
-			height.Replace(L',', L'.');
-
-			//CLog::Log(CLog::eDebug, L"Test", "%i - " + mili + " - " + height, time);
-			Timestamp tmp;
-			tmp.hms = time;
-			tmp.mili = _ttoi(mili);
-			tmp.height = _ttof(height);
-			tmp.Inumber = 0;
-			m_PiezoValues.push_back(tmp);
-
-			if (_ttof(height) < m_minPiezoHeight) {
-				m_minPiezoHeight = _ttof(height);
-			}
-			if (_ttof(height) > m_maxPiezoHeight) {
-				m_maxPiezoHeight = _ttof(height);
-			}
+		else if (ifs.eof())
+		{
+			// empty last line
+			continue;
 		}
-		else {
+		else
+		{
+			// incorrect line
 			errorlines++;
+			continue;
+		}
+
+		if (height < m_minPiezoHeight)
+		{
+			m_minPiezoHeight = height;
+		}
+		if (height > m_maxPiezoHeight)
+		{
+			m_maxPiezoHeight = height;
 		}
 	}
-	if (m_PiezoValues.size() == 0) //wenn keine Zeilen fehlerfrei waren
+
+	if (m_PiezoValues.size() == 0)
+	{
+		// not a single correct line
 		return -1;
+	}
+
 	m_PiezoDif = m_maxPiezoHeight - m_minPiezoHeight;
 	calcAvergaeHeight();
-	m_firstRealPiezoVal = m_PiezoValues.at(0);
+	m_firstRealPiezoVal = m_PiezoValues[0];
 
 	recalcTime(&m_PiezoValues);
 	return errorlines;
@@ -125,83 +141,93 @@ void PiezoImageTime::recalcTime(vector<Timestamp>* timeVect) {
 	}
 }
 
-
-int PiezoImageTime::readImageTime(CString file) {
+int PiezoImageTime::readImageTime(const std::wstring& filepath)
+{
 	m_ImageValues.clear();
 	m_missingImages.clear();
 	m_allImages.clear();
-	synced = FALSE;
+	synced = false;
 
-	CStdioFile f(file, CStdioFile::modeRead + CStdioFile::typeText);
-	CString line = _T("");
-	BOOL DataOk = false;
+	std::wifstream ifs(filepath);
+	if (!ifs.is_open())
+		return -1;
 
-	//Suche Anfang der Zeitdaten (einzige Zeile mit #)
-	while (f.ReadString(line)) {
-		if (line.Find(L'#') != -1) {
-			DataOk = true;
+	std::wstring line;
+
+	// look for header line above tabular data (only line containing #)
+	bool ok = false;
+	while (!ifs.eof())
+	{
+		if (std::getline(ifs, line) && (line.find(L'#') != std::wstring::npos))
+		//if ((ifs >> line) && (line.find(L'#') != std::wstring::npos))
+		{
+			ok = true;
 			break;
 		}
 	}
 
-	if (DataOk) { //wenn # gefunden
-		int errorlines = 0;
-		BOOL errorfree = true;
-
-		while (f.ReadString(line)) { //Zeilenweise lesen
-			vector<int> cuts;
-			cuts.push_back(0);
-			for (int i = 1; i < 9; i++) {
-				cuts.push_back(line.Find(L'	', cuts.at(i - 1) + 1));
-			}
-			errorfree = true;
-			for (int tmp : cuts) {  //wenn nicht ausreichend Tabs zum Teilen gefunden ist Zeile fehlerhaft
-				if (tmp == -1) {
-					errorfree = false;
-					break;
-				}
-			}
-			if (errorfree) {
-				CString Number = line.Mid(cuts.at(0), cuts.at(1)); //Bildnummer
-				//Datum wird weg gelassen
-				/*
-				CString date =  (line.Mid(cuts.at(1) + 1, cuts.at(2) - cuts.at(1) - 1)); //Jahr
-				date += norm2	(line.Mid(cuts.at(2) + 1, cuts.at(3) - cuts.at(2) - 1)); //Monat
-				date += norm2	(line.Mid(cuts.at(3) + 1, cuts.at(4) - cuts.at(3) - 1)); //Tag
-				*/
-
-				UINT time = 0; //Zeit wird in Sekunden umgerechnet
-				time += _ttoi(line.Mid(cuts.at(4) + 1, cuts.at(5) - cuts.at(4) - 1)) * 3600; //Stunde
-				time += _ttoi(line.Mid(cuts.at(5) + 1, cuts.at(6) - cuts.at(5) - 1)) * 60; //Minute
-				time += _ttoi(line.Mid(cuts.at(6) + 1, cuts.at(7) - cuts.at(6) - 1)); //Sekunde
-
-				CString mili = (line.Mid(cuts.at(7) + 1, cuts.at(8) - cuts.at(7) - 1)) + L"000"; //milisenkundenwert gleich lang wie in Piezo
-
-				Timestamp tmp;
-				tmp.hms = time;
-				tmp.mili = _ttoi(mili);
-				tmp.Inumber = _ttoi(Number);
-				tmp.height = 0;
-				m_allImages.push_back(tmp);
-			}
-			else {
-				errorlines++;
-			}
-		}
-		//m_missingImages.push_back(&m_allImages);
-		std::copy(m_allImages.begin(), m_allImages.end(), std::back_inserter(m_ImageValues));
-		if (m_allImages.size() == 0) //wenn Daten aus irgendeinem Grund sinnvoll aber nicht lesbar
-			return -1;
-		//m_missingImages.insert(m_missingImages.begin(), m_ImageValues.at(0));
-		m_firstRealImageVal = m_allImages.at(0);
-
-		recalcTime(&m_ImageValues);
-		recalcTime(&m_allImages);
-		return errorlines;
+	if (!ok)
+	{
+		return -1;
 	}
-	return -1;
-}
 
+	int errorlines = 0;
+
+	int imageID = 0;
+	int year = 0;
+	int month = 0;
+	int day = 0;
+	int hour = 0;
+	int minute = 0;
+	int second = 0;
+	int millis = 0;
+
+	// example line:
+	// 00001	2021	1	22	13	52	46	497	0.033000	0	85	6.643812	7.649688	-59	-32768	2	9.483622	0.000000	0.000000	-6	1.000000	0.000000	0.000000	0.000000	1.000000	0.000000
+	while (!ifs.eof())
+	{
+		if (ifs >> imageID >> year >> month >> day >> hour >> minute >> second >> millis)
+		{
+			// correct line
+			// The following handling of split-seconds is really weird, but the
+			// split-seconds are actually saved as a double value representing
+			// the decimal part AS IF IT WERE AN INTEGER. So for example the
+			// decimal part of 3.14 would be saved as 14, and the decimal part
+			// of 3.140 would be saved as 140, even though they should be the
+			// same thing. For that reason, we multiply the three digit
+			// split-seconds part by 1000 here, in order to have six decimal
+			// digits, as in the piezo data part. This is really unintuitive and
+			// error-prone, and if we ever actually actively use this again, we
+			// should REALLY change this!
+			Timestamp tmp;
+			tmp.hms = hour * 3600 + minute * 60 + second;
+			tmp.mili = static_cast<double>(millis * 1000);
+			tmp.Inumber = imageID;
+			tmp.height = 0.0;
+			m_allImages.push_back(tmp);
+		}
+		else if (ifs.eof())
+		{
+			// empty last line
+			continue;
+		}
+		else
+		{
+			// incorrect line
+			errorlines++;
+		}
+		std::getline(ifs, line);
+	}
+
+	std::copy(m_allImages.begin(), m_allImages.end(), std::back_inserter(m_ImageValues));
+	if (m_allImages.size() == 0) //wenn Daten aus irgendeinem Grund sinnvoll aber nicht lesbar
+		return -1;
+	m_firstRealImageVal = m_allImages.at(0);
+
+	recalcTime(&m_ImageValues);
+	recalcTime(&m_allImages);
+	return errorlines;
+}
 
 void PiezoImageTime::giveImageFilterByNames(vector<wstring> tmp) {  //Gibt Dateinamen der verwendeten Bilder um Zeitdaten zu nicht verwendeten Bildern zu filtern
 	m_iImageFilter.clear();
@@ -352,7 +378,7 @@ void PiezoImageTime::syncManualOffset(double OffsetIn) {
 		int stop = 0;
 		}*/
 	}
-	synced = TRUE;
+	synced = true;
 }
 
 void PiezoImageTime::resetOffset() {
@@ -360,7 +386,7 @@ void PiezoImageTime::resetOffset() {
 	recalcTime(&m_missingImages);
 	recalcTime(&m_allImages);
 
-	synced = FALSE;
+	synced = false;
 }
 
 //gibt <offsetHms,offsetMili> des jeweiligen Paars zurück
@@ -486,7 +512,7 @@ void PiezoImageTime::syncImagePiezoHeight(int Pstep, int Inum) {
 		}*/
 
 	}
-	synced = TRUE;
+	synced = true;
 }
 
 void PiezoImageTime::recalcTime(vector<Timestamp>* timeVect, int offsetHms, double OffsetMili) {

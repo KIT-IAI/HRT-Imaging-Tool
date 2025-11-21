@@ -22,18 +22,3 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #include "stdafx.h"
 #include "CorrelationParameters.h"
-
-CString CCorrelationParameters::GetMaskName(EMaskRegArea eMask)
-{
-	switch (eMask)
-	{
-	case EMaskRegArea::eOff:
-		return _T("Off");
-	case EMaskRegArea::eOn:
-		return _T("On");
-	case EMaskRegArea::ePart:
-		return _T("Part");
-	}
-	ASSERT(false);
-	return _T("");
-}

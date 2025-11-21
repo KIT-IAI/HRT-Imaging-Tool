@@ -75,7 +75,7 @@ std::wstring CSLESolver::GetAlgorithmDescription(EAlgorithm eAlgorithm)
 		return L"(CG-SV-ALGLIB) CG-Verfahren mit Startvektor aus Grobregistrierung";
 	default:
 		assert(false);
-		return _T("No description found.");
+		return L"No description found.";
 	}
 }
 

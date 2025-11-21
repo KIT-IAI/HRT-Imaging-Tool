@@ -21,6 +21,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #pragma once
+
 #include "ProcessType.h"
 
 /*
@@ -28,20 +29,22 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 */
 class CCorrelationParameters
 {
+
 public:
+
 	enum class EMaskRegArea
 	{
 		eOff = 0,
 		eOn = 1,
 		ePart = 2,
 	};
+
 	enum class EDirection
 	{
 		eFirst = 0,
 		eUp = 1,
 		eDown = 2,
 	};
-	static CString GetMaskName(EMaskRegArea eMask);
 
 	// SubImageParameters
 	// These can be split into their own class/struct
@@ -54,4 +57,3 @@ public:
 	CProcessType::EProcessType eProcessType = CProcessType::eHRTStreamRegistration;
 
 };
-

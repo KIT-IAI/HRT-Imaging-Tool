@@ -23,12 +23,14 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #pragma once
 
 #include "ProcessType.h"
-#include <map>
+
 
 
 class CCompositingParameters
 {
+
 public:
+
 	enum class ECompositingType
 	{
 		eFusion,
@@ -38,6 +40,7 @@ public:
 		eMax,
 		eInvalid
 	};
+
 	enum class EWeightMode
 	{
 		eNone,
@@ -45,11 +48,9 @@ public:
 		eDistance,
 		eInvalid
 	};
-	static std::map<EWeightMode, std::wstring> EWeightModeMap;
-	static std::wstring GetWeightModeName(EWeightMode eWeightMode);
-	static EWeightMode GetWeightModeID(std::wstring sWeightMode);
 
 public:
+
 	CProcessType::EProcessType	eRegistrationProcessType = CProcessType::eHRTStreamRegistration;
 	ECompositingType	eCompositingMode = ECompositingType::eFusion;
 	EWeightMode			eWeightMode = EWeightMode::eDistance;	/**	\brief Die Gewichtung der Quellbilder beim Erzeugen des Mosaikbilds.*/
@@ -61,4 +62,5 @@ public:
 	float				fIntensityLimit = 0;					/**	Für 3D-Compositer: Wenn Punkte herausgefiltert werden sollen.*/
 	float				fZMultiplier = 2;						/**	Für 3D-Compositer: Legt fest ob Punktwolke in x_achse gestreckt werden soll.*/
 	bool				bExcludeNonSNPImages = false;
+
 };

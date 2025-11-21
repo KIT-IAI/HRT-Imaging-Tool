@@ -31,17 +31,16 @@ CHRTImageDepthAndAngleCalculator::CHRTImageDepthAndAngleCalculator()
 {
 }
 
-
 CHRTImageDepthAndAngleCalculator::~CHRTImageDepthAndAngleCalculator()
 {
 }
 
 bool CHRTImageDepthAndAngleCalculator::giveBasicInfo(int ImageCount, int PlaneCount, int PlaneIncrement)
 {
-	if (ImageCount < 1 || PlaneCount < 1 || PlaneIncrement <= 0) {
+	if (ImageCount < 1 || PlaneCount < 1 || PlaneIncrement <= 0)
+	{
 		return false;
 	}
-
 
 	m_ImageData.setCount(ImageCount);
 	double calcDepth = 0.0;
@@ -49,24 +48,30 @@ bool CHRTImageDepthAndAngleCalculator::giveBasicInfo(int ImageCount, int PlaneCo
 	bool direction = false;
 	int i = 0;
 
-	while (i < ImageCount) {
-		//if (planeCounter >= PlaneCount) {
-		if ((i % PlaneCount) == 0 && i >= 1) {
+	while (i < ImageCount)
+	{
+		//if (planeCounter >= PlaneCount)
+		if ((i % PlaneCount) == 0 && i >= 1)
+		{
 			direction = !direction; //reverse direction	
-			if (direction) {
+			if (direction)
+			{
 				calcDepth += (0.5 * PlaneIncrement);
 			}
-			else {
+			else
+			{
 				calcDepth -= (0.5 * PlaneIncrement);
 			}
 			m_ImageData.setImageDepth(i - 1, calcDepth);//2x same value (overwrite previous value)
 		}
 		m_ImageData.setImageDepth(i, calcDepth);
 
-		if (direction) {
+		if (direction)
+		{
 			calcDepth += (0.5 * PlaneIncrement);
 		}
-		else {
+		else
+		{
 			calcDepth -= (0.5 * PlaneIncrement);
 		}
 
@@ -84,7 +89,8 @@ bool CHRTImageDepthAndAngleCalculator::givePiezoData(int /*ImageCount*/, wstring
 	wstring ParameterFile = snpFolder + L"\\" + seriesName + L"_Parameters.txt";
 	wstring PiezoFile = filePathAndSeriesName + L"_piezo1.txt";
 
-	if (!((CFileUtilities::FileExists(ParameterFile)) && (CFileUtilities::FileExists(PiezoFile)))) {
+	if (!((CFileUtilities::FileExists(ParameterFile)) && (CFileUtilities::FileExists(PiezoFile))))
+	{
 		CLog::Log(CLog::eWarning, L"CHRTImageDepthAndAngleCalculator", L"Ein Teil der Piezo- / Bilddaten fehlt");
 		return false; //wenn Daten fehlen kann Höhe nicht aus Piezo bestimmt werden
 	}
@@ -93,23 +99,32 @@ bool CHRTImageDepthAndAngleCalculator::givePiezoData(int /*ImageCount*/, wstring
 	m_ImageData.setSnpPath(snpFolder);
 
 	PiezoImageTime DepthCalc;
-	DepthCalc.readPiezo(PiezoFile.c_str());
-	DepthCalc.readImageTime(ParameterFile.c_str());
+	DepthCalc.readPiezo(PiezoFile);
+	DepthCalc.readImageTime(ParameterFile);
 
-	if (!useOffsetVar) { //Offest wird nicht via Argument gegeben
-		if (CFileUtilities::FileExists(filePathAndSeriesName + L"_offset.txt")) { //gibts in die Zusatzinformationen als Datei?
-			CLog::Log(CLog::eNotice, L"CHRTImageDepthAndAngleCalculator", L"Nutze Offset aus Offset Datei");
-			CString file = (filePathAndSeriesName + L"_offset.txt").c_str();
-			CStdioFile f(file, CStdioFile::modeRead + CStdioFile::typeText);
-			CString line = L"";
-			f.ReadString(line);
-			Offset = _ttof(line);
+	if (!useOffsetVar)
+	{
+		//Offest wird nicht via Argument gegeben
+		std::filesystem::path filepath(filePathAndSeriesName + L"_offset.txt");
+		if (CFileUtilities::FileExists(filepath))
+		{
+			//gibts in die Zusatzinformationen als Datei?
+			std::wifstream ifstream(filepath);
+			if (ifstream.is_open() && (ifstream >> Offset))
+			{
+				CLog::Log(CLog::eNotice, L"CHRTImageDepthAndAngleCalculator", L"Nutze Offset aus Offset Datei");
+			}
+			else
+			{
+				CLog::Log(CLog::eNotice, L"CHRTImageDepthAndAngleCalculator", L"Fehler beim Lesen aus Offsetdatei. Berechne Offset aus Zeitdifferenz Piezo- und Bild-Start. ");
+				Offset = 0;
+			}
 		}
-		else {
+		else
+		{
 			CLog::Log(CLog::eNotice, L"CHRTImageDepthAndAngleCalculator", L"Kein Offset gesetzt und keine Offsetdatei gefunden. Berechne Offset aus Zeitdifferenz Piezo- und Bild-Start. ");
 			Offset = 0;
 		}
-
 	}
 
 	DepthCalc.syncManualOffset(Offset);
@@ -120,7 +135,8 @@ bool CHRTImageDepthAndAngleCalculator::givePiezoData(int /*ImageCount*/, wstring
 	m_ImageData.setInclination(true);
 	//kein Winkelrechner sondern nur setzen Parameter hasInclination (Kennzeichnen, dass Serie aus geneigten Bildern besteht)
 
-	while (i > 0) {
+	while (i > 0)
+	{
 		i--;
 		m_ImageData.setImageDepth(i, DepthCalc.getImageHeightAt(i) - avgHeight);
 	}
@@ -128,11 +144,10 @@ bool CHRTImageDepthAndAngleCalculator::givePiezoData(int /*ImageCount*/, wstring
 	return true;
 }
 
-
-
 bool CHRTImageDepthAndAngleCalculator::giveCombined(int ImageCount, int PlaneCount, wstring filePathAndSeriesName, wstring snpFolder, int PlaneIncrement, bool useOffsetVar, double Offset)
 {
-	if (!givePiezoData(ImageCount, filePathAndSeriesName, snpFolder, useOffsetVar, Offset)) {
+	if (!givePiezoData(ImageCount, filePathAndSeriesName, snpFolder, useOffsetVar, Offset))
+	{
 		CLog::Log(CLog::eWarning, L"CHRTImageDepthAndAngleCalculator", L"Höhenberechnung aus Piezo gescheitert, fallback auf BasisInformationen");
 		return giveBasicInfo(ImageCount, PlaneCount, PlaneIncrement);
 	}

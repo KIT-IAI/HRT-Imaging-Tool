@@ -21,11 +21,12 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #pragma once
-#include <map>
 
 class CProcessType
 {
+
 public:
+
 	enum EProcessType
 	{
 		/**	\brief Hierarchische blockbasierte Registrierung.*/
@@ -43,7 +44,4 @@ public:
 		eInvalid = 5,
 	};
 
-	static std::map<EProcessType, CString> EProcessTypeMap;
-	static CString GetProcessTypeName(EProcessType eProcessType);
-	static EProcessType GetProcessTypeID(CString sProcessType);
 };

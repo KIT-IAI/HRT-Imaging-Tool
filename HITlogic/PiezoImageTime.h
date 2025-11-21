@@ -21,6 +21,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #pragma once
+
 class Timestamp {
 public:
 	int hms;
@@ -30,24 +31,23 @@ public:
 	double calcJustMili() { return double(hms * 1000 * 1000) + mili; }
 };
 
-
 /*
 wichtig: benötigte Merkmale der Dateien
 Piezodaten: <Datum>T<Uhrzeit>.<Mili>;<Höhe>
 Bildparameter: # in Zeile über Nutzdaten
 	alle Daten durch Tab getrennt
-
-
 */
 
 //bei missing Images +1 (da Element 0 nur zur Synchronisation)
 class PiezoImageTime
 {
+
 public:
+
 	PiezoImageTime();
 	~PiezoImageTime();
-	int readPiezo(CString file);
-	int readImageTime(CString file);
+	int readPiezo(const std::wstring& filepath);
+	int readImageTime(const std::wstring& file);
 	void giveImageFilterByNames(std::vector<std::wstring> tmp);
 	void recalcTime(std::vector <Timestamp>* timeVect);
 	void recalcTime(std::vector<Timestamp>* timeVect, int offsetHms, double OffsetMili);
@@ -69,7 +69,7 @@ public:
 	int getMissingImageNumber(int i) const { return m_missingImages.at(i + 1).Inumber; };
 	int getMissingImageHmsAt(int i) { return m_missingImages.at(i + 1).hms; };
 	double getMissingImageMiliAt(int i) { return m_missingImages.at(i + 1).mili; };
-	BOOL getSynced() { return synced; };
+	bool getSynced() { return synced; };
 	double getMaxPiezoHeight() const { return m_maxPiezoHeight; };
 	double getMinPiezoHeight() const { return m_minPiezoHeight; };
 	double getPiezoDif() const { return m_PiezoDif; };
@@ -82,6 +82,7 @@ public:
 	double getFirstRealImageValjMili() { return m_firstRealImageVal.calcJustMili(); };
 
 private:
+
 	std::vector <Timestamp> m_PiezoValues;
 	std::vector <Timestamp> m_ImageValues;
 	std::vector <Timestamp> m_missingImages;
@@ -93,6 +94,6 @@ private:
 	double m_minPiezoHeight;
 	double m_PiezoDif;
 	double m_avergaHeight;
-	BOOL synced = FALSE;
-protected:
+	bool synced = false;
+
 };

@@ -21,7 +21,8 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #pragma once
-class  CUtilities
+
+class CUtilities
 {
 
 public:
@@ -29,15 +30,8 @@ public:
 	CUtilities() = delete;
 	virtual ~CUtilities() = delete;
 
-	static BOOL ValidateROI(int nSizeX, int nSizeY, CRect* rcRect);
-
-
 	static DWORD IsCurrentProcessElevated();
-	static void RestartWithAdminRights(HINSTANCE instance);
 
 	static std::wstring Exec(std::wstring command);
 
 };
-
-
-#define va_pass(valist) CVaPassNext(valist).svapassnext

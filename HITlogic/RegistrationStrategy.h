@@ -24,7 +24,6 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #include <atomic>
 #include <mutex>
-#include <map>
 
 #include "ImagePairVerificator.h"
 #include "ImageRegistrationData.h"
@@ -91,10 +90,6 @@ public:
 
 	CRegistrationStrategy();
 	virtual ~CRegistrationStrategy();
-
-	static std::map<ERegistrationStrategy, CString> ERegistrationStrategyMap;
-	static CString GetRegistrationStrategyName(ERegistrationStrategy eRegistrationStrategy);
-	static ERegistrationStrategy GetRegistrationStrategyID(CString sRegistrationStrategy);
 
 	virtual void SetParameters(const CRegistrationStrategyParameters&) = 0;
 	virtual void Initialize(size_t nImages);

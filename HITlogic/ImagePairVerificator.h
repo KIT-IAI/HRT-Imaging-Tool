@@ -21,6 +21,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #pragma once
+
 #include "RegistrationResult.h"
 #include "RegistrationVerificationParameters.h"
 
@@ -34,7 +35,9 @@ enum class EImagePairVerificator
 
 class CImagePairVerificator
 {
+
 public:
+
 	explicit CImagePairVerificator(const CRegistrationVerificationParameters& param);
 	virtual ~CImagePairVerificator();
 
@@ -44,7 +47,5 @@ public:
 	virtual void Finalize() = 0;
 
 	static CRegistrationResult CreateInvalidRegistration(size_t nImg1, size_t nImg2);
-	static CString GetName(EImagePairVerificator);
 
 };
-

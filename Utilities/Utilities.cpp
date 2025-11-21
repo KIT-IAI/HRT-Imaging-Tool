@@ -35,48 +35,6 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-/**	\brief Prüft, ob eine ROI (region of interest) in die Ausmaße eines
- *	Images passt.
- *
- *	Die Kontrolle ist schärfer als die der anderen Implementierungen der
- *	Methode ValidateROI, da jene eine ROI zulassen, die rechts und unten um
- *	ein Pixel zu groß ist.
- *
- *	\return TRUE, wenn die ROI zulässig ist.
- *	\return FALSE sonst.
- *
- *	\param[in] nSizeX Die Größe des Bildes in x-Richtung.
- *	\param[in] nSizeY Die Größe des Bildes in y-Richtung.
- *	\param[in] rcRect Ein Zeiger auf das Rechteck der ROI.
- *
- *	\see CMilBuffer::ValidateROI()
- *	\see CFocusOptions::ValidateROI()
- *	\see CSequenzParam::ValidateROI()
- */
-BOOL CUtilities::ValidateROI(int nSizeX, int nSizeY, CRect* rcRect)
-{
-	// Hier unterscheidet sich diese ValidateROI von den anderen Implementierungen.
-	CRect digRect(0, 0, nSizeX, nSizeY);
-
-	CPoint topleft(rcRect->left, rcRect->top);
-	CPoint bottright(rcRect->right, rcRect->bottom);
-
-	if (!(digRect.PtInRect(topleft) && digRect.PtInRect(bottright)))
-	{
-		return FALSE;
-	}
-
-	if ((rcRect->top < 0) || (rcRect->left < 0) || (rcRect->bottom <= 0) || (rcRect->right <= 0))
-	{
-		return FALSE;
-	}
-
-	if (rcRect->left >= rcRect->right) return FALSE;
-	if (rcRect->top >= rcRect->bottom) return FALSE;
-
-	return TRUE;
-}
-
 DWORD CUtilities::IsCurrentProcessElevated()
 {
 	HANDLE hToken;
@@ -94,13 +52,7 @@ DWORD CUtilities::IsCurrentProcessElevated()
 
 	return elevation.TokenIsElevated;
 }
-void CUtilities::RestartWithAdminRights(HINSTANCE instance)
-{
-	TCHAR buffer[_MAX_PATH];
-	::GetModuleFileName(instance, buffer, _MAX_PATH);
 
-	ShellExecute(NULL, _T("runas"), buffer, GetCommandLine(), NULL, SW_SHOWNORMAL);
-}
 std::wstring CUtilities::Exec(std::wstring command)
 {
 	boost::asio::io_context ios;
@@ -108,7 +60,6 @@ std::wstring CUtilities::Exec(std::wstring command)
 	std::future<std::string> data;
 
 	boost::process::v1::child c(command, boost::process::v1::std_in.close(), (boost::process::v1::std_out & boost::process::v1::std_err) > data, ios, ::boost::process::v1::windows::hide);
-
 
 	ios.run();
 

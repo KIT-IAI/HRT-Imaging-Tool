@@ -41,25 +41,18 @@ using std::max;
 #include <boost/asio.hpp>
 #include <boost/format.hpp>
 
-#include <afxwin.h>         // MFC core and standard components
-
 ///////////////////////////////////////////////////////////////////////////////
-// This section would completely replace the #include <afxwin.h>, so it      //
-// would take us a step further towards the complete removal of MFC code in  //
-// here. Basically, the most effort would be to completely replace CString,  //
-// ideally with std::wstring (or with Win32 API usage, where necessary).     //
+// This single include is the only remainder of the previous                 //
+//     #include <afxwin.h>         // MFC core and standard components       //
 //                                                                           //
-// If we also wanted to reduce the Win32 API, then all of the file utility   //
-// functions now have (often pretty much identical) substitutes in the C++   //
-// standard library. ShellExecute() is a bit harder, bit sin't actually used //
-// at all in HIT.                                                            //
+// We are now very close to having the Utilities pretty much entirely        //
+// independent of the underlying OS.                                         //
 //                                                                           //
 // In theory, the open source HIT does not really rely on a Windows          //
 // environment, but making it completely Windows.independent would be a  lot //
 // of effort, removing all Win32 types and functions. This does not really   //
 // seem feasible.                                                            //
 //                                                                           //
-//#include <windows.h>
 //
 //// This is required for
 //// - PathIsDirectory()
@@ -68,20 +61,6 @@ using std::max;
 //// - PathRemoveFileSpec()
 //// - PathAppend()
 //// all of which are used in CFileUtilities methods
-//#include <shlwapi.h>
-//
-//// This is required for
-//// - ShellExecute()
-//// which is used only once, in CUtilities::RestartWithAdminRights().
-//#include <shellapi.h>
-//
-//// This is required because of the usage of CRect, which is only used in
-//// CUtilities::ValidateROI(), which in turn is unused. We could simply remove
-//// the method.
-//#include <atltypes.h>
-//
-//// This is required because of the usage of CString. This would be some work to
-//// remove from the code, because it is used relatively frequently.
-//#include <atlstr.h>
+#include <shlwapi.h>
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////

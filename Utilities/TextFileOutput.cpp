@@ -33,7 +33,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
  */
 CTextFileOutput::CTextFileOutput()
 {
-	m_sDump = _T("");
+	m_sDump = L"";
 }
 
 /**	\brief Der Standard-Destruktor.
@@ -46,7 +46,7 @@ CTextFileOutput::~CTextFileOutput()
  */
 void CTextFileOutput::Reset()
 {
-	m_sDump = _T("");
+	m_sDump = L"";
 }
 
 /**	\brief Fügt einen String hinzu.
@@ -64,7 +64,7 @@ void CTextFileOutput::Write(std::wstring sString)
  */
 void CTextFileOutput::Writeln(std::wstring sString)
 {
-	m_sDump += sString + _T("\n");
+	m_sDump += sString + L"\n";
 }
 
 void CTextFileOutput::Writeln(const CDenseMatrix& mat)
@@ -101,7 +101,7 @@ bool CTextFileOutput::Save(std::wstring sPathname) const
  */
 void CTextFileOutput::Write(int nInt)
 {
-	m_sDump += std::to_wstring(nInt) + _T("\t");
+	m_sDump += std::to_wstring(nInt) + L"\t";
 }
 
 /**	\brief Fügt eine Integer-Zahl und ein Newline hinzu.
@@ -110,7 +110,7 @@ void CTextFileOutput::Write(int nInt)
  */
 void CTextFileOutput::Writeln(int nInt)
 {
-	m_sDump += std::to_wstring(nInt) + _T("\n");
+	m_sDump += std::to_wstring(nInt) + L"\n";
 }
 
 /**	\brief Fügt eine Float-Zahl hinzu.
@@ -119,7 +119,7 @@ void CTextFileOutput::Writeln(int nInt)
  */
 void CTextFileOutput::Write(float fFloat)
 {
-	m_sDump += std::to_wstring(fFloat) + _T("\t");
+	m_sDump += std::to_wstring(fFloat) + L"\t";
 }
 
 /**	\brief Fügt eine Float-Zahl und ein Newline hinzu.
@@ -128,7 +128,7 @@ void CTextFileOutput::Write(float fFloat)
  */
 void CTextFileOutput::Writeln(float fFloat)
 {
-	m_sDump += std::to_wstring(fFloat) + _T("\n");
+	m_sDump += std::to_wstring(fFloat) + L"\n";
 }
 
 /**	\brief Fügt eine Double-Zahl hinzu.
@@ -137,7 +137,7 @@ void CTextFileOutput::Writeln(float fFloat)
  */
 void CTextFileOutput::Write(double fDouble)
 {
-	m_sDump += std::to_wstring(fDouble) + _T("\t");
+	m_sDump += std::to_wstring(fDouble) + L"\t";
 }
 
 /**	\brief Fügt eine Double-Zahl und ein Newline hinzu.
@@ -146,7 +146,7 @@ void CTextFileOutput::Write(double fDouble)
  */
 void CTextFileOutput::Writeln(double fDouble)
 {
-	m_sDump += std::to_wstring(fDouble) + _T("\n");
+	m_sDump += std::to_wstring(fDouble) + L"\n";
 }
 
 /**	\brief Fügt ein eindimensionales Float-Array hinzu.
@@ -163,9 +163,9 @@ void CTextFileOutput::Write(float* fArray, int nSize)
 	std::wstring sSave;
 	for (int i = 0; i < nSize - 1; i++)
 	{
-		m_sDump += std::to_wstring(fArray[i]) + _T("\t");
+		m_sDump += std::to_wstring(fArray[i]) + L"\t";
 	}
-	m_sDump += std::to_wstring(fArray[nSize - 1]) + _T("\n");
+	m_sDump += std::to_wstring(fArray[nSize - 1]) + L"\n";
 }
 
 /**	\brief Fügt ein eindimensionales Float-Array hinzu.
@@ -183,7 +183,7 @@ void CTextFileOutput::Writeln(float* fArray, int nSize)
 	std::wstring sSave;
 	for (int i = 0; i < nSize; i++)
 	{
-		m_sDump += std::to_wstring(fArray[i]) + _T("\n");
+		m_sDump += std::to_wstring(fArray[i]) + L"\n";
 	}
 }
 
@@ -204,8 +204,8 @@ void CTextFileOutput::Write(float** fArray, int nSizeY, int nSizeX)
 	{
 		for (int i = 0; i < nSizeX - 1; i++)
 		{
-			m_sDump += std::to_wstring(fArray[j][i]) + _T("\t");
+			m_sDump += std::to_wstring(fArray[j][i]) + L"\t";
 		}
-		m_sDump += std::to_wstring(fArray[j][nSizeX - 1]) + _T("\n");
+		m_sDump += std::to_wstring(fArray[j][nSizeX - 1]) + L"\n";
 	}
 }

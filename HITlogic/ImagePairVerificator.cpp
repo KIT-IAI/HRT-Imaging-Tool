@@ -41,19 +41,3 @@ CRegistrationResult CImagePairVerificator::CreateInvalidRegistration(size_t nImg
 	regResult.eClassification = EClassification::eInvalid;
 	return regResult;
 }
-
-CString CImagePairVerificator::GetName(EImagePairVerificator eVerificator)
-{
-	switch (eVerificator)
-	{
-	case EImagePairVerificator::eNone:
-		return L"None";
-	case EImagePairVerificator::eTreeBased:
-		return L"Tree Based";
-	case EImagePairVerificator::ePositionAware:
-		return L"Position Aware";
-	default:
-		ASSERT(false);
-		return L"";
-	}
-}

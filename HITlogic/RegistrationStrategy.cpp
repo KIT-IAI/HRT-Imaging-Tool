@@ -20,38 +20,9 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-#include "StdAfx.h"
-
+#include "stdafx.h"
 #include "RegistrationStrategy.h"
 
-std::map<ERegistrationStrategy, CString> CRegistrationStrategy::ERegistrationStrategyMap = {
-		{ ERegistrationStrategy::eBackForth, L"Vor-/Rückwärtsstrategie" },
-		{ ERegistrationStrategy::eComplete, L"Komplettstrategie" },
-		{ ERegistrationStrategy::ePositionBased, L"Graphenbasierte Strategie" },
-		{ ERegistrationStrategy::eSector, L"Sektorstrategie" },
-		{ ERegistrationStrategy::eStep, L"Schrittstrategie" },
-		{ ERegistrationStrategy::eWindow, L"Fensterstrategie" },
-		{ ERegistrationStrategy::ePlaneSelect, L"Planestrategie" }
-};
-
-CString CRegistrationStrategy::GetRegistrationStrategyName(ERegistrationStrategy eRegistrationStrategy)
-{
-	return ERegistrationStrategyMap[eRegistrationStrategy];
-}
-
-ERegistrationStrategy CRegistrationStrategy::GetRegistrationStrategyID(CString sRegistrationStrategy)
-{
-	for (auto e : ERegistrationStrategyMap)
-	{
-		if (e.second.CompareNoCase(sRegistrationStrategy) == 0)
-		{
-			return e.first;
-		}
-	}
-	//use as error value
-	return ERegistrationStrategy::eInvalid;
-
-}
 
 
 /**	\brief Standard-Konstruktor

@@ -20,32 +20,5 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "ProcessType.h"
-#include <map>
-
-std::map<CProcessType::EProcessType, CString> CProcessType::EProcessTypeMap = {
-	{ CProcessType::eBlockBasedRegistration, _T("Hierarchische blockbasierte Registrierung") },
-	{ CProcessType::eRigidRegistration, _T("Grobregistrierung") },
-	{ CProcessType::eWithConsistencyCheck, _T("Mit Konsistenzüberprüfung") },
-	{ CProcessType::eHRTImageRegistration, _T("(HRT) Elastische Registrierung") },
-	{ CProcessType::eHRTStreamRegistration, _T("HRT-Registrierung zusammenhängender Bildserien") }
-};
-
-CString CProcessType::GetProcessTypeName(EProcessType eProcessType)
-{
-	return EProcessTypeMap[eProcessType];
-}
-CProcessType::EProcessType CProcessType::GetProcessTypeID(CString sProcessType)
-{
-	for (auto e : EProcessTypeMap)
-	{
-		if (e.second.CompareNoCase(sProcessType) == 0)
-		{
-			return e.first;
-		}
-	}
-	//use as error value
-	return EProcessType::eInvalid;
-
-}

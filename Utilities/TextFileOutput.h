@@ -43,7 +43,7 @@ public:
 	void Writeln(double fDouble);
 	void Writeln(float fFloat);
 	void Writeln(float* fArray, int nSize);
-	void Writeln(std::wstring sString = _T(""));
+	void Writeln(std::wstring sString = L"");
 	void Writeln(const CDenseMatrix& mat);
 	void Writeln(const CDenseVector& mat);
 	template <typename T> void Writeln(const std::vector<T>& vec);
