@@ -200,7 +200,7 @@
     <ClCompile Include="SQLiteTableRow.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="StdAfx.cpp">
+    <ClCompile Include="stdafx.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="StringUtilities.cpp">
