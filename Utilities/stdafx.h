@@ -27,6 +27,10 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #pragma once
 
 // Windows stuff
+// This include could be replaced by the single define
+//     #define _WIN32_WINNT 0x0A00
+// This should theoretically allow the Utilities project to be built on
+// non-Windows systems, but we haven't tried it.
 #include <SDKDDKVer.h>
 
 #include <algorithm>
@@ -40,27 +44,3 @@ using std::max;
 
 #include <boost/asio.hpp>
 #include <boost/format.hpp>
-
-///////////////////////////////////////////////////////////////////////////////
-// This single include is the only remainder of the previous                 //
-//     #include <afxwin.h>         // MFC core and standard components       //
-//                                                                           //
-// We are now very close to having the Utilities pretty much entirely        //
-// independent of the underlying OS.                                         //
-//                                                                           //
-// In theory, the open source HIT does not really rely on a Windows          //
-// environment, but making it completely Windows.independent would be a  lot //
-// of effort, removing all Win32 types and functions. This does not really   //
-// seem feasible.                                                            //
-//                                                                           //
-//
-//// This is required for
-//// - PathIsDirectory()
-//// - PathRelativePathTo()
-//// - PathIsRelative()
-//// - PathRemoveFileSpec()
-//// - PathAppend()
-//// all of which are used in CFileUtilities methods
-#include <shlwapi.h>
-//                                                                           //
-///////////////////////////////////////////////////////////////////////////////

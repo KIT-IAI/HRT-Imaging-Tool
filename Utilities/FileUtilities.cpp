@@ -20,11 +20,12 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "FileUtilities.h"
 
 #include <chrono>
 #include <codecvt>
+#include <filesystem>
 #include <fstream>
 #include <vector>
 
@@ -398,67 +399,47 @@ std::wstring CFileUtilities::CommonParentDirectory(const std::wstring& sFilepath
 	return sCommonDirectory;
 }
 
-/**	\brief Erzeugt einen relativen Pfad von \a sReferencePath nach
- *	\a sTargetPath.
- *
- *	\return Den relativen Pfad.
- *
- *	\param[in] sReferencePath Der Pfad, in dem der relative Pfad beginnen soll.
- *	\param[in] sTargetPath Der Pfad, auf den der relative Pfad verweisen soll.
- */
+/// <summary> Creates the relative path from a reference to a target </summary>
+/// <param name="sReferencePath"> Reference path </param>
+/// <param name="sTargetPath"> Target path </param>
+/// <returns> Relative path from reference to target </returns>
 std::wstring CFileUtilities::GetRelativePath(const std::wstring& sReferencePath, const std::wstring& sTargetPath)
 {
-	std::wstring sRelativePath;
-	sRelativePath.resize(MAX_PATH);
-
-	DWORD nReferenceAttribute = ::PathIsDirectory(sReferencePath.c_str()) ? FILE_ATTRIBUTE_DIRECTORY : FILE_ATTRIBUTE_NORMAL;
-	DWORD nTargetAttribute = ::PathIsDirectory(sTargetPath.c_str()) ? FILE_ATTRIBUTE_DIRECTORY : FILE_ATTRIBUTE_NORMAL;
-
-	::PathRelativePathTo(sRelativePath.data(), sReferencePath.c_str(), nReferenceAttribute, sTargetPath.c_str(), nTargetAttribute);
-
-	// THIS IS IMPORTANT!
-	// Otherwise, the string is always recognized as non-empty (because its size is still MAX_PATH)!
-	// It is also important to have the string sized maximally above, otherwise the resize here will delete its content!
-	auto newSize = std::wcslen(sRelativePath.c_str());
-	sRelativePath.resize(newSize);
-
-	if (sRelativePath.empty())
+	std::filesystem::path relPath;
+	if (std::filesystem::is_directory(sReferencePath))
 	{
-		return sTargetPath;
+		relPath = std::filesystem::proximate(sTargetPath, sReferencePath);
 	}
 	else
 	{
-		return sRelativePath;
+		relPath = std::filesystem::proximate(sTargetPath, std::filesystem::path(sReferencePath).parent_path());
 	}
+	if (relPath.is_relative() && (relPath.wstring().at(0) != L'.'))
+	{
+		// we want relative paths that refer to a file in the same folder or a
+		// sub-folder to start with a dot
+		relPath = std::filesystem::path(L".") / relPath;
+	}
+	return relPath;
 }
 
-/**	\brief Erzeugt einen absoluten Pfad von \a sReferencePath nach
- *	\a sTargetPath.
- *
- *	\return Den absoluten Pfad.
- *
- *	\param[in] sReferencePath Der (absolute) Pfad, in dem der relative Pfad
- *		beginnt.
- *	\param[in] sTargetPath Der (relative) Pfad, auf den der absolute Pfad
- *		verweisen soll.
- */
+/// <summary> Converts a relative path to a target to an absolute path </summary>
+/// <param name="sReferencePath"> Reference path (must be absolute) </param>
+/// <param name="sTargetPath"> Target path (can be relative) </param>
+/// <returns> Absolute path to target </returns>
 std::wstring CFileUtilities::GetAbsolutePath(const std::wstring& sReferencePath, const std::wstring& sTargetPath)
 {
-	if (!::PathIsRelative(sTargetPath.c_str()))
+	if (std::filesystem::path(sTargetPath).is_absolute())
 	{
 		return sTargetPath;
 	}
 
-	std::wstring sAbsolutePath(sReferencePath);
-
-	if (!::PathIsDirectory(sAbsolutePath.c_str()))
+	std::filesystem::path absPath(sReferencePath);
+	if (!std::filesystem::is_directory(absPath))
 	{
-		::PathRemoveFileSpec(sAbsolutePath.data());
+		absPath = absPath.parent_path();
 	}
-	sAbsolutePath.resize(MAX_PATH);
-	::PathAppend(sAbsolutePath.data(), sTargetPath.c_str());
-
-	return sAbsolutePath;
+	return std::filesystem::weakly_canonical(absPath / sTargetPath);
 }
 
 /**	\brief Löscht alte Dateien in einem Verzeichnis.
