@@ -107,20 +107,6 @@ public:
 
 	static double Signum(double x);
 
-	static int     MinValue(int     nValue1, int     nValue2);
-	static long    MinValue(long    nValue1, long    nValue2);
-	static __int64 MinValue(__int64 nValue1, __int64 nValue2);
-	static UINT    MinValue(UINT    nValue1, UINT    nValue2);
-	static float   MinValue(float   fValue1, float   fValue2, float  fTolerance = 0.0);
-	static double  MinValue(double  fValue1, double  fValue2, double fTolerance = 0.0);
-
-	static int     MaxValue(int     nValue1, int     nValue2);
-	static long    MaxValue(long    nValue1, long    nValue2);
-	static __int64 MaxValue(__int64 nValue1, __int64 nValue2);
-	static UINT    MaxValue(UINT    nValue1, UINT    nValue2);
-	static float   MaxValue(float   fValue1, float   fValue2, float  fTolerance = 0.0);
-	static double  MaxValue(double  fValue1, double  fValue2, double fTolerance = 0.0);
-
 	static double Modulo(double value, double divisor);
 	static double Modulo(double value, int divisor);
 	static float Modulo(float value, float divisor);
@@ -128,16 +114,16 @@ public:
 	static double arsinh(double x);
 	static double Square(double x);
 
-	static int     NextPowOf2(int     nValue);
-	static long    NextPowOf2(long    nValue);
-	static __int64 NextPowOf2(__int64 nValue);
-	static size_t  NextPowOf2(size_t  nValue);
-	static UINT    NextPowOf2(UINT    nValue);
+	static int          NextPowOf2(int             nValue);
+	static long         NextPowOf2(long            nValue);
+	static __int64      NextPowOf2(__int64         nValue);
+	static size_t       NextPowOf2(size_t          nValue);
+	static unsigned int NextPowOf2(unsigned int    nValue);
 
-	static bool    IsPowerOf2(int nValue);
-	static bool    IsPowerOf2(long nValue);
-	static bool    IsPowerOf2(__int64 nValue);
-	static bool    IsPowerOf2(UINT    nValue);
-	static bool    IsPowerOf2(unsigned long nValue);
+	static bool IsPowerOf2(int           nValue);
+	static bool IsPowerOf2(long          nValue);
+	static bool IsPowerOf2(__int64       nValue);
+	static bool IsPowerOf2(unsigned int  nValue);
+	static bool IsPowerOf2(unsigned long nValue);
 
 };

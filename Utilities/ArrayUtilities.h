@@ -30,13 +30,13 @@ class CArrayUtilities
 
 public:
 
-	template<typename T> static void InitArray(T* pArray, const T& initValue, INT_PTR nSize);
-	template<typename T> static void InitArray(T** pArray, const T& initValue, INT_PTR nSize1, INT_PTR nSize2);
-	template<typename T> static void CopyArray(const T* pArraySource, T* pArrayDest, INT_PTR nSize);
-	template<typename T> static void FindMin(const T* pArray, INT_PTR nSize, T* pMin, INT_PTR* pMinIndex);
-	template<typename T> static void FindMax(const T* pArray, INT_PTR nSize, T* pMax, INT_PTR* pMaxIndex);
-	template<typename T> static void FindExtremes(const T* pArray, INT_PTR nSize, T* pMin, T* pMax, INT_PTR* pMinIndex, INT_PTR* pMaxIndex);
-	template<typename T> static void MovingAverage(T* pArray, INT_PTR nSize, INT_PTR nWidth);
+	template<typename T> static void InitArray(T* pArray, const T& initValue, size_t nSize);
+	template<typename T> static void InitArray(T** pArray, const T& initValue, size_t nSize1, size_t nSize2);
+	template<typename T> static void CopyArray(const T* pArraySource, T* pArrayDest, size_t nSize);
+	template<typename T> static void FindMin(const T* pArray, size_t nSize, T* pMin, size_t* pMinIndex);
+	template<typename T> static void FindMax(const T* pArray, size_t nSize, T* pMax, size_t* pMaxIndex);
+	template<typename T> static void FindExtremes(const T* pArray, size_t nSize, T* pMin, T* pMax, size_t* pMinIndex, size_t* pMaxIndex);
+	template<typename T> static void MovingAverage(T* pArray, size_t nSize, size_t nWidth);
 	template<typename T> static std::vector<T> FilterByIndex(const std::vector<T>& Input, const std::list<size_t>& Indices);
 	template<typename T> static std::vector<T*> SmartToRaw(const std::vector<std::shared_ptr<T>>& Input);
 	template<typename T> static std::vector<T*> SmartToRaw(const std::vector<std::unique_ptr<T>>& Input);
@@ -51,9 +51,9 @@ public:
  *
  *	\author Stephan Allgeier
  */
-template<typename T> void CArrayUtilities::InitArray(T* pArray, const T& initValue, INT_PTR nSize)
+template<typename T> void CArrayUtilities::InitArray(T* pArray, const T& initValue, size_t nSize)
 {
-	for (INT_PTR nIndex = 0; nIndex < nSize; nIndex++)
+	for (size_t nIndex = 0; nIndex < nSize; nIndex++)
 	{
 		pArray[nIndex] = initValue;
 	}
@@ -69,11 +69,11 @@ template<typename T> void CArrayUtilities::InitArray(T* pArray, const T& initVal
  *
  *	\author Stephan Allgeier
  */
-template<typename T> void CArrayUtilities::InitArray(T** pArray, const T& initValue, INT_PTR nSize1, INT_PTR nSize2)
+template<typename T> void CArrayUtilities::InitArray(T** pArray, const T& initValue, size_t nSize1, size_t nSize2)
 {
-	for (INT_PTR nIndex1 = 0; nIndex1 < nSize1; nIndex1++)
+	for (size_t nIndex1 = 0; nIndex1 < nSize1; nIndex1++)
 	{
-		for (INT_PTR nIndex2 = 0; nIndex2 < nSize2; nIndex2++)
+		for (size_t nIndex2 = 0; nIndex2 < nSize2; nIndex2++)
 		{
 			pArray[nIndex1][nIndex2] = initValue;
 		}
@@ -91,9 +91,9 @@ template<typename T> void CArrayUtilities::InitArray(T** pArray, const T& initVa
  *
  *	\author Stephan Allgeier
  */
-template<typename T> void CArrayUtilities::CopyArray(const T* pArraySource, T* pArrayDest, INT_PTR nSize)
+template<typename T> void CArrayUtilities::CopyArray(const T* pArraySource, T* pArrayDest, size_t nSize)
 {
-	for (INT_PTR nIndex = 0; nIndex < nSize; nIndex++)
+	for (size_t nIndex = 0; nIndex < nSize; nIndex++)
 	{
 		pArrayDest[nIndex] = pArraySource[nIndex];
 	}
@@ -113,9 +113,9 @@ template<typename T> void CArrayUtilities::CopyArray(const T* pArraySource, T* p
  *
  *	\author Stephan Allgeier
  */
-template<typename T> void CArrayUtilities::FindMin(const T* pArray, INT_PTR nSize, T* pMin, INT_PTR* pMinIndex)
+template<typename T> void CArrayUtilities::FindMin(const T* pArray, size_t nSize, T* pMin, size_t* pMinIndex)
 {
-	FindExtremes(pArray, nSize, pMin, static_cast<T*>(NULL), pMinIndex, static_cast<INT_PTR*>(NULL));
+	FindExtremes(pArray, nSize, pMin, static_cast<T*>(NULL), pMinIndex, static_cast<size_t*>(NULL));
 }
 
 /**	\brief Sucht das (erste) Maximum in dem Array \a pArray.
@@ -132,9 +132,9 @@ template<typename T> void CArrayUtilities::FindMin(const T* pArray, INT_PTR nSiz
  *
  *	\author Stephan Allgeier
  */
-template<typename T> void CArrayUtilities::FindMax(const T* pArray, INT_PTR nSize, T* pMax, INT_PTR* pMaxIndex)
+template<typename T> void CArrayUtilities::FindMax(const T* pArray, size_t nSize, T* pMax, size_t* pMaxIndex)
 {
-	FindExtremes(pArray, nSize, static_cast<T*>(NULL), pMax, static_cast<INT_PTR*>(NULL), pMaxIndex);
+	FindExtremes(pArray, nSize, static_cast<T*>(NULL), pMax, static_cast<size_t*>(NULL), pMaxIndex);
 }
 
 /**	\brief Sucht das (erste) Minimum und das (erste) Maximum in dem Array
@@ -157,17 +157,17 @@ template<typename T> void CArrayUtilities::FindMax(const T* pArray, INT_PTR nSiz
  *
  *	\author Stephan Allgeier
  */
-template<typename T> void CArrayUtilities::FindExtremes(const T* pArray, INT_PTR nSize, T* pMin, T* pMax, INT_PTR* pMinIndex, INT_PTR* pMaxIndex)
+template<typename T> void CArrayUtilities::FindExtremes(const T* pArray, size_t nSize, T* pMin, T* pMax, size_t* pMinIndex, size_t* pMaxIndex)
 {
 	assert(pArray != NULL);
 	assert(nSize > 0);
 
 	T nMin = pArray[0];
 	T nMax = pArray[0];
-	INT_PTR nMinIndex = 0;
-	INT_PTR nMaxIndex = 0;
+	size_t nMinIndex = 0;
+	size_t nMaxIndex = 0;
 
-	for (INT_PTR i = 0; i < nSize; i++)
+	for (size_t i = 0; i < nSize; i++)
 	{
 		if (nMin > pArray[i])
 		{
@@ -217,9 +217,9 @@ template<typename T> void CArrayUtilities::FindExtremes(const T* pArray, INT_PTR
  *
  *	\author Stephan Allgeier
  */
-template<typename T> void CArrayUtilities::MovingAverage(T* pArray, INT_PTR nSize, INT_PTR nWidth)
+template<typename T> void CArrayUtilities::MovingAverage(T* pArray, size_t nSize, size_t nWidth)
 {
-	INT_PTR nHalfWidth = nWidth / 2;
+	size_t nHalfWidth = nWidth / 2;
 
 	// Check for odd-sized width
 	assert(nWidth == (2 * nHalfWidth + 1));
@@ -232,12 +232,12 @@ template<typename T> void CArrayUtilities::MovingAverage(T* pArray, INT_PTR nSiz
 	// less than or equal to half the width. Change if required!
 	if (nSize < nWidth)
 	{
-		for (INT_PTR i = 0; i < nSize; i++)
+		for (size_t i = 0; i < nSize; i++)
 		{
 			fSum += pArray[i];
 		}
 		fSum /= nSize;
-		for (INT_PTR i = 0; i < nSize; i++)
+		for (size_t i = 0; i < nSize; i++)
 		{
 			pArray[i] = static_cast<T>(fSum);
 		}
@@ -246,17 +246,17 @@ template<typename T> void CArrayUtilities::MovingAverage(T* pArray, INT_PTR nSiz
 
 	T* pTemp = new T[nSize];
 
-	INT_PTR nCount = 0;
+	size_t nCount = 0;
 
 	// Initialize the sum
-	for (INT_PTR i = 0; i < nHalfWidth; i++)
+	for (size_t i = 0; i < nHalfWidth; i++)
 	{
 		nCount++;
 		fSum += pArray[i];
 	}
 
 	// The first part handles the left section, before the full width is used
-	for (INT_PTR i = 0; i < nHalfWidth; i++)
+	for (size_t i = 0; i < nHalfWidth; i++)
 	{
 		nCount++;
 		fSum += pArray[i + nHalfWidth];
@@ -266,7 +266,7 @@ template<typename T> void CArrayUtilities::MovingAverage(T* pArray, INT_PTR nSiz
 	}
 
 	// The second part handles the center section, where the full width is used
-	for (INT_PTR i = nHalfWidth; i < nSize - nHalfWidth; i++)
+	for (size_t i = nHalfWidth; i < nSize - nHalfWidth; i++)
 	{
 		nCount++;
 		fSum += pArray[i + nHalfWidth];
@@ -279,7 +279,7 @@ template<typename T> void CArrayUtilities::MovingAverage(T* pArray, INT_PTR nSiz
 	}
 
 	// The third part handles the right section, after the full width is used
-	for (INT_PTR i = nSize - nHalfWidth; i < nSize; i++)
+	for (size_t i = nSize - nHalfWidth; i < nSize; i++)
 	{
 		assert(nCount == nHalfWidth + nSize - i);
 		pTemp[i] = static_cast<T>(fSum / nCount);
@@ -292,7 +292,6 @@ template<typename T> void CArrayUtilities::MovingAverage(T* pArray, INT_PTR nSiz
 
 	delete[] pTemp;
 }
-
 
 // Yes there definitly is a nicer way of implementing this
 namespace std

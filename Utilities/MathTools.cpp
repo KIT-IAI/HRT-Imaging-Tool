@@ -218,18 +218,21 @@ int CMathTools::RoundValue(double fValue)
 	}
 	return retVal;
 }
+
 int CMathTools::RoundTowardsZero(float fValue)
 {
 	if (fValue > 0)
 		return static_cast<int>(floor(fValue));
 	return static_cast<int>(ceil(fValue));
 }
+
 int CMathTools::RoundTowardsZero(double fValue)
 {
 	if (fValue > 0)
 		return static_cast<int>(floor(fValue));
 	return static_cast<int>(ceil(fValue));
 }
+
 double CMathTools::Round(double fValue, int nPrecision)
 {
 	int nFaktor = 1;
@@ -250,166 +253,6 @@ int CMathTools::GetRandomNumber(int nLowerBound, int nUpperBound)
 	return nLowerBound + rand() % (nUpperBound - nLowerBound + 1);
 }
 
-/**	\brief Ermittelt den kleineren zweier Werte.
- *
- *	\return Den kleineren der zwei Werte.
- *
- *	\param[in] nValue1,nValue2 Die zu vergleichenden Werte.
- *
- *	\author Stephan Allgeier
- */
-int CMathTools::MinValue(int nValue1, int nValue2)
-{
-	return nValue1 <= nValue2 ? nValue1 : nValue2;
-}
-
-/**	\brief Ermittelt den kleineren zweier Werte.
- *
- *	\return Den kleineren der zwei Werte.
- *
- *	\param[in] nValue1,nValue2 Die zu vergleichenden Werte.
- *
- *	\author Robert Paasche
- */
-long CMathTools::MinValue(long nValue1, long nValue2)
-{
-	return nValue1 <= nValue2 ? nValue1 : nValue2;
-}
-
-/**	\brief Ermittelt den kleineren zweier Werte.
- *
- *	\return Den kleineren der zwei Werte.
- *
- *	\param[in] nValue1,nValue2 Die zu vergleichenden Werte.
- *
- *	\author Stephan Allgeier
- */
-__int64 CMathTools::MinValue(__int64 nValue1, __int64 nValue2)
-{
-	return nValue1 <= nValue2 ? nValue1 : nValue2;
-}
-
-/**	\brief Ermittelt den kleineren zweier Werte.
- *
- *	\return Den kleineren der zwei Werte.
- *
- *	\param[in] nValue1,nValue2 Die zu vergleichenden Werte.
- *
- *	\author klaus.reichert
- */
-UINT CMathTools::MinValue(UINT nValue1, UINT nValue2)
-{
-	return nValue1 <= nValue2 ? nValue1 : nValue2;
-}
-
-/**	\brief Ermittelt den kleineren zweier Werte mit einer Toleranz.
- *
- *	\return Den kleineren der zwei Werte.
- *
- *	\param[in] fValue1,fValue2 Die zu vergleichenden Werte.
- *	\param[in] fTolerance Die Genauigkeit, mit der verglichen wird.
- *
- *	\author Robert Paasche
- */
-float CMathTools::MinValue(float fValue1, float fValue2, float fTolerance)
-{
-	return (fValue1 - fValue2) <= fTolerance ? fValue1 : fValue2;
-}
-
-/**	\brief Ermittelt den kleineren zweier Werte mit einer Toleranz.
- *
- *	\return Den kleineren der zwei Werte.
- *
- *	\param[in] fValue1,fValue2 Die zu vergleichenden Werte.
- *	\param[in] fTolerance Die Genauigkeit, mit der verglichen wird.
- *
- *	\author Robert Paasche
- */
-double CMathTools::MinValue(double fValue1, double fValue2, double fTolerance)
-{
-	return (fValue1 - fValue2) <= fTolerance ? fValue1 : fValue2;
-}
-
-/**	\brief Ermittelt den größeren zweier Werte.
- *
- *	\return Den größeren der zwei Werte.
- *
- *	\param[in] nValue1,nValue2 Die zu vergleichenden Werte.
- *
- *	\author Stephan Allgeier
- */
-int CMathTools::MaxValue(int nValue1, int nValue2)
-{
-	return nValue1 >= nValue2 ? nValue1 : nValue2;
-}
-
-/**	\brief Ermittelt den größeren zweier Werte.
- *
- *	\return Den größeren der zwei Werte.
- *
- *	\param[in] nValue1,nValue2 Die zu vergleichenden Werte.
- *
- *	\author Robert Paasche
- */
-long CMathTools::MaxValue(long nValue1, long nValue2)
-{
-	return nValue1 >= nValue2 ? nValue1 : nValue2;
-}
-
-/**	\brief Ermittelt den größeren zweier Werte.
- *
- *	\return Den größeren der zwei Werte.
- *
- *	\param[in] nValue1,nValue2 Die zu vergleichenden Werte.
- *
- *	\author Stephan Allgeier
- */
-__int64 CMathTools::MaxValue(__int64 nValue1, __int64 nValue2)
-{
-	return nValue1 >= nValue2 ? nValue1 : nValue2;
-}
-
-/**	\brief Ermittelt den größeren zweier Werte.
- *
- *	\return Den größeren der zwei Werte.
- *
- *	\param[in] nValue1,nValue2 Die zu vergleichenden Werte.
- *
- *	\author klaus.reichert
- */
-UINT CMathTools::MaxValue(UINT nValue1, UINT nValue2)
-{
-	return nValue1 >= nValue2 ? nValue1 : nValue2;
-}
-
-/**	\brief Ermittelt den größeren zweier Werte mit einer Toleranz.
- *
- *	\return Den größeren der zwei Werte.
- *
- *	\param[in] fValue1,fValue2 Die zu vergleichenden Werte.
- *	\param[in] fTolerance Die Genauigkeit, mit der verglichen wird.
- *
- *	\author Robert Paasche
- */
-float CMathTools::MaxValue(float fValue1, float fValue2, float fTolerance)
-{
-	return (fValue1 - fValue2) >= fTolerance ? fValue1 : fValue2;
-}
-
-/**	\brief Ermittelt den größeren zweier Werte mit einer Toleranz.
- *
- *	\return Den größeren der zwei Werte.
- *
- *	\param[in] fValue1,fValue2 Die zu vergleichenden Werte.
- *	\param[in] fTolerance Die Genauigkeit, mit der verglichen wird.
- *
- *	\author Robert Paasche
- */
-double CMathTools::MaxValue(double fValue1, double fValue2, double fTolerance)
-{
-	return (fValue1 - fValue2) >= fTolerance ? fValue1 : fValue2;
-}
-
 /** \brief liefert das Ergebnis einer quadritischen Gleichung.
  */
 double CMathTools::SolveQuadraticEquation(double nX, double nA, double nB, double nC)
@@ -419,7 +262,6 @@ double CMathTools::SolveQuadraticEquation(double nX, double nA, double nB, doubl
 		(nC * (double)pow(nX, 2.0))
 		);
 }
-
 
 double CMathTools::Modulo(double value, double divisor)
 {
@@ -438,7 +280,6 @@ double CMathTools::Modulo(double value, int divisor)
 	value -= (temp * divisor);
 	return value;
 }
-
 
 float CMathTools::Modulo(float value, float divisor)
 {
@@ -477,10 +318,12 @@ double CMathTools::Signum(double x)
 
 	return 0;
 }
+
 double CMathTools::arsinh(double x)
 {
 	return log(x + sqrt((x * x) + 1));
 }
+
 double CMathTools::Square(double x)
 {
 	return x * x;
@@ -549,47 +392,50 @@ __int64 CMathTools::NextPowOf2(__int64 nValue)
  *
  *	\param[in] nValue Eine Zahl.
  */
-UINT CMathTools::NextPowOf2(UINT nValue)
+unsigned int CMathTools::NextPowOf2(unsigned int nValue)
 {
-	UINT i = 0;
+	unsigned int i = 0;
 	for (; pow(2, i) < nValue; i++);
-	return static_cast<UINT>(pow(2, i));
+	return static_cast<unsigned int>(pow(2, i));
 }
-
 
 bool CMathTools::IsPowerOf2(int nValue)
 {
 	return !(nValue == 0) && !(nValue & (nValue - 1));
 }
+
 bool CMathTools::IsPowerOf2(long nValue)
 {
 	return !(nValue == 0) && !(nValue & (nValue - 1));
 }
+
 bool CMathTools::IsPowerOf2(__int64 nValue)
 {
 	return !(nValue == 0) && !(nValue & (nValue - 1));
 }
-bool CMathTools::IsPowerOf2(UINT nValue)
+
+bool CMathTools::IsPowerOf2(unsigned int nValue)
 {
 	return !(nValue == 0) && !(nValue & (nValue - 1));
 }
+
 bool CMathTools::IsPowerOf2(unsigned long nValue)
 {
 	return !(nValue == 0) && !(nValue & (nValue - 1));
 }
 
 /**	\brief Berechnet den Abstand zwischen zwei Punkten.
-*
-*	Dabei spielt es keine Rolle, in welcher Einheit die Punktkoordinaten
-*	angegeben werden.
-*
-*	\return Den Abstand der beiden Punkte.
-*
-*	\param[in] vPt1 Der erste Punkt.
-*	\param[in] vPt2 Der zweite Punkt.
-*
-*	\author Matthias Uchdorf
-*/
+ *
+ *	Dabei spielt es keine Rolle, in welcher Einheit die Punktkoordinaten
+ *	angegeben werden.
+ *
+ *	\return Den Abstand der beiden Punkte.
+ *
+ *	\param[in] vPt1 Der erste Punkt.
+ *	\param[in] vPt2 Der zweite Punkt.
+ *
+ *	\author Matthias Uchdorf
+ */
 double CMathTools::CalculateDistance(const CVector2d<double>& vPt1, const CVector2d<double>& vPt2)
 {
 	double dDistX, dDistY, dDist;
@@ -601,19 +447,19 @@ double CMathTools::CalculateDistance(const CVector2d<double>& vPt1, const CVecto
 }
 
 /**	\brief Berechnet den Winkel, den die durch zwei Punkte gegebene Linie mit
-*	der Horizontalen einschließt.
-*
-*	Dabei spielt es keine Rolle, in welcher Einheit die Punktkoordinaten
-*	angegeben werden. Jedoch ist die Reihenfolge der beiden Punkte wichtig.
-*
-*	\return Den Winkel zwischen der durch die beiden Punkte gegebenen Linie
-*		und der Horizontalen in Grad.
-*
-*	\param[in] vPt1 Der erste Punkt.
-*	\param[in] vPt2 Der zweite Punkt.
-*
-*	\author Matthias Uchdorf
-*/
+ *	der Horizontalen einschließt.
+ *
+ *	Dabei spielt es keine Rolle, in welcher Einheit die Punktkoordinaten
+ *	angegeben werden. Jedoch ist die Reihenfolge der beiden Punkte wichtig.
+ *
+ *	\return Den Winkel zwischen der durch die beiden Punkte gegebenen Linie
+ *		und der Horizontalen in Grad.
+ *
+ *	\param[in] vPt1 Der erste Punkt.
+ *	\param[in] vPt2 Der zweite Punkt.
+ *
+ *	\author Matthias Uchdorf
+ */
 double CMathTools::CalculateAngle(const CVector2d<double>& vPt1, const CVector2d<double>& vPt2)
 {
 	//

@@ -817,11 +817,11 @@ void CDenseMatrix::Resize(size_t rows, size_t cols)
 			CDenseVector* matnew = new CDenseVector[rows];
 			CDenseVector v(cols);
 
-			for (size_t n = 0; n < CMathTools::MinValue(static_cast<UINT>(rows), static_cast<UINT>(m_nRows)); n++)
+			for (size_t n = 0; n < std::min(rows, m_nRows); n++)
 			{
 				matnew[n] = m_pMat[n];
 			}
-			for (size_t n = CMathTools::MinValue(static_cast<UINT>(rows), static_cast<UINT>(m_nRows)); n < rows; n++)
+			for (size_t n = std::min(rows, m_nRows); n < rows; n++)
 			{
 				matnew[n] = v;
 			}
@@ -841,9 +841,9 @@ void CDenseMatrix::Resize(size_t rows, size_t cols)
 		{
 			matnew[n] = v;
 		}
-		for (size_t i = 0; i < CMathTools::MinValue(static_cast<UINT>(rows), static_cast<UINT>(m_nRows)); i++)
+		for (size_t i = 0; i < std::min(rows, m_nRows); i++)
 		{
-			for (size_t j = 0; j < CMathTools::MinValue(static_cast<UINT>(cols), static_cast<UINT>(m_nCols)); j++)
+			for (size_t j = 0; j < std::min(cols, m_nCols); j++)
 			{
 				matnew[i][j] = m_pMat[i][j];
 			}
