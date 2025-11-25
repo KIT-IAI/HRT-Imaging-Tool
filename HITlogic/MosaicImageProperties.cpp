@@ -23,8 +23,9 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "MosaicImageProperties.h"
 
-const wstring CMosaicImageProperties::TableName = L"MosaicImageProperties";
 
+
+const wstring CMosaicImageProperties::TableName = L"MosaicImageProperties";
 
 bool CMosaicImageProperties::operator==(const CMosaicImageProperties& rhs) const
 {

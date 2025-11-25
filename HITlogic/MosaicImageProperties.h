@@ -21,20 +21,25 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #pragma once
+
+#include "StlImage.h"
+
 class CMosaicImageProperties
 {
+
 public:
+
 	static const std::wstring TableName;
 
 	CMosaicImageProperties() = default;
 	~CMosaicImageProperties() = default;
 
-
-	CSize MosaicImageSize;
+	StlImageSize MosaicImageSize;
 	size_t nDefinedMosaicArea = 0;
 	size_t nGroupID = 0;
 	std::wstring sFilePath;
 
 	bool operator==(const CMosaicImageProperties& rhs) const;
 	bool operator!=(const CMosaicImageProperties& rhs) const;
+
 };

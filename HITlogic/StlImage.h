@@ -91,6 +91,34 @@ struct StlImageRect
 		x = x_;
 		y = y_;
 	}
+	bool Intersection(const StlImageRect& rect1, const StlImageRect& rect2)
+	{
+		auto intersection_x1 = std::max(rect1.x, rect2.x);
+		auto intersection_y1 = std::max(rect1.y, rect2.y);
+
+		auto intersection_x2 = std::min(rect1.x + rect1.sx, rect2.x + rect2.sx);
+		auto intersection_y2 = std::min(rect1.y + rect1.sy, rect2.y + rect2.sy);
+
+		auto intersection_sx = intersection_x2 - intersection_x1;
+		auto intersection_sy = intersection_y2 - intersection_y1;
+
+		if ((intersection_sx > 0) && (intersection_sy > 0))
+		{
+			x = intersection_x1;
+			y = intersection_y1;
+			sx = intersection_sx;
+			sy = intersection_sy;
+			return true;
+		}
+		else
+		{
+			x = 0;
+			y = 0;
+			sx = 0;
+			sy = 0;
+			return false;
+		}
+	}
 };
 
 

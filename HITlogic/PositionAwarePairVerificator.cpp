@@ -22,7 +22,10 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #include "stdafx.h"
 #include "PositionAwarePairVerificator.h"
+
 #include "ProcessType.h"
+
+
 
 CPositionAwarePairVerificator::CPositionAwarePairVerificator(const CRegistrationVerificationParameters& Parameters)
 	:CImagePairVerificator(Parameters),
@@ -31,7 +34,6 @@ CPositionAwarePairVerificator::CPositionAwarePairVerificator(const CRegistration
 	m_RegistrationGraph(0)
 {
 }
-
 
 CPositionAwarePairVerificator::~CPositionAwarePairVerificator()
 {
@@ -44,23 +46,20 @@ bool CPositionAwarePairVerificator::ValidateImagePair(size_t nReferenceIndex, si
 
 	return DoSufficientlyOverlap({ nReferenceIndex, nTemplateIndex });
 }
+
 bool CPositionAwarePairVerificator::AreInSameImageGroup(size_t nReferenceIndex, size_t nTemplateIndex) const
 {
 	return m_RegistrationGraph.IsConnected(nReferenceIndex, nTemplateIndex);
 }
-
-
 
 void CPositionAwarePairVerificator::SetSuccess(size_t nReferenceIndex, size_t nTemplateIndex, const CRegistrationResult& regResult)
 {
 	if (regResult.eClassification < EClassification::eCorrect)
 		return;
 
-
 	m_RegistrationGraph.AddBiDirectionalEdge(nReferenceIndex, nTemplateIndex);
 	m_pIterativeSolver->AddRegistrations({ regResult.RigidRegistrationResult });
 }
-
 
 void CPositionAwarePairVerificator::Initialize(size_t nImageCount)
 {
@@ -82,17 +81,19 @@ bool CPositionAwarePairVerificator::DoSufficientlyOverlap(std::pair<size_t, size
 {
 	const double fTolerance = 1.1;
 
-	CSize IncreasedSize(static_cast<int>(m_Parameters.ImageSize.x * fTolerance), static_cast<int>(m_Parameters.ImageSize.y * fTolerance));
+	StlImageSize imageSize = m_Parameters.ImageSize;
+	StlImageSize increasedSize(static_cast<long long>(imageSize.x * fTolerance), static_cast<long long>(imageSize.y * fTolerance));
+
 	auto RefPos = m_pIterativeSolver->GetPositionFor(imagePair.first);
 	auto TempPos = m_pIterativeSolver->GetPositionFor(imagePair.second);
 
-	CRect ReferenceRect(CPoint(
-		static_cast<int>(RefPos.x),
-		static_cast<int>(RefPos.y)),
-		IncreasedSize);
-	CRect TemplateRect(CPoint(
-		static_cast<int>(TempPos.x),
-		static_cast<int>(TempPos.y)),
-		IncreasedSize);
-	return ReferenceRect.IntersectRect(ReferenceRect, TemplateRect) == TRUE;
+	StlImagePoint referencePos(static_cast<long long>(RefPos.x), static_cast<long long>(RefPos.y));
+	StlImagePoint templatePos(static_cast<long long>(TempPos.x), static_cast<long long>(TempPos.y));
+
+	StlImageRect referenceRect(referencePos, increasedSize);
+	StlImageRect templateRect(templatePos, increasedSize);
+
+	// this call does not return the intersecting area, but a flag specifying
+	// whether such an intersecting area exists or not
+	return referenceRect.Intersection(referenceRect, templateRect);
 }

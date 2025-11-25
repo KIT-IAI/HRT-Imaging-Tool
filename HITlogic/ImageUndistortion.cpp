@@ -22,8 +22,12 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #include "stdafx.h"
 #include "ImageUndistortion.h"
+
 #include <algorithm>
+
 #include "interpolation.h"
+
+
 
 CImageUndistortion::CImageUndistortion(EInterpolationMode eInterpolationModeX, EInterpolationMode eInterpolationModeY)
 	:m_eInterpolationModeX(eInterpolationModeX)
@@ -38,7 +42,7 @@ CUndistortedImage CImageUndistortion::UndistortImage(const StlImage<float>& Imag
 	ASSERT(Distortion.Cols() == 2);
 
 	CUndistortedImage Undistorted;
-	CRect Pos;
+	StlImageRect Pos;
 
 	auto X = Distortion.Col(0);
 	auto Y = Distortion.Col(1);
@@ -47,9 +51,9 @@ CUndistortedImage CImageUndistortion::UndistortImage(const StlImage<float>& Imag
 	X -= xOffset;
 	Y -= yOffset;
 
-	auto ImageSize = DetermineUndistortedImageSize(X, Y, CSize(static_cast<int>(Image.GetSize().x), static_cast<int>(Image.GetSize().y)));
+	auto ImageSize = DetermineUndistortedImageSize(X, Y, Image.GetSize());
 	Undistorted.pUndistoredImage = std::make_shared<StlImage<float>>();
-	Undistorted.pUndistoredImage->Alloc({ ImageSize.cx, ImageSize.cy });
+	Undistorted.pUndistoredImage->Alloc(ImageSize);
 
 	CreateUndistortedImage(Image, X, Y, m_eInterpolationModeX, m_eInterpolationModeY, *Undistorted.pUndistoredImage, Pos);
 
@@ -59,7 +63,7 @@ CUndistortedImage CImageUndistortion::UndistortImage(const StlImage<float>& Imag
 	return Undistorted;
 }
 
-CSize CImageUndistortion::DetermineUndistortedImageSize(const CDenseVector& XPositions, const CDenseVector& YPositions, const CSize& UndistortedImageSize) const
+StlImageSize CImageUndistortion::DetermineUndistortedImageSize(const CDenseVector& XPositions, const CDenseVector& YPositions, const StlImageSize& originalImageSize) const
 {
 	auto xExtremes = XPositions.MinMax();
 	auto minX = std::get<0>(xExtremes);
@@ -69,22 +73,24 @@ CSize CImageUndistortion::DetermineUndistortedImageSize(const CDenseVector& XPos
 	auto minY = std::get<0>(yExtremes);
 	auto maxY = std::get<1>(yExtremes);
 
-	return CSize(static_cast<int>(floor(maxX)) - static_cast<int>(ceil(minX)) + UndistortedImageSize.cx, static_cast<int>(floor(maxY)) - static_cast<int>(ceil(minY)) + 1);
+	long long sizeX = static_cast<long long>(floor(maxX)) - static_cast<long long>(ceil(minX)) + originalImageSize.x;
+	long long sizeY = static_cast<long long>(floor(maxY)) - static_cast<long long>(ceil(minY)) + 1;
+	return StlImageSize(sizeX, sizeY);
 }
 
 /**	\brief Führt die Bewegungskorrektur für das Bild \a imgSrc durch.
-*
-*	\param[in] imgSrc Das Quellbild.
-*	\param[in] vecPosX,vecPosY Vektoren mit den x- bzw. y-Koordinaten der
-*		Zielpositionen der Bildzeilen von \a imgSrc.
-*	\param[out] imgDest Das Zielbild; der Bildpuffer muss bereits in der
-*		gewünschten Größe allokiert worden sein.
-*	\param[out] posDest Die Position des linken oberen Eckpixels des belegten
-*		Bereichs im Zielbild \a imgDest.
-*
-*	\author Stephan Allgeier
-*/
-void CImageUndistortion::CreateUndistortedImage(const StlImage<float>& imgSrc, const CDenseVector& vecPosX, const CDenseVector& vecPosY, EInterpolationMode eInterpolationModeX, EInterpolationMode eInterpolationModeY, StlImage<float>& imgDest, CRect& posDest)
+ *
+ *	\param[in] imgSrc Das Quellbild.
+ *	\param[in] vecPosX,vecPosY Vektoren mit den x- bzw. y-Koordinaten der
+ *		Zielpositionen der Bildzeilen von \a imgSrc.
+ *	\param[out] imgDest Das Zielbild; der Bildpuffer muss bereits in der
+ *		gewünschten Größe allokiert worden sein.
+ *	\param[out] posDest Die Position des linken oberen Eckpixels des belegten
+ *		Bereichs im Zielbild \a imgDest.
+ *
+ *	\author Stephan Allgeier
+ */
+void CImageUndistortion::CreateUndistortedImage(const StlImage<float>& imgSrc, const CDenseVector& vecPosX, const CDenseVector& vecPosY, EInterpolationMode eInterpolationModeX, EInterpolationMode eInterpolationModeY, StlImage<float>& imgDest, StlImageRect& posDest)
 {
 	ASSERT(imgSrc.IsAllocated());
 	ASSERT(imgDest.IsAllocated());
@@ -114,41 +120,43 @@ void CImageUndistortion::CreateUndistortedImage(const StlImage<float>& imgSrc, c
 }
 
 /**	\brief Korrigiert die Bewegungsartefakte in der horizontalen Dimension
-*	für das Bild \a imgSrc durch lineare Interpolation.
-*
-*	\param[in] imgSrc Das Quellbild.
-*	\param[in] vecPosX Ein Vektor mit den x-Koordinaten der Zielpositionen
-*		der Bildzeilen von \a imgSrc bezüglich des Ausgabebilds \a imgDest.
-*	\param[out] imgDest Das Zielbild; der Bildpuffer muss bereits in der
-*		gewünschten Größe allokiert worden sein.
-*	\param[out] posDest Die (rechteckige) Bounding Box des im Zielbild
-*		\a imgDest belegten Bereichs.
-*
-*	\author Stephan Allgeier
-*/
-void CImageUndistortion::MotionCorrectionXLinear(const StlImage<float>& imgSrc, const CDenseVector& vecPosX, StlImage<float>& imgDest, CRect& posDest)
+ *	für das Bild \a imgSrc durch lineare Interpolation.
+ *
+ *	\param[in] imgSrc Das Quellbild.
+ *	\param[in] vecPosX Ein Vektor mit den x-Koordinaten der Zielpositionen
+ *		der Bildzeilen von \a imgSrc bezüglich des Ausgabebilds \a imgDest.
+ *	\param[out] imgDest Das Zielbild; der Bildpuffer muss bereits in der
+ *		gewünschten Größe allokiert worden sein.
+ *	\param[out] posDest Die (rechteckige) Bounding Box des im Zielbild
+ *		\a imgDest belegten Bereichs.
+ *
+ *	\author Stephan Allgeier
+ */
+void CImageUndistortion::MotionCorrectionXLinear(const StlImage<float>& imgSrc, const CDenseVector& vecPosX, StlImage<float>& imgDest, StlImageRect& posDest)
 {
 	ASSERT(imgSrc.IsAllocated());
 	ASSERT(imgDest.IsAllocated());
 	ASSERT(imgSrc.GetSize().y == static_cast<INT_PTR>(vecPosX.Size()));
 	ASSERT(imgSrc.GetSize().y == imgDest.GetSize().y);
 
-	long long  height = imgSrc.GetSize().y;
-	long long  srcwidth = imgSrc.GetSize().x;
-	long long  destwidth = imgDest.GetSize().x;
+	long long height = imgSrc.GetSize().y;
+	long long srcwidth = imgSrc.GetSize().x;
+	long long destwidth = imgDest.GetSize().x;
 
 	// Initialize the destination image with 0
 	imgDest.Clear(0.0f);
 
-	posDest.left = std::max(lround(ceil(vecPosX.Min())), 0l);
-	posDest.right = std::min(lround(floor(vecPosX.Max())) + static_cast<long>(srcwidth), static_cast<long>(destwidth));
-	posDest.top = 0;
-	posDest.bottom = static_cast<long>(height);
+	long long posLeft = std::max(llround(ceil(vecPosX.Min())), 0ll);
+	long long posRight = std::min(llround(floor(vecPosX.Max())) + srcwidth, destwidth);
+	posDest.x = posLeft;
+	posDest.sx = posRight - posLeft;
+	posDest.y = 0;
+	posDest.sy = height;
 
 	for (long long y = 0; y < height; y++)
 	{
-		long long  dx1 = std::max(lround(ceil(vecPosX[y])), 0l);
-		long long  dx2 = std::min(lround(floor(vecPosX[y])) + srcwidth, destwidth);
+		long long dx1 = std::max(llround(ceil(vecPosX[y])), 0ll);
+		long long dx2 = std::min(llround(floor(vecPosX[y])) + srcwidth, destwidth);
 
 		// 0 <= qx < 1
 		//
@@ -168,7 +176,7 @@ void CImageUndistortion::MotionCorrectionXLinear(const StlImage<float>& imgSrc, 
 
 		// This should always be 0 in practice; the explicit initialization
 		// makes it robust for all cases
-		long long  sx = dx1 - lround(ceil(vecPosX[y]));
+		long long sx = dx1 - llround(ceil(vecPosX[y]));
 
 		// For integral vecPosX[y] (i.e. qx==0), sx will become srcwidth-1,
 		// and therefore pSrc[y][sx+1] can potentially refer to outside the
@@ -190,63 +198,41 @@ void CImageUndistortion::MotionCorrectionXLinear(const StlImage<float>& imgSrc, 
 			}
 		}
 	}
-
-	//imgDest.Put2d(0, 0, destwidth, height, reinterpret_cast<unsigned char *>(pDestBuffer.data()));
 }
 
 /**	\brief Korrigiert die Bewegungsartefakte in der horizontalen Dimension
-*	für das Bild \a imgSrc durch (kubische) Spline-Interpolation.
-*
-*	\param[in] imgSrc Das Quellbild.
-*	\param[in] vecPosX Ein Vektor mit den x-Koordinaten der Zielpositionen
-*		der Bildzeilen von \a imgSrc bezüglich des Ausgabebilds \a imgDest.
-*	\param[out] imgDest Das Zielbild; der Bildpuffer muss bereits in der
-*		gewünschten Größe allokiert worden sein.
-*	\param[out] posDest Die (rechteckige) Bounding Box des im Zielbild
-*		\a imgDest belegten Bereichs.
-*
-*	\author Stephan Allgeier
-*/
-void CImageUndistortion::MotionCorrectionXSpline(const StlImage<float>& imgSrc, const CDenseVector& vecPosX, StlImage<float>& imgDest, CRect& posDest)
+ *	für das Bild \a imgSrc durch (kubische) Spline-Interpolation.
+ *
+ *	\param[in] imgSrc Das Quellbild.
+ *	\param[in] vecPosX Ein Vektor mit den x-Koordinaten der Zielpositionen
+ *		der Bildzeilen von \a imgSrc bezüglich des Ausgabebilds \a imgDest.
+ *	\param[out] imgDest Das Zielbild; der Bildpuffer muss bereits in der
+ *		gewünschten Größe allokiert worden sein.
+ *	\param[out] posDest Die (rechteckige) Bounding Box des im Zielbild
+ *		\a imgDest belegten Bereichs.
+ *
+ *	\author Stephan Allgeier
+ */
+void CImageUndistortion::MotionCorrectionXSpline(const StlImage<float>& imgSrc, const CDenseVector& vecPosX, StlImage<float>& imgDest, StlImageRect& posDest)
 {
 	ASSERT(imgSrc.IsAllocated());
 	ASSERT(imgDest.IsAllocated());
 	ASSERT(vecPosX.Size() == vecPosX.Size());
 	ASSERT(imgSrc.GetSize().y == imgDest.GetSize().y);
 
-	long long  height = imgSrc.GetSize().y;
-	long long  srcwidth = imgSrc.GetSize().x;
-	long long  destwidth = imgDest.GetSize().x;
-
-	// Buffers for the source and destination image data
-	float* pSrcBuffer = new float[srcwidth * height];
-	float* pDestBuffer = new float[destwidth * height];
-
-	// Pointer arrays for convenient access to the source and destination
-	// buffers by x and y coordinates. Take care to use the y coordinate
-	// first, i.e. pSrc[y][x] and pDest[y][x].
-	/*float** pSrc = new float*[height];
-	for (size_t y = 0; y < height; y++)
-	{
-		pSrc[y] = &(pSrcBuffer[y * srcwidth]);
-	}
-
-	float** pDest = new float*[height];
-	for (size_t y = 0; y < height; y++)
-	{
-		pDest[y] = &(pDestBuffer[y * destwidth]);
-	}*/
+	long long height = imgSrc.GetSize().y;
+	long long srcwidth = imgSrc.GetSize().x;
+	long long destwidth = imgDest.GetSize().x;
 
 	// Initialize the temporary and destination image buffers with 0
 	imgDest.Clear(0.0);
 
-	//imgSrc.Get2d(0, 0, srcwidth, height, reinterpret_cast<unsigned char *>(pSrcBuffer), srcwidth * height);
-	//imgDest.Get2d(0, 0, destwidth, height, reinterpret_cast<unsigned char *>(pDestBuffer), destwidth * height);
-
-	posDest.left = std::max(lround(ceil(vecPosX.Min())), 0l);
-	posDest.right = std::min(lround(floor(vecPosX.Max())) + static_cast<long>(srcwidth), static_cast<long>(destwidth));
-	posDest.top = 0;
-	posDest.bottom = static_cast<long>(height);
+	long long posLeft = std::max(llround(ceil(vecPosX.Min())), 0ll);
+	long long posRight = std::min(llround(floor(vecPosX.Max())) + srcwidth, destwidth);
+	posDest.x = posLeft;
+	posDest.sx = posRight - posLeft;
+	posDest.y = 0;
+	posDest.sy = height;
 
 	alglib::real_1d_array outval;
 	alglib::real_1d_array outind;
@@ -264,9 +250,9 @@ void CImageUndistortion::MotionCorrectionXSpline(const StlImage<float>& imgSrc, 
 		// current row. Note that dx1 is the first pixel at the left end
 		// INSIDE the range, while dx2 is the first pixel at the right end
 		// OUTSIDE the range.
-		long long  dx1 = std::max(lround(ceil(vecPosX[y])), 0l);
-		long long  dx2 = std::min(lround(floor(vecPosX[y])) + srcwidth, destwidth);
-		long long  dwidth = dx2 - dx1;
+		long long dx1 = std::max(llround(ceil(vecPosX[y])), 0ll);
+		long long dx2 = std::min(llround(floor(vecPosX[y])) + srcwidth, destwidth);
+		long long dwidth = dx2 - dx1;
 
 		for (long long sx = 0; sx < srcwidth; sx++)
 		{
@@ -286,31 +272,24 @@ void CImageUndistortion::MotionCorrectionXSpline(const StlImage<float>& imgSrc, 
 			imgDest[{dx1 + dx, y}] = static_cast<float>(outval[dx]);
 		}
 	}
-
-	/*imgDest.Put2d(0, 0, destwidth, height, reinterpret_cast<unsigned char *>(pDestBuffer));
-
-	delete[] pSrc;
-	delete[] pDest;*/
-	delete[] pSrcBuffer;
-	delete[] pDestBuffer;
 }
 
 /**	\brief Korrigiert die Bewegungsartefakte in der vertikalen Dimension für
-*	das Bild \a imgSrc durch lineare Interpolation.
-*
-*	\param[in] imgSrc Das Quellbild.
-*	\param[in] vecPosX,vecPosY Vektoren mit den x- bzw. y-Koordinaten der
-*		Zielpositionen der Bildzeilen von \a imgSrc bezüglich des
-*		Ausgabebilds \a imgDest.
-*	\param[in] nFrameWidth Die Breite einer Bildzeile.
-*	\param[out] imgDest Das Zielbild; der Bildpuffer muss bereits in der
-*		gewünschten Größe allokiert worden sein.
-*	\param[out] posDest Die (rechteckige) Bounding Box des im Zielbild
-*		\a imgDest belegten Bereichs.
-*
-*	\author Stephan Allgeier
-*/
-void CImageUndistortion::MotionCorrectionYLinear(const StlImage<float>& imgSrc, const CDenseVector& vecPosX, const CDenseVector& vecPosY, size_t nFrameWidth, StlImage<float>& imgDest, CRect& posDest)
+ *	das Bild \a imgSrc durch lineare Interpolation.
+ *
+ *	\param[in] imgSrc Das Quellbild.
+ *	\param[in] vecPosX,vecPosY Vektoren mit den x- bzw. y-Koordinaten der
+ *		Zielpositionen der Bildzeilen von \a imgSrc bezüglich des
+ *		Ausgabebilds \a imgDest.
+ *	\param[in] nFrameWidth Die Breite einer Bildzeile.
+ *	\param[out] imgDest Das Zielbild; der Bildpuffer muss bereits in der
+ *		gewünschten Größe allokiert worden sein.
+ *	\param[out] posDest Die (rechteckige) Bounding Box des im Zielbild
+ *		\a imgDest belegten Bereichs.
+ *
+ *	\author Stephan Allgeier
+ */
+void CImageUndistortion::MotionCorrectionYLinear(const StlImage<float>& imgSrc, const CDenseVector& vecPosX, const CDenseVector& vecPosY, size_t nFrameWidth, StlImage<float>& imgDest, StlImageRect& posDest)
 {
 	ASSERT(imgSrc.IsAllocated());
 	ASSERT(imgDest.IsAllocated());
@@ -318,43 +297,25 @@ void CImageUndistortion::MotionCorrectionYLinear(const StlImage<float>& imgSrc, 
 	ASSERT(imgSrc.GetSize().y == static_cast<INT_PTR>(vecPosY.Size()));
 	ASSERT(imgSrc.GetSize().x == imgDest.GetSize().x);
 
-	long long  width = imgSrc.GetSize().x;
-	long long  srcheight = imgSrc.GetSize().y;
-	long long  destheight = imgDest.GetSize().y;
+	long long width = imgSrc.GetSize().x;
+	long long srcheight = imgSrc.GetSize().y;
+	long long destheight = imgDest.GetSize().y;
 
-	// Buffers for the source and destination image data
-	float* pSrcBuffer = new float[width * srcheight];
-	float* pDestBuffer = new float[width * destheight];
-
-	// Pointer arrays for convenient access to the source and destination
-	// buffers by x and y coordinates. Take care to use the y coordinate
-	// first, i.e. pSrc[y][x] and pDest[y][x].
-	/*float** pSrc = new float*[srcheight];
-	for (size_t y = 0; y < srcheight; y++)
-	{
-		pSrc[y] = &(pSrcBuffer[y * width]);
-	}
-
-	//float** pDest = new float*[destheight];
-	for (size_t y = 0; y < destheight; y++)
-	{
-		pDest[y] = &(pDestBuffer[y * width]);
-	}
-	*/
 	// Initialize the destination image buffer with 0
 	imgDest.Clear(0.0);
 
-	//imgSrc.Get2d(0, 0, width, srcheight, reinterpret_cast<unsigned char *>(pSrcBuffer), width * srcheight);
-	//imgDest.Get2d(0, 0, width, destheight, reinterpret_cast<unsigned char *>(pDestBuffer), width * destheight);
-
-	posDest.left = std::max(lround(ceil(vecPosX.Min())), 0l);
-	posDest.right = std::min(lround(floor(vecPosX.Max())) + static_cast<long>(nFrameWidth), static_cast<long>(width));
-	posDest.top = std::max(lround(ceil(vecPosY.Min())), 0l);
-	posDest.bottom = std::min(lround(floor(vecPosY.Max())) + 1, static_cast<long>(destheight));
+	long long posLeft = std::max(llround(ceil(vecPosX.Min())), 0ll);
+	long long posRight = std::min(llround(floor(vecPosX.Max())) + static_cast<long long>(nFrameWidth), width);
+	long long posTop = std::max(llround(ceil(vecPosY.Min())), 0ll);
+	long long posBottom = std::min(llround(floor(vecPosY.Max())) + 1, destheight);
+	posDest.x = posLeft;
+	posDest.sx = posRight - posLeft;
+	posDest.y = posTop;
+	posDest.sy = posBottom - posTop;
 
 	for (long long sy2 = 1; sy2 < srcheight; sy2++)
 	{
-		long long  sy1 = sy2 - 1;
+		long long sy1 = sy2 - 1;
 
 		//ASSERT(vecPosY[sy1] < vecPosY[sy2]);
 
@@ -363,10 +324,10 @@ void CImageUndistortion::MotionCorrectionYLinear(const StlImage<float>& imgSrc, 
 		// and dy1 are the first pixels at the left and top ends INSIDE the
 		// range, while dx2 and dy2 are the first pixels at the right and
 		// bottom ends OUTSIDE the range.
-		long long  dy1 = std::max(lround(ceil(vecPosY[sy1])), 0l);
-		long long  dy2 = std::min(static_cast<long long>(lround(floor(vecPosY[sy2]))) + 1u, destheight);
-		long long  dx1 = std::max(lround(ceil(std::max(vecPosX[sy1], vecPosX[sy2]))), 0l);
-		long long  dx2 = std::min(static_cast<long long>(lround(floor(std::min(vecPosX[sy1], vecPosX[sy2]))) + nFrameWidth), width);
+		long long dy1 = std::max(llround(ceil(vecPosY[sy1])), 0ll);
+		long long dy2 = std::min(llround(floor(vecPosY[sy2])) + 1, destheight);
+		long long dx1 = std::max(llround(ceil(std::max(vecPosX[sy1], vecPosX[sy2]))), 0ll);
+		long long dx2 = std::min(llround(floor(std::min(vecPosX[sy1], vecPosX[sy2]))) + static_cast<long long>(nFrameWidth), width);
 
 		// This loop iterates over all destination image rows located between
 		// the positions of the source image rows sy1 and sy2, including the
@@ -396,31 +357,24 @@ void CImageUndistortion::MotionCorrectionYLinear(const StlImage<float>& imgSrc, 
 			}
 		}
 	}
-
-	/*imgDest.Put2d(0, 0, width, destheight, reinterpret_cast<unsigned char *>(pDestBuffer));
-
-	delete[] pSrc;
-	delete[] pDest;*/
-	delete[] pSrcBuffer;
-	delete[] pDestBuffer;
 }
 
 /**	\brief Korrigiert die Bewegungsartefakte in der vertikalen Dimension für
-*	das Bild \a imgSrc durch (kubische) Spline-Interpolation.
-*
-*	\param[in] imgSrc Das Quellbild.
-*	\param[in] vecPosX,vecPosY Vektoren mit den x- bzw. y-Koordinaten der
-*		Zielpositionen der Bildzeilen von \a imgSrc bezüglich des
-*		Ausgabebilds \a imgDest.
-*	\param[in] nFrameWidth Die Breite einer Bildzeile.
-*	\param[out] imgDest Das Zielbild; der Bildpuffer muss bereits in der
-*		gewünschten Größe allokiert worden sein.
-*	\param[out] posDest Die (rechteckige) Bounding Box des im Zielbild
-*		\a imgDest belegten Bereichs.
-*
-*	\author Stephan Allgeier
-*/
-void CImageUndistortion::MotionCorrectionYSpline(const StlImage<float>& imgSrc, const CDenseVector& vecPosX, const CDenseVector& vecPosY, size_t nFrameWidth, StlImage<float>& imgDest, CRect& posDest)
+ *	das Bild \a imgSrc durch (kubische) Spline-Interpolation.
+ *
+ *	\param[in] imgSrc Das Quellbild.
+ *	\param[in] vecPosX,vecPosY Vektoren mit den x- bzw. y-Koordinaten der
+ *		Zielpositionen der Bildzeilen von \a imgSrc bezüglich des
+ *		Ausgabebilds \a imgDest.
+ *	\param[in] nFrameWidth Die Breite einer Bildzeile.
+ *	\param[out] imgDest Das Zielbild; der Bildpuffer muss bereits in der
+ *		gewünschten Größe allokiert worden sein.
+ *	\param[out] posDest Die (rechteckige) Bounding Box des im Zielbild
+ *		\a imgDest belegten Bereichs.
+ *
+ *	\author Stephan Allgeier
+ */
+void CImageUndistortion::MotionCorrectionYSpline(const StlImage<float>& imgSrc, const CDenseVector& vecPosX, const CDenseVector& vecPosY, size_t nFrameWidth, StlImage<float>& imgDest, StlImageRect& posDest)
 {
 	ASSERT(imgSrc.IsAllocated());
 	ASSERT(imgDest.IsAllocated());
@@ -428,39 +382,21 @@ void CImageUndistortion::MotionCorrectionYSpline(const StlImage<float>& imgSrc, 
 	ASSERT(imgSrc.GetSize().y == static_cast<INT_PTR>(vecPosY.Size()));
 	ASSERT(imgSrc.GetSize().x == imgDest.GetSize().x);
 
-	long long  width = imgSrc.GetSize().x;
-	long long  srcheight = imgSrc.GetSize().y;
-	long long  destheight = imgDest.GetSize().y;
+	long long width = imgSrc.GetSize().x;
+	long long srcheight = imgSrc.GetSize().y;
+	long long destheight = imgDest.GetSize().y;
 
-	// Buffers for the source and destination image data
-	float* pSrcBuffer = new float[width * srcheight];
-	float* pDestBuffer = new float[width * destheight];
-
-	// Pointer arrays for convenient access to the source and destination
-	// buffers by x and y coordinates. Take care to use the y coordinate
-	// first, i.e. pSrc[y][x] and pDest[y][x].
-	/*float** pSrc = new float*[srcheight];
-	for (size_t y = 0; y < srcheight; y++)
-	{
-		pSrc[y] = &(pSrcBuffer[y * width]);
-	}
-
-	float** pDest = new float*[destheight];
-	for (size_t y = 0; y < destheight; y++)
-	{
-		pDest[y] = &(pDestBuffer[y * width]);
-	}
-	*/
 	// Initialize the destination image buffer with 0
 	imgDest.Clear(0.0);
 
-	//imgSrc.Get2d(0, 0, width, srcheight, reinterpret_cast<unsigned char *>(pSrcBuffer), width * srcheight);
-	//imgDest.Get2d(0, 0, width, destheight, reinterpret_cast<unsigned char *>(pDestBuffer), width * destheight);
-
-	posDest.left = std::max(lround(ceil(vecPosX.Min())), 0l);
-	posDest.right = std::min(lround(floor(vecPosX.Max())) + static_cast<long>(nFrameWidth), static_cast<long>(width));
-	posDest.top = std::max(lround(ceil(vecPosY.Min())), 0l);
-	posDest.bottom = std::min(lround(floor(vecPosY.Max())) + 1, static_cast<long>(destheight));
+	long long posLeft = std::max(llround(ceil(vecPosX.Min())), 0ll);
+	long long posRight = std::min(llround(floor(vecPosX.Max())) + static_cast<long long>(nFrameWidth), width);
+	long long posTop = std::max(llround(ceil(vecPosY.Min())), 0ll);
+	long long posBottom = std::min(llround(floor(vecPosY.Max())) + 1, destheight);
+	posDest.x = posLeft;
+	posDest.sx = posRight - posLeft;
+	posDest.y = posTop;
+	posDest.sy = posBottom - posTop;
 
 	alglib::real_1d_array outval;
 	alglib::real_1d_array outind;
@@ -476,11 +412,11 @@ void CImageUndistortion::MotionCorrectionYSpline(const StlImage<float>& imgSrc, 
 	// image. Note that x1 and y1 are the first pixels at the left and top
 	// ends INSIDE the range, while x2 and y2 are the first pixels at the
 	// right and bottom ends OUTSIDE the range.
-	long long  x1 = posDest.left;
-	long long  x2 = posDest.right;
-	long long  dy1 = posDest.top;
-	long long  dy2 = posDest.bottom;
-	long long  dheight = dy2 - dy1;
+	long long x1 = posDest.x;
+	long long x2 = posDest.x + posDest.sx;
+	long long dy1 = posDest.y;
+	long long dy2 = posDest.y + posDest.sy;
+	long long dheight = posDest.sy;
 
 	for (long long x = x1; x < x2; x++)
 	{
@@ -502,13 +438,6 @@ void CImageUndistortion::MotionCorrectionYSpline(const StlImage<float>& imgSrc, 
 			imgDest[{x, dy1 + dy}] = static_cast<float>(outval[dy]);
 		}
 	}
-
-	/*imgDest.Put2d(0, 0, width, destheight, reinterpret_cast<unsigned char *>(pDestBuffer));
-
-	delete[] pSrc;
-	delete[] pDest;*/
-	delete[] pSrcBuffer;
-	delete[] pDestBuffer;
 }
 
 CDenseMatrix CImageUndistortion::InterpolateRowPositions(const CDenseMatrix& SubImagePositions, size_t nSubImageHeight)

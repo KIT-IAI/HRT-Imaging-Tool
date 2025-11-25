@@ -304,11 +304,6 @@ void CSubImageCorrelation::InitCorrelation()
 	PrepareOffsetArray();
 }
 
-bool CSubImageCorrelation::IsWindowOutsideOfTemplateImage(CRect window) const
-{
-	return window.IsRectEmpty() == TRUE;
-}
-
 bool CSubImageCorrelation::IsReferenceImageMaskingActive() const
 {
 	switch (m_ProcedureParameter.eMaskRegArea)
@@ -677,12 +672,12 @@ StlImage<float> CSubImageCorrelation::InterpolateImage(const StlImage<float>& Te
 	//		Interpolate the 4 surroudning pixels (Pixel -> BL) bilinearly 
 	//		Copy Results into the area of the template image, where the corresponding referenceImage area is
 
-	for (int row = DefinedWindow.y; row < DefinedWindow.y + DefinedWindow.sy; row++)
+	for (long long row = DefinedWindow.y; row < DefinedWindow.y + DefinedWindow.sy; row++)
 	{
-		for (int col = DefinedWindow.x; col < DefinedWindow.x + DefinedWindow.sx; col++)
+		for (long long col = DefinedWindow.x; col < DefinedWindow.x + DefinedWindow.sx; col++)
 		{
-			CVector2d<float> fCorrespondingReferenceImagePixel = GetCorrespondingPixelInReferenceImage(CVector2d<int>(col, row), offsetArray[row]);
-			CVector2d<int> nCorrespondingReferenceImagePixel(fCorrespondingReferenceImagePixel);
+			CVector2d<float> fCorrespondingReferenceImagePixel = GetCorrespondingPixelInReferenceImage(CVector2d<long long>(col, row), offsetArray[row]);
+			CVector2d<long long> nCorrespondingReferenceImagePixel(fCorrespondingReferenceImagePixel);
 
 			auto InterpolatedPixel = InterpolatePixelValue(pInputImageArray, fCorrespondingReferenceImagePixel, nCorrespondingReferenceImagePixel, imageSize.x);
 
@@ -692,7 +687,7 @@ StlImage<float> CSubImageCorrelation::InterpolateImage(const StlImage<float>& Te
 	return imOutputImage;
 }
 
-CVector2d<float> CSubImageCorrelation::GetCorrespondingPixelInReferenceImage(CVector2d<int> TemplatePixel, const CVector2d<float> RowOffset) const
+CVector2d<float> CSubImageCorrelation::GetCorrespondingPixelInReferenceImage(CVector2d<long long> TemplatePixel, const CVector2d<float> RowOffset) const
 {
 	CVector2d<float> fCorrespondingReferenceImagePixel;
 	fCorrespondingReferenceImagePixel.y = TemplatePixel.y - RowOffset.y;	// = Corresponding row in ReferenceImage
@@ -700,7 +695,7 @@ CVector2d<float> CSubImageCorrelation::GetCorrespondingPixelInReferenceImage(CVe
 	return fCorrespondingReferenceImagePixel;
 }
 
-float CSubImageCorrelation::InterpolatePixelValue(const vector<float>& InputBuffer, const CVector2d<float>& fCorrespondingReferencePixel, const CVector2d<int>& nCorrespondingReferencePixel, int ImageWidth) const
+float CSubImageCorrelation::InterpolatePixelValue(const vector<float>& InputBuffer, const CVector2d<float>& fCorrespondingReferencePixel, const CVector2d<long long>& nCorrespondingReferencePixel, long long ImageWidth) const
 {
 	CVector2d<float> fDist = fCorrespondingReferencePixel - CVector2d<float>(nCorrespondingReferencePixel);
 

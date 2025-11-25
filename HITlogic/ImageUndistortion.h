@@ -21,6 +21,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #pragma once
+
 #include "UndistortedImage.h"
 #include "StlImage.h"
 
@@ -38,7 +39,7 @@ public:
 
 	CUndistortedImage UndistortImage(const StlImage<float>& Image, const CDenseMatrix& Distortion);
 
-	static void CreateUndistortedImage(const StlImage<float>& imgSrc, const CDenseVector& vecPosX, const CDenseVector& vecPosY, EInterpolationMode eInterpolationModeX, EInterpolationMode eInterpolationModeY, StlImage<float>& imgDest, CRect& posDest);
+	static void CreateUndistortedImage(const StlImage<float>& imgSrc, const CDenseVector& vecPosX, const CDenseVector& vecPosY, EInterpolationMode eInterpolationModeX, EInterpolationMode eInterpolationModeY, StlImage<float>& imgDest, StlImageRect& posDest);
 	static CDenseMatrix InterpolateRowPositions(const CDenseMatrix& SubImagePositions, size_t nSubImageHeight);
 
 	EInterpolationMode m_eInterpolationModeX = EInterpolationMode::eLinear;
@@ -46,12 +47,12 @@ public:
 
 private:
 
-	CSize DetermineUndistortedImageSize(const CDenseVector& XPositions, const CDenseVector& YPositions, const CSize& UndistortedImageSize) const;
+	StlImageSize DetermineUndistortedImageSize(const CDenseVector& XPositions, const CDenseVector& YPositions, const StlImageSize& originalImageSize) const;
 
-	static void MotionCorrectionXLinear(const StlImage<float>& imgSrc, const CDenseVector& vecPosX, StlImage<float>& imgDest, CRect& posDest);
-	static void MotionCorrectionXSpline(const StlImage<float>& imgSrc, const CDenseVector& vecPosX, StlImage<float>& imgDest, CRect& posDest);
-	static void MotionCorrectionYLinear(const StlImage<float>& imgSrc, const CDenseVector& vecPosX, const CDenseVector& vecPosY, size_t nFrameWidth, StlImage<float>& imgDest, CRect& posDest);
-	static void MotionCorrectionYSpline(const StlImage<float>& imgSrc, const CDenseVector& vecPosX, const CDenseVector& vecPosY, size_t nFrameWidth, StlImage<float>& imgDest, CRect& posDest);
+	static void MotionCorrectionXLinear(const StlImage<float>& imgSrc, const CDenseVector& vecPosX, StlImage<float>& imgDest, StlImageRect& posDest);
+	static void MotionCorrectionXSpline(const StlImage<float>& imgSrc, const CDenseVector& vecPosX, StlImage<float>& imgDest, StlImageRect& posDest);
+	static void MotionCorrectionYLinear(const StlImage<float>& imgSrc, const CDenseVector& vecPosX, const CDenseVector& vecPosY, size_t nFrameWidth, StlImage<float>& imgDest, StlImageRect& posDest);
+	static void MotionCorrectionYSpline(const StlImage<float>& imgSrc, const CDenseVector& vecPosX, const CDenseVector& vecPosY, size_t nFrameWidth, StlImage<float>& imgDest, StlImageRect& posDest);
 
 
 };

@@ -24,6 +24,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "DIPLOMTableRow.h"
 
 
+
 CSQLiteTableRow CDIPLOMTableRow::From(const CRigidRegistrationResult& RegResult)
 {
 	CSQLiteTableRow row;
@@ -85,19 +86,20 @@ CSQLiteTableRow CDIPLOMTableRow::From(const CMosaicImageProperties& MosaicProper
 {
 	CSQLiteTableRow Row;
 	Row.AddKeyValuePair(L"GroupID", MosaicProperties.nGroupID);
-	Row.AddKeyValuePair(L"MosaicImageSizeX", MosaicProperties.MosaicImageSize.cx);
-	Row.AddKeyValuePair(L"MosaicImageSizeY", MosaicProperties.MosaicImageSize.cy);
+	Row.AddKeyValuePair(L"MosaicImageSizeX", MosaicProperties.MosaicImageSize.x);
+	Row.AddKeyValuePair(L"MosaicImageSizeY", MosaicProperties.MosaicImageSize.y);
 	Row.AddKeyValuePair(L"DefinedMosaicArea", MosaicProperties.nDefinedMosaicArea);
 	Row.AddKeyValuePair(L"FilePath", MosaicProperties.sFilePath);
 
 	return Row;
 }
+
 template <> CMosaicImageProperties CSQLiteTableRow::Convert() const
 {
 	CMosaicImageProperties Properties;
 	Properties.nGroupID = Get<size_t>(0);
-	Properties.MosaicImageSize.cx = Get<LONG>(1);
-	Properties.MosaicImageSize.cy = Get<LONG>(2);
+	Properties.MosaicImageSize.x = Get<long long>(1);
+	Properties.MosaicImageSize.y = Get<long long>(2);
 	Properties.nDefinedMosaicArea = Get<size_t>(3);
 	Properties.sFilePath = Get<wstring>(4);
 

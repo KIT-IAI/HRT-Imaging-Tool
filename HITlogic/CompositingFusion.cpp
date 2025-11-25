@@ -32,7 +32,6 @@ CCompositingFusion::CCompositingFusion(const CCompositingParameters& Param)
 {
 }
 
-
 void CCompositingFusion::PerformCompositing(const CImageRegistrationData& ImageData, const CDenseMatrix& PositioningSolution)
 {
 	if (m_Parameters.eRegistrationProcessType == CProcessType::eRigidRegistration || m_Parameters.nSubImageHeight == static_cast<size_t>(ImageData.Images[0]->GetSize().y) || m_Parameters.nSubImageHeight == 0)
@@ -45,26 +44,25 @@ void CCompositingFusion::PerformCompositing(const CImageRegistrationData& ImageD
 	}
 }
 
-
 /**	\brief Berechnet das Mosaikbild durch Bildfusion.
-*
-*	Das Mosaikbild kann nach dem Aufruf der Methode mit GetResultImage()
-*	abgefragt werden.
-*
-*	Die Ausgabeparameter \a pUndistortedImageList, \a pImageOffsetX,
-*	\a pImageOffsetY und \a pXOffsetList sind optional.
-*
-*	\param[out] pUndistortedImageList Enthält nach dem Methodenaufruf die
-*		entzerrten Einzelbilder.
-*	\param[out] pImageOffsetX,pImageOffsetY Enthält nach dem Methodenaufruf
-*		die x- bzw. y-Koordinaten der entzerrten Einzelbilder im
-*		Koordinatensystem des Mosaikbilds. Der Bezugspunkt ist jeweils das
-*		linke obere Pixel des Bilds.
-*	\param[out] pXOffsetList,pYOffsetList Enthält nach dem Methodenaufruf die
-*		x- bzw. y-Koordinaten jeder Bildzeile der Quellbilder im
-*		Koordinatensystem des Mosaikbilds. Der Bezugspunkt ist jeweils das
-*		linke Pixel der Bildzeile.
-*/
+ *
+ *	Das Mosaikbild kann nach dem Aufruf der Methode mit GetResultImage()
+ *	abgefragt werden.
+ *
+ *	Die Ausgabeparameter \a pUndistortedImageList, \a pImageOffsetX,
+ *	\a pImageOffsetY und \a pXOffsetList sind optional.
+ *
+ *	\param[out] pUndistortedImageList Enthält nach dem Methodenaufruf die
+ *		entzerrten Einzelbilder.
+ *	\param[out] pImageOffsetX,pImageOffsetY Enthält nach dem Methodenaufruf
+ *		die x- bzw. y-Koordinaten der entzerrten Einzelbilder im
+ *		Koordinatensystem des Mosaikbilds. Der Bezugspunkt ist jeweils das
+ *		linke obere Pixel des Bilds.
+ *	\param[out] pXOffsetList,pYOffsetList Enthält nach dem Methodenaufruf die
+ *		x- bzw. y-Koordinaten jeder Bildzeile der Quellbilder im
+ *		Koordinatensystem des Mosaikbilds. Der Bezugspunkt ist jeweils das
+ *		linke Pixel der Bildzeile.
+ */
 void CCompositingFusion::Fusion(const CImageRegistrationData& ImageData, const CDenseMatrix& solutionMatrix)
 {
 	size_t nImageCount = ImageData.Images.size();
@@ -177,7 +175,7 @@ void CCompositingFusion::Fusion(const CImageRegistrationData& ImageData, const C
 	std::get< StlImage<float>>(m_result) /= imgMosaicWeight;
 
 	// Finally, fill the background with the background color
-	std::get< StlImage<float>>(m_result).Replace(0.0, m_Parameters.cBackgroundColor);
+	std::get< StlImage<float>>(m_result).Replace(0.0f, static_cast<float>(m_Parameters.cBackgroundColor));
 }
 
 void CCompositingFusion::FusionRigidRegistration(const CImageRegistrationData& ImageData, const CDenseMatrix& solutionMatrix)
@@ -272,17 +270,16 @@ const vector<CUndistortedImage>& CCompositingFusion::GetUndistortedImages() cons
 	return m_UndistortedImages;
 }
 
-
 /**	\brief Generiert das Gewichtsbild für die Gewichtung der Einzelbilder bei
-*	der Bildfusion.
-*
-*	Der Puffer für das Gewichtsbild muss vor dem Aufruf der Methode in der
-*	Größe des Quellbilds \a imgSource allokiert werden.
-*
-*	\param[out] imgWeight Enthält nach der Rückkehr aus der Methode das
-*		Gewichtsbild.
-*	\param[in] imgSource Das Quellbild.
-*/
+ *	der Bildfusion.
+ *
+ *	Der Puffer für das Gewichtsbild muss vor dem Aufruf der Methode in der
+ *	Größe des Quellbilds \a imgSource allokiert werden.
+ *
+ *	\param[out] imgWeight Enthält nach der Rückkehr aus der Methode das
+ *		Gewichtsbild.
+ *	\param[in] imgSource Das Quellbild.
+ */
 StlImage<float> CCompositingFusion::GenerateWeightImage(const StlImage<float>& imgSource) const
 {
 	ASSERT(imgSource.IsAllocated());
@@ -308,14 +305,14 @@ StlImage<float> CCompositingFusion::GenerateWeightImage(const StlImage<float>& i
 }
 
 /**	\brief Generiert das Gewichtsbild für die Gewichtung der Einzelbilder bei
-*	der Bildfusion nach der Methode des doppelten Cosinus.
-*
-*	Der Puffer für das Gewichtsbild muss vor dem Aufruf der Methode in der
-*	gewünschten Größe allokiert werden.
-*
-*	\param[out] imgWeight Enthält nach der Rückkehr aus der Methode das
-*		Gewichtsbild.
-*/
+ *	der Bildfusion nach der Methode des doppelten Cosinus.
+ *
+ *	Der Puffer für das Gewichtsbild muss vor dem Aufruf der Methode in der
+ *	gewünschten Größe allokiert werden.
+ *
+ *	\param[out] imgWeight Enthält nach der Rückkehr aus der Methode das
+ *		Gewichtsbild.
+ */
 StlImage<float> CCompositingFusion::GenerateWeightImgCos2(const StlImageSize& ImageSize) const
 {
 	StlImage<float> imgWeight;
@@ -345,7 +342,6 @@ StlImage<float> CCompositingFusion::GenerateWeightImgCos2(const StlImageSize& Im
 		pSinY[y] = sin(M_PI * (y + 0.5) / nSizeY);
 	}
 
-
 	for (int x = 0; x < nSizeX; x++)
 	{
 		for (int y = 0; y < nSizeY; y++)
@@ -358,8 +354,8 @@ StlImage<float> CCompositingFusion::GenerateWeightImgCos2(const StlImageSize& Im
 }
 
 /**	\brief Generiert das Gewichtsbild für die Gewichtung der Einzelbilder bei
-*	der Bildfusion mittels Distanztransformation.
-*/
+ *	der Bildfusion mittels Distanztransformation.
+ */
 StlImage<float> CCompositingFusion::GenerateWeightImgDistance(const StlImage<float>& imgSource, size_t nEdgeBlendingLength /*= 10*/) const
 {
 	ASSERT(imgSource.IsAllocated());					//the distance-Funktion is missing in stlImage
@@ -368,24 +364,16 @@ StlImage<float> CCompositingFusion::GenerateWeightImgDistance(const StlImage<flo
 	StlImage<float> FramedWeightImage;
 	FramedWeightImage.Alloc({ imgSource.GetSize().x + 2, imgSource.GetSize().y + 2 });
 	FramedWeightImage.Clear(0.0);
-
-	//StlImage<float> OriginalImageInFramedImage;
 	FramedWeightImage.Copy2d(StlImageRect({ 1,1 }, imgSource.GetSize()), imgSource, { 0,0 });
-	/*OriginalImageInFramedImage.Child2d(FramedWeightImage, CRect(CPoint(1, 1), imgSource.GetSize()));
-	OriginalImageInFramedImage.Copy(imgSource);
-	OriginalImageInFramedImage.Free();*/
 
-	double fEdgeBlendingLength = static_cast<double>(nEdgeBlendingLength);
+	float fEdgeBlendingLength = static_cast<float>(nEdgeBlendingLength);
 
 	FramedWeightImage.DistanceChamfer();
 	FramedWeightImage.Clamp(0, fEdgeBlendingLength);
-	//FramedWeightImage.Clip(FramedWeightImage, M_GREATER, fEdgeBlendingLength, fEdgeBlendingLength);
 	FramedWeightImage /= fEdgeBlendingLength;
 
 	StlImage<float> CroppedWeightImage;
 	CroppedWeightImage.Alloc(imgSource.GetSize());
-
-	//CroppedWeightImage.CopyROI(FramedWeightImage, CRect(CPoint(1, 1), imgSource.GetSize()));
 	CroppedWeightImage.Copy2d(StlImageRect({ 0,0 }, imgSource.GetSize()), FramedWeightImage, { 1,1 });
 
 	return CroppedWeightImage;

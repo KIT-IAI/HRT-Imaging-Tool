@@ -83,7 +83,6 @@ private:
 	StlImage<float> ApplyReferenceImageMask(const StlImage<float>& ReferenceImage, StlImageRect rDefinedWindow, bool bMaskImage) const;
 	StlImage<float> ApplyTemplateImageMask(const StlImage<float>& TemplateImage, StlImageSize imagesize, StlImageRect rDefinedWindow, bool bMaskImage) const;
 
-	bool IsWindowOutsideOfTemplateImage(CRect window) const;
 	bool IsReferenceImageMaskingActive() const;
 	void SetScoreValues(size_t nImageIndex, CCorrelationOffset correlationOffset) const;
 
@@ -110,8 +109,8 @@ private:
 
 	StlImageRect CalculateCorrectChildWindow(StlImageRect& rDefinedWindow, const StlImageSize stripeSize, const StlImageSize imageSize) const;
 
-	CVector2d<float> GetCorrespondingPixelInReferenceImage(CVector2d<int> TemplatePixel, const CVector2d<float> rowOffset) const;
-	float InterpolatePixelValue(const std::vector<float>& InputBuffer, const CVector2d<float>& fCorrespondingReferencePixel, const CVector2d<int>& nCorrespondingReferencePixel, int ImageWidth) const;
+	CVector2d<float> GetCorrespondingPixelInReferenceImage(CVector2d<long long> TemplatePixel, const CVector2d<float> rowOffset) const;
+	float InterpolatePixelValue(const std::vector<float>& InputBuffer, const CVector2d<float>& fCorrespondingReferencePixel, const CVector2d<long long>& nCorrespondingReferencePixel, long long ImageWidth) const;
 	StlImage<float> InterpolateImage(const StlImage<float>& imInputImage,
 		const std::vector<CVector2d<float>>& offsetArray,
 		StlImageRect DefinedWindow) const;

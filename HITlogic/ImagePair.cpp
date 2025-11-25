@@ -90,45 +90,37 @@ StlImage<float>* CImagePair::GetTemplateImageSmooth() const
 
 std::pair<StlImageRect, StlImageRect> CImagePair::GetOverlappingRectangles(StlImageSize refImageSize, StlImageSize tempImageSize, StlImagePoint offset)
 {
-	CRect overlappingArea;
-	overlappingArea.IntersectRect(CRect(CPoint(), CSize(refImageSize.x, refImageSize.y)), CRect(CPoint(offset.x, offset.y), CSize(tempImageSize.x, tempImageSize.y)));
-	auto refRect = CRect(overlappingArea);
-	auto tempRect = CRect(overlappingArea);
+	StlImageRect referenceImage(StlImagePoint(0, 0), refImageSize);
+	StlImageRect templateImage(offset, tempImageSize);
+
+	StlImageRect intersectingRegion;
+	intersectingRegion.Intersection(referenceImage, templateImage);
+
+	StlImageRect referenceIntersectingRegion(intersectingRegion);
+	StlImageRect templateIntersectingRegion(intersectingRegion);
 
 	if (offset.x < 0 && offset.y < 0)
 	{
-		refRect.MoveToXY(0, 0);
-		tempRect.MoveToXY(-offset.x, -offset.y);
+		referenceIntersectingRegion.MoveToXY(0, 0);
+		templateIntersectingRegion.MoveToXY(-offset.x, -offset.y);
 	}
 	else if (offset.x < 0)
 	{
-		refRect.MoveToXY(0, offset.y);
-		tempRect.MoveToXY(-offset.x, 0);
+		referenceIntersectingRegion.MoveToXY(0, offset.y);
+		templateIntersectingRegion.MoveToXY(-offset.x, 0);
 	}
 	else if (offset.y < 0)
 	{
-		refRect.MoveToXY(offset.x, 0);
-		tempRect.MoveToXY(0, -offset.y);
+		referenceIntersectingRegion.MoveToXY(offset.x, 0);
+		templateIntersectingRegion.MoveToXY(0, -offset.y);
 	}
 	else
 	{
-		refRect.MoveToXY(offset.x, offset.y);
-		tempRect.MoveToXY(0, 0);
+		referenceIntersectingRegion.MoveToXY(offset.x, offset.y);
+		templateIntersectingRegion.MoveToXY(0, 0);
 	}
-	return
-	{
-		StlImageRect(
-			refRect.left,
-			refRect.top,
-			refRect.right,
-			refRect.bottom
-		) , StlImageRect(
-			tempRect.left,
-			tempRect.top,
-			tempRect.right,
-			tempRect.bottom
-		)
-	};
+
+	return { referenceIntersectingRegion, templateIntersectingRegion };
 }
 
 StlImageSize CImagePair::GetFFTSize() const

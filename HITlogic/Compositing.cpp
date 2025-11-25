@@ -42,18 +42,10 @@ const CSNPCompositingResult* CCompositing::GetResult() const
 	return &m_result;
 }
 
-
 size_t CCompositing::GetResultImageArea() const
 {
-	/*if (std::holds_alternative<CMeasureImage>(m_result)) {
-		if (m_Parameters.nBorder == 0 || m_Parameters.cBackgroundColor == 0)
-			return std::get<StlImage<float>>(m_result).NumberOfNonzeroPixels();
-
-		CMeasureImage child;
-		child.Child2d(std::get<CMeasureImage>(m_result), CRect(static_cast<int>(m_Parameters.nBorder), static_cast<int>(m_Parameters.nBorder), static_cast<int>(std::get<CMeasureImage>(m_result).GetSize().cx - m_Parameters.nBorder), static_cast<int>(std::get<CMeasureImage>(m_result).GetSize().cy - m_Parameters.nBorder)));
-		return child.NumberOfNonzeroPixels();
-	}
-	else*/ if (std::holds_alternative<StlImage<float>>(m_result)) {
+	if (std::holds_alternative<StlImage<float>>(m_result))
+	{
 		const StlImage<float>& result = std::get<StlImage<float>>(m_result);
 		if (m_Parameters.nBorder == 0 || m_Parameters.cBackgroundColor == 0)
 			return result.NumberOfNonzeroPixels();
@@ -66,7 +58,8 @@ size_t CCompositing::GetResultImageArea() const
 		child.Copy2d(StlImageRect({ 0,0 , childSizeX, childSizeY }), result, { static_cast<int>(m_Parameters.nBorder), static_cast<int>(m_Parameters.nBorder) });
 		return child.NumberOfNonzeroPixels();
 	}
-	else {
+	else
+	{
 		return 0;
 	}
 }
@@ -93,19 +86,18 @@ std::unique_ptr<CSNPCompositingResult> CCompositing::Fuse(const CImageRegistrati
 	return Result;
 }
 
-
 /*	\brief Berechnet die mittleren Verschiebungswerte von \a posX und \a posY
-*	und schreibt sie in die Membervariable \a m_MeanImagePosition.
-*
-*	\param[in] posX Die Verschiebungswerte in x-Richtung aller Bilder und
-*		Teilbilder.
-*	\param[in] posY Die Verschiebungswerte in y-Richtung aller Bilder und
-*		Teilbilder.
-*
-*	\author Robert Paasche
-*
-*	\see m_MeanImagePosition
-*/
+ *	und schreibt sie in die Membervariable \a m_MeanImagePosition.
+ *
+ *	\param[in] posX Die Verschiebungswerte in x-Richtung aller Bilder und
+ *		Teilbilder.
+ *	\param[in] posY Die Verschiebungswerte in y-Richtung aller Bilder und
+ *		Teilbilder.
+ *
+ *	\author Robert Paasche
+ *
+ *	\see m_MeanImagePosition
+ */
 void CCompositing::SetMeanImagePosition(const CDenseMatrix& posX, const CDenseMatrix& posY)
 {
 	ASSERT((posX.Cols() == posY.Cols()));
@@ -119,11 +111,10 @@ void CCompositing::SetMeanImagePosition(const CDenseMatrix& posX, const CDenseMa
 	}
 }
 
-
 /**
-* Spaltet die Solution bildweise.
-* Die Ausgabematrix posx beinhaltet für jedes Bild eine Spalte mit Anzahl Zeilen = Teilbildanzahl Werten.
-*/
+ * Spaltet die Solution bildweise.
+ * Die Ausgabematrix posx beinhaltet für jedes Bild eine Spalte mit Anzahl Zeilen = Teilbildanzahl Werten.
+ */
 void CCompositing::SetMatrix(const CDenseMatrix& Solution, size_t nImages, CDenseMatrix& posX, CDenseMatrix& posY)
 {
 	ASSERT(Solution.Rows() % nImages == 0);
@@ -151,10 +142,6 @@ void CCompositing::SetMatrix(const CDenseMatrix& Solution, size_t nImages, CDens
 	}
 }
 
-
-
-
-
 void CCompositing::OnCancel()
 {
 }
@@ -163,15 +150,10 @@ void CCompositing::OnUncancel()
 {
 }
 
-
-
-
 CProgress CCompositing::GetProgress()
 {
 	return CProgress();
 }
-
-
 
 void CCompositing::SetSingleImageSize(const StlImageSize& szSize)
 {
@@ -179,13 +161,13 @@ void CCompositing::SetSingleImageSize(const StlImageSize& szSize)
 }
 
 /**	\brief Setzt die Ergebnisse der globalen Positionsbestimmung (absolute
-*	Verzerrungen pro Teilbild) für die Bildmontage.
-*
-*	\param[in] PositioningSolution Die Matrix mit den Ergebnissen der globalen
-*		Positionsbestimmung.
-*	\param[in] nImageCount Die Anzahl der Bilder.
-*	\param[in] SubImageHeight Die Teilbildhöhe.
-*/
+ *	Verzerrungen pro Teilbild) für die Bildmontage.
+ *
+ *	\param[in] PositioningSolution Die Matrix mit den Ergebnissen der globalen
+ *		Positionsbestimmung.
+ *	\param[in] nImageCount Die Anzahl der Bilder.
+ *	\param[in] SubImageHeight Die Teilbildhöhe.
+ */
 void CCompositing::ProcessSolutionMatrix(const CDenseMatrix& solutionMatrix, size_t nImageCount)
 {
 	CDenseMatrix posX(solutionMatrix.Col(0), false);

@@ -21,12 +21,14 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #pragma once
+
+#include "Compositing.h"
 #include "ImageRegistrationResult.h"
 #include "SNPDatasetParameters.h"
-#include "Compositing.h"
 
 class CSNPGroupResult
 {
+
 public:
 
 	CImageRegistrationResult RegistrationResult;
@@ -35,5 +37,5 @@ public:
 	std::vector<CUndistortedImage> MotionCorrectedImages;
 	std::vector<std::wstring> UsedImagePaths;
 	CSNPDatasetParameters Parameters;
-	CSize ImageSize;
+
 };

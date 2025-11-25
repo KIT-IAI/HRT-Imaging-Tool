@@ -22,11 +22,14 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #include "stdafx.h"
 #include "SNPDatasetResultLoader.h"
-#include "RegistrationResultLoader.h"
+
 #include "DIPLOMTableRow.h"
 #include "DIPLOMTable.h"
-#include "SNPFusionException.h"
 #include "ImageLoader.h"
+#include "RegistrationResultLoader.h"
+#include "SNPFusionException.h"
+
+
 
 CSNPDatasetResultLoader CSNPDatasetResultLoader::FromImagePath(const wstring& sImagePath)
 {
@@ -34,11 +37,13 @@ CSNPDatasetResultLoader CSNPDatasetResultLoader::FromImagePath(const wstring& sI
 	auto sSeriesName = DetermineSeriesNameFromRootPath(sRootPath);
 	return CSNPDatasetResultLoader(CFileUtilities::FullFile({ sRootPath, sSeriesName + L".sqlite" }));
 }
+
 CSNPDatasetResultLoader CSNPDatasetResultLoader::FromOutputFolder(const wstring& sOutputFolderPath)
 {
 	auto sSeriesName = DetermineSeriesNameFromRootPath(sOutputFolderPath);
 	return CSNPDatasetResultLoader(CFileUtilities::FullFile({ sOutputFolderPath, sSeriesName + L".sqlite" }));
 }
+
 CSNPDatasetResultLoader CSNPDatasetResultLoader::FromSQLitePath(const wstring& sSQLitePath)
 {
 	return CSNPDatasetResultLoader(sSQLitePath);
@@ -62,6 +67,7 @@ wstring CSNPDatasetResultLoader::DetermineRootPathFromImagePath(const wstring& s
 
 	return mFolder;
 }
+
 wstring CSNPDatasetResultLoader::DetermineSeriesNameFromRootPath(const wstring& sRootPath)
 {
 	auto FileParts = CFileUtilities::FileParts(sRootPath);
@@ -85,6 +91,7 @@ void CSNPDatasetResultLoader::ExportRegistrations(const CImageRegistrationResult
 		nGroupID++;
 	}
 }
+
 wstring CSNPDatasetResultLoader::GetDatabasePath() const
 {
 	return sDatabasePath;
@@ -94,6 +101,7 @@ void CSNPDatasetResultLoader::ExportImageList(const vector<wstring>& ImageFiles)
 {
 	return ExportImageList(ImageFiles, GenerateSingleImageGroup(ImageFiles.size()));
 }
+
 vector<std::list<size_t>> CSNPDatasetResultLoader::GenerateSingleImageGroup(size_t size) const
 {
 	vector<std::list<size_t>> ImageGroups;
@@ -105,6 +113,7 @@ vector<std::list<size_t>> CSNPDatasetResultLoader::GenerateSingleImageGroup(size
 
 	return ImageGroups;
 }
+
 void CSNPDatasetResultLoader::ExportImageList(const vector<wstring>& ImageFiles, const vector<std::list<size_t>>& ImageGroups) const
 {
 	CSQLiteTable ImageTable(L"Images");
@@ -133,16 +142,19 @@ void CSNPDatasetResultLoader::ExportImageList(const vector<wstring>& ImageFiles,
 	CSQLiteDatabase Database(GetDatabasePath());
 	ImageTable.InsertIntoDatabase(Database);
 }
+
 void CSNPDatasetResultLoader::ExportInputParameters(const CSNPDatasetParameters& Parameters) const
 {
 	CSQLiteDatabase Database(GetDatabasePath());
 	CDIPLOMTable::From(CSNPDatasetParameters::TableName, Parameters).InsertIntoDatabase(Database);
 }
+
 void CSNPDatasetResultLoader::ExportOutputParameters(const CSNPDatasetOutputParameters& Parameters) const
 {
 	CSQLiteDatabase Database(GetDatabasePath());
 	CDIPLOMTable::From(L"OutputParameters", Parameters).InsertIntoDatabase(Database);
 }
+
 void CSNPDatasetResultLoader::ExportPositioningSolution(const CDenseMatrix& Solution, size_t nGroup) const
 {
 	auto ExpandedSolution = ExpandSolutionWithGroupId(Solution, nGroup);
@@ -152,6 +164,7 @@ void CSNPDatasetResultLoader::ExportPositioningSolution(const CDenseMatrix& Solu
 	auto TextFileName = CFileUtilities::FullFile({ GetGroupRootFolder(nGroup) , GetGroupName(nGroup) + L"pSolution.txt" });
 	ExpandedSolution.WriteMatrix(TextFileName);
 }
+
 void CSNPDatasetResultLoader::ExportPositioningSolutionToSpecialTable(const CDenseMatrix& Solution, size_t nGroup, wstring fileName) const
 {
 	auto ExpandedSolution = ExpandSolutionWithGroupId(Solution, nGroup);
@@ -161,6 +174,7 @@ void CSNPDatasetResultLoader::ExportPositioningSolutionToSpecialTable(const CDen
 	auto TextFileName = CFileUtilities::FullFile({ GetGroupRootFolder(nGroup) , GetGroupName(nGroup) + fileName + L".txt" });
 	ExpandedSolution.WriteMatrix(TextFileName);
 }
+
 void CSNPDatasetResultLoader::ExportPositioningSolutionToSpecialTable(const CDenseMatrix& Solution, vector<int> groupIDPerRow, wstring fileName) const
 {
 	ASSERT(Solution.Rows() == groupIDPerRow.size());
@@ -179,6 +193,7 @@ void CSNPDatasetResultLoader::ExportPositioningSolutionToSpecialTable(const CDen
 	auto TextFileName = CFileUtilities::FullFile({ GetGroupRootFolder(1) , GetGroupName(1) + fileName + L".txt" });
 	ExtendedSolution.WriteMatrix(TextFileName);
 }
+
 void CSNPDatasetResultLoader::ExportPositioningSolution(const vector<CDenseMatrix>& Solutions) const
 {
 	CSQLiteDatabase Database(GetDatabasePath());
@@ -206,7 +221,7 @@ void CSNPDatasetResultLoader::ExportStlMosaic(const StlImage<float>& MosaicImage
 	auto sRelativePath = CFileUtilities::GetRelativePath(sDatabasePath, FileName);
 
 	CMosaicImageProperties Properties;
-	Properties.MosaicImageSize = CSize(MosaicImage.GetSize().x, MosaicImage.GetSize().y);
+	Properties.MosaicImageSize = MosaicImage.GetSize();
 	Properties.nDefinedMosaicArea = MosaicImage.NumberOfNonzeroPixels();
 	Properties.nGroupID = nGroupID;
 	Properties.sFilePath = sRelativePath;
@@ -232,9 +247,6 @@ void CSNPDatasetResultLoader::ExportResult(const CSNPCompositingResult* result, 
 	else if (std::holds_alternative<C3DBuffer<float>>(*result)) {
 		ExportVoxelBuffer(std::get<C3DBuffer<float>>(*result), nGroupID);
 	}
-	/*else if (std::holds_alternative<CMeasureImage>(*result)) {
-		ExportMosaic(std::get<CMeasureImage>(*result), nGroupID);
-	}*/
 	else if (std::holds_alternative<StlImage<float>>(*result)) {
 		ExportStlMosaic(std::get<StlImage<float>>(*result), nGroupID);
 	}
@@ -321,7 +333,6 @@ void CSNPDatasetResultLoader::CreateFolderStructure(size_t nImageGroupCount) con
 		CFileUtilities::MakeDirectory(GetGroupRootFolder(nGroupID++), true);
 }
 
-
 CDenseMatrix CSNPDatasetResultLoader::ExpandSolutionWithGroupId(const CDenseMatrix& Solution, size_t nGroup)
 {
 	CDenseMatrix ExtendedSolution(Solution.Rows(), Solution.Cols() + 1);
@@ -334,15 +345,16 @@ CDenseMatrix CSNPDatasetResultLoader::ExpandSolutionWithGroupId(const CDenseMatr
 
 	return ExtendedSolution;
 }
+
 wstring CSNPDatasetResultLoader::GetGroupRootFolder(size_t nGroupID) const
 {
 	return CFileUtilities::FullFile({ sRootPath, GetGroupName(nGroupID) });
 }
+
 wstring CSNPDatasetResultLoader::GetGroupName(size_t nGroupID) const
 {
 	return sSeriesName + L"_m" + std::to_wstring(nGroupID);
 }
-
 
 vector<CDenseMatrix> CSNPDatasetResultLoader::ImportSolutions() const
 {
@@ -359,6 +371,7 @@ vector<CDenseMatrix> CSNPDatasetResultLoader::ImportSolutions() const
 
 	return Result;
 }
+
 CDenseMatrix CSNPDatasetResultLoader::ImportSolution(size_t nGroupID) const
 {
 	CSQLiteDatabase Database(GetDatabasePath());
@@ -370,11 +383,13 @@ CSNPDatasetOutputParameters CSNPDatasetResultLoader::ImportOutputParameters() co
 	CSQLiteDatabase Database(GetDatabasePath());
 	return Database.SelectAll(CSNPDatasetOutputParameters::TableName).Convert<CSNPDatasetOutputParameters>();
 }
+
 CImageRegistrationResult CSNPDatasetResultLoader::ImportRegistrationResults() const
 {
 	CSQLiteDatabase Database(GetDatabasePath());
 	return CRegistrationResultLoader::LoadFromSQLite(Database);
 }
+
 vector<std::list<size_t>> CSNPDatasetResultLoader::ImportImageGroups() const
 {
 	CSQLiteDatabase Database(GetDatabasePath());
@@ -394,16 +409,19 @@ vector<std::list<size_t>> CSNPDatasetResultLoader::ImportImageGroups() const
 	}
 	return ImageGroups;
 }
+
 CSNPDatasetParameters CSNPDatasetResultLoader::ImportInputParameters() const
 {
 	CSQLiteDatabase Database(GetDatabasePath());
 	return Database.SelectAll(CSNPDatasetParameters::TableName).Convert<CSNPDatasetParameters>();
 }
+
 vector<wstring> CSNPDatasetResultLoader::ImportImageList() const
 {
 	CSQLiteDatabase Database(GetDatabasePath());
 	return Database.SelectAll(L"Images", { L"Path" }).Convert<vector<wstring>>();
 }
+
 vector<wstring> CSNPDatasetResultLoader::ImportImageListAndNormalizeRelativePaths() const
 {
 	auto ImageList = ImportImageList();

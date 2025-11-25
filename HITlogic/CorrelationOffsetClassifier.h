@@ -21,19 +21,24 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #pragma once
-#include "RegistrationScoreParameters.h"
+
 #include "CorrelationOffset.h"
+#include "RegistrationScoreParameters.h"
 
 class CCorrelationOffsetClassifier
 {
+
 public:
+
 	explicit CCorrelationOffsetClassifier(CRegistrationScoreParameters pScoreParameters);
 	~CCorrelationOffsetClassifier();
 
 	CCorrelationOffset CreateInvalidOffset() const;
 	void Classify(CCorrelationOffset& Offset) const;
-	void ClassifyFlexible(CCorrelationOffset& offset/*, CSize FullImageFFTSize, CSize PartialImageFFTSize*/) const;
-private:
-	CRegistrationScoreParameters m_ScoreParameters;
-};
+	void ClassifyFlexible(CCorrelationOffset& offset) const;
 
+private:
+
+	CRegistrationScoreParameters m_ScoreParameters;
+
+};
