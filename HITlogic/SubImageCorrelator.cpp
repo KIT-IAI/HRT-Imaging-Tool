@@ -36,7 +36,7 @@ CSubImageCorrelator::~CSubImageCorrelator()
 
 void CSubImageCorrelator::CorrelateSubImages(CImagePair& imageParams, CRegistrationResult& correlationResult)
 {
-	ASSERT(imageParams.GetReferenceImage()->GetSize() == imageParams.GetTemplateImage()->GetSize());
+	assert(imageParams.GetReferenceImage()->GetSize() == imageParams.GetTemplateImage()->GetSize());
 
 	CSubImageCorrelation SubImageCorrelation(m_CorrelationParameters, imageParams, m_ScoreContainer, correlationResult);
 

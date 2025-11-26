@@ -80,10 +80,10 @@ void CTreeBasedPairVerificator::UpdateOffsets(size_t nImg1, size_t nImg2, const 
 {
 	std::lock_guard<std::mutex> lock(m_criticalMutex);		// replaces omp critical section
 	{
-		ASSERT(reg.GetReferenceImageIndex() == nImg1);
-		ASSERT(reg.GetTemplateImageIndex() == nImg2);
-		ASSERT(reg.GetValidity() > 0);
-		ASSERT((m_matXOffsets[nImg1][nImg2] != 0.0) == (m_matYOffsets[nImg1][nImg2] != 0.0));
+		assert(reg.GetReferenceImageIndex() == nImg1);
+		assert(reg.GetTemplateImageIndex() == nImg2);
+		assert(reg.GetValidity() > 0);
+		assert((m_matXOffsets[nImg1][nImg2] != 0.0) == (m_matYOffsets[nImg1][nImg2] != 0.0));
 
 		if ((m_matXOffsets[nImg1][nImg2] == 0.0) && (m_matYOffsets[nImg1][nImg2] == 0.0))
 		{

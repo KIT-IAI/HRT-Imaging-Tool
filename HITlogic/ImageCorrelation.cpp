@@ -109,14 +109,14 @@ void CImageCorrelation::ValidateOffsets()
 		if (offset.m_EClassification >= EClassification::eCorrect)
 		{
 			auto OverlappingRectangles = CImagePair::GetOverlappingRectangles(m_Images.GetReferenceImage()->GetSize(), m_Images.GetTemplateImage()->GetSize(), StlImagePoint(CMathTools::RoundValue(offset.xOffset), CMathTools::RoundValue(offset.yOffset)));
-			ASSERT(OverlappingRectangles.first.IsRectEmpty() == OverlappingRectangles.second.IsRectEmpty());
+			assert(OverlappingRectangles.first.IsRectEmpty() == OverlappingRectangles.second.IsRectEmpty());
 			if (OverlappingRectangles.first.IsRectEmpty())
 			{
 				offset.SetValidity(CHrtValidityCodes::eInvalidEmptyOverlappingArea);
 			}
 			else
 			{
-				ASSERT(OverlappingRectangles.first.Size() == OverlappingRectangles.second.Size());
+				assert(OverlappingRectangles.first.Size() == OverlappingRectangles.second.Size());
 				offset.SetValidity(CHrtValidityCodes::eValidRoughCorrelationMinScore);
 			}
 			continue;
@@ -229,8 +229,8 @@ CCorrelationOffset CImageCorrelation::CalculateOffsetOfOverlappingArea(DPoint of
 
 	auto OverlappingRectangles = CImagePair::GetOverlappingRectangles(m_Images.GetReferenceImage()->GetSize(), m_Images.GetTemplateImage()->GetSize(), StlImagePoint(CMathTools::RoundValue(offsetPosition.m_x), CMathTools::RoundValue(offsetPosition.m_y)));
 
-	ASSERT(!OverlappingRectangles.first.IsRectEmpty() && !OverlappingRectangles.second.IsRectEmpty());
-	ASSERT(OverlappingRectangles.first.Size() == OverlappingRectangles.second.Size());
+	assert(!OverlappingRectangles.first.IsRectEmpty() && !OverlappingRectangles.second.IsRectEmpty());
+	assert(OverlappingRectangles.first.Size() == OverlappingRectangles.second.Size());
 
 	StlImage<float> childRef, childTemp;
 	childRef.Child2dIndep(*m_Images.GetReferenceImage(), OverlappingRectangles.first);
@@ -343,7 +343,7 @@ size_t CImageCorrelation::GetOverlappingAreaNonZeroPixels(const DPoint& subpixel
 {
 	auto [refChildRect, tempChildRect] = CImagePair::GetOverlappingRectangles(m_Images.GetReferenceImage()->GetSize(), m_Images.GetTemplateImage()->GetSize(), StlImagePoint(CMathTools::RoundValue(subpixelPosition.m_x), CMathTools::RoundValue(subpixelPosition.m_y)));
 
-	ASSERT(refChildRect.Size() == tempChildRect.Size());
+	assert(refChildRect.Size() == tempChildRect.Size());
 
 	if (refChildRect.IsRectEmpty())
 		return 0;
@@ -386,8 +386,8 @@ void CImageCorrelation::NormalizeCorrelationValue1(float fScore, float& fScoreNo
 
 	const auto& FFTSize = m_Images.GetFFTSize();
 
-	ASSERT(std::get<0>(img1.FindMin()) >= 0);
-	ASSERT(std::get<0>(img2.FindMin()) >= 0);
+	assert(std::get<0>(img1.FindMin()) >= 0);
+	assert(std::get<0>(img2.FindMin()) >= 0);
 
 	// Anzahl der Pixel, die im Quellbild nicht 0 sind
 	ptrdiff_t nNumberOfNonzeroPixelsImg1 = img1.NumberOfNonzeroPixels();

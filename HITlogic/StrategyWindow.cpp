@@ -40,7 +40,7 @@ CStrategyWindow::~CStrategyWindow()
 
 void CStrategyWindow::SetParameters(const CRegistrationStrategyParameters& parameters)
 {
-	ASSERT(parameters.nWindowSize > 0);
+	assert(parameters.nWindowSize > 0);
 	m_nWindow = parameters.nWindowSize;
 }
 

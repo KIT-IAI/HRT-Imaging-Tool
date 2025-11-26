@@ -486,7 +486,7 @@ CRigidRegistrationResult::CRigidRegistrationResult(CDenseVector pResultLine)
 {
 	if (pResultLine.Size() != m_nValueCount)
 	{
-		ASSERT(false);
+		assert(false);
 		m_nValidity = CHrtValidityCodes::eInvalidInit;
 		return;
 	}

@@ -30,7 +30,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 // Windows stuff
 #include <SDKDDKVer.h>
 
-#include <afxwin.h>         // MFC core and standard components
+//#include <afxwin.h>         // MFC core and standard components
 
 // Standard library
 #include <algorithm>

@@ -37,9 +37,9 @@ CImageUndistortion::CImageUndistortion(EInterpolationMode eInterpolationModeX, E
 
 CUndistortedImage CImageUndistortion::UndistortImage(const StlImage<float>& Image, const CDenseMatrix& Distortion)
 {
-	ASSERT(Image.IsAllocated());
-	ASSERT(Distortion.Rows() == static_cast<size_t>(Image.GetSize().y));
-	ASSERT(Distortion.Cols() == 2);
+	assert(Image.IsAllocated());
+	assert(Distortion.Rows() == static_cast<size_t>(Image.GetSize().y));
+	assert(Distortion.Cols() == 2);
 
 	CUndistortedImage Undistorted;
 	StlImageRect Pos;
@@ -92,10 +92,10 @@ StlImageSize CImageUndistortion::DetermineUndistortedImageSize(const CDenseVecto
  */
 void CImageUndistortion::CreateUndistortedImage(const StlImage<float>& imgSrc, const CDenseVector& vecPosX, const CDenseVector& vecPosY, EInterpolationMode eInterpolationModeX, EInterpolationMode eInterpolationModeY, StlImage<float>& imgDest, StlImageRect& posDest)
 {
-	ASSERT(imgSrc.IsAllocated());
-	ASSERT(imgDest.IsAllocated());
-	ASSERT(vecPosX.Size() == vecPosY.Size());
-	ASSERT(static_cast<INT_PTR>(vecPosX.Size()) == imgSrc.GetSize().y);
+	assert(imgSrc.IsAllocated());
+	assert(imgDest.IsAllocated());
+	assert(vecPosX.Size() == vecPosY.Size());
+	assert(static_cast<INT_PTR>(vecPosX.Size()) == imgSrc.GetSize().y);
 
 	StlImage<float> imgTemp;
 	imgTemp.Alloc({ imgDest.GetSize().x, imgSrc.GetSize().y });
@@ -134,10 +134,10 @@ void CImageUndistortion::CreateUndistortedImage(const StlImage<float>& imgSrc, c
  */
 void CImageUndistortion::MotionCorrectionXLinear(const StlImage<float>& imgSrc, const CDenseVector& vecPosX, StlImage<float>& imgDest, StlImageRect& posDest)
 {
-	ASSERT(imgSrc.IsAllocated());
-	ASSERT(imgDest.IsAllocated());
-	ASSERT(imgSrc.GetSize().y == static_cast<INT_PTR>(vecPosX.Size()));
-	ASSERT(imgSrc.GetSize().y == imgDest.GetSize().y);
+	assert(imgSrc.IsAllocated());
+	assert(imgDest.IsAllocated());
+	assert(imgSrc.GetSize().y == static_cast<INT_PTR>(vecPosX.Size()));
+	assert(imgSrc.GetSize().y == imgDest.GetSize().y);
 
 	long long height = imgSrc.GetSize().y;
 	long long srcwidth = imgSrc.GetSize().x;
@@ -215,10 +215,10 @@ void CImageUndistortion::MotionCorrectionXLinear(const StlImage<float>& imgSrc, 
  */
 void CImageUndistortion::MotionCorrectionXSpline(const StlImage<float>& imgSrc, const CDenseVector& vecPosX, StlImage<float>& imgDest, StlImageRect& posDest)
 {
-	ASSERT(imgSrc.IsAllocated());
-	ASSERT(imgDest.IsAllocated());
-	ASSERT(vecPosX.Size() == vecPosX.Size());
-	ASSERT(imgSrc.GetSize().y == imgDest.GetSize().y);
+	assert(imgSrc.IsAllocated());
+	assert(imgDest.IsAllocated());
+	assert(vecPosX.Size() == vecPosX.Size());
+	assert(imgSrc.GetSize().y == imgDest.GetSize().y);
 
 	long long height = imgSrc.GetSize().y;
 	long long srcwidth = imgSrc.GetSize().x;
@@ -291,11 +291,11 @@ void CImageUndistortion::MotionCorrectionXSpline(const StlImage<float>& imgSrc, 
  */
 void CImageUndistortion::MotionCorrectionYLinear(const StlImage<float>& imgSrc, const CDenseVector& vecPosX, const CDenseVector& vecPosY, size_t nFrameWidth, StlImage<float>& imgDest, StlImageRect& posDest)
 {
-	ASSERT(imgSrc.IsAllocated());
-	ASSERT(imgDest.IsAllocated());
-	ASSERT(vecPosX.Size() == vecPosY.Size());
-	ASSERT(imgSrc.GetSize().y == static_cast<INT_PTR>(vecPosY.Size()));
-	ASSERT(imgSrc.GetSize().x == imgDest.GetSize().x);
+	assert(imgSrc.IsAllocated());
+	assert(imgDest.IsAllocated());
+	assert(vecPosX.Size() == vecPosY.Size());
+	assert(imgSrc.GetSize().y == static_cast<INT_PTR>(vecPosY.Size()));
+	assert(imgSrc.GetSize().x == imgDest.GetSize().x);
 
 	long long width = imgSrc.GetSize().x;
 	long long srcheight = imgSrc.GetSize().y;
@@ -317,7 +317,7 @@ void CImageUndistortion::MotionCorrectionYLinear(const StlImage<float>& imgSrc, 
 	{
 		long long sy1 = sy2 - 1;
 
-		//ASSERT(vecPosY[sy1] < vecPosY[sy2]);
+		//assert(vecPosY[sy1] < vecPosY[sy2]);
 
 		// The range of destination x- and y-coordinates to be interpolated
 		// between the current two source rows, sy1 and sy2. Note that dx1
@@ -376,11 +376,11 @@ void CImageUndistortion::MotionCorrectionYLinear(const StlImage<float>& imgSrc, 
  */
 void CImageUndistortion::MotionCorrectionYSpline(const StlImage<float>& imgSrc, const CDenseVector& vecPosX, const CDenseVector& vecPosY, size_t nFrameWidth, StlImage<float>& imgDest, StlImageRect& posDest)
 {
-	ASSERT(imgSrc.IsAllocated());
-	ASSERT(imgDest.IsAllocated());
-	ASSERT(vecPosX.Size() == vecPosY.Size());
-	ASSERT(imgSrc.GetSize().y == static_cast<INT_PTR>(vecPosY.Size()));
-	ASSERT(imgSrc.GetSize().x == imgDest.GetSize().x);
+	assert(imgSrc.IsAllocated());
+	assert(imgDest.IsAllocated());
+	assert(vecPosX.Size() == vecPosY.Size());
+	assert(imgSrc.GetSize().y == static_cast<INT_PTR>(vecPosY.Size()));
+	assert(imgSrc.GetSize().x == imgDest.GetSize().x);
 
 	long long width = imgSrc.GetSize().x;
 	long long srcheight = imgSrc.GetSize().y;

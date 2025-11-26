@@ -100,7 +100,7 @@ std::unique_ptr<CSNPCompositingResult> CCompositing::Fuse(const CImageRegistrati
  */
 void CCompositing::SetMeanImagePosition(const CDenseMatrix& posX, const CDenseMatrix& posY)
 {
-	ASSERT((posX.Cols() == posY.Cols()));
+	assert((posX.Cols() == posY.Cols()));
 
 	m_MeanImagePosition.AllocMatrix(posX.Cols(), 2);
 
@@ -117,10 +117,10 @@ void CCompositing::SetMeanImagePosition(const CDenseMatrix& posX, const CDenseMa
  */
 void CCompositing::SetMatrix(const CDenseMatrix& Solution, size_t nImages, CDenseMatrix& posX, CDenseMatrix& posY)
 {
-	ASSERT(Solution.Rows() % nImages == 0);
-	ASSERT(Solution.Rows() > 0);
-	ASSERT(Solution.Cols() == 2);
-	ASSERT(nImages > 0);
+	assert(Solution.Rows() % nImages == 0);
+	assert(Solution.Rows() > 0);
+	assert(Solution.Cols() == 2);
+	assert(nImages > 0);
 
 	size_t nSubImagesPerImage = Solution.Rows() / nImages;
 
@@ -132,7 +132,7 @@ void CCompositing::SetMatrix(const CDenseMatrix& Solution, size_t nImages, CDens
 	{
 		for (size_t nSizeY = 0; nSizeY < nSubImagesPerImage; nSizeY++)
 		{
-			ASSERT(nSubImage >= 0 && nSubImage < Solution.Rows());
+			assert(nSubImage >= 0 && nSubImage < Solution.Rows());
 
 			posX[nSizeY][nSizeX] = Solution[nSubImage][0];
 			posY[nSizeY][nSizeX] = Solution[nSubImage][1];

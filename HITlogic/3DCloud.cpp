@@ -72,7 +72,7 @@ void C3DCloud::add(float x, float y, float z, float intensity)
 	point.z = z;
 	pimpl->m_cloud.points.push_back(point);
 #else
-	ASSERT(false);
+	assert(false);
 #endif
 }
 
@@ -81,7 +81,7 @@ void C3DCloud::reserve(size_t size)
 #ifdef HAS_PCL
 	pimpl->m_cloud.reserve(size);
 #else
-	ASSERT(false);
+	assert(false);
 #endif
 }
 
@@ -101,11 +101,11 @@ void C3DCloud::savePCD(const wstring_view file_name, EWriteMode mode) const
 		pcl::io::savePCDFileBinaryCompressed(name, pimpl->m_cloud);
 		break;
 	default:
-		ASSERT(false);		//unbekannter Typ
+		assert(false);		//unbekannter Typ
 		break;
 	}
 #else
-	ASSERT(false);
+	assert(false);
 #endif
 }
 
@@ -123,11 +123,11 @@ void C3DCloud::savePLY(const wstring_view file_name, EWriteMode mode) const
 		pcl::io::savePLYFileBinary(name, pimpl->m_cloud);
 		break;
 	default:
-		ASSERT(false);		//unbekannter Typ
+		assert(false);		//unbekannter Typ
 		break;
 	}
 #else
-	ASSERT(false);
+	assert(false);
 #endif
 }
 
@@ -142,6 +142,6 @@ void C3DCloud::Clone(const C3DCloud& ref)
 	pimpl->m_cloud.sensor_origin_ = ref.pimpl->m_cloud.sensor_origin_;
 	pimpl->m_cloud.sensor_orientation_ = ref.pimpl->m_cloud.sensor_orientation_;
 #else
-	ASSERT(false);
+	assert(false);
 #endif
 }

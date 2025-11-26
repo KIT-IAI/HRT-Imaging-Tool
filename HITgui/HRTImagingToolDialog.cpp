@@ -83,7 +83,7 @@ void HRTImagingToolDialog::OnInitDialog(wxInitDialogEvent& event)
 
 void HRTImagingToolDialog::OnBnClickedAddFiles(wxCommandEvent& event)
 {
-	ASSERT(!m_bProcessing);
+	assert(!m_bProcessing);
 
 	wxFileDialog dlgFile(this, wxFileSelectorPromptStr, wxEmptyString, wxEmptyString, L"Multi-Page TIFF Files (*.tif)|*.tif|All Files (*.*)|*.*", wxFD_OPEN | wxFD_FILE_MUST_EXIST | wxFD_MULTIPLE | wxFD_CHANGE_DIR);
 	if (dlgFile.ShowModal() != wxID_OK)
@@ -102,7 +102,7 @@ void HRTImagingToolDialog::AddFiles(wxArrayString& files)
 	{
 		wxString sFileName = sFilePath.GetName();
 
-		ASSERT(sFilePath.FileExists());
+		assert(sFilePath.FileExists());
 
 		// Dataset already is in list
 		if (m_listBoxFiles->FindString(sFileName, false) != wxNOT_FOUND)
@@ -137,8 +137,8 @@ void HRTImagingToolDialog::OnBnClickedRemoveFiles(wxCommandEvent& event)
 
 	for (int nSelectedIndex : SelectedIndices)
 	{
-		ASSERT(nSelectedIndex >= 0);
-		ASSERT(nSelectedIndex < static_cast<int>(m_listBoxFiles->GetCount()));
+		assert(nSelectedIndex >= 0);
+		assert(nSelectedIndex < static_cast<int>(m_listBoxFiles->GetCount()));
 		m_listBoxFiles->Delete(nSelectedIndex);
 		m_Files.RemoveAt(nSelectedIndex);
 	}
@@ -201,7 +201,7 @@ void HRTImagingToolDialog::OnSNPFusionEvent(CSNPFusionEvent Event)
 		logLevel = CLog::eNotice;
 		break;
 	default:
-		ASSERT(false);
+		assert(false);
 		return;
 	}
 	AppendOutputLine(wxString::Format(L"Dataset %s: %s", Event.pSource->Name, Event.sMessage), logLevel);
@@ -281,7 +281,7 @@ void HRTImagingToolDialog::Start()
 
 void HRTImagingToolDialog::InitProcessing()
 {
-	ASSERT(!m_bProcessing);
+	assert(!m_bProcessing);
 	ClearLogState();
 	LockGUI();
 	m_bProcessing = true;
@@ -421,7 +421,7 @@ void HRTImagingToolDialog::StartProcessing()
 
 void HRTImagingToolDialog::FinishProcessing()
 {
-	ASSERT(m_bProcessing);
+	assert(m_bProcessing);
 
 	wxString sMsg = wxString::Format(L"Batch process finished (%zu of %zu datasets processed).",
 		m_BatchProcessor.GetFinishedDatasets().size(),

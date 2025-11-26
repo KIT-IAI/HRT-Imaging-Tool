@@ -217,7 +217,7 @@ bool CSNPFusionDataset::ProcessDataset()
 	StartProcessing();
 
 	// CARFUL BLOCKBASED REGISTRATION DOES NOT WORK PROPERLY ATM
-	ASSERT(m_Parameters.eProcessType != CProcessType::eBlockBasedRegistration);
+	assert(m_Parameters.eProcessType != CProcessType::eBlockBasedRegistration);
 	bool bSuccess = true;
 
 	try
@@ -435,7 +435,7 @@ vector<StlImage<float>*> CSNPFusionDataset::PreprocessImagesForRegistration(cons
 	//	pImg->Convolve(*pImg, M_SMOOTH);
 	//}
 
-	ASSERT(Result.size() > 0);
+	assert(Result.size() > 0);
 
 	m_ImageParameters = m_Parameters.GenerateImageParameters(Result[0]->GetSize());
 

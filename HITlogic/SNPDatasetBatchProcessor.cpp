@@ -152,7 +152,7 @@ void CSNPDatasetBatchProcessor::ClearDatasets()
 }
 void CSNPDatasetBatchProcessor::RemoveDataset(wstring sDatasetName)
 {
-	ASSERT(!m_bProcessing);
+	assert(!m_bProcessing);
 
 	m_AllDatasets.erase(std::remove_if(m_AllDatasets.begin(), m_AllDatasets.end(), [&](std::shared_ptr<CSNPFusionDataset> pDataset)
 		{

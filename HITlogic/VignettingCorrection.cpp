@@ -96,7 +96,7 @@ StlImage<float> CVignettingCorrection::CreateVignettingProfile(const vector<StlI
 	if (nMaxImages == 0)
 		nMaxImages = InputImages.size();
 
-	ASSERT(nMaxImages > 0);
+	assert(nMaxImages > 0);
 
 	size_t nCount = 0;
 	for (const auto& pImage : InputImages)

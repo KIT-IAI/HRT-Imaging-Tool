@@ -38,7 +38,7 @@ std::shared_ptr<CImagePairVerificator> CPairVerificatorFactory::CreatePairVerifi
 	case EImagePairVerificator::ePositionAware:
 		return std::make_shared<CPositionAwarePairVerificator>(Parameter);
 	default:
-		ASSERT(false);
+		assert(false);
 		return nullptr;
 	}
 }

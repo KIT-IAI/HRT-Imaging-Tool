@@ -154,7 +154,7 @@ void CCompositingTiling::GenerateImage(const vector<StlImage<float>*>& Images, c
 
 	m_result.emplace<StlImage<float>>(StlImage<float>());
 	m_result = StlImage<float>();
-	ASSERT(std::holds_alternative<StlImage<float>>(m_result));	//nahezu unmöglich, das ein anderer Datentyp bei diesem Aufruf in der Variable ist
+	assert(std::holds_alternative<StlImage<float>>(m_result));	//nahezu unmöglich, das ein anderer Datentyp bei diesem Aufruf in der Variable ist
 	std::get<StlImage<float>>(m_result).Alloc(MosaicImageSize);
 
 	long nMaxSize_y = std::min(m_SingleImageSize.y, static_cast<long long>(m_InterpolatedPosX.Rows()) - 1);

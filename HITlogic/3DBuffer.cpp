@@ -197,7 +197,7 @@ void C3DBuffer<T>::PutInStlImage(StlImage<T>& img)
 template<typename T>
 C3DBuffer<T> C3DBuffer<T>::operator+(const C3DBuffer<T>& rhs)
 {
-	ASSERT(m_size == rhs.m_size);
+	assert(m_size == rhs.m_size);
 	C3DBuffer<T> ret;
 	ret.Alloc(m_size);
 	std::transform(m_data.cbegin(), m_data.cend(), rhs.m_data.cbegin(), ret.m_data.begin(), std::plus<T>());
@@ -207,7 +207,7 @@ C3DBuffer<T> C3DBuffer<T>::operator+(const C3DBuffer<T>& rhs)
 template<typename T>
 C3DBuffer<T> C3DBuffer<T>::operator-(const C3DBuffer<T>& rhs)
 {
-	ASSERT(m_size == rhs.m_size);
+	assert(m_size == rhs.m_size);
 	C3DBuffer<T> ret;
 	ret.Alloc(m_size);
 	std::transform(m_data.cbegin(), m_data.cend(), rhs.m_data.cbegin(), ret.m_data.begin(), std::minus<T>());
@@ -216,7 +216,7 @@ C3DBuffer<T> C3DBuffer<T>::operator-(const C3DBuffer<T>& rhs)
 template<typename T>
 C3DBuffer<T> C3DBuffer<T>::operator*(const C3DBuffer<T>& rhs)
 {
-	ASSERT(m_size == rhs.m_size);
+	assert(m_size == rhs.m_size);
 	C3DBuffer<T> ret;
 	ret.Alloc(m_size);
 	std::transform(m_data.cbegin(), m_data.cend(), rhs.m_data.cbegin(), ret.m_data.begin(), std::multiplies<T>());
@@ -225,7 +225,7 @@ C3DBuffer<T> C3DBuffer<T>::operator*(const C3DBuffer<T>& rhs)
 template<typename T>
 C3DBuffer<T> C3DBuffer<T>::operator/(const C3DBuffer<T>& rhs)
 {
-	ASSERT(m_size == rhs.m_size);
+	assert(m_size == rhs.m_size);
 	C3DBuffer<T> ret;
 	ret.Alloc(m_size);
 	std::transform(m_data.cbegin(), m_data.cend(), rhs.m_data.cbegin(), ret.m_data.begin(), std::divides<T>());
@@ -234,7 +234,7 @@ C3DBuffer<T> C3DBuffer<T>::operator/(const C3DBuffer<T>& rhs)
 template<>
 C3DBuffer<float> C3DBuffer<float>::operator/(const C3DBuffer<float>& rhs)
 {
-	ASSERT(m_size == rhs.m_size);
+	assert(m_size == rhs.m_size);
 	C3DBuffer<float> ret;
 	ret.Alloc(m_size);
 	vsDiv(m_size.x * m_size.y * m_size.z, m_data.data(), rhs.m_data.data(), ret.m_data.data());
@@ -243,35 +243,35 @@ C3DBuffer<float> C3DBuffer<float>::operator/(const C3DBuffer<float>& rhs)
 template<typename T>
 C3DBuffer<T>& C3DBuffer<T>::operator+=(const C3DBuffer<T>& rhs)
 {
-	ASSERT(m_size == rhs.m_size);
+	assert(m_size == rhs.m_size);
 	std::transform(m_data.cbegin(), m_data.cend(), rhs.m_data.cbegin(), m_data.begin(), std::plus<T>());
 	return *this;
 }
 template<typename T>
 C3DBuffer<T>& C3DBuffer<T>::operator-=(const C3DBuffer<T>& rhs)
 {
-	ASSERT(m_size == rhs.m_size);
+	assert(m_size == rhs.m_size);
 	std::transform(m_data.cbegin(), m_data.cend(), rhs.m_data.cbegin(), m_data.begin(), std::minus<T>());
 	return *this;
 }
 template<typename T>
 C3DBuffer<T>& C3DBuffer<T>::operator*=(const C3DBuffer<T>& rhs)
 {
-	ASSERT(m_size == rhs.m_size);
+	assert(m_size == rhs.m_size);
 	std::transform(m_data.cbegin(), m_data.cend(), rhs.m_data.cbegin(), m_data.begin(), std::multiplies<T>());
 	return *this;
 }
 template<typename T>
 C3DBuffer<T>& C3DBuffer<T>::operator/=(const C3DBuffer<T>& rhs)
 {
-	ASSERT(m_size == rhs.m_size);
+	assert(m_size == rhs.m_size);
 	std::transform(m_data.cbegin(), m_data.cend(), rhs.m_data.cbegin(), m_data.begin(), std::divides<T>());
 	return *this;
 }
 template<>
 C3DBuffer<float>& C3DBuffer<float>::operator/=(const C3DBuffer<float>& rhs)
 {
-	ASSERT(m_size == rhs.m_size);
+	assert(m_size == rhs.m_size);
 	vsDiv(m_size.x * m_size.y * m_size.z, m_data.data(), rhs.m_data.data(), m_data.data());
 	return *this;
 }
@@ -363,7 +363,7 @@ template<typename T>
 template<typename T2>
 typename std::enable_if<std::is_same<T2, std::complex<float>>::value, C3DBuffer<T>&>::type C3DBuffer<T>::operator/=(const C3DBuffer<float>& rhs)
 {
-	ASSERT(m_size == rhs.m_size);
+	assert(m_size == rhs.m_size);
 	std::transform(m_data.cbegin(), m_data.cend(), rhs.m_data.cbegin(), m_data.begin(), [](T lhs_elem, float rhs_elem) -> T {return T(lhs_elem.real() / rhs_elem, lhs_elem.imag() / rhs_elem); });
 	return *this;
 }
@@ -447,14 +447,14 @@ template<typename T>
 void C3DBuffer<T>::loadFromImageSeries(const std::wstring_view folderName)
 {
 	auto files = CFileUtilities::GetFilesInDirectory(std::wstring(folderName), CRegex(LR"(.*\.tif)"));
-	ASSERT(files.size() > 0);
+	assert(files.size() > 0);
 
 	int maxZ = -1;
 	for each(auto file in files) //Suche höchste Z-Koordinate 
 	{
 		auto fileName = file.substr(file.find_last_of('\\') + 1);
 		int imgNum = std::stoi(fileName.substr(0, fileName.size() - 4));
-		ASSERT(imgNum != maxZ);
+		assert(imgNum != maxZ);
 		if (imgNum > maxZ)
 			maxZ = imgNum;
 	}
@@ -475,8 +475,8 @@ void C3DBuffer<T>::loadFromImageSeries(const std::wstring_view folderName)
 
 			openImage.LoadConvert(imgName);	//Lade Bild
 
-			ASSERT(maxX == openImage.GetSize().x);
-			ASSERT(maxY == openImage.GetSize().y);
+			assert(maxX == openImage.GetSize().x);
+			assert(maxY == openImage.GetSize().y);
 
 			auto fileName = imgName.substr(imgName.find_last_of('\\') + 1);
 			CopyAtOffset({ 0, 0, std::stoi(fileName.substr(0, fileName.size() - 4)) }, openImage);

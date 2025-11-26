@@ -37,7 +37,7 @@ void CCompositing3DCloud::PerformCompositing(const CImageRegistrationData& Image
 
 	size_t nImageCount = ImageData.Images.size();
 
-	ASSERT(nImageCount > 0);
+	assert(nImageCount > 0);
 
 
 	m_UndistortedImages.resize(nImageCount);
@@ -47,10 +47,10 @@ void CCompositing3DCloud::PerformCompositing(const CImageRegistrationData& Image
 
 	SetSingleImageSize(ImageData.Images[0]->GetSize());
 
-	ASSERT(m_InterpolatedPosX.Rows() == m_InterpolatedPosY.Rows());
-	ASSERT(m_InterpolatedPosX.Cols() == m_InterpolatedPosY.Cols());
-	ASSERT(m_InterpolatedPosX.Rows() == static_cast<size_t>(ImageData.Images[0]->GetSize().y));
-	ASSERT(m_InterpolatedPosX.Cols() == nImageCount);
+	assert(m_InterpolatedPosX.Rows() == m_InterpolatedPosY.Rows());
+	assert(m_InterpolatedPosX.Cols() == m_InterpolatedPosY.Cols());
+	assert(m_InterpolatedPosX.Rows() == static_cast<size_t>(ImageData.Images[0]->GetSize().y));
+	assert(m_InterpolatedPosX.Cols() == nImageCount);
 
 	//!!!kontrolieren !
 	CDenseMatrix matPosX(m_InterpolatedPosX);
@@ -78,8 +78,8 @@ void CCompositing3DCloud::PerformCompositing(const CImageRegistrationData& Image
 	matPosX -= ceil(matPosX.Min()) - m_Parameters.nBorder;
 	matPosY -= ceil(matPosY.Min()) - m_Parameters.nBorder;
 
-	ASSERT(ceil(matPosX.Min()) == m_Parameters.nBorder);
-	ASSERT(ceil(matPosY.Min()) == m_Parameters.nBorder);
+	assert(ceil(matPosX.Min()) == m_Parameters.nBorder);
+	assert(ceil(matPosY.Min()) == m_Parameters.nBorder);
 
 	// The motion correction approach implemented here assumes that the eye
 	// does not move faster than the scanning laser along the vertical axis.
@@ -102,7 +102,7 @@ void CCompositing3DCloud::PerformCompositing(const CImageRegistrationData& Image
 
 
 	m_result.emplace<C3DCloud>(C3DCloud());
-	//ASSERT(std::holds_alternative<C3DCloud>(m_result));	//nahezu unmöglich, das ein anderer Datentyp bei diesem Aufruf in der Variable ist
+	//assert(std::holds_alternative<C3DCloud>(m_result));	//nahezu unmöglich, das ein anderer Datentyp bei diesem Aufruf in der Variable ist
 
 	//zum debuggen
 	/*
@@ -161,7 +161,7 @@ size_t CCompositing3DCloud::GetMonotonyViolationCount(const CDenseMatrix& matPos
 				// Probably a totally
 				// wrong registration result, that somehow slipped through
 				// all of the checks and was finally accepted as correct.
-				//ASSERT(false);
+				//assert(false);
 				// Small update. Since this occures very often at the moment (Rev. 1553) It is no longer an assertion (hasn't been for a while), and no longer logs it every time, but only once.
 				nMonotonyViolatedCount++;
 			}

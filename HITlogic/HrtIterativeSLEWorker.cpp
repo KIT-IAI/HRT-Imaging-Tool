@@ -86,7 +86,7 @@ void CHrtIterativeSLEWorker::Stop()
 
 void CHrtIterativeSLEWorker::Join() const
 {
-	ASSERT(m_Thread != nullptr);
+	assert(m_Thread != nullptr);
 
 	if (m_Thread->joinable())
 		m_Thread->join();
@@ -97,7 +97,7 @@ void CHrtIterativeSLEWorker::Join() const
 
 void CHrtIterativeSLEWorker::Pause()
 {
-	ASSERT(m_eCurrentState == ECalculationState::eRUNNING);
+	assert(m_eCurrentState == ECalculationState::eRUNNING);
 	m_eDesiredState = ECalculationState::ePAUSED;
 	while (m_eCurrentState != m_eDesiredState)
 		std::this_thread::yield();
@@ -145,7 +145,7 @@ void CHrtIterativeSLEWorker::Run()
 			continue;
 		}
 		default:
-			ASSERT(false);
+			assert(false);
 			return;
 		}
 	}
@@ -169,7 +169,7 @@ void CHrtIterativeSLEWorker::SolveSLE()
 		CSLESolver::SolveEquationCG(m_WtW, m_Wtd, m_Solution, m_cgParameters, true);
 		break;
 	default:
-		ASSERT(false);
+		assert(false);
 		break;
 	}
 }

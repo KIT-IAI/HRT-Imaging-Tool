@@ -100,7 +100,7 @@ void CRegStepFlexibleRegistration::RegisterImages(vector<StlImage<float>*>& Imag
 					CRegistrationResult& currentRegistration = *it;
 					++it;
 
-					ASSERT(currentRegistration.IsValid());
+					assert(currentRegistration.IsValid());
 
 					auto imageParameters = GenerateImageParameters(currentRegistration, Images, ImagesSmooth);
 

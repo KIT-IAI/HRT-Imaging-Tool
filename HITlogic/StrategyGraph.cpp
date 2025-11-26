@@ -170,7 +170,7 @@ std::pair<size_t, size_t> CStrategyGraph::GetNextImagePair()
 		imagePair.first = FindReferenceImageForTemplate();
 	}
 
-	ASSERT(!RegistrationHasBeenEffected(imagePair));
+	assert(!RegistrationHasBeenEffected(imagePair));
 
 	return imagePair;
 }

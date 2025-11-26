@@ -46,9 +46,9 @@ CHRTGlobalPositioning::CHRTGlobalPositioning(const CGlobalPositioningParameters&
 CDenseMatrix CHRTGlobalPositioning::SolvePositioning(const CImageRegistrationResult& RegistrationResult, const CHrtImageParameters& ImageParameters)
 {
 	// there must be exactly one image group; it must be sorted and not empty
-	ASSERT(RegistrationResult.ImageGroups.size() == 1);
-	ASSERT(!RegistrationResult.ImageGroups[0].empty());
-	ASSERT(std::is_sorted(RegistrationResult.ImageGroups[0].begin(), RegistrationResult.ImageGroups[0].end()));
+	assert(RegistrationResult.ImageGroups.size() == 1);
+	assert(!RegistrationResult.ImageGroups[0].empty());
+	assert(std::is_sorted(RegistrationResult.ImageGroups[0].begin(), RegistrationResult.ImageGroups[0].end()));
 
 	auto group = RegistrationResult.ImageGroups[0];
 
@@ -78,7 +78,7 @@ CDenseMatrix CHRTGlobalPositioning::SolvePositioning(const CImageRegistrationRes
 		bPositioningSuccessful = SolvePositioning(minMaxImageIndexes, ImageParameters.GetSubImageCountWithGap(), ImageParameters.nGapsBeforeImage, 1, &Solution, RegistrationResult.GetFlexibleRegistrationResults());
 		break;
 	default:
-		ASSERT(false);
+		assert(false);
 	}
 
 	RemoveGap(Solution, ImageParameters.nSubImagesPerImageWithoutGap, ImageParameters.nGapsBeforeImage, ImageParameters.nGapsAfterImage);
@@ -89,8 +89,8 @@ CDenseMatrix CHRTGlobalPositioning::SolvePositioning(const CImageRegistrationRes
 
 CDenseMatrix CHRTGlobalPositioning::SolvePositioningBlockbased(const CImageRegistrationResult& RegistrationResult, const CHrtImageParameters& ImageParameters)
 {
-	ASSERT(!RegistrationResult.ImageGroups[0].empty());
-	ASSERT(std::is_sorted(RegistrationResult.ImageGroups[0].begin(), RegistrationResult.ImageGroups[0].end()));
+	assert(!RegistrationResult.ImageGroups[0].empty());
+	assert(std::is_sorted(RegistrationResult.ImageGroups[0].begin(), RegistrationResult.ImageGroups[0].end()));
 
 	index_pair_t minMaxImageIndexes = { RegistrationResult.ImageGroups[0].front(), RegistrationResult.ImageGroups[0].back() };
 	auto RigidRegistrationResults = RegistrationResult.GetRigidRegistrationResults();
@@ -152,7 +152,7 @@ CDenseMatrix CHRTGlobalPositioning::CreateStartVector(const index_pair_t& minMax
 	default:
 		// The solution will still be created and initializied with 0.
 		Solution.Fill(0.0);
-		ASSERT(false);
+		assert(false);
 		break;
 	}
 	return Solution;
@@ -176,8 +176,8 @@ bool CHRTGlobalPositioning::SolvePositioning(
 {
 	size_t nImages = minMaxImageIndexes.second - minMaxImageIndexes.first + 1;
 
-	ASSERT(pSolution->Rows() == nSubImagesPerImageWithGap * nImages * nColumnCount);
-	ASSERT(pSolution->Cols() == 2);
+	assert(pSolution->Rows() == nSubImagesPerImageWithGap * nImages * nColumnCount);
+	assert(pSolution->Cols() == 2);
 
 	// Initialize matrices
 	std::shared_ptr<CAbstractMatrix> pWtW = nullptr;
@@ -327,13 +327,13 @@ bool CHRTGlobalPositioning::SolvePositioningWithConsistencyCheck(
 
 		if (fMaxResidual < fThreshold)
 		{
-			ASSERT(bSuccess);
+			assert(bSuccess);
 			break;
 		}
 		else
 		{
 			// throw worst result away and reiterate
-			ASSERT(nMaxResidualIndex >= 0);
+			assert(nMaxResidualIndex >= 0);
 			LocalRegistrationSolutions[nMaxResidualIndex].SetValidity(CHrtValidityCodes::eConsistencyCheckFailed);
 			pSolution->Fill(0);
 		}
@@ -344,7 +344,7 @@ bool CHRTGlobalPositioning::SolvePositioningWithConsistencyCheck(
 	CDenseMatrix matResiduals(LocalRegistrationSolutions.size(), listResiduals.size());
 	while (!listResiduals.empty())
 	{
-		ASSERT(listResiduals.front().Size() == LocalRegistrationSolutions.size());
+		assert(listResiduals.front().Size() == LocalRegistrationSolutions.size());
 		matResiduals.SetCol(listResiduals.front(), i);
 		listResiduals.pop_front();
 		i++;
@@ -354,8 +354,8 @@ bool CHRTGlobalPositioning::SolvePositioningWithConsistencyCheck(
 	CDenseMatrix matSolutions(pSolution->Rows(), 2 * listSolutions.size());
 	while (!listSolutions.empty())
 	{
-		ASSERT(listSolutions.front().Rows() == matSolutions.Rows());
-		ASSERT(listSolutions.front().Cols() == 2);
+		assert(listSolutions.front().Rows() == matSolutions.Rows());
+		assert(listSolutions.front().Cols() == 2);
 		matSolutions.CopyRoi(0, 2 * i, listSolutions.front(), 0, 0, matSolutions.Rows(), 2);
 		listSolutions.pop_front();
 		i++;
@@ -426,7 +426,7 @@ void CHRTGlobalPositioning::AddSystemData(
 			AddEntrySLERigidRegistration(wtw, wtd, x, y, nIndexRef, nSubImageRowIndex, nIndexTempl, nSubHeight, SubImagesRowCount, nImages);
 			break;
 		default:
-			ASSERT(false);
+			assert(false);
 			break;
 		}
 	}
@@ -531,9 +531,9 @@ void CHRTGlobalPositioning::AssignAnchorImage(CSLESolver::EAlgorithm eAlgorithm,
  */
 void CHRTGlobalPositioning::GenerateConstraintCurvatureSystem(size_t nSubImages, size_t nImages, CAbstractMatrix& m, double fLambda)
 {
-	ASSERT(nSubImages * nImages == m.Rows());
-	ASSERT(nSubImages * nImages == m.Cols());
-	ASSERT(fLambda >= 0.0);
+	assert(nSubImages * nImages == m.Rows());
+	assert(nSubImages * nImages == m.Cols());
+	assert(fLambda >= 0.0);
 
 	// A zero weight factor has no effect
 	if (fLambda == 0.0)
@@ -590,7 +590,7 @@ void CHRTGlobalPositioning::GenerateConstraintCurvatureSystem(size_t nSubImages,
 		else
 		{
 			// The boundary case of three subimages needs to be handled separately
-			// ASSERT(nSubImages == 3);
+			// assert(nSubImages == 3);
 			m.SetValueAt(base + 1, base + 1, m.GetValueAt(base + 1, base + 1) + 4 * fLambda);
 		}
 	}
@@ -598,9 +598,9 @@ void CHRTGlobalPositioning::GenerateConstraintCurvatureSystem(size_t nSubImages,
 
 void CHRTGlobalPositioning::GenerateConstraintGradientSystem(size_t nSubImages, size_t nImages, CAbstractMatrix& m, double fLambda)
 {
-	ASSERT(nSubImages * nImages == m.Rows());
-	ASSERT(nSubImages * nImages == m.Cols());
-	ASSERT(fLambda >= 0.0);
+	assert(nSubImages * nImages == m.Rows());
+	assert(nSubImages * nImages == m.Cols());
+	assert(fLambda >= 0.0);
 
 	// A zero weight factor has no effect
 	if (fLambda == 0.0)
@@ -641,9 +641,9 @@ void CHRTGlobalPositioning::GenerateConstraintGradientSystem(size_t nSubImages, 
 
 void CHRTGlobalPositioning::GenerateConstraintCurvatureSystem2D(size_t nBlocksX, size_t nBlocksY, size_t nImages, CAbstractMatrix& m, double fLambda)
 {
-	ASSERT(nBlocksX * nBlocksY * nImages == m.Rows());
-	ASSERT(nBlocksX * nBlocksY * nImages == m.Cols());
-	ASSERT(fLambda >= 0.0);
+	assert(nBlocksX * nBlocksY * nImages == m.Rows());
+	assert(nBlocksX * nBlocksY * nImages == m.Cols());
+	assert(fLambda >= 0.0);
 
 	// A zero weight factor has no effect
 	if (fLambda == 0.0)
@@ -716,7 +716,7 @@ void CHRTGlobalPositioning::GenerateConstraintCurvatureSystem2D(size_t nBlocksX,
 				else
 				{
 					// The boundary case of three blocks needs to be handled separately
-					// ASSERT(nBlocksX == 3);
+					// assert(nBlocksX == 3);
 					m.SetValueAt(base + y * nBlocksX + 1, base + y * nBlocksX + 1, m.GetValueAt(base + y * nBlocksX + 1, base + y * nBlocksX + 1) + 4 * fLambda);
 				}
 			}
@@ -778,7 +778,7 @@ void CHRTGlobalPositioning::GenerateConstraintCurvatureSystem2D(size_t nBlocksX,
 				else
 				{
 					// The boundary case of three blocks needs to be handled separately
-					// ASSERT(nBlocksY == 3);
+					// assert(nBlocksY == 3);
 					m.SetValueAt(base + nBlocksX + x, base + nBlocksX + x, m.GetValueAt(base + nBlocksX + x, base + nBlocksX + x) + 4 * fLambda);
 				}
 			}
@@ -816,9 +816,9 @@ void CHRTGlobalPositioning::AddEntrySLE(CAbstractMatrix& WtW, CDenseMatrix& Wtd,
 	size_t np = nk + nSubImagesCount * nTemplateImage;
 	size_t nq = np + 1;
 
-	ASSERT(nTemplateImage > 0);
-	ASSERT(np > 0);
-	ASSERT(nSubImagesCount > 0);
+	assert(nTemplateImage > 0);
+	assert(np > 0);
+	assert(nSubImagesCount > 0);
 
 	if (nq >= nSubImagesCount * nImageCount)
 		return;
@@ -896,10 +896,10 @@ void CHRTGlobalPositioning::AddEntrySLE2D(CAbstractMatrix& WtW, CDenseMatrix& Wt
 void CHRTGlobalPositioning::RemoveGap(const CDenseMatrix& source, CDenseMatrix& destination, size_t nSubImagesWithoutGap, size_t nGapBefore, size_t nGapAfter)
 {
 	size_t nTotalSubImages = nSubImagesWithoutGap + nGapBefore + nGapAfter;
-	ASSERT(source.Rows() % nTotalSubImages == 0);
+	assert(source.Rows() % nTotalSubImages == 0);
 	size_t nImageCount = source.Rows() / nTotalSubImages;
-	ASSERT(destination.Rows() == nImageCount * nSubImagesWithoutGap);
-	ASSERT(destination.Cols() == source.Cols());
+	assert(destination.Rows() == nImageCount * nSubImagesWithoutGap);
+	assert(destination.Cols() == source.Cols());
 
 	size_t nGapPos = 0;
 	for (size_t nImage = 0; nImage < nImageCount; nImage++)
@@ -934,10 +934,10 @@ void CHRTGlobalPositioning::RemoveGap(CDenseMatrix& inPlace, size_t nSubImagesWi
 ///	<param name="group"> The image indexes of the image group. </param>
 void CHRTGlobalPositioning::RemoveExcludedImages(const CDenseMatrix& source, CDenseMatrix& destination, size_t nSubImagesWithoutGap, const std::list<size_t>& group)
 {
-	ASSERT(source.Rows() >= group.size() * nSubImagesWithoutGap);
-	ASSERT(source.Cols() == 2);
-	ASSERT(destination.Rows() == group.size() * nSubImagesWithoutGap);
-	ASSERT(destination.Cols() == 2);
+	assert(source.Rows() >= group.size() * nSubImagesWithoutGap);
+	assert(source.Cols() == 2);
+	assert(destination.Rows() == group.size() * nSubImagesWithoutGap);
+	assert(destination.Cols() == 2);
 
 	size_t min = group.front();
 	size_t row = 0;
@@ -953,7 +953,7 @@ void CHRTGlobalPositioning::RemoveExcludedImages(const CDenseMatrix& source, CDe
 			row++;
 		}
 	}
-	ASSERT(row == destination.Rows());
+	assert(row == destination.Rows());
 }
 
 ///	<summary> Remove image position from solution for images that are not part of the image group. </summary>
@@ -962,8 +962,8 @@ void CHRTGlobalPositioning::RemoveExcludedImages(const CDenseMatrix& source, CDe
 ///	<param name="group"> The image indexes of the image group. </param>
 void CHRTGlobalPositioning::RemoveExcludedImages(CDenseMatrix& inPlace, size_t nSubImagesWithoutGap, const std::list<size_t>& group)
 {
-	ASSERT(inPlace.Rows() >= group.size() * nSubImagesWithoutGap);
-	ASSERT(inPlace.Cols() == 2);
+	assert(inPlace.Rows() >= group.size() * nSubImagesWithoutGap);
+	assert(inPlace.Cols() == 2);
 
 	CDenseMatrix temp;
 	temp.Copy(inPlace);

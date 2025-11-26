@@ -67,7 +67,7 @@ std::shared_ptr<CRegistrationStrategy> CRegistrationStrategyFactory::CreateStrat
 		break;
 	case ERegistrationStrategy::eInvalid:
 	default:
-		ASSERT(false);
+		assert(false);
 		return nullptr;
 	}
 

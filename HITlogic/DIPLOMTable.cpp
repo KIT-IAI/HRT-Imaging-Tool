@@ -84,7 +84,7 @@ template <> CSNPDatasetOutputParameters CSQLiteTable::Convert() const
 		* Did an evil government send it to intrude our system? Was is an alien trying to warn us?
 		* We don't know. And we never will. Or at least, that's what the government wants you to think.
 		*/
-		ASSERT(false);
+		assert(false);
 	}
 
 #undef APPLY_PARAM
@@ -255,7 +255,7 @@ template <> CSNPDatasetParameters CSQLiteTable::Convert() const
 		* Did an evil government send it to intrude our system? Was is an alien trying to warn us?
 		* We don't know. And we never will. Or at least, that's what the government wants you to think.
 		*/
-		ASSERT(false);
+		assert(false);
 	}
 
 #undef ADD_PARAM

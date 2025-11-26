@@ -214,7 +214,7 @@ void StlImage<T>::CopyAtOffset(StlImagePoint p, StlImage<T>& img, StlImageRect r
 template<typename T>
 StlImage<T> StlImage<T>::operator+(const StlImage<T>& rhs)
 {
-	ASSERT(m_size == rhs.m_size);
+	assert(m_size == rhs.m_size);
 	StlImage<T> ret;
 	ret.Alloc(m_size);
 	std::transform(m_data.cbegin(), m_data.cend(), rhs.m_data.cbegin(), ret.m_data.begin(), std::plus<T>());
@@ -224,7 +224,7 @@ StlImage<T> StlImage<T>::operator+(const StlImage<T>& rhs)
 template<typename T>
 StlImage<T> StlImage<T>::operator-(const StlImage<T>& rhs)
 {
-	ASSERT(m_size == rhs.m_size);
+	assert(m_size == rhs.m_size);
 	StlImage<T> ret;
 	ret.Alloc(m_size);
 	std::transform(m_data.cbegin(), m_data.cend(), rhs.m_data.cbegin(), ret.m_data.begin(), std::minus<T>());
@@ -233,7 +233,7 @@ StlImage<T> StlImage<T>::operator-(const StlImage<T>& rhs)
 template<typename T>
 StlImage<T> StlImage<T>::operator*(const StlImage<T>& rhs)
 {
-	ASSERT(m_size == rhs.m_size);
+	assert(m_size == rhs.m_size);
 	StlImage<T> ret;
 	ret.Alloc(m_size);
 	std::transform(m_data.cbegin(), m_data.cend(), rhs.m_data.cbegin(), ret.m_data.begin(), std::multiplies<T>());
@@ -242,7 +242,7 @@ StlImage<T> StlImage<T>::operator*(const StlImage<T>& rhs)
 template<typename T>
 StlImage<T> StlImage<T>::operator/(const StlImage<T>& rhs)
 {
-	ASSERT(m_size == rhs.m_size);
+	assert(m_size == rhs.m_size);
 	StlImage<T> ret;
 	ret.Alloc(m_size);
 	std::transform(m_data.cbegin(), m_data.cend(), rhs.m_data.cbegin(), ret.m_data.begin(), std::divides<T>());
@@ -251,7 +251,7 @@ StlImage<T> StlImage<T>::operator/(const StlImage<T>& rhs)
 template<>
 StlImage<float> StlImage<float>::operator/(const StlImage<float>& rhs)
 {
-	ASSERT(m_size == rhs.m_size);
+	assert(m_size == rhs.m_size);
 	StlImage<float> ret;
 	ret.Alloc(m_size);
 	vsDiv(m_size.x * m_size.y, m_data.data(), rhs.m_data.data(), ret.m_data.data());
@@ -260,35 +260,35 @@ StlImage<float> StlImage<float>::operator/(const StlImage<float>& rhs)
 template<typename T>
 StlImage<T>& StlImage<T>::operator+=(const StlImage<T>& rhs)
 {
-	ASSERT(m_size == rhs.m_size);
+	assert(m_size == rhs.m_size);
 	std::transform(m_data.cbegin(), m_data.cend(), rhs.m_data.cbegin(), m_data.begin(), std::plus<T>());
 	return *this;
 }
 template<typename T>
 StlImage<T>& StlImage<T>::operator-=(const StlImage<T>& rhs)
 {
-	ASSERT(m_size == rhs.m_size);
+	assert(m_size == rhs.m_size);
 	std::transform(m_data.cbegin(), m_data.cend(), rhs.m_data.cbegin(), m_data.begin(), std::minus<T>());
 	return *this;
 }
 template<typename T>
 StlImage<T>& StlImage<T>::operator*=(const StlImage<T>& rhs)
 {
-	ASSERT(m_size == rhs.m_size);
+	assert(m_size == rhs.m_size);
 	std::transform(m_data.cbegin(), m_data.cend(), rhs.m_data.cbegin(), m_data.begin(), std::multiplies<T>());
 	return *this;
 }
 template<typename T>
 StlImage<T>& StlImage<T>::operator/=(const StlImage<T>& rhs)
 {
-	ASSERT(m_size == rhs.m_size);
+	assert(m_size == rhs.m_size);
 	std::transform(m_data.cbegin(), m_data.cend(), rhs.m_data.cbegin(), m_data.begin(), std::divides<T>());
 	return *this;
 }
 template<>
 StlImage<float>& StlImage<float>::operator/=(const StlImage<float>& rhs)
 {
-	ASSERT(m_size == rhs.m_size);
+	assert(m_size == rhs.m_size);
 	vsDiv(m_size.x * m_size.y, m_data.data(), rhs.m_data.data(), m_data.data());
 	return *this;
 }
@@ -380,7 +380,7 @@ template<typename T>
 template<typename T2>
 typename std::enable_if<std::is_same<T2, std::complex<float>>::value, StlImage<T>&>::type StlImage<T>::operator/=(const StlImage<float>& rhs)
 {
-	ASSERT(m_size == rhs.m_size);
+	assert(m_size == rhs.m_size);
 	std::transform(m_data.cbegin(), m_data.cend(), rhs.m_data.cbegin(), m_data.begin(), [](T lhs_elem, float rhs_elem) -> T {return T(lhs_elem.real() / rhs_elem, lhs_elem.imag() / rhs_elem);});
 	return *this;
 }
@@ -647,7 +647,7 @@ typename std::enable_if<std::is_same<T2, float>::value, void>::type StlImage<T>:
 	this->Alloc(FFTSize);
 	this->Transform_Backward(imgFourier);
 }
-#define DFTI_CHECK(call) status=call; ASSERT(status==DFTI_NO_ERROR)
+#define DFTI_CHECK(call) status=call; assert(status==DFTI_NO_ERROR)
 template<typename T>
 template<typename T2>
 typename std::enable_if<std::is_same<T2, std::complex<float>>::value, void>::type StlImage<T>::Transform_Forward(const StlImage<float>& source)
@@ -720,7 +720,7 @@ typename std::enable_if<std::is_same<T2, float>::value, void>::type StlImage<T>:
 template<typename T>
 void StlImage<T>::LowFrequencySuppression(int nBandWidth)
 {
-	ASSERT(nBandWidth >= 0);
+	assert(nBandWidth >= 0);
 
 	if (nBandWidth <= 0)
 	{
@@ -776,7 +776,7 @@ void StlImage<T>::LowFrequencySuppression(int nBandWidth)
 template<typename T>
 void StlImage<T>::HighFrequencySuppression(int nBandWidth)
 {
-	ASSERT(nBandWidth >= 0);
+	assert(nBandWidth >= 0);
 
 	if (nBandWidth <= 0)
 	{
@@ -841,7 +841,7 @@ bool StlImage<T>::Export(std::wstring filename) const
 	}
 	else
 	{
-		ASSERT(FALSE);
+		assert(FALSE);
 		return false;
 	}
 	bool b = CImageExporter::ExportImage(filename.c_str(), bit_depth, h, w, m_data.data(), iio_type, IIO_FILE_TYPE::TIF, IIO_TIF_COMPRESSION::NONE);
@@ -1472,8 +1472,8 @@ bool StlImage<T>::CropBorders(const StlImage<T>& src, T transparentColor)
 	src.PrepareCropBorders(transparentColor, Offset, NewSize);
 
 
-	ASSERT((Offset.x >= 0) && (NewSize.x >= 0) && (Offset.x + NewSize.x <= OldSize.x));
-	ASSERT((Offset.y >= 0) && (NewSize.y >= 0) && (Offset.y + NewSize.y <= OldSize.y));
+	assert((Offset.x >= 0) && (NewSize.x >= 0) && (Offset.x + NewSize.x <= OldSize.x));
+	assert((Offset.y >= 0) && (NewSize.y >= 0) && (Offset.y + NewSize.y <= OldSize.y));
 
 
 	if ((NewSize.x == 0) || (NewSize.y == 0))

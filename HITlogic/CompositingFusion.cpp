@@ -67,7 +67,7 @@ void CCompositingFusion::Fusion(const CImageRegistrationData& ImageData, const C
 {
 	size_t nImageCount = ImageData.Images.size();
 
-	ASSERT(nImageCount > 0);
+	assert(nImageCount > 0);
 
 	m_UndistortedImages.resize(nImageCount);
 
@@ -75,10 +75,10 @@ void CCompositingFusion::Fusion(const CImageRegistrationData& ImageData, const C
 
 	SetSingleImageSize(ImageData.Images[0]->GetSize());
 
-	ASSERT(m_InterpolatedPosX.Rows() == m_InterpolatedPosY.Rows());
-	ASSERT(m_InterpolatedPosX.Cols() == m_InterpolatedPosY.Cols());
-	ASSERT(m_InterpolatedPosX.Rows() == static_cast<size_t>(ImageData.Images[0]->GetSize().y));
-	ASSERT(m_InterpolatedPosX.Cols() == nImageCount);
+	assert(m_InterpolatedPosX.Rows() == m_InterpolatedPosY.Rows());
+	assert(m_InterpolatedPosX.Cols() == m_InterpolatedPosY.Cols());
+	assert(m_InterpolatedPosX.Rows() == static_cast<size_t>(ImageData.Images[0]->GetSize().y));
+	assert(m_InterpolatedPosX.Cols() == nImageCount);
 
 	CDenseMatrix matPosX(m_InterpolatedPosX);
 	CDenseMatrix matPosY(m_InterpolatedPosY);
@@ -105,8 +105,8 @@ void CCompositingFusion::Fusion(const CImageRegistrationData& ImageData, const C
 	matPosX -= ceil(matPosX.Min()) - m_Parameters.nBorder;
 	matPosY -= ceil(matPosY.Min()) - m_Parameters.nBorder;
 
-	ASSERT(ceil(matPosX.Min()) == m_Parameters.nBorder);
-	ASSERT(ceil(matPosY.Min()) == m_Parameters.nBorder);
+	assert(ceil(matPosX.Min()) == m_Parameters.nBorder);
+	assert(ceil(matPosY.Min()) == m_Parameters.nBorder);
 
 	// The motion correction approach implemented here assumes that the eye
 	// does not move faster than the scanning laser along the vertical axis.
@@ -134,7 +134,7 @@ void CCompositingFusion::Fusion(const CImageRegistrationData& ImageData, const C
 	m_result.emplace<StlImage<float>>(StlImage<float>());
 	m_result = StlImage<float>();
 
-	ASSERT(std::holds_alternative<StlImage<float>>(m_result));	//nahezu unmöglich, das ein anderer Datentyp bei diesem Aufruf in der Variable ist
+	assert(std::holds_alternative<StlImage<float>>(m_result));	//nahezu unmöglich, das ein anderer Datentyp bei diesem Aufruf in der Variable ist
 	std::get<StlImage<float>>(m_result).Free();
 	std::get<StlImage<float>>(m_result).Alloc({ nMosaicSizeX, nMosaicSizeY });
 	std::get<StlImage<float>>(m_result).Clear(0.0);
@@ -181,7 +181,7 @@ void CCompositingFusion::Fusion(const CImageRegistrationData& ImageData, const C
 void CCompositingFusion::FusionRigidRegistration(const CImageRegistrationData& ImageData, const CDenseMatrix& solutionMatrix)
 {
 	//hier fehlt noch das Verschleifen der Ränder
-	ASSERT(!ImageData.Images.empty());
+	assert(!ImageData.Images.empty());
 
 	StlImageSize SingleImageSize;
 	StlImageSize szMosaicSize;
@@ -198,8 +198,8 @@ void CCompositingFusion::FusionRigidRegistration(const CImageRegistrationData& I
 	CDenseVector vecPosX = vecSolutionPosX - static_cast<int>(ceil(vecSolutionPosX.Min()));
 	CDenseVector vecPosY = vecSolutionPosY - static_cast<int>(ceil(vecSolutionPosY.Min()));
 
-	ASSERT(vecPosX.Min() == 0.0);
-	ASSERT(vecPosY.Min() == 0.0);
+	assert(vecPosX.Min() == 0.0);
+	assert(vecPosY.Min() == 0.0);
 
 	szMosaicSize.x = static_cast<int>(floor(vecPosX.Max())) + ImageData.Images[0]->GetSize().x;
 	szMosaicSize.y = static_cast<int>(floor(vecPosY.Max())) + ImageData.Images[0]->GetSize().y;
@@ -212,7 +212,7 @@ void CCompositingFusion::FusionRigidRegistration(const CImageRegistrationData& I
 
 	m_result.emplace<StlImage<float>>(StlImage<float>());
 	m_result = StlImage<float>();
-	ASSERT(std::holds_alternative<StlImage<float>>(m_result));	//nahezu unmöglich, das ein anderer Datentyp bei diesem Aufruf in der Variable ist
+	assert(std::holds_alternative<StlImage<float>>(m_result));	//nahezu unmöglich, das ein anderer Datentyp bei diesem Aufruf in der Variable ist
 	std::get<StlImage<float>>(m_result).Free();
 	std::get<StlImage<float>>(m_result).Alloc(szMosaicSize);
 	std::get<StlImage<float>>(m_result).Clear(0);
@@ -256,7 +256,7 @@ size_t CCompositingFusion::GetMonotonyViolationCount(const CDenseMatrix& matPosY
 				// Probably a totally
 				// wrong registration result, that somehow slipped through
 				// all of the checks and was finally accepted as correct.
-				//ASSERT(false);
+				//assert(false);
 				// Small update. Since this occures very often at the moment (Rev. 1553) It is no longer an assertion (hasn't been for a while), and no longer logs it every time, but only once.
 				nMonotonyViolatedCount++;
 			}
@@ -282,7 +282,7 @@ const vector<CUndistortedImage>& CCompositingFusion::GetUndistortedImages() cons
  */
 StlImage<float> CCompositingFusion::GenerateWeightImage(const StlImage<float>& imgSource) const
 {
-	ASSERT(imgSource.IsAllocated());
+	assert(imgSource.IsAllocated());
 
 	StlImage<float> weightIm;
 
@@ -299,7 +299,7 @@ StlImage<float> CCompositingFusion::GenerateWeightImage(const StlImage<float>& i
 		weightIm.Clear(1.0);
 		break;
 	default:
-		ASSERT(false);
+		assert(false);
 	}
 	return weightIm;
 }
@@ -358,7 +358,7 @@ StlImage<float> CCompositingFusion::GenerateWeightImgCos2(const StlImageSize& Im
  */
 StlImage<float> CCompositingFusion::GenerateWeightImgDistance(const StlImage<float>& imgSource, size_t nEdgeBlendingLength /*= 10*/) const
 {
-	ASSERT(imgSource.IsAllocated());					//the distance-Funktion is missing in stlImage
+	assert(imgSource.IsAllocated());					//the distance-Funktion is missing in stlImage
 
 	// Sadly the source buffer needs to be framed in order to be able to perform the Distance-transformation on images that contain no backgroudn pixels (like SNP-Images).
 	StlImage<float> FramedWeightImage;

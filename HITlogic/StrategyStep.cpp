@@ -124,8 +124,8 @@ bool CStrategyStep::PrepareNextPair()
 		nImg2++;
 	}
 
-	ASSERT(nImg2 - nImg1 == m_nDistance);
-	ASSERT(m_nDistance <= m_nMaxDistance);
+	assert(nImg2 - nImg1 == m_nDistance);
+	assert(m_nDistance <= m_nMaxDistance);
 
 	if (nImg2 >= m_nImageCount)
 	{

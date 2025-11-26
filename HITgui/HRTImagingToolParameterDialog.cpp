@@ -324,12 +324,12 @@ void HRTImagingToolParameterDialog::BindChildCtrlEvents() const
 {
 	auto BindEvents = [this](wxStaticText* label, wxControl* control, size_t helpIndex) -> void {
 		auto ChangeHelpText = [this](size_t index) -> void {
-			ASSERT(index < s_parameterHelpStrings.size());
+			assert(index < s_parameterHelpStrings.size());
 			m_staticTextParameterName->SetLabel(s_parameterHelpStrings[index].first);
 			m_textCtrlParameterHelp->SetValue(s_parameterHelpStrings[index].second);
 			};
 
-		label->Bind(wxEVT_LEFT_UP, [control](wxMouseEvent& event) -> void { ASSERT(control->CanAcceptFocus()); control->SetFocus(); event.Skip(); });
+		label->Bind(wxEVT_LEFT_UP, [control](wxMouseEvent& event) -> void { assert(control->CanAcceptFocus()); control->SetFocus(); event.Skip(); });
 		control->Bind(wxEVT_CHILD_FOCUS, [ChangeHelpText, helpIndex](wxChildFocusEvent& event) -> void { ChangeHelpText(helpIndex); event.Skip(); });
 		};
 
@@ -382,14 +382,14 @@ void HRTImagingToolParameterDialog::SyncParToDlg(const CSNPDatasetParameters& pa
 			ptrdiff_t temp;
 			std::wistringstream iss(control->GetString(i).ToStdWstring());
 			iss >> temp;
-			ASSERT(!iss.fail());
+			assert(!iss.fail());
 			if (!iss.fail() && (temp == value))
 			{
 				control->SetSelection(i);
 				break;
 			}
 		}
-		ASSERT(control->GetSelection() != wxNOT_FOUND);
+		assert(control->GetSelection() != wxNOT_FOUND);
 		};
 
 	m_spinCtrlPar01->SetValue(parameters.nMaxSequenceLength);
@@ -436,11 +436,11 @@ void HRTImagingToolParameterDialog::SyncParToDlg(const CSNPDatasetParameters& pa
 void HRTImagingToolParameterDialog::SyncDlgToPar(CSNPDatasetParameters& parameters) const
 {
 	auto ParseChoiceEntry = [](wxChoice* control, ptrdiff_t& value) -> bool {
-		ASSERT(!control->GetStringSelection().empty());
+		assert(!control->GetStringSelection().empty());
 		ptrdiff_t temp;
 		std::wistringstream iss(control->GetStringSelection().ToStdWstring());
 		iss >> temp;
-		ASSERT(!iss.fail());
+		assert(!iss.fail());
 		if (!iss.fail())
 		{
 			value = temp;

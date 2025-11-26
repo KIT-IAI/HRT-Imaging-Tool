@@ -177,7 +177,7 @@ void CSNPDatasetResultLoader::ExportPositioningSolutionToSpecialTable(const CDen
 
 void CSNPDatasetResultLoader::ExportPositioningSolutionToSpecialTable(const CDenseMatrix& Solution, vector<int> groupIDPerRow, wstring fileName) const
 {
-	ASSERT(Solution.Rows() == groupIDPerRow.size());
+	assert(Solution.Rows() == groupIDPerRow.size());
 
 	CDenseMatrix ExtendedSolution(Solution.Rows(), Solution.Cols() + 1);
 	ExtendedSolution.CopyRoi(0, 0, Solution, 0, 0, Solution.Rows(), Solution.Cols());
@@ -283,7 +283,7 @@ void CSNPDatasetResultLoader::ExportMotionCorrectedImages(const vector<CSNPGroup
 
 void CSNPDatasetResultLoader::ExportMotionCorrectedImages(const CSNPGroupResult& groupResult, size_t nGroupID) const
 {
-	ASSERT(groupResult.UsedImagePaths.size() == groupResult.MotionCorrectedImages.size());
+	assert(groupResult.UsedImagePaths.size() == groupResult.MotionCorrectedImages.size());
 
 	auto FolderName = GetGroupRootFolder(nGroupID);
 	CFileUtilities::MakeDirectory(wstring(FolderName));

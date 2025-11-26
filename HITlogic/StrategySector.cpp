@@ -46,11 +46,11 @@ CStrategySector::~CStrategySector()
 
 void CStrategySector::SetParameters(const CRegistrationStrategyParameters& parameters)
 {
-	ASSERT(parameters.nWindowSize > 0);
-	ASSERT(parameters.nSectorSize > 0);
-	ASSERT(parameters.nMaxDistance >= 0);
-	ASSERT(parameters.ImageSize.x > 0);
-	ASSERT(parameters.ImageSize.y > 0);
+	assert(parameters.nWindowSize > 0);
+	assert(parameters.nSectorSize > 0);
+	assert(parameters.nMaxDistance >= 0);
+	assert(parameters.ImageSize.x > 0);
+	assert(parameters.ImageSize.y > 0);
 
 	m_nWindow = parameters.nWindowSize;
 	m_nSectorSize = parameters.nSectorSize;
@@ -102,8 +102,8 @@ void CStrategySector::SetSuccess(size_t nImg1, size_t nImg2, const CRegistration
 
 	std::lock_guard<std::mutex> lock(m_criticalMutex);		// replaces omp critical section
 	{
-		ASSERT(correlationResult.RigidRegistrationResult.GetReferenceImageIndex() == nImg1);
-		ASSERT(correlationResult.RigidRegistrationResult.GetTemplateImageIndex() == nImg2);
+		assert(correlationResult.RigidRegistrationResult.GetReferenceImageIndex() == nImg1);
+		assert(correlationResult.RigidRegistrationResult.GetTemplateImageIndex() == nImg2);
 
 		bool bSuccess = (correlationResult.RigidRegistrationResult.GetValidity() > 0);
 		if (bSuccess)
@@ -185,7 +185,7 @@ bool CStrategySector::PrepareNextPair()
 		}
 	}
 
-	ASSERT((m_eState == eWait) || (m_eState == eSectorRegs));
+	assert((m_eState == eWait) || (m_eState == eSectorRegs));
 
 	if (m_eState == eWait)
 	{
@@ -200,7 +200,7 @@ bool CStrategySector::PrepareNextPair()
 		}
 	}
 
-	ASSERT(m_eState == eSectorRegs);
+	assert(m_eState == eSectorRegs);
 
 	if ((m_aNextSector[0] < 0) && (m_aNextSector[1] < 0))
 	{
@@ -395,10 +395,10 @@ bool CStrategySector::GetPairFromSector(size_t& nImg1, size_t& nImg2)
 
 	std::lock_guard<std::mutex> lock(m_criticalMutex);		// replaces omp critical section
 	{
-		ASSERT(m_aNextSector[0] >= 0);
-		ASSERT(m_aNextSector[0] < m_aNextSector[1]);
-		ASSERT(m_aNextSector[1] <= m_aNextSector[0] + m_nMaxDistance);
-		ASSERT(m_aNextSector[1] < m_nImageCount);
+		assert(m_aNextSector[0] >= 0);
+		assert(m_aNextSector[0] < m_aNextSector[1]);
+		assert(m_aNextSector[1] <= m_aNextSector[0] + m_nMaxDistance);
+		assert(m_aNextSector[1] < m_nImageCount);
 
 		double fMinDist = -1.0;
 		INT_PTR nMinInd = -1;
@@ -419,7 +419,7 @@ bool CStrategySector::GetPairFromSector(size_t& nImg1, size_t& nImg2)
 
 		if ((nMinInd > 0) && (abs(m_matXOffsets[i][nMinInd]) < m_nImageSizeX) && (abs(m_matYOffsets[i][nMinInd]) < m_nImageSizeY))
 		{
-			ASSERT(fMinDist > 0);
+			assert(fMinDist > 0);
 			nImg1 = i;
 			nImg2 = nMinInd;
 			bReturn = true;

@@ -63,13 +63,13 @@ CRegistrationStrategy::~CRegistrationStrategy()
  */
 void CRegistrationStrategy::Initialize(size_t nImages)
 {
-	ASSERT(nImages > 0);
+	assert(nImages > 0);
 
 	m_bFinished = false;
 
 	// m_listRegImgGroups contains the image index lists, m_arrayRegImgGroups
 	// points to the corresponding image index list for each image index
-	ASSERT(m_listRegImgGroups.empty());
+	assert(m_listRegImgGroups.empty());
 	m_arrayRegImgGroups.resize(nImages);
 
 	// Initialise the list for registered image groups with
@@ -133,7 +133,7 @@ bool CRegistrationStrategy::GetNextPair(size_t& nImg1, size_t& nImg2)
 	nImg2 = m_aNextPair[1];
 	++m_nPairsDealt;
 
-	ASSERT((0 <= m_aNextPair[0]) && (m_aNextPair[0] < m_aNextPair[1]) && (m_aNextPair[1] < m_nImageCount));
+	assert((0 <= m_aNextPair[0]) && (m_aNextPair[0] < m_aNextPair[1]) && (m_aNextPair[1] < m_nImageCount));
 
 
 	return true;
@@ -160,8 +160,8 @@ void CRegistrationStrategy::SetSuccess(size_t nImg1, size_t nImg2, const CRegist
 
 	++m_nPairsDone;
 
-	ASSERT(correlationResult.RigidRegistrationResult.GetReferenceImageIndex() == nImg1);
-	ASSERT(correlationResult.RigidRegistrationResult.GetTemplateImageIndex() == nImg2);
+	assert(correlationResult.RigidRegistrationResult.GetReferenceImageIndex() == nImg1);
+	assert(correlationResult.RigidRegistrationResult.GetTemplateImageIndex() == nImg2);
 
 	bool bSuccess = (correlationResult.RigidRegistrationResult.GetValidity() > 0);
 	if (bSuccess && (m_arrayRegImgGroups[nImg1] != m_arrayRegImgGroups[nImg2]))
@@ -282,7 +282,7 @@ void CRegistrationStrategy::Finalize()
  */
 void CRegistrationStrategy::GetRegistrationImageGroups(std::list<std::list<size_t>>& listRegImgGroups) const
 {
-	ASSERT(listRegImgGroups.empty());
+	assert(listRegImgGroups.empty());
 
 	listRegImgGroups = m_listRegImgGroups;
 }

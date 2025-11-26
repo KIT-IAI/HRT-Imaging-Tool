@@ -115,8 +115,8 @@ size_t CSubImageCorrelation::SearchBestCorrelatedRowInOverlappingArea(StlImagePo
 
 	auto OverlappingRectangles = CImagePair::GetOverlappingRectangles(m_Images.GetReferenceImage()->GetSize(), m_Images.GetTemplateImage()->GetSize(), Offset);
 
-	ASSERT(!OverlappingRectangles.first.IsRectEmpty() && !OverlappingRectangles.second.IsRectEmpty());
-	ASSERT(OverlappingRectangles.first.Size() == OverlappingRectangles.second.Size());
+	assert(!OverlappingRectangles.first.IsRectEmpty() && !OverlappingRectangles.second.IsRectEmpty());
+	assert(OverlappingRectangles.first.Size() == OverlappingRectangles.second.Size());
 
 	StlImage<float> OverlappingReferenceChild;
 	if (m_Images.GetReferenceImageSmooth() == nullptr)	OverlappingReferenceChild.Child2dIndep(SmoothImage(*m_Images.GetReferenceImage()), OverlappingRectangles.first);
@@ -127,7 +127,7 @@ size_t CSubImageCorrelation::SearchBestCorrelatedRowInOverlappingArea(StlImagePo
 	else 	OverlappingTemplateChild.Child2dIndep(*m_Images.GetTemplateImageSmooth(), OverlappingRectangles.second);
 	//OverlappingTemplateChild.Child2dIndep(m_Images.GetTemplateImageSmooth() == nullptr ? SmoothImage(*m_Images.GetTemplateImage()) : *m_Images.GetTemplateImageSmooth(), OverlappingRectangles.second);
 
-	ASSERT(OverlappingReferenceChild.GetSize() == OverlappingTemplateChild.GetSize());
+	assert(OverlappingReferenceChild.GetSize() == OverlappingTemplateChild.GetSize());
 
 	// Calculate sum and difference image of overlapping area
 	auto sumImage = OverlappingReferenceChild + OverlappingTemplateChild;
@@ -169,7 +169,7 @@ StlImage<float> CSubImageCorrelation::SmoothImage(const StlImage<float>& image) 
  */
 std::vector<float> CSubImageCorrelation::CalculateDeviation(const StlImage<float>& sumImage, const StlImage<float>& differenceImage) const
 {
-	ASSERT(sumImage.GetSize() == differenceImage.GetSize());
+	assert(sumImage.GetSize() == differenceImage.GetSize());
 
 	auto OverlappingSize = sumImage.GetSize();
 
@@ -194,8 +194,8 @@ std::vector<float> CSubImageCorrelation::CalculateDeviation(const StlImage<float
 		afStdDev[y] = static_cast<float>(CMathTools::StdDev(&lineD) / CMathTools::StdDev(&lineS));
 	}
 
-	ASSERT(itS == bufferS.cend());
-	ASSERT(itD == bufferD.cend());
+	assert(itS == bufferS.cend());
+	assert(itD == bufferD.cend());
 
 	return afStdDev;
 }
@@ -251,7 +251,7 @@ void CSubImageCorrelation::PrepareFlexibleResultArray()
 	localRegistrationStructure.SetSpecialSubImageRowIndex(m_nBestCorrelatedSubImage);
 	localRegistrationStructure.SetValidity(CHrtValidityCodes::eValidityInitialization);
 
-	ASSERT(m_CorrelationResult.FlexibleRegistrationResults.empty());
+	assert(m_CorrelationResult.FlexibleRegistrationResults.empty());
 
 	m_CorrelationResult.FlexibleRegistrationResults.reserve(GetSubImageCount());
 	for (size_t i = 0; i < GetSubImageCount(); i++)
@@ -269,8 +269,8 @@ void CSubImageCorrelation::PrepareOffsetArray()
 
 void CSubImageCorrelation::AdjustTrajectory(CCorrelationParameters::EDirection direction)
 {
-	ASSERT((direction == CCorrelationParameters::EDirection::eDown) || (direction == CCorrelationParameters::EDirection::eUp));
-	ASSERT((m_nBestCorrelatedSubImage >= 2) && (m_nBestCorrelatedSubImage < m_CorrelationResult.FlexibleRegistrationResults.size() - 2));
+	assert((direction == CCorrelationParameters::EDirection::eDown) || (direction == CCorrelationParameters::EDirection::eUp));
+	assert((m_nBestCorrelatedSubImage >= 2) && (m_nBestCorrelatedSubImage < m_CorrelationResult.FlexibleRegistrationResults.size() - 2));
 
 	if (direction == CCorrelationParameters::EDirection::eDown)
 	{
@@ -315,7 +315,7 @@ bool CSubImageCorrelation::IsReferenceImageMaskingActive() const
 	case CCorrelationParameters::EMaskRegArea::ePart:
 		return !m_bIsFirstSubImage;
 	default:
-		ASSERT(false);
+		assert(false);
 		return false;
 	}
 }
@@ -468,7 +468,7 @@ bool CSubImageCorrelation::IterationProcessCanBeEnded(size_t nSubImageIndex, std
 		return bIsLastIteration;
 	}
 
-	ASSERT(false);
+	assert(false);
 	return false; // Should never reach this
 }
 
@@ -492,7 +492,7 @@ void CSubImageCorrelation::ExcludeBorderSubImages()
  */
 CCorrelationOffset CSubImageCorrelation::PerformSubImageCorrelation(size_t nSubImageIndex)
 {
-	ASSERT(m_Images.GetReferenceImage()->GetSize() == m_Images.GetTemplateImage()->GetSize());
+	assert(m_Images.GetReferenceImage()->GetSize() == m_Images.GetTemplateImage()->GetSize());
 
 	const auto rDefinedWindow = GetDefinedWindow(nSubImageIndex, m_CorrelationResult.RowOffset, m_Images.GetTemplateImage()->GetSize());
 
@@ -617,7 +617,7 @@ StlImageRect CSubImageCorrelation::CalculateCorrectChildWindow(StlImageRect& rDe
 
 StlImage<float> CSubImageCorrelation::ApplyTemplateImageMask(const StlImage<float>& TemplateImage, StlImageSize imagesize, StlImageRect rDefinedWindow, bool bMaskImage) const
 {
-	ASSERT(TemplateImage.GetSize() == rDefinedWindow.Size());
+	assert(TemplateImage.GetSize() == rDefinedWindow.Size());
 
 	StlImage<float> out;
 	if (!bMaskImage)				// Return the Image in a black context
@@ -651,13 +651,13 @@ size_t CSubImageCorrelation::GetSubImageHeight() const
 StlImage<float> CSubImageCorrelation::InterpolateImage(const StlImage<float>& TemplateImage,
 	const vector<CVector2d<float>>& offsetArray, StlImageRect DefinedWindow) const
 {
-	ASSERT(offsetArray.size() == static_cast<size_t>(TemplateImage.GetSize().y));
-	ASSERT(DefinedWindow.x >= 0);
-	ASSERT(DefinedWindow.x + DefinedWindow.sx <= TemplateImage.GetSize().x);
-	ASSERT(DefinedWindow.y >= 0);
-	ASSERT(DefinedWindow.y + DefinedWindow.sy <= TemplateImage.GetSize().y);
-	ASSERT(DefinedWindow.sx <= TemplateImage.GetSize().x);
-	ASSERT(DefinedWindow.sy <= TemplateImage.GetSize().y);
+	assert(offsetArray.size() == static_cast<size_t>(TemplateImage.GetSize().y));
+	assert(DefinedWindow.x >= 0);
+	assert(DefinedWindow.x + DefinedWindow.sx <= TemplateImage.GetSize().x);
+	assert(DefinedWindow.y >= 0);
+	assert(DefinedWindow.y + DefinedWindow.sy <= TemplateImage.GetSize().y);
+	assert(DefinedWindow.sx <= TemplateImage.GetSize().x);
+	assert(DefinedWindow.sy <= TemplateImage.GetSize().y);
 
 	auto imageSize = TemplateImage.GetSize();
 
@@ -699,7 +699,7 @@ float CSubImageCorrelation::InterpolatePixelValue(const vector<float>& InputBuff
 {
 	CVector2d<float> fDist = fCorrespondingReferencePixel - CVector2d<float>(nCorrespondingReferencePixel);
 
-	ASSERT(fDist.x >= 0 && fDist.y >= 0);
+	assert(fDist.x >= 0 && fDist.y >= 0);
 	// Interpolate the pixel value aus 4 nachbarpixeln (bilinear)
 	auto fPixelTL = InputBuffer[nCorrespondingReferencePixel.y * ImageWidth + nCorrespondingReferencePixel.x];
 	auto fPixelTR = InputBuffer[nCorrespondingReferencePixel.y * ImageWidth + (nCorrespondingReferencePixel.x + 1)];
@@ -725,7 +725,7 @@ float CSubImageCorrelation::InterpolatePixelValue(const vector<float>& InputBuff
  */
 CCorrelationOffset CSubImageCorrelation::PartialCorrelation(const CImagePair& imageParams) const
 {
-	ASSERT(imageParams.GetReferenceImage()->GetSize() == imageParams.GetTemplateImage()->GetSize());
+	assert(imageParams.GetReferenceImage()->GetSize() == imageParams.GetTemplateImage()->GetSize());
 
 	CImageCorrelation imageCorrelation(m_ProcedureParameter, imageParams, m_ScoreContainer);
 
@@ -734,7 +734,7 @@ CCorrelationOffset CSubImageCorrelation::PartialCorrelation(const CImagePair& im
 		return CCorrelationOffset();
 	}
 
-	ASSERT(imageCorrelation.GetDetectedOffsetCount() == 1); // Should always be the case, since CalculateBestOffsets ist called with 1 
+	assert(imageCorrelation.GetDetectedOffsetCount() == 1); // Should always be the case, since CalculateBestOffsets ist called with 1 
 	// and the case 0 is impossible, since CalculateBestOffsets would have returned false.
 	auto correlationOffset = imageCorrelation.GetBestOffset();
 
@@ -808,7 +808,7 @@ void CSubImageCorrelation::ExtrapolateOffsetConstant(size_t nCalculatedSubImageI
 
 void CSubImageCorrelation::ExtrapolateOffsetLinear(size_t nCalculatedSubImageIndex, CCorrelationParameters::EDirection windowDirection)
 {
-	ASSERT((windowDirection == CCorrelationParameters::EDirection::eDown) || (windowDirection == CCorrelationParameters::EDirection::eUp));
+	assert((windowDirection == CCorrelationParameters::EDirection::eDown) || (windowDirection == CCorrelationParameters::EDirection::eUp));
 
 	CRigidRegistrationResult& localResult = m_CorrelationResult.FlexibleRegistrationResults[nCalculatedSubImageIndex];
 

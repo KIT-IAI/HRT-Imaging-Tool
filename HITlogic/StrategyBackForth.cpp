@@ -49,7 +49,7 @@ CStrategyBackForth::~CStrategyBackForth()
 */
 void CStrategyBackForth::SetParameters(const CRegistrationStrategyParameters& parameters)
 {
-	ASSERT(parameters.nMaxDistance >= 0);
+	assert(parameters.nMaxDistance >= 0);
 	m_nMaxDistance = parameters.nMaxDistance;
 }
 
@@ -147,7 +147,7 @@ bool CStrategyBackForth::PrepareNextPair()
 		}
 	}
 
-	ASSERT(m_eState == eDistantRegs);
+	assert(m_eState == eDistantRegs);
 
 	if (m_nPairsDone != m_nPairsDealt)
 	{

@@ -111,7 +111,7 @@ vector<StlImage<float>*> CImageLoader::LoadImagesFromSQLite(CSQLiteDatabase& Dat
 	vector<wstring> filePaths;
 	for (const auto& Row : ResultTable)
 	{
-		ASSERT(Row.size() == 1);
+		assert(Row.size() == 1);
 		filePaths.push_back(Row.Get <wstring>(0));
 	}
 	return Load(filePaths);

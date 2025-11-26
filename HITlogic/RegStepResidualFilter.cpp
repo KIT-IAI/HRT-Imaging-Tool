@@ -49,7 +49,7 @@ void CRegStepResidualFilter::ProcessRegistrationData(std::vector<StlImage<float>
 
 bool CRegStepResidualFilter::AreResidualsAcceptable(vector<CRegistrationResult>& RegistrationResults) const
 {
-	ASSERT(CRegistrationPostProcessor::AreResidualsInitialized(RegistrationResults));
+	assert(CRegistrationPostProcessor::AreResidualsInitialized(RegistrationResults));
 
 	auto condition = [&](const CRegistrationResult& RegResult) {return RegResult.GetResidual() > m_fMaximumResidual; };
 	return none_of(RegistrationResults.begin(), RegistrationResults.end(), condition);

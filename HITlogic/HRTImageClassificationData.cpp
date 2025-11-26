@@ -131,7 +131,7 @@ int CHRTImageClassificationData::ReadFromFile(const wstring& filepath)
 			}
 		}
 
-		ASSERT(ntokens > 0);
+		assert(ntokens > 0);
 
 		tokenizeLine(line, tokens);
 		if (tokens.size() != ntokens)
@@ -140,7 +140,7 @@ int CHRTImageClassificationData::ReadFromFile(const wstring& filepath)
 			continue;
 		}
 
-		ASSERT(tokens.size() == ntokens);
+		assert(tokens.size() == ntokens);
 
 		CHRTImageClassificationSet set;
 		if (bNamePresent)
@@ -189,32 +189,32 @@ size_t CHRTImageClassificationData::GetSize() const
 
 const CHRTImageClassificationSet& CHRTImageClassificationData::GetDataset(size_t ind) const
 {
-	ASSERT(ind < GetSize());
+	assert(ind < GetSize());
 	return m_Data[ind];
 }
 
 const wstring& CHRTImageClassificationData::GetFilepath(size_t ind) const
 {
-	ASSERT(ind < GetSize());
+	assert(ind < GetSize());
 	return m_Data[ind].Filepath;
 }
 
 EHRTImageClassificationClass CHRTImageClassificationData::GetClass(size_t ind) const
 {
-	ASSERT(ind < GetSize());
+	assert(ind < GetSize());
 	return m_Data[ind].Class;
 }
 
 const array<double, 3>& CHRTImageClassificationData::GetDistances(size_t ind) const
 {
-	ASSERT(ind < GetSize());
+	assert(ind < GetSize());
 	return m_Data[ind].Distances;
 }
 
 double CHRTImageClassificationData::GetDistance(size_t ind, EHRTImageClassificationClass cls) const
 {
-	ASSERT(ind < GetSize());
-	ASSERT(static_cast<int>(cls) >= 0);
+	assert(ind < GetSize());
+	assert(static_cast<int>(cls) >= 0);
 	return m_Data[ind].Distances[static_cast<int>(cls)];
 }
 

@@ -53,7 +53,7 @@ std::shared_ptr<CCompositing> CCompositingFactory::CreateCompositing(const CComp
 		break;
 	case CCompositingParameters::ECompositingType::eInvalid:
 	default:
-		ASSERT(false);
+		assert(false);
 		return nullptr;
 	}
 

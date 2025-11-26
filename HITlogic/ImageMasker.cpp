@@ -129,10 +129,10 @@ StlImageSize CImageMasker::MakeMultipleOfN(StlImageSize& MaskSize, StlImageSize 
 	newSize.x = static_cast<LONG>(ceil(static_cast<double>(MaskSize.x) / static_cast<double>(MultipleOf.x))) * MultipleOf.x;
 	newSize.y = static_cast<LONG>(ceil(static_cast<double>(MaskSize.y) / static_cast<double>(MultipleOf.y))) * MultipleOf.y;
 
-	ASSERT(newSize.x % MultipleOf.x == 0);
-	ASSERT(newSize.y % MultipleOf.y == 0);
-	ASSERT(newSize.x >= MaskSize.x);
-	ASSERT(newSize.y >= MaskSize.y);
+	assert(newSize.x % MultipleOf.x == 0);
+	assert(newSize.y % MultipleOf.y == 0);
+	assert(newSize.x >= MaskSize.x);
+	assert(newSize.y >= MaskSize.y);
 
 	return newSize;
 }

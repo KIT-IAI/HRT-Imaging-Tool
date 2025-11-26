@@ -146,7 +146,7 @@ vector<CImageRegistrationResult> CImageRegistrationResult::GetResultsByGroup() c
 
 		// if there are NO registrations, then the will be no image groups... questionable
 		// Still only 1 image group
-		ASSERT(GroupResult.ImageGroups.size() <= 1);
+		assert(GroupResult.ImageGroups.size() <= 1);
 
 		ResultsByGroup.push_back(GroupResult);
 	}
@@ -167,8 +167,8 @@ vector<CRegistrationResult> CImageRegistrationResult::FindRegistrationResultsByG
 	for (auto& RegResult : RegistrationResults)
 	{
 		// reference and template image of a valid registration have to be in the same image group
-		ASSERT(RegResult.GetReferenceImageIndex() < RegResult.GetTemplateImageIndex());
-		ASSERT(!RegResult.IsValid() || (RegResult.GetTemplateImageIndex() > maxImageIndex) || (groupLUT[RegResult.GetReferenceImageIndex()] == groupLUT[RegResult.GetTemplateImageIndex()]));
+		assert(RegResult.GetReferenceImageIndex() < RegResult.GetTemplateImageIndex());
+		assert(!RegResult.IsValid() || (RegResult.GetTemplateImageIndex() > maxImageIndex) || (groupLUT[RegResult.GetReferenceImageIndex()] == groupLUT[RegResult.GetTemplateImageIndex()]));
 
 		if (RegResult.IsValid() && (RegResult.GetReferenceImageIndex() <= maxImageIndex) && groupLUT[RegResult.GetReferenceImageIndex()])
 			GroupRegResults.push_back(RegResult);
@@ -191,7 +191,7 @@ CImageRegistrationResult CImageRegistrationResult::GetValidResults() const
 
 void CImageRegistrationResult::RemapIndices()
 {
-	ASSERT(ImageGroups.size() == 1);
+	assert(ImageGroups.size() == 1);
 
 	auto& group = ImageGroups[0];
 

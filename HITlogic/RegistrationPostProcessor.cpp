@@ -152,7 +152,7 @@ void CRegistrationPostProcessor::RemoveRegistration(const CRegistrationResult& r
 
 	if (iterator == validResults.end()) // could not find the Registration. Oh, oh!
 	{
-		ASSERT(false);
+		assert(false);
 		return;
 	}
 

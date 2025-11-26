@@ -37,7 +37,7 @@ void CCompositingVoxelBuffer::PerformCompositing(const CImageRegistrationData& I
 
 	size_t nImageCount = ImageData.Images.size();
 
-	ASSERT(nImageCount > 0);
+	assert(nImageCount > 0);
 
 
 	m_UndistortedImages.resize(nImageCount);
@@ -46,10 +46,10 @@ void CCompositingVoxelBuffer::PerformCompositing(const CImageRegistrationData& I
 
 	SetSingleImageSize(ImageData.Images[0]->GetSize());
 
-	ASSERT(m_InterpolatedPosX.Rows() == m_InterpolatedPosY.Rows());
-	ASSERT(m_InterpolatedPosX.Cols() == m_InterpolatedPosY.Cols());
-	ASSERT(m_InterpolatedPosX.Rows() == static_cast<size_t>(ImageData.Images[0]->GetSize().y));
-	ASSERT(m_InterpolatedPosX.Cols() == nImageCount);
+	assert(m_InterpolatedPosX.Rows() == m_InterpolatedPosY.Rows());
+	assert(m_InterpolatedPosX.Cols() == m_InterpolatedPosY.Cols());
+	assert(m_InterpolatedPosX.Rows() == static_cast<size_t>(ImageData.Images[0]->GetSize().y));
+	assert(m_InterpolatedPosX.Cols() == nImageCount);
 
 	//für genauere Dokumentation siehe CompositingFusion bzw. Compositing3DCloud
 
@@ -67,8 +67,8 @@ void CCompositingVoxelBuffer::PerformCompositing(const CImageRegistrationData& I
 	matPosX -= ceil(matPosX.Min()) - m_Parameters.nBorder;
 	matPosY -= ceil(matPosY.Min()) - m_Parameters.nBorder;
 
-	ASSERT(ceil(matPosX.Min()) == m_Parameters.nBorder);
-	ASSERT(ceil(matPosY.Min()) == m_Parameters.nBorder);
+	assert(ceil(matPosX.Min()) == m_Parameters.nBorder);
+	assert(ceil(matPosY.Min()) == m_Parameters.nBorder);
 
 	CHRTImageDepthAndAngleData depthInfo = ImageData.ImageInfo;
 
@@ -173,7 +173,7 @@ void CCompositingVoxelBuffer::PerformCompositing(const CImageRegistrationData& I
 
 	std::get<C3DBuffer<float>>(m_result) /= divider;
 
-	//ASSERT(false); //todo: Code ersetzen
+	//assert(false); //todo: Code ersetzen
 	/*auto count = std::get<C3DBuffer<float>>(m_result).replaceBigger(255.001, 255.0);				//255.1 da aufgrund von float Werte manchmal leicht größer als 255 sind;
 	if(count > 0)
 		CLog::Log(CLog::eWarning, _T("CCompositingVoxelBuffer"), _T("Found and replaced %d miscalculated Voxels (Voxelvalue > 255)."), count);*/
@@ -193,7 +193,7 @@ size_t CCompositingVoxelBuffer::GetMonotonyViolationCount(const CDenseMatrix& ma
 				// Probably a totally
 				// wrong registration result, that somehow slipped through
 				// all of the checks and was finally accepted as correct.
-				//ASSERT(false);
+				//assert(false);
 				// Small update. Since this occures very often at the moment (Rev. 1553) It is no longer an assertion (hasn't been for a while), and no longer logs it every time, but only once.
 				nMonotonyViolatedCount++;
 			}
