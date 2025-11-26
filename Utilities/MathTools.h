@@ -117,13 +117,14 @@ public:
 	static int          NextPowOf2(int             nValue);
 	static long         NextPowOf2(long            nValue);
 	static __int64      NextPowOf2(__int64         nValue);
-	static size_t       NextPowOf2(size_t          nValue);
 	static unsigned int NextPowOf2(unsigned int    nValue);
+	static size_t       NextPowOf2(size_t          nValue);
 
 	static bool IsPowerOf2(int           nValue);
 	static bool IsPowerOf2(long          nValue);
 	static bool IsPowerOf2(__int64       nValue);
 	static bool IsPowerOf2(unsigned int  nValue);
 	static bool IsPowerOf2(unsigned long nValue);
+	static bool IsPowerOf2(size_t        nValue);
 
 };

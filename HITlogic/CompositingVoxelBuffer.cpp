@@ -84,9 +84,9 @@ void CCompositingVoxelBuffer::PerformCompositing(const CImageRegistrationData& I
 	}
 
 	//Größe für Buffer bestimmen
-	INT_PTR nImageSizeX = m_SingleImageSize.x;
-	INT_PTR nMosaicSizeX = static_cast<INT_PTR>(floor(matPosX.Max())) + m_Parameters.nBorder + nImageSizeX;
-	INT_PTR nMosaicSizeY = static_cast<INT_PTR>(floor(matPosY.Max())) + m_Parameters.nBorder + 1;
+	long long nImageSizeX = m_SingleImageSize.x;
+	long long nMosaicSizeX = static_cast<long long>(floor(matPosX.Max())) + m_Parameters.nBorder + nImageSizeX;
+	long long nMosaicSizeY = static_cast<long long>(floor(matPosY.Max())) + m_Parameters.nBorder + 1;
 
 	double interpolationArea = 1.75;		//todo: Eintrag als Parameter
 	auto zOffset = ceil(interpolationArea + abs((depthInfo.getMinInclination() / 2) * 384));	//sorge für ausreichend Platz in Volumen (meist etwas zu viel)

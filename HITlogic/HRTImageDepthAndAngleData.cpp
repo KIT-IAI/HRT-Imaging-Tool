@@ -152,7 +152,7 @@ CHRTImageDepthAndAngleData CHRTImageDepthAndAngleData::filter(std::list<size_t>f
 	if (isAvailable()) {
 		int i = 0;
 		for (auto el : filter) {
-			ret.setImageDepth(i, getImageDepthAt(el));
+			ret.setImageDepth(i, getImageDepthAt(static_cast<int>(el)));
 			ret.m_hasInclination = m_hasInclination;
 			/*if (!isSimple()) {
 				ret.setImageAngle(i, getImageAngleAt(el));

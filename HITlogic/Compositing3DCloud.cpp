@@ -104,15 +104,6 @@ void CCompositing3DCloud::PerformCompositing(const CImageRegistrationData& Image
 	m_result.emplace<C3DCloud>(C3DCloud());
 	//assert(std::holds_alternative<C3DCloud>(m_result));	//nahezu unmöglich, das ein anderer Datentyp bei diesem Aufruf in der Variable ist
 
-	//zum debuggen
-	/*
-	INT_PTR nImageSizeX = m_SingleImageSize.x;
-	INT_PTR nMosaicSizeX = static_cast<INT_PTR>(floor(matPosX.Max())) + m_Parameters.nBorder + nImageSizeX;
-	INT_PTR nMosaicSizeY = static_cast<INT_PTR>(floor(matPosY.Max())) + m_Parameters.nBorder + 1;
-	CMeasureImage out;
-	out.Alloc2d(nMosaicSizeX, nMosaicSizeY, M_FLOAT | 32);
-	out.Clear(0.0);*/
-
 	float intLimit = m_Parameters.fIntensityLimit;
 	if (intLimit < 0.0f || intLimit > 256.0f) intLimit = 0.0f;	//wenn Intensitätslimit außerhalb der Grenzen: setzen auf nur schwarz Filtern, schwarz (0.0) wird immer gefiltert (transparente Pixel)
 
@@ -123,7 +114,7 @@ void CCompositing3DCloud::PerformCompositing(const CImageRegistrationData& Image
 
 	float* imgLineBuff = new float[384];
 
-	for (INT_PTR nBild = 0; static_cast<size_t>(nBild) < nImageCount; nBild++)
+	for (size_t nBild = 0; nBild < nImageCount; nBild++)
 	{
 		if (m_bIsCanceled)
 			break;
@@ -135,7 +126,7 @@ void CCompositing3DCloud::PerformCompositing(const CImageRegistrationData& Image
 		for (int imgY = 0; imgY < 384; imgY++) {	//Bildzeile
 			auto x = Distortion[imgY][0];
 			auto y = Distortion[imgY][1];
-			auto z = ImageData.ImageInfo.getImageDepthAt(nBild) + ImageData.ImageInfo.getImageInclination(nBild) * imgY;
+			auto z = ImageData.ImageInfo.getImageDepthAt(static_cast<int>(nBild)) + ImageData.ImageInfo.getImageInclination(static_cast<int>(nBild)) * imgY;
 			z *= zMulti;
 
 			for (int imgX = 0; imgX < imgSizeX; imgX++) {	//setze Bild Punktweise in Volumen

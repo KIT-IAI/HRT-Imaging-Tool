@@ -126,10 +126,10 @@ void CCompositingFusion::Fusion(const CImageRegistrationData& ImageData, const C
 		CLog::Log(CLog::eWarning, L"CCompositingFusion", oss.str().c_str());
 	}
 
-	INT_PTR nImageSizeX = m_SingleImageSize.x;
+	long long nImageSizeX = m_SingleImageSize.x;
 
-	INT_PTR nMosaicSizeX = static_cast<INT_PTR>(floor(matPosX.Max())) + m_Parameters.nBorder + nImageSizeX;
-	INT_PTR nMosaicSizeY = static_cast<INT_PTR>(floor(matPosY.Max())) + m_Parameters.nBorder + 1;
+	long long nMosaicSizeX = static_cast<long long>(floor(matPosX.Max())) + m_Parameters.nBorder + nImageSizeX;
+	long long nMosaicSizeY = static_cast<long long>(floor(matPosY.Max())) + m_Parameters.nBorder + 1;
 
 	m_result.emplace<StlImage<float>>(StlImage<float>());
 	m_result = StlImage<float>();
@@ -145,7 +145,7 @@ void CCompositingFusion::Fusion(const CImageRegistrationData& ImageData, const C
 
 	CImageUndistortion Undistorter(CImageUndistortion::EInterpolationMode::eLinear, CImageUndistortion::EInterpolationMode::eLinear);
 
-	for (INT_PTR nBild = 0; static_cast<size_t>(nBild) < nImageCount; nBild++)
+	for (size_t nBild = 0; nBild < nImageCount; nBild++)
 	{
 		if (m_bIsCanceled)
 			break;
@@ -318,8 +318,8 @@ StlImage<float> CCompositingFusion::GenerateWeightImgCos2(const StlImageSize& Im
 	StlImage<float> imgWeight;
 	imgWeight.Alloc(ImageSize);
 
-	INT_PTR nSizeX = imgWeight.GetSize().x;
-	INT_PTR nSizeY = imgWeight.GetSize().y;
+	long long nSizeX = imgWeight.GetSize().x;
+	long long nSizeY = imgWeight.GetSize().y;
 
 	// The weight image is a two-dimensional function composed of two
 	// one-dimensional sine functions. We first compute the one-dimensional

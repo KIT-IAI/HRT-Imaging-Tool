@@ -83,12 +83,13 @@ void CStrategyStep::Initialize(size_t nImages)
  */
 size_t CStrategyStep::InitialWorkloadEstimation() const
 {
-	INT_PTR nImages = static_cast<INT_PTR>(m_nImageCount);
-	INT_PTR nStepsPerImage = (m_nMaxDistance - m_nWindow) / m_nStep;
-	INT_PTR nMaxUsedDistance = nStepsPerImage * m_nStep + m_nWindow;
-	INT_PTR nStepRegs = (nImages - nMaxUsedDistance) * nStepsPerImage + static_cast<INT_PTR>(m_nStep) * ((nStepsPerImage * (nStepsPerImage - 1)) / 2);
-	INT_PTR nWindowRegs = (nImages - m_nWindow) * m_nWindow + ((m_nWindow * (m_nWindow - 1)) / 2);
-	return nWindowRegs + nStepRegs; // The conversion can be implicit because the numbers will always be positive
+	size_t nStepsPerImage = (m_nMaxDistance > m_nWindow) ? (m_nMaxDistance - m_nWindow) / m_nStep : 0;
+	size_t nMaxUsedDistance = nStepsPerImage * m_nStep + m_nWindow;
+	size_t nStepRegs1 = (m_nImageCount > nMaxUsedDistance) ? (m_nImageCount - nMaxUsedDistance) * nStepsPerImage : 0;
+	size_t nStepRegs2 = (nStepsPerImage > 1) ? m_nStep * ((nStepsPerImage * (nStepsPerImage - 1)) / 2) : 0;
+	size_t nWindowRegs1 = (m_nImageCount > m_nWindow) ? (m_nImageCount - m_nWindow) * m_nWindow : 0;
+	size_t nWindowRegs2 = (m_nWindow > 1) ? ((m_nWindow * (m_nWindow - 1)) / 2) : 0;
+	return nWindowRegs1 + nWindowRegs2 + nStepRegs1 + nStepRegs2;
 }
 
 /**	\brief Berechnet die Bildindizes des nächsten zu registrierenden

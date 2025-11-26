@@ -603,7 +603,7 @@ size_t CSparseVector::MoveValueToCache(size_t column)
 */
 bool CSparseVector::LinearSearchInCache(size_t inColumn, size_t& outColumn, double& outValue) const
 {
-	for (INT_PTR i = m_nCacheLineIndex - 1; i >= 0; i--)
+	for (ptrdiff_t i = m_nCacheLineIndex - 1; i >= 0; i--)
 	{
 		if (m_pCacheLineColumns[i] == inColumn)
 		{

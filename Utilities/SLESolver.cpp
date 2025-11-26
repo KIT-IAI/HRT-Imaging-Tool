@@ -140,29 +140,31 @@ CSLESolver::CIterationParameters CSLESolver::CreateIterationParameters(CSLESolve
  */
 bool CSLESolver::SolveEquationGauss(const CAbstractMatrix& A, const CDenseMatrix& matInput, CDenseMatrix& matResult)
 {
+	assert(A.Rows() > 0);
 	assert(A.Rows() == A.Cols());
 	assert(A.Rows() == matInput.Rows());
 	assert(A.Rows() == matResult.Rows());
+	assert(matInput.Cols() > 0);
 	assert(matInput.Cols() == matResult.Cols());
 
-	INT_PTR nCount = A.Rows();
-	INT_PTR nCount2 = matInput.Cols();
+	size_t nCount = A.Rows();
+	size_t nCount2 = matInput.Cols();
 
 	// a matrix to copy the input matrix; this will be worked on
 	CDenseMatrix extA(nCount, nCount + nCount2);
 
 	// a vector to log the column swappings
-	INT_PTR* order = new INT_PTR[nCount];
+	size_t* order = new size_t[nCount];
 
 	// copy the input matrix; the constants are put into the last columns
-	concurrency::parallel_for(INT_PTR(0), nCount, [&](INT_PTR nRow)
+	concurrency::parallel_for(size_t(0), nCount, [&](size_t nRow)
 		{
-			for (INT_PTR nCol = 0; nCol < nCount; nCol++)
+			for (size_t nCol = 0; nCol < nCount; nCol++)
 			{
 				extA[nRow][nCol] = A.GetValueAt(nRow, nCol);
 			}
 
-			for (INT_PTR nCol2 = 0; nCol2 < nCount2; nCol2++)
+			for (size_t nCol2 = 0; nCol2 < nCount2; nCol2++)
 			{
 				extA[nRow][nCount + nCol2] = matInput[nRow][nCol2];
 			}
@@ -188,12 +190,12 @@ bool CSLESolver::SolveEquationGauss(const CAbstractMatrix& A, const CDenseMatrix
 	// m_i = (0,...,0,a_T('_(i+1)i/a')_ii,...,a_T('_ni/a_ii)^T  where a') is from A_i
 	// e_i = (0,...,0,1,0,...,0)
 
-	INT_PTR	nColMax;
-	INT_PTR	nRowMax;
-	INT_PTR	nTemp;
+	size_t	nColMax;
+	size_t	nRowMax;
+	size_t	nTemp;
 	double	fMaxValue;
 
-	for (INT_PTR nIteration = 0; nIteration < nCount - 1; nIteration++)
+	for (size_t nIteration = 0; nIteration < nCount - 1; nIteration++)
 	{
 		// use _T("total pivot search") to get a_ii as the elemement in the current
 		// column having the biggest value
@@ -210,9 +212,9 @@ bool CSLESolver::SolveEquationGauss(const CAbstractMatrix& A, const CDenseMatrix
 		nColMax = nIteration;
 		nRowMax = nIteration;
 
-		for (INT_PTR nRow = nIteration; nRow < nCount; nRow++)
+		for (size_t nRow = nIteration; nRow < nCount; nRow++)
 		{
-			for (INT_PTR nCol = nIteration; nCol < nCount; nCol++)
+			for (size_t nCol = nIteration; nCol < nCount; nCol++)
 			{
 				double fTemp = fabs(extA[nRow][nCol]);
 				if (fTemp > fMaxValue)
@@ -247,7 +249,7 @@ bool CSLESolver::SolveEquationGauss(const CAbstractMatrix& A, const CDenseMatrix
 			order[nColMax] = nTemp;
 
 			// swap columns in the matrix
-			concurrency::parallel_for(INT_PTR(0), nCount, [&](INT_PTR nRow)
+			concurrency::parallel_for(size_t(0), nCount, [&](size_t nRow)
 				{
 					std::swap(extA[nRow][nIteration], extA[nRow][nColMax]);
 				});
@@ -271,10 +273,10 @@ bool CSLESolver::SolveEquationGauss(const CAbstractMatrix& A, const CDenseMatrix
 		// diagonal containing non-zero values. The matrix multiplication L_i * A_i
 		// can therefore be calculated much faster by the following code.
 
-		concurrency::parallel_for(INT_PTR(nIteration + 1), nCount, [&](INT_PTR nRow)
+		concurrency::parallel_for(size_t(nIteration + 1), nCount, [&](size_t nRow)
 			{
 				double fTemp = -(extA[nRow][nIteration] / extA[nIteration][nIteration]);
-				for (INT_PTR nCol = nIteration + 1; nCol < nCount + nCount2; nCol++)
+				for (size_t nCol = nIteration + 1; nCol < nCount + nCount2; nCol++)
 				{
 					extA[nRow][nCol] += fTemp * extA[nIteration][nCol];
 				}
@@ -302,14 +304,14 @@ bool CSLESolver::SolveEquationGauss(const CAbstractMatrix& A, const CDenseMatrix
 	// 			  ...
 	// n. x1i      =  (b1i - a12*x2i - a13*x3i - ... - a1nxn) / a11
 
-	INT_PTR lower = nCount;
+	size_t lower = nCount;
 
-	for (INT_PTR nRow = nCount - 1; nRow >= 0; nRow--)
+	for (ptrdiff_t nRow = nCount - 1; nRow >= 0; nRow--)
 	{
-		for (INT_PTR nCol2 = 0; nCol2 < nCount2; nCol2++)
+		for (size_t nCol2 = 0; nCol2 < nCount2; nCol2++)
 		{
 			double fTemp = 0.0;
-			for (INT_PTR nCol = lower; nCol < nCount; nCol++)
+			for (size_t nCol = lower; nCol < nCount; nCol++)
 			{
 				fTemp += extA[nRow][nCol] * matResult[order[nCol]][nCol2];
 			}
@@ -391,7 +393,7 @@ bool CSLESolver::SolveEquationJacobi(CSparseMatrix& A, const CDenseMatrix& B, CD
 {
 	const double fEpsilon = param.m_fEpsilon;
 	const double alpha = 0.6;
-	const INT_PTR resultCheck = 100;
+	const size_t resultCheck = 100;
 
 	// Calculate Reference-Defect for Abort-Criteria
 

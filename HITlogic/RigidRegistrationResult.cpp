@@ -594,8 +594,8 @@ vector<CRigidRegistrationResult> CRigidRegistrationResult::FilterRegistrationRes
 
 	for (size_t i = 0; i < listIn.size(); i++)
 	{
-		INT_PTR indexref = -1;
-		INT_PTR indextem = -1;
+		ptrdiff_t indexref = -1;
+		ptrdiff_t indextem = -1;
 		size_t index = 0;
 
 		for (auto indexorg : listIndexes)

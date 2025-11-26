@@ -54,10 +54,10 @@ public:
 	void recalcHeights();
 	double getAvergaeHeight() { return m_avergaHeight; };
 	void calcAvergaeHeight();
-	UINT getPiezoValCount() { return UINT(m_PiezoValues.size()); };
-	UINT getAllImageValCount() { return UINT(m_allImages.size()); }
-	UINT getImageValCount() { return UINT(m_ImageValues.size()); };
-	UINT getMissingImageValCount() { return UINT(m_missingImages.size() - 1); };
+	size_t getPiezoValCount() { return m_PiezoValues.size(); };
+	size_t getAllImageValCount() { return m_allImages.size(); }
+	size_t getImageValCount() { return m_ImageValues.size(); };
+	size_t getMissingImageValCount() { return m_missingImages.size() - 1; };
 	double getImageHeightAt(int i) const { return m_ImageValues.at(i).height; };
 	double getPiezoHeightAt(int i) const { return m_PiezoValues.at(i).height; };
 	double getMissingImageHeightAt(int i) const { return m_missingImages.at(i + 1).height; };

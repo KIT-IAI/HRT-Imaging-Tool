@@ -315,10 +315,10 @@ void PiezoImageTime::syncManualOffset(double OffsetIn) {
 	}
 
 	counter = 0; //reset counter
-	BOOL first = TRUE;
+	bool first = true;
 	for (Timestamp& tmp : m_missingImages) { //siehe oben nur für nicht verwendete Bilder
 		if (first) { //erstes Bild dient nur zur Synchronisation, führt aber sonst zu Fehlern
-			first = FALSE;
+			first = false;
 			continue;
 		}
 		while (tmp.calcJustMili() > m_PiezoValues.at(counter).calcJustMili()) {
@@ -436,10 +436,10 @@ void PiezoImageTime::syncImagePiezoHeight(int Pstep, int Inum) {
 	}
 
 	counter = 0; //reset counter
-	BOOL first = TRUE;
+	bool first = true;
 	for (Timestamp& tmp : m_missingImages) { //siehe oben nur für nicht verwendete Bilder
 		if (first) { //erstes Bild dient nur zur Synchronisation, führt aber sonst zu Fehlern
-			first = FALSE;
+			first = false;
 			continue;
 		}
 		while (tmp.calcJustMili() > m_PiezoValues.at(counter).calcJustMili()) {

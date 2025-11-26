@@ -95,7 +95,7 @@ void CImageUndistortion::CreateUndistortedImage(const StlImage<float>& imgSrc, c
 	assert(imgSrc.IsAllocated());
 	assert(imgDest.IsAllocated());
 	assert(vecPosX.Size() == vecPosY.Size());
-	assert(static_cast<INT_PTR>(vecPosX.Size()) == imgSrc.GetSize().y);
+	assert(imgSrc.GetSize().y == static_cast<long long>(vecPosX.Size()));
 
 	StlImage<float> imgTemp;
 	imgTemp.Alloc({ imgDest.GetSize().x, imgSrc.GetSize().y });
@@ -136,7 +136,7 @@ void CImageUndistortion::MotionCorrectionXLinear(const StlImage<float>& imgSrc, 
 {
 	assert(imgSrc.IsAllocated());
 	assert(imgDest.IsAllocated());
-	assert(imgSrc.GetSize().y == static_cast<INT_PTR>(vecPosX.Size()));
+	assert(imgSrc.GetSize().y == static_cast<long long>(vecPosX.Size()));
 	assert(imgSrc.GetSize().y == imgDest.GetSize().y);
 
 	long long height = imgSrc.GetSize().y;
@@ -294,7 +294,7 @@ void CImageUndistortion::MotionCorrectionYLinear(const StlImage<float>& imgSrc, 
 	assert(imgSrc.IsAllocated());
 	assert(imgDest.IsAllocated());
 	assert(vecPosX.Size() == vecPosY.Size());
-	assert(imgSrc.GetSize().y == static_cast<INT_PTR>(vecPosY.Size()));
+	assert(imgSrc.GetSize().y == static_cast<long long>(vecPosY.Size()));
 	assert(imgSrc.GetSize().x == imgDest.GetSize().x);
 
 	long long width = imgSrc.GetSize().x;
@@ -379,7 +379,7 @@ void CImageUndistortion::MotionCorrectionYSpline(const StlImage<float>& imgSrc, 
 	assert(imgSrc.IsAllocated());
 	assert(imgDest.IsAllocated());
 	assert(vecPosX.Size() == vecPosY.Size());
-	assert(imgSrc.GetSize().y == static_cast<INT_PTR>(vecPosY.Size()));
+	assert(imgSrc.GetSize().y == static_cast<long long>(vecPosY.Size()));
 	assert(imgSrc.GetSize().x == imgDest.GetSize().x);
 
 	long long width = imgSrc.GetSize().x;

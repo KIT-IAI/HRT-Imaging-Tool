@@ -277,8 +277,8 @@ void CDenseVector::QuadraticInterpolation(size_t k, CDenseVector& vecDest) const
 		}
 		else if (nIndex == 1)
 		{
-			INT_PTR j = static_cast<INT_PTR>(k);
-			for (INT_PTR nVar = -j; nVar < j; nVar++)
+			ptrdiff_t j = static_cast<ptrdiff_t>(k);
+			for (ptrdiff_t nVar = -j; nVar < j; nVar++)
 			{
 				x = (nVar - (k / 2.0)) / k;
 				vecDest[nVar + j] = CMathTools::SolveQuadraticEquation(x, a, b, c);

@@ -1521,13 +1521,13 @@ void StlImage<T>::PrepareCropBorders(T transparentColor, StlImagePoint& Offset, 
 	bool abort = false;
 
 
-	for (INT_PTR dy = 0; dy < OldSize.y; dy++)
+	for (long long dy = 0; dy < OldSize.y; dy++)
 	{
-		for (INT_PTR dx = 0; dx < OldSize.x; dx++)
+		for (long long dx = 0; dx < OldSize.x; dx++)
 		{
 			if ((*this)[{dx, dy}] != transparentColor)
 			{
-				topLeftCorner.y = static_cast<int>(dy);
+				topLeftCorner.y = dy;
 				abort = true;
 				break;
 			}
@@ -1540,13 +1540,13 @@ void StlImage<T>::PrepareCropBorders(T transparentColor, StlImagePoint& Offset, 
 	//	Y-Koordinate des untersten Punktes des Bildes
 	//	
 
-	for (INT_PTR dy = OldSize.y - 1; dy >= 0; dy--)
+	for (long long dy = OldSize.y - 1; dy >= 0; dy--)
 	{
-		for (INT_PTR dx = OldSize.x - 1; dx >= 0; dx--)
+		for (long long dx = OldSize.x - 1; dx >= 0; dx--)
 		{
 			if ((*this)[{dx, dy}] != transparentColor)
 			{
-				bottomRightCorner.y = static_cast<int>(dy + 1);
+				bottomRightCorner.y = dy + 1;
 				abort = true;
 				break;
 			}
@@ -1559,13 +1559,13 @@ void StlImage<T>::PrepareCropBorders(T transparentColor, StlImagePoint& Offset, 
 	//	X-Koordinate des linksten Punktes des Bildes
 	//
 
-	for (INT_PTR dx = 0; dx < OldSize.x; dx++)
+	for (long long dx = 0; dx < OldSize.x; dx++)
 	{
-		for (INT_PTR dy = 0; dy < OldSize.y; dy++)
+		for (long long dy = 0; dy < OldSize.y; dy++)
 		{
 			if ((*this)[{dx, dy}] != transparentColor)
 			{
-				topLeftCorner.x = static_cast<int>(dx);
+				topLeftCorner.x = dx;
 				abort = true;
 				break;
 			}
@@ -1577,13 +1577,13 @@ void StlImage<T>::PrepareCropBorders(T transparentColor, StlImagePoint& Offset, 
 	//
 	//	X-Koordinate des rechtesten Punktes des Bildes
 	//	
-	for (INT_PTR dx = OldSize.x - 1; dx >= 0; dx--)
+	for (long long dx = OldSize.x - 1; dx >= 0; dx--)
 	{
-		for (INT_PTR dy = OldSize.y - 1; dy >= 0; dy--)
+		for (long long dy = OldSize.y - 1; dy >= 0; dy--)
 		{
 			if ((*this)[{dx, dy}] != transparentColor)
 			{
-				bottomRightCorner.x = static_cast<int>(dx + 1);
+				bottomRightCorner.x = dx + 1;
 				abort = true;
 				break;
 			}

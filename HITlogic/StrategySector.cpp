@@ -337,7 +337,7 @@ void CStrategySector::InitializeSectors()
 		}
 
 		// try to estimate offsets for all other image pairs (i,j)
-		for (INT_PTR i = m_nImageCount - 3; i >= 0; i--)
+		for (ptrdiff_t i = m_nImageCount - 3; i >= 0; i--)
 		{
 			for (size_t j = i + 2; j < m_nImageCount; j++)
 			{
@@ -401,7 +401,7 @@ bool CStrategySector::GetPairFromSector(size_t& nImg1, size_t& nImg2)
 		assert(m_aNextSector[1] < m_nImageCount);
 
 		double fMinDist = -1.0;
-		INT_PTR nMinInd = -1;
+		ptrdiff_t nMinInd = -1;
 
 		size_t i = m_aNextSector[0];
 		for (size_t j = m_aNextSector[1]; (j < m_aNextSector[1] + m_nSectorSize) && (j <= m_aNextSector[0] + m_nMaxDistance) && (j < m_nImageCount); j++)

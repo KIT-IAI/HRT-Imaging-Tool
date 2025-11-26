@@ -65,17 +65,16 @@ size_t CSubImageCorrelation::GetSubImageCount() const
 
 size_t CSubImageCorrelation::CalculatePaddingSize(const CCorrelationParameters& params)
 {
-	INT_PTR nSubImageHeight = static_cast<INT_PTR>(params.nSubImageHeight);
+	size_t FFT_Height;
 
-	INT_PTR FFT_Height;
-
-	if (CMathTools::IsPowerOf2(nSubImageHeight))
-		FFT_Height = nSubImageHeight * 2;
+	if (CMathTools::IsPowerOf2(params.nSubImageHeight))
+		FFT_Height = params.nSubImageHeight * 2;
 	else
-		FFT_Height = CMathTools::NextPowOf2(nSubImageHeight);
+		FFT_Height = CMathTools::NextPowOf2(params.nSubImageHeight);
 
-	return (FFT_Height - nSubImageHeight) / 2;
+	assert(FFT_Height >= params.nSubImageHeight);
 
+	return (FFT_Height - params.nSubImageHeight) / 2;
 }
 
 void CSubImageCorrelation::FindBestCorrelatedRow()
@@ -184,9 +183,9 @@ std::vector<float> CSubImageCorrelation::CalculateDeviation(const StlImage<float
 	vector<double> lineS(OverlappingSize.x);
 	vector<double> lineD(OverlappingSize.x);
 
-	for (INT_PTR y = 0; y < OverlappingSize.y; y++)
+	for (size_t y = 0; y < OverlappingSize.y; y++)
 	{
-		for (INT_PTR x = 0; x < OverlappingSize.x; x++)
+		for (size_t x = 0; x < OverlappingSize.x; x++)
 		{
 			lineS[x] = *itS; itS++;
 			lineD[x] = *itD; itD++;
@@ -208,28 +207,19 @@ std::vector<float> CSubImageCorrelation::CalculateDeviation(const StlImage<float
  */
 void CSubImageCorrelation::MovingAverage(vector<float>& afStdDev, int nNeighbours) const
 {
-	INT_PTR nSize = afStdDev.size();
+	size_t nSize = afStdDev.size();
 	vector<float> solutionVector(nSize);
 
-	INT_PTR nMinIndex;
-	INT_PTR nMaxIndex;
+	size_t nMinIndex;
+	size_t nMaxIndex;
 
-	for (INT_PTR i = 0; i < nSize; i++)
+	for (size_t i = 0; i < nSize; i++)
 	{
-		nMinIndex = i - nNeighbours;
-		if (nMinIndex < 0)
-		{
-			nMinIndex = 0;
-		}
-
-		nMaxIndex = i + nNeighbours;
-		if (nMaxIndex > nSize - 1)
-		{
-			nMaxIndex = nSize - 1;
-		}
+		nMinIndex = (i > nNeighbours) ? (i - nNeighbours) : 0;
+		nMaxIndex = std::min(i + nNeighbours, nSize - 1);
 
 		float fSum = 0.0;
-		for (INT_PTR j = nMinIndex; j <= nMaxIndex; j++)
+		for (size_t j = nMinIndex; j <= nMaxIndex; j++)
 		{
 			fSum += afStdDev[j];
 		}
@@ -792,7 +782,7 @@ void CSubImageCorrelation::ExtrapolateOffsetConstant(size_t nCalculatedSubImageI
 	}
 	else if (windowDirection == CCorrelationParameters::EDirection::eUp)
 	{
-		for (INT_PTR nObservedSubImage = nCalculatedSubImageIndex - 1; nObservedSubImage >= 0; nObservedSubImage--)
+		for (ptrdiff_t nObservedSubImage = nCalculatedSubImageIndex - 1; nObservedSubImage >= 0; nObservedSubImage--)
 		{
 			m_CorrelationResult.FlexibleRegistrationResults[nObservedSubImage].SetOffset(m_CorrelationResult.FlexibleRegistrationResults[nCalculatedSubImageIndex].GetOffset());
 		}
@@ -827,9 +817,10 @@ void CSubImageCorrelation::ExtrapolateOffsetLinear(size_t nCalculatedSubImageInd
 		// Estimate sub-image offsets by linear extrapolation
 		auto fDelta = m_CorrelationResult.FlexibleRegistrationResults[nCalculatedSubImageIndex + 1].GetOffset() - localResult.GetOffset();
 
-		for (INT_PTR nObservedSubImage = static_cast<INT_PTR>(nCalculatedSubImageIndex) - 1; nObservedSubImage >= 0; nObservedSubImage--)
+		for (ptrdiff_t nObservedSubImage = static_cast<ptrdiff_t>(nCalculatedSubImageIndex) - 1; nObservedSubImage >= 0; nObservedSubImage--)
 		{
-			m_CorrelationResult.FlexibleRegistrationResults[nObservedSubImage].SetOffset(localResult.GetOffset() - fDelta * static_cast<float>(static_cast<INT_PTR>(nCalculatedSubImageIndex) - nObservedSubImage));
+			m_CorrelationResult.FlexibleRegistrationResults[nObservedSubImage].SetOffset(
+				localResult.GetOffset() - fDelta * static_cast<float>(static_cast<ptrdiff_t>(nCalculatedSubImageIndex) - nObservedSubImage));
 		}
 	}
 }
@@ -854,9 +845,9 @@ void CSubImageCorrelation::InterpolateSubImageRowPositions(size_t nSubImageIndex
 		auto fDelta = (m_CorrelationResult.FlexibleRegistrationResults[nSubImageIndex + 1].GetOffset() - localResult.GetOffset()) / static_cast<float>(GetSubImageHeight());
 		auto fRefRow = m_CorrelationResult.FlexibleRegistrationResults[nSubImageIndex + 1].GetOffset() - (fDelta * (0.5f + static_cast<float>(GetSubImageHeight()) / 2.0f));
 
-		INT_PTR nRefRow = (nSubImageIndex + 1) * GetSubImageHeight() - 1;
+		ptrdiff_t nRefRow = (nSubImageIndex + 1) * GetSubImageHeight() - 1;
 
-		for (INT_PTR nRow = nRefRow; nRow >= 0; nRow--)
+		for (ptrdiff_t nRow = nRefRow; nRow >= 0; nRow--)
 		{
 			m_CorrelationResult.RowOffset[nRow] = fRefRow - fDelta * static_cast<float>(nRefRow - nRow);
 		}

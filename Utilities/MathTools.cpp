@@ -29,11 +29,13 @@ using namespace std;
 
 double CMathTools::StdDev(vector<double>* pArray)
 {
+	assert(pArray->size() > 1);
+
 	double	sum = 0;
 	double	mean = Mean(pArray);
-	INT_PTR	n = pArray->size();
+	size_t	n = pArray->size();
 
-	for (INT_PTR i = 0; i < n; i++)
+	for (size_t i = 0; i < n; i++)
 	{
 		double	tmp = pArray->at(i) - mean;
 		sum += tmp * tmp;
@@ -44,11 +46,13 @@ double CMathTools::StdDev(vector<double>* pArray)
 
 float CMathTools::StdDev(vector<float>* pArray)
 {
+	assert(pArray->size() > 1);
+
 	float	sum = 0;
 	float	mean = Mean(pArray);
-	INT_PTR	n = pArray->size();
+	size_t	n = pArray->size();
 
-	for (INT_PTR i = 0; i < n; i++)
+	for (size_t i = 0; i < n; i++)
 	{
 		auto tmp = pArray->at(i) - mean;
 		sum += tmp * tmp;
@@ -59,10 +63,12 @@ float CMathTools::StdDev(vector<float>* pArray)
 
 double CMathTools::Mean(vector<double>* pArray)
 {
-	double	mean = 0;
-	INT_PTR	n = pArray->size();
+	assert(pArray->size() > 0);
 
-	for (INT_PTR i = 0; i < n; i++)
+	double	mean = 0;
+	size_t	n = pArray->size();
+
+	for (size_t i = 0; i < n; i++)
 	{
 		mean += pArray->at(i);
 	}
@@ -72,10 +78,12 @@ double CMathTools::Mean(vector<double>* pArray)
 
 float CMathTools::Mean(vector<float>* pArray)
 {
-	float	mean = 0;
-	INT_PTR	n = pArray->size();
+	assert(pArray->size() > 0);
 
-	for (INT_PTR i = 0; i < n; i++)
+	float	mean = 0;
+	size_t	n = pArray->size();
+
+	for (size_t i = 0; i < n; i++)
 	{
 		mean += pArray->at(i);
 	}
@@ -420,6 +428,11 @@ bool CMathTools::IsPowerOf2(unsigned int nValue)
 }
 
 bool CMathTools::IsPowerOf2(unsigned long nValue)
+{
+	return !(nValue == 0) && !(nValue & (nValue - 1));
+}
+
+bool CMathTools::IsPowerOf2(size_t nValue)
 {
 	return !(nValue == 0) && !(nValue & (nValue - 1));
 }

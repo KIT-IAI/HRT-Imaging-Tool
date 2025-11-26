@@ -30,7 +30,19 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 // Windows stuff
 #include <SDKDDKVer.h>
 
-//#include <afxwin.h>         // MFC core and standard components
+// It would be nice to remove this include eventually. This may not be so easy
+// to achieve. At the moment, what prevents the omission of Windows headers is
+// the usage of the StlImage class. That class is being used for good reason,
+// but in its currentl implementation, it is usable only on Windows, because it
+// explicitly tampers with the Windows memory management (specifically, the
+// inclusion chain is over Win32HeapRAII.h, heapapi.h and minwindef.h to
+// winnt.h). So in this situation, we could either try to make StlImage portable
+// (by guarding the Windows-specific parts with ifdefs), or we could potentially
+// decide to use an external, open-source image class, or of course we could
+// also simply leave it as it is and stick with the Windows-dependency. After
+// all, it may turn out that this is not the last problem on the long way to
+// true portability.
+#include <afxwin.h>         // MFC core and standard components
 
 // Standard library
 #include <algorithm>

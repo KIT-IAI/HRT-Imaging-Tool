@@ -129,7 +129,7 @@ bool CHRTImageDepthAndAngleCalculator::givePiezoData(int /*ImageCount*/, wstring
 
 	DepthCalc.syncManualOffset(Offset);
 
-	int i = DepthCalc.getAllImageValCount();
+	int i = static_cast<int>(DepthCalc.getAllImageValCount());
 	double avgHeight = DepthCalc.getAvergaeHeight();
 	m_ImageData.setCount(i);
 	m_ImageData.setInclination(true);

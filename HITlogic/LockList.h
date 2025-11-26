@@ -51,10 +51,10 @@ public:
 	void FreeLocks(size_t nFromIndex, size_t nToIndex);
 	void WhereXSetY(size_t nFromIndex, size_t nToIndex, EImageExclusion eWhereCondition, EImageExclusion eSetValue);
 
-	INT_PTR& operator[](const size_t);
-	const INT_PTR& operator[](const size_t) const;
+	int& operator[](const size_t);
+	const int& operator[](const size_t) const;
 private:
-	std::vector<INT_PTR> m_LockList;
+	std::vector<int> m_LockList;
 	mutable std::mutex m_Mutex;
 
 };

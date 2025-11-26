@@ -48,8 +48,8 @@ public:
 	static void RemoveGap(const CDenseMatrix& source, CDenseMatrix& destination, size_t nSubImagesWithoutGap, size_t nGapBefore, size_t nGapAfter);
 	static void RemoveGap(CDenseMatrix& inPlace, size_t nSubImagesWithoutGap, size_t nGapBefore, size_t nGapAfter);
 
-	static void GenerateWtW(CSLESolver::EAlgorithm eAlgorithm, std::shared_ptr<CAbstractMatrix>& pWtW, INT_PTR mSize);
-	static void GenerateWtd(std::shared_ptr<CDenseMatrix>& pWtd, INT_PTR mSize);
+	static void GenerateWtW(CSLESolver::EAlgorithm eAlgorithm, std::shared_ptr<CAbstractMatrix>& pWtW, size_t mSize);
+	static void GenerateWtd(std::shared_ptr<CDenseMatrix>& pWtd, size_t mSize);
 	static void GenerateRegularisation(CProcessType::EProcessType eProcessType, size_t nImages, size_t nSubImagesPerImageWithGap, size_t nColumnCount, CAbstractMatrix& WtW);
 	static void AssignAnchorImage(CSLESolver::EAlgorithm eAlgorithm, CAbstractMatrix& WtW);
 	static void AddSystemData(const index_pair_t& minMaxImageIndexes, const std::vector<CRigidRegistrationResult>& LocalRegistrationSolution, size_t SubImagesRowCount, size_t nSubimageRowOffset, size_t SubImagesColumnCount, CAbstractMatrix& wtw, CDenseMatrix& wtd, CProcessType::EProcessType eProcessType);

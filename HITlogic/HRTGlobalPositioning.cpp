@@ -183,7 +183,7 @@ bool CHRTGlobalPositioning::SolvePositioning(
 	std::shared_ptr<CAbstractMatrix> pWtW = nullptr;
 	std::shared_ptr<CDenseMatrix> pWtd = nullptr;
 
-	INT_PTR mSize = nSubImagesPerImageWithGap * nImages * nColumnCount;
+	size_t mSize = nSubImagesPerImageWithGap * nImages * nColumnCount;
 	GenerateWtW(m_Parameters.eAlgorithm, pWtW, mSize);
 	GenerateWtd(pWtd, mSize);
 
@@ -340,7 +340,7 @@ bool CHRTGlobalPositioning::SolvePositioningWithConsistencyCheck(
 	}
 
 	// Assemble consistency check matrices
-	INT_PTR i = 0;
+	size_t i = 0;
 	CDenseMatrix matResiduals(LocalRegistrationSolutions.size(), listResiduals.size());
 	while (!listResiduals.empty())
 	{
@@ -456,7 +456,7 @@ void CHRTGlobalPositioning::GenerateRegularisation(CProcessType::EProcessType eP
 	}
 }
 
-void CHRTGlobalPositioning::GenerateWtW(CSLESolver::EAlgorithm eAlgorithm, std::shared_ptr<CAbstractMatrix>& pWtW, INT_PTR mSize)
+void CHRTGlobalPositioning::GenerateWtW(CSLESolver::EAlgorithm eAlgorithm, std::shared_ptr<CAbstractMatrix>& pWtW, size_t mSize)
 {
 	switch (eAlgorithm)
 	{
@@ -477,7 +477,8 @@ void CHRTGlobalPositioning::GenerateWtW(CSLESolver::EAlgorithm eAlgorithm, std::
 	}
 	pWtW->Fill(0.0);
 }
-void CHRTGlobalPositioning::GenerateWtd(std::shared_ptr<CDenseMatrix>& pWtd, INT_PTR mSize)
+
+void CHRTGlobalPositioning::GenerateWtd(std::shared_ptr<CDenseMatrix>& pWtd, size_t mSize)
 {
 	pWtd = std::make_shared<CDenseMatrix>(mSize, 2);
 	pWtd->Fill(0.0);
@@ -799,9 +800,9 @@ void CHRTGlobalPositioning::GenerateConstraintCurvatureSystem2D(size_t nBlocksX,
  */
 void CHRTGlobalPositioning::AddEntrySLE(CAbstractMatrix& WtW, CDenseMatrix& Wtd, float xOffset, float yOffset, size_t nReferenceImage, size_t nSubImageIndex, size_t nTemplateImage, size_t nSubImageHeight, size_t nSubImagesCount, size_t nImageCount)
 {
-	INT_PTR ny = static_cast<INT_PTR>(floor(yOffset / nSubImageHeight));
+	long long ny = static_cast<long long>(floor(yOffset / nSubImageHeight));
 	double q = (yOffset / nSubImageHeight) - ny;
-	INT_PTR nk = nSubImageIndex + ny;
+	long long nk = nSubImageIndex + ny;
 
 	if (nk < 0)
 		return;
@@ -843,6 +844,7 @@ void CHRTGlobalPositioning::AddEntrySLE(CAbstractMatrix& WtW, CDenseMatrix& Wtd,
 	Wtd.SetValueAt(np, 1, Wtd.GetValueAt(np, 1) - yOffset * p);
 	Wtd.SetValueAt(nq, 1, Wtd.GetValueAt(nq, 1) - yOffset * q);
 }
+
 void CHRTGlobalPositioning::AddEntrySLE(CAbstractMatrix& WtW, CDenseMatrix& Wtd, const CRigidRegistrationResult& regResult, size_t nSubimageRowOffset, size_t SubImagesCount, size_t nImageCount)
 {
 	auto nReferenceImage = regResult.GetReferenceImageIndex();
@@ -853,10 +855,11 @@ void CHRTGlobalPositioning::AddEntrySLE(CAbstractMatrix& WtW, CDenseMatrix& Wtd,
 	auto y = regResult.GetY();
 	return AddEntrySLE(WtW, Wtd, x, y, nReferenceImage, nSubImageIndex, nTemplateImage, nSubImageHeight, SubImagesCount, nImageCount);
 }
+
 void CHRTGlobalPositioning::AddEntrySLERigidRegistration(CAbstractMatrix& WtW, CDenseMatrix& Wtd, float ux, float uy, size_t image1, size_t /*nSubImageIndex*/, size_t image2, size_t /*SubImagesAmount*/, size_t SubImagesCount, size_t /*nImageCount*/)
 {
-	INT_PTR n1 = image1 * SubImagesCount;
-	INT_PTR n2 = image2 * SubImagesCount;
+	size_t n1 = image1 * SubImagesCount;
+	size_t n2 = image2 * SubImagesCount;
 
 	WtW.SetValueAt(n1, n1, WtW.GetValueAt(n1, n1) + 1);
 	Wtd.SetValueAt(n1, 0, Wtd.GetValueAt(n1, 0) + ux);
@@ -873,8 +876,8 @@ void CHRTGlobalPositioning::AddEntrySLERigidRegistration(CAbstractMatrix& WtW, C
 
 void CHRTGlobalPositioning::AddEntrySLE2D(CAbstractMatrix& WtW, CDenseMatrix& Wtd, float ux, float uy, size_t image1, size_t image2, size_t SubImageColumnCount, size_t SubImageRowCount, size_t nBlockNr)
 {
-	INT_PTR n1 = image1 * SubImageRowCount * SubImageColumnCount + nBlockNr;
-	INT_PTR n2 = image2 * SubImageRowCount * SubImageColumnCount + nBlockNr;
+	size_t n1 = image1 * SubImageRowCount * SubImageColumnCount + nBlockNr;
+	size_t n2 = image2 * SubImageRowCount * SubImageColumnCount + nBlockNr;
 
 	WtW.SetValueAt(n1, n1, WtW.GetValueAt(n1, n1) + 1);
 	Wtd.SetValueAt(n1, 0, Wtd.GetValueAt(n1, 0) + ux);

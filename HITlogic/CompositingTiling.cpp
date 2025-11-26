@@ -163,7 +163,7 @@ void CCompositingTiling::GenerateImage(const vector<StlImage<float>*>& Images, c
 	{
 		for (int ky = 0; ky < m_nNumberOfFrames.y; ky++)
 		{
-			if (m_nUsedPic[kx][ky] < 0 || m_nUsedPic[kx][ky] > static_cast<INT_PTR>(Images.size()))
+			if (m_nUsedPic[kx][ky] < 0 || m_nUsedPic[kx][ky] > Images.size())
 				continue;
 
 			size_t nB = static_cast<size_t>(m_nUsedPic[kx][ky]);
@@ -195,14 +195,8 @@ void CCompositingTiling::GenerateImage(const vector<StlImage<float>*>& Images, c
 				long yMax = std::min((long long)ceill(m_fSubSize.y) - 1, m_SingleImageSize.y - nYstart);
 				long nYa = nYstart + yMin - 1 - nySb;
 
-				if (nYa < 0)
-				{
-					nYa = 0;
-				}
-				else if (nYa > static_cast<INT_PTR>(m_InterpolatedPosX.Cols() - s_FrameHeightDiff))
-				{
-					nYa = static_cast<long>(m_InterpolatedPosX.Cols() - s_FrameHeightDiff);
-				}
+				nYa = std::max(nYa, 0l);
+				nYa = std::min(nYa, static_cast<long>(m_InterpolatedPosX.Cols() - s_FrameHeightDiff));
 
 				/*Werte ins Gesamtbild eintragen*/
 

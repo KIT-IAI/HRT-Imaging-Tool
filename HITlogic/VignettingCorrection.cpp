@@ -141,8 +141,7 @@ void CVignettingCorrection::ProcessImages(const vector<StlImage<float>*>& Source
 
 	bool bInplace = SourceImages == DestinationImages;
 
-	auto size = static_cast<INT_PTR>(SourceImages.size());
-	concurrency::parallel_for(INT_PTR(0), size, [&](INT_PTR nIndex)
+	concurrency::parallel_for(size_t(0), SourceImages.size(), [&](size_t nIndex)
 		{
 			if (!bInplace && !DestinationImages[nIndex]->IsAllocated())
 			{

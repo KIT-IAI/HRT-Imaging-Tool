@@ -23,6 +23,8 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "LockList.h"
 
+
+
 #define LOCK std::lock_guard<std::mutex> lock(m_Mutex);
 
 CLockList::CLockList()
@@ -40,7 +42,6 @@ CLockList::CLockList(size_t size)
 	LOCK
 		m_LockList.assign(size, IMAGE_FREE);
 }
-
 
 CLockList::~CLockList()
 {
@@ -86,17 +87,18 @@ void CLockList::SetLockStatus(size_t nFromIndex, size_t nToIndex, EImageExclusio
 			m_LockList[i] = eImageExclusion;
 }
 
-INT_PTR& CLockList::operator[](const size_t i)
+int& CLockList::operator[](const size_t i)
 {
 	LOCK
 		return m_LockList[i];
 }
 
-const INT_PTR& CLockList::operator[](const size_t i) const
+const int& CLockList::operator[](const size_t i) const
 {
 	LOCK
 		return m_LockList[i];
 }
+
 void CLockList::WhereXSetY(size_t nFromIndex, size_t nToIndex, EImageExclusion eWhereCondition, EImageExclusion eSetValue)
 {
 	LOCK
@@ -106,6 +108,7 @@ void CLockList::WhereXSetY(size_t nFromIndex, size_t nToIndex, EImageExclusion e
 				m_LockList[i] = eSetValue;
 		}
 }
+
 void CLockList::FreeLocks(size_t nFromIndex, size_t nToIndex)
 {
 	LOCK
