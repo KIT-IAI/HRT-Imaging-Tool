@@ -50,7 +50,6 @@ protected:
 private:
 	static void SmoothProfile(size_t nTimes, StlImage<float>& Profile);
 	virtual void ProcessImage(StlImage<float>* pImage);
-	static std::filesystem::path GetExePath();
 
 	std::unique_ptr<StlImage<float>> m_pVignettingProfile = std::make_unique<StlImage<float>>();
 	size_t m_nCreationMaxImages = 0;

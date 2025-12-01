@@ -32,12 +32,6 @@ CVignettingCorrection::CVignettingCorrection(const wstring& ProfileFilePath)
 {
 }
 
-std::filesystem::path CVignettingCorrection::GetExePath() {
-	wchar_t path[MAX_PATH];
-	GetModuleFileNameW(nullptr, path, MAX_PATH);  // Ermittelt den Pfad der aktuellen EXE
-	return std::filesystem::path(path).parent_path();  // Gibt nur den Ordnerpfad zurück
-}
-
 CVignettingCorrection::CVignettingCorrection(const wstring& ProfileFilePath, size_t nSmoothIterations)
 {
 	m_nSmoothIterations = nSmoothIterations;
@@ -45,7 +39,7 @@ CVignettingCorrection::CVignettingCorrection(const wstring& ProfileFilePath, siz
 		return;
 	wstring sLocalPath = ProfileFilePath;
 	if (CFileUtilities::IsRelative(ProfileFilePath))
-		sLocalPath = CFileUtilities::GetAbsolutePath(GetExePath(), ProfileFilePath);
+		sLocalPath = CFileUtilities::GetAbsolutePath(CFileUtilities::GetProgramFolder(), ProfileFilePath);
 
 	m_pVignettingProfile->LoadConvert(sLocalPath);
 	SmoothProfile(nSmoothIterations, *m_pVignettingProfile);

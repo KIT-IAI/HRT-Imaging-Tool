@@ -23,6 +23,9 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "EnvironmentVariable.h"
 
+#include "FileUtilities.h"
+
+
 
 std::wstring CEnvironmentVariable::Get(std::wstring name)
 {
@@ -32,15 +35,10 @@ std::wstring CEnvironmentVariable::Get(std::wstring name)
 	GetEnvironmentVariable(name.c_str(), buffer.data(), size);
 	return buffer;
 }
+
 std::wstring CEnvironmentVariable::GetUnitTestDataPath()
 {
-	HMODULE h;
-	static TCHAR c;
-	GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, &c, &h);
-	TCHAR p[_MAX_PATH + 1];
-	GetModuleFileName(h, p, _MAX_PATH + 1);
-	std::wstring path(p);
-	path = path.substr(0, path.find_last_of(L"\\"));
+	std::wstring path = CFileUtilities::GetProgramFolder();
 	path = path.substr(0, path.find_last_of(L"\\"));
 	path += L"\\UnitTestData";
 	return path;

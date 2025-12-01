@@ -30,12 +30,11 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include <vector>
 
 #include <boost/algorithm/string/predicate.hpp>
+#include <boost/dll/runtime_symbol_info.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/tokenizer.hpp>
 
 #include "StringUtilities.h"
-
-using namespace boost::filesystem;
 
 
 
@@ -80,7 +79,7 @@ bool CFileUtilities::DeleteDirectory(const std::wstring& sPath, bool bOnlyIfEmpt
 	{
 		return boost::filesystem::remove_all(sPath) > 0;
 	}
-	catch (filesystem_error ex)
+	catch (boost::filesystem::filesystem_error ex)
 	{
 		return false;
 	}
@@ -525,7 +524,7 @@ void CFileUtilities::DeleteOldFiles(const std::wstring& directory, CRegex fileNa
 
 std::vector<std::wstring> CFileUtilities::GetFilesInDirectory(const std::wstring& directory)
 {
-	path dirPath(directory);
+	std::filesystem::path dirPath(directory);
 
 	if (!exists(dirPath))
 	{
@@ -538,7 +537,7 @@ std::vector<std::wstring> CFileUtilities::GetFilesInDirectory(const std::wstring
 
 	std::vector<std::wstring> files;
 
-	for (directory_entry& entry : directory_iterator(dirPath))
+	for (auto& entry : std::filesystem::directory_iterator(dirPath))
 	{
 		auto p = entry.path();
 		if (is_regular_file(p))
@@ -555,7 +554,7 @@ std::vector<std::wstring> CFileUtilities::GetFilesInDirectory(const std::wstring
 
 	for (auto file : allFiles)
 	{
-		path p(file);
+		std::filesystem::path p(file);
 		auto fileName = p.filename().wstring();
 		if (fileNameRegex.Match(fileName))
 			matchingFiles.push_back(file);
@@ -565,7 +564,7 @@ std::vector<std::wstring> CFileUtilities::GetFilesInDirectory(const std::wstring
 
 std::vector<std::wstring> CFileUtilities::GetDirectorysInDirectory(const std::wstring& directory)
 {
-	path dirPath(directory);
+	std::filesystem::path dirPath(directory);
 
 	if (!exists(dirPath))
 	{
@@ -578,7 +577,7 @@ std::vector<std::wstring> CFileUtilities::GetDirectorysInDirectory(const std::ws
 
 	std::vector<std::wstring> dirs;
 
-	for (directory_entry& entry : directory_iterator(dirPath))
+	for (auto& entry : std::filesystem::directory_iterator(dirPath))
 	{
 		auto p = entry.path();
 		if (is_directory(p))
@@ -595,7 +594,7 @@ std::vector<std::wstring> CFileUtilities::GetDirectorysInDirectory(const std::ws
 
 	for (auto file : allDirs)
 	{
-		path p(file);
+		std::filesystem::path p(file);
 		auto fileName = p.filename().wstring();
 		if (DirectoryRegex.Match(fileName))
 			matchingDirs.push_back(file);
@@ -731,5 +730,16 @@ void CFileUtilities::CopyFile(const std::wstring& source, const std::wstring& de
 		auto Parent = GetParentDirectory(destination);
 		MakeDirectory(Parent, true);
 	}
-	copy_file(source, destination);
+	std::filesystem::copy_file(source, destination);
+}
+
+std::filesystem::path CFileUtilities::GetProgramFullPath()
+{
+	return boost::dll::program_location().wstring();
+}
+
+std::filesystem::path CFileUtilities::GetProgramFolder()
+{
+	std::filesystem::path path = GetProgramFullPath();
+	return path.parent_path();
 }

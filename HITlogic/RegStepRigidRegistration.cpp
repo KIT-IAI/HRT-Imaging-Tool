@@ -74,7 +74,7 @@ list<CRegistrationResult> CRegStepRigidRegistration::RegisterImages(vector<StlIm
 
 				if (!m_pStrategy->GetNextPair(nReferenzImageIndex, nTemplateImageIndex))
 				{
-					::Sleep(0);
+					std::this_thread::sleep_for(0ms);
 					continue;
 				}
 

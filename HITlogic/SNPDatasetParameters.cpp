@@ -214,12 +214,6 @@ bool CSNPDatasetParameters::IsValidParameterset() const
 
 	return ok;
 }
-
-std::filesystem::path CSNPDatasetParameters::GetExePath() {
-	wchar_t path[MAX_PATH];
-	GetModuleFileNameW(nullptr, path, MAX_PATH);  // Ermittelt den Pfad der aktuellen EXE
-	return std::filesystem::path(path).parent_path();  // Gibt nur den Ordnerpfad zurück
-}
  
 bool CSNPDatasetParameters::VignettingProfileBeforeRegistrationIsValid() const
 {
@@ -230,7 +224,7 @@ bool CSNPDatasetParameters::VignettingProfileBeforeRegistrationIsValid() const
 
 	if (CFileUtilities::IsRelative(sVignettingFileBeforeRegistration))
 	{
-		auto sAbsolutePath = CFileUtilities::GetAbsolutePath(GetExePath().wstring(), sVignettingFileBeforeRegistration);
+		auto sAbsolutePath = CFileUtilities::GetAbsolutePath(CFileUtilities::GetProgramFolder(), sVignettingFileBeforeRegistration);
 		return CFileUtilities::FileExists(sAbsolutePath);
 	}
 	return CFileUtilities::FileExists(sVignettingFileBeforeRegistration);
@@ -244,7 +238,7 @@ bool CSNPDatasetParameters::VignettingProfileBeforeCompositingIsValid() const
 		return true;
 	if (CFileUtilities::IsRelative(sVignettingFileBeforeCompositing))
 	{
-		auto sAbsolutePath = CFileUtilities::GetAbsolutePath(GetExePath().wstring(), sVignettingFileBeforeCompositing);
+		auto sAbsolutePath = CFileUtilities::GetAbsolutePath(CFileUtilities::GetProgramFolder(), sVignettingFileBeforeCompositing);
 		return CFileUtilities::FileExists(sAbsolutePath);
 	}
 	return CFileUtilities::FileExists(sVignettingFileBeforeCompositing);

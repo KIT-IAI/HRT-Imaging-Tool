@@ -22,11 +22,12 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #pragma once
 
+#include <filesystem>
 #include <vector>
 
 #include "Regex.h"
 
-class  CFileUtilities
+class CFileUtilities
 {
 
 public:
@@ -84,5 +85,8 @@ public:
 	static std::wstring NormalizeSlashes(const std::wstring& path);
 
 	static void CopyFile(const std::wstring& source, const std::wstring& destination, bool bCreateDestinationFolders = false);
+
+	static std::filesystem::path GetProgramFullPath();
+	static std::filesystem::path GetProgramFolder();
 
 };

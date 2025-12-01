@@ -142,7 +142,5 @@ public:
 
 	friend bool operator==(const CSNPDatasetParameters& lhs, const CSNPDatasetParameters& rhs);
 	friend bool operator!=(const CSNPDatasetParameters& lhs, const CSNPDatasetParameters& rhs);
-	
-private:
-	static std::filesystem::path GetExePath();
+
 };

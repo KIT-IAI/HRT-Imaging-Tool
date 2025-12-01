@@ -3,6 +3,7 @@
   "dependencies": [
     "boost-algorithm",
     "boost-date-time",
+    "boost-dll",
     "boost-filesystem",
     "boost-format",
     "boost-lexical-cast",
