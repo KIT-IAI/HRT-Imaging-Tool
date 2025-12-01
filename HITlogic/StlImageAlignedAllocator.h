@@ -21,8 +21,12 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #pragma once
-//#include "StlImage.h"
-//#include <limits>
+
+
+#include <Win32HeapRAII.h>
+
+#define STLIMAGE_HEAP_MINSIZE (102ull * 1024ull * 1024ull)
+
 /*
 This is a solution to some of our weird slowdown problems. The ones that are due to the low fragmentation heap (LFH)
 in windows can be fixed with something like this. Just make sure to use an private heap and NEVER allocate something
@@ -54,6 +58,13 @@ QUOTE END
 template <class T, size_t Alignment>
 struct StlImageAlignedAllocator
 {
+
+private:
+
+	static Win32HeapRAII<STLIMAGE_HEAP_MINSIZE> OurHackyMemoryStore[24];
+
+public:
+
 	typedef T value_type;
 
 	StlImageAlignedAllocator() = default;
@@ -73,9 +84,9 @@ struct StlImageAlignedAllocator
 			throw std::bad_alloc();
 		}
 		int index = /*(GetCurrentThreadId()>>2)*/GetCurrentProcessorNumber() % 24;
-		std::scoped_lock<std::mutex> lock(StlImage<T>::OurHackyMemoryStore[index].m);
+		std::scoped_lock<std::mutex> lock(OurHackyMemoryStore[index].m);
 		//NEVER EVER allocate <= 16KB, see above
-		if (auto p = static_cast<T*>(HeapAlloc(StlImage<T>::OurHackyMemoryStore[index].heap, /*HEAP_ZERO_MEMORY*/0, std::max(32ull * 1024ull, n * sizeof(T) + 2 * sizeof(void*) + Alignment - 1))))
+		if (auto p = static_cast<T*>(HeapAlloc(OurHackyMemoryStore[index].heap, /*HEAP_ZERO_MEMORY*/0, std::max(32ull * 1024ull, n * sizeof(T) + 2 * sizeof(void*) + Alignment - 1))))
 		{
 			//Align the pointer to a certain alignment for later optimized AVX/AVX2 vector instructions. Save the original Pointer below the returned one for freeing later.
 			void* ptr = (void*)(((uintptr_t)((char*)p + sizeof(void*) * 2 + Alignment - 1)) & ~(Alignment - 1ull));
@@ -92,8 +103,8 @@ struct StlImageAlignedAllocator
 		//get the base pointer to this memory chunk back for freeing.
 		void* p1 = ((void**)p)[-1];
 		int index = (int)(((void**)p)[-2]);
-		std::scoped_lock<std::mutex> lock(StlImage<T>::OurHackyMemoryStore[index].m);
-		HeapFree(StlImage<T>::OurHackyMemoryStore[index].heap, 0, p1);
+		std::scoped_lock<std::mutex> lock(OurHackyMemoryStore[index].m);
+		HeapFree(OurHackyMemoryStore[index].heap, 0, p1);
 	}
 
 };
@@ -103,3 +114,6 @@ bool operator==(const StlImageAlignedAllocator <T, Alignment1>&, const StlImageA
 template <class T, size_t Alignment1, class U, size_t Alignment2>
 bool operator!=(const StlImageAlignedAllocator <T, Alignment1>&, const StlImageAlignedAllocator <U, Alignment2>&) { return !std::is_same<T, U>::value; }
 
+
+template<typename T, size_t Alignment>
+Win32HeapRAII< STLIMAGE_HEAP_MINSIZE> StlImageAlignedAllocator<T, Alignment>::OurHackyMemoryStore[24];// = Win32HeapRAII<STLIMAGE_HEAP_MINSIZE>();

@@ -21,7 +21,6 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #include "stdafx.h"
-
 #include "3DBuffer.h"
 
 #include <algorithm>
@@ -34,9 +33,6 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include <mkl.h>
 
 
-
-template<typename T>
-Win32HeapRAII< STLIMAGE_HEAP_MINSIZE> C3DBuffer<T>::OurHackyMemoryStore = Win32HeapRAII<STLIMAGE_HEAP_MINSIZE>();
 
 template<typename T>
 C3DBuffer<T>::C3DBuffer()

@@ -21,6 +21,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #pragma once
+
 #include <type_traits>
 #include <execution>
 #include <tuple>
@@ -28,11 +29,12 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include <complex>
 #include <functional>
 
-#include "StlImageAlignedAllocator.h"
-#include "Win32HeapRAII.h"
-
 #include "StlImage.h"
-#define STLIMAGE_HEAP_MINSIZE (102ull * 1024ull * 1024ull)
+
+//#ifdef HIT_STLIMAGE_USE_CUSTOM_HEAP_MANAGEMENT
+#ifdef _WIN32
+#include "StlImageAlignedAllocator.h"
+#endif
 
 struct C3DBufferSize
 {
@@ -102,13 +104,19 @@ struct C3DBufferRect
 template <typename T> class C3DBuffer
 {
 	template<typename> friend class C3DBuffer;
+//#ifdef HIT_STLIMAGE_USE_CUSTOM_HEAP_MANAGEMENT
+#ifdef _WIN32
 	template<typename, size_t> friend struct StlImageAlignedAllocator;
+#endif
 
 protected:
+//#ifdef HIT_STLIMAGE_USE_CUSTOM_HEAP_MANAGEMENT
+#ifdef _WIN32
 	std::vector<T, StlImageAlignedAllocator<T, 512>> m_data;
+#else
+	std::vector<T> m_data;
+#endif
 	C3DBufferSize m_size;
-
-	static Win32HeapRAII<STLIMAGE_HEAP_MINSIZE> OurHackyMemoryStore;
 
 public:
 	C3DBuffer();

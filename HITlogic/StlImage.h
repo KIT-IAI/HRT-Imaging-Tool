@@ -29,13 +29,12 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include <functional>
 #include <IIO_Defines.h>
 
-#include "StlImageAlignedAllocator.h"
 #include "Point.h"
-#include <Win32HeapRAII.h>
 
-
-
-#define STLIMAGE_HEAP_MINSIZE (102ull * 1024ull * 1024ull)
+//#ifdef HIT_STLIMAGE_USE_CUSTOM_HEAP_MANAGEMENT
+#ifdef _WIN32
+#include "StlImageAlignedAllocator.h"
+#endif
 
 struct StlImageSize
 {
@@ -121,20 +120,23 @@ struct StlImageRect
 	}
 };
 
-
-
-
 template<typename T> class StlImage
 {
 	template<typename> friend class StlImage;
 	template<typename> friend class C3DBuffer;
+//#ifdef HIT_STLIMAGE_USE_CUSTOM_HEAP_MANAGEMENT
+#ifdef _WIN32
 	template<typename, size_t> friend struct StlImageAlignedAllocator;
+#endif
 
 protected:
+//#ifdef HIT_STLIMAGE_USE_CUSTOM_HEAP_MANAGEMENT
+#ifdef _WIN32
 	std::vector<T, StlImageAlignedAllocator<T, 512>> m_data;
+#else
+	std::vector<T> m_data;
+#endif
 	StlImageSize m_size;
-
-	static Win32HeapRAII<STLIMAGE_HEAP_MINSIZE> OurHackyMemoryStore[24];
 
 public:
 	StlImage();

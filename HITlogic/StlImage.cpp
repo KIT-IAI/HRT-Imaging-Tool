@@ -21,7 +21,6 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #include "stdafx.h"
-
 #include "StlImage.h"
 
 #include <algorithm>
@@ -40,8 +39,6 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #pragma comment(lib,"ImageIO.lib")
 
 
-template<typename T>
-Win32HeapRAII< STLIMAGE_HEAP_MINSIZE> StlImage<T>::OurHackyMemoryStore[24];// = Win32HeapRAII<STLIMAGE_HEAP_MINSIZE>();
 
 template<typename T>
 StlImage<T>::StlImage()
@@ -434,7 +431,12 @@ typename std::enable_if<std::is_arithmetic<T2>::value, void>::type StlImage<T>::
 {
 	std::replace_if(m_data.begin(), m_data.end(), [](T elem) -> bool {return (elem != 0.0); }, std::numeric_limits<T>::max());
 	bool someChange = true;
-	std::vector<T, StlImageAlignedAllocator<T, 512>>  writeBackCopy;
+//#ifdef HIT_STLIMAGE_USE_CUSTOM_HEAP_MANAGEMENT
+#ifdef _WIN32
+	std::vector<T, StlImageAlignedAllocator<T, 512>> writeBackCopy;
+#else
+	std::vector<T> writeBackCopy;
+#endif
 	writeBackCopy.resize(m_data.size());
 	int counter = 0;
 	while (someChange)
