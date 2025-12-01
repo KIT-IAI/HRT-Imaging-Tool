@@ -841,7 +841,7 @@ bool StlImage<T>::Export(std::wstring filename) const
 	}
 	else
 	{
-		assert(FALSE);
+		assert(false);
 		return false;
 	}
 	bool b = CImageExporter::ExportImage(filename.c_str(), bit_depth, h, w, m_data.data(), iio_type, IIO_FILE_TYPE::TIF, IIO_TIF_COMPRESSION::NONE);
@@ -925,10 +925,10 @@ bool StlImage<T>::LoadStrict(std::wstring filename)
 	else
 	{
 		delete[] data;
-		return FALSE;
+		return false;
 	}
 	delete[] data;
-	return TRUE;
+	return true;
 
 }
 
@@ -992,16 +992,16 @@ bool StlImage<T>::LoadConvert(std::wstring filename)
 		else
 		{
 			delete[] data;
-			return FALSE;
+			return false;
 		}
 	}
 	else
 	{
 		delete[] data;
-		return FALSE;
+		return false;
 	}
 	delete[] data;
-	return TRUE;
+	return true;
 }
 
 template<typename T>

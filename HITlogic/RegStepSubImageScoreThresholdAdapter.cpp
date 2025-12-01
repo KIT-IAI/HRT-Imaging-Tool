@@ -51,7 +51,7 @@ void CRegStepSubImageScoreThresholdAdapter::EnableDetailedLogging(bool bEnable /
 
 void CRegStepSubImageScoreThresholdAdapter::ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults, const vector<std::list<size_t>>& imagegroups)
 {
-	CLog::Log(CLog::eInformational, _T("SubImageScoreThresholdAdapter"), L"SubImageScoreThresholdAdapter started");
+	CLog::Log(CLog::eInformational, L"SubImageScoreThresholdAdapter", L"SubImageScoreThresholdAdapter started");
 
 	m_ScoreParameters.SetScoreThreshold(m_ScoreParameters.fMinScoreFlexible);
 
@@ -76,7 +76,7 @@ void CRegStepSubImageScoreThresholdAdapter::ProcessRegistrationData(std::vector<
 	oss.setf(std::ios::fixed);
 	oss.precision(3);
 	oss << L"Adapted score threshold to " << m_ScoreParameters.GetScoreThreshold() << L", max. Residual: " << pMax;
-	CLog::Log(CLog::eInformational, _T("SubImageScoreThresholdAdapter"), oss.str().c_str());
+	CLog::Log(CLog::eInformational, L"SubImageScoreThresholdAdapter", oss.str().c_str());
 }
 
 void CRegStepSubImageScoreThresholdAdapter::AdaptScoreThreshold()

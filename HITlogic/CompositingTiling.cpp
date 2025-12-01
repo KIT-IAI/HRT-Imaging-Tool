@@ -64,8 +64,8 @@ StlImageSize CCompositingTiling::CalculateMosaicImageSize()
 	m_MinimumMeanImagePosition = { m_MeanImagePosition.Col(0).Min(), m_MeanImagePosition.Col(1).Min() };
 	m_MaximumMeanImagePosition = { m_MeanImagePosition.Col(0).Max(), m_MeanImagePosition.Col(1).Max() };
 
-	MosaicImageSize.x = static_cast<LONG>(ceil(m_MaximumMeanImagePosition.x - m_MinimumMeanImagePosition.x + m_SingleImageSize.x + m_Parameters.nBorder));
-	MosaicImageSize.y = static_cast<LONG>(ceil(m_MaximumMeanImagePosition.y - m_MinimumMeanImagePosition.y + m_SingleImageSize.y + m_Parameters.nBorder));
+	MosaicImageSize.x = static_cast<long long>(ceil(m_MaximumMeanImagePosition.x - m_MinimumMeanImagePosition.x + m_SingleImageSize.x + m_Parameters.nBorder));
+	MosaicImageSize.y = static_cast<long long>(ceil(m_MaximumMeanImagePosition.y - m_MinimumMeanImagePosition.y + m_SingleImageSize.y + m_Parameters.nBorder));
 
 	return MosaicImageSize;
 }

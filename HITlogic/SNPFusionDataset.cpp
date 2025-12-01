@@ -44,7 +44,7 @@ using namespace std;
 *
 *	\see CLog::Log()
 */
-const wstring CSNPFusionDataset::s_sModuleName = _T("SNP-FusionDataset Batch");
+const wstring CSNPFusionDataset::s_sModuleName = L"SNP-FusionDataset Batch";
 
 
 void CSNPFusionDataset::SetParameters(const CSNPDatasetParameters& Parameters)

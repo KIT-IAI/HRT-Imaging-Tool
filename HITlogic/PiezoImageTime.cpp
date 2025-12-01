@@ -555,8 +555,8 @@ void PiezoImageTime::calcAvergaeHeight() {
 }
 
 void PiezoImageTime::recalcHeights() {
-	m_minPiezoHeight = INT_MAX;
-	m_maxPiezoHeight = INT_MIN;
+	m_minPiezoHeight = std::numeric_limits<int>::max();
+	m_maxPiezoHeight = std::numeric_limits<int>::min();
 
 	for (Timestamp& tmp : m_PiezoValues) {
 		tmp.height = tmp.height - m_avergaHeight;

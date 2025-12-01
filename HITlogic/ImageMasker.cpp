@@ -126,8 +126,8 @@ StlImageSize CImageMasker::DetermineBiggestImageSize(const vector<StlImage<float
 StlImageSize CImageMasker::MakeMultipleOfN(StlImageSize& MaskSize, StlImageSize MultipleOf) const
 {
 	StlImageSize newSize;
-	newSize.x = static_cast<LONG>(ceil(static_cast<double>(MaskSize.x) / static_cast<double>(MultipleOf.x))) * MultipleOf.x;
-	newSize.y = static_cast<LONG>(ceil(static_cast<double>(MaskSize.y) / static_cast<double>(MultipleOf.y))) * MultipleOf.y;
+	newSize.x = static_cast<long long>(ceil(static_cast<double>(MaskSize.x) / static_cast<double>(MultipleOf.x))) * MultipleOf.x;
+	newSize.y = static_cast<long long>(ceil(static_cast<double>(MaskSize.y) / static_cast<double>(MultipleOf.y))) * MultipleOf.y;
 
 	assert(newSize.x % MultipleOf.x == 0);
 	assert(newSize.y % MultipleOf.y == 0);

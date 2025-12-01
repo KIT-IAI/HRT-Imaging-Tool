@@ -102,7 +102,6 @@ void CImageCorrelation::ValidateOffsets()
 	{
 		if (IsPeriodicOverlapProblemPossible(offset))
 		{
-			TRACE("%f\n", offset.m_scoreNorm1);
 			CorrectPeriodicOverlapProblem(offset);
 		}
 

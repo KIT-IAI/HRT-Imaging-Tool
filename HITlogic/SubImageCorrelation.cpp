@@ -577,29 +577,25 @@ StlImageRect CSubImageCorrelation::CalculateCorrectChildWindow(StlImageRect& rDe
 {
 	StlImagePoint offset{ (stripeSize.x - rDefinedWindow.sx) / 2, (stripeSize.y - rDefinedWindow.sy) / 2 };
 
-	LONG nPadding = static_cast<LONG>(m_nPaddingSize);	// Die MFC, Die!
-
-	if (rDefinedWindow.x >= nPadding)
+	if (rDefinedWindow.x >= m_nPaddingSize)
 	{
-		LONG temp = nPadding;
-		temp = std::min((LONG)offset.x, temp);
+		long long temp = std::min(offset.x, static_cast<long long>(m_nPaddingSize));
 		offset.x -= temp;
 		rDefinedWindow.x -= temp;
 	}
-	if ((rDefinedWindow.x + rDefinedWindow.sx) + offset.x + nPadding < imageSize.x)
+	if ((rDefinedWindow.x + rDefinedWindow.sx) + offset.x + m_nPaddingSize < imageSize.x)
 	{
-		rDefinedWindow.sx += nPadding;
+		rDefinedWindow.sx += m_nPaddingSize;
 	}
-	if (rDefinedWindow.y >= nPadding)
+	if (rDefinedWindow.y >= m_nPaddingSize)
 	{
-		LONG temp = nPadding;
-		temp = std::min((LONG)offset.y, temp);
+		long long temp = std::min(offset.y, static_cast<long long>(m_nPaddingSize));
 		offset.y -= temp;
 		rDefinedWindow.y -= temp;
 	}
-	if ((rDefinedWindow.y + rDefinedWindow.sy) + offset.y + nPadding < imageSize.y)
+	if ((rDefinedWindow.y + rDefinedWindow.sy) + offset.y + m_nPaddingSize < imageSize.y)
 	{
-		rDefinedWindow.sy += nPadding;
+		rDefinedWindow.sy += m_nPaddingSize;
 	}
 
 	return StlImageRect(offset, rDefinedWindow.Size());

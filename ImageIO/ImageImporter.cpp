@@ -223,7 +223,7 @@ bool CImageImporter::ImportJpg(std::wstring filename, IIO_DATA_TYPE& format, int
 		jpeg_stdio_src(&cinfo, infile);
 
 		/* Step 3: read file parameters with jpeg_read_header() */
-		(void)jpeg_read_header(&cinfo, TRUE);
+		(void)jpeg_read_header(& cinfo, true);
 
 
 		/* Step 4: set parameters for decompression */
