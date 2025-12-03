@@ -31,7 +31,9 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 //     #define _WIN32_WINNT 0x0A00
 // This should theoretically allow the Utilities project to be built on
 // non-Windows systems, but we haven't tried it.
+#ifdef _WIN32
 #include <SDKDDKVer.h>
+#endif
 
 #include <algorithm>
 using std::min;
