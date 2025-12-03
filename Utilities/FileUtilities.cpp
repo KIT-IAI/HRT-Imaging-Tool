@@ -54,12 +54,7 @@ bool CFileUtilities::MakeDirectory(const std::wstring& sPath, bool bRecursive /*
 			MakeDirectory(ParentDirectory, true);
 	}
 
-	if (_wmkdir(sPath.c_str()) == -1)
-	{
-		return (errno == EEXIST);
-	}
-
-	return true;
+	return std::filesystem::create_directory(sPath);
 }
 
 bool CFileUtilities::MakeDirectory(const std::string& sPath, bool bRecursive /*= false*/)
@@ -471,7 +466,7 @@ void CFileUtilities::DeleteOldFiles(const std::wstring& directory, int OlderThen
 			auto tDiffDays = (tNow - tFile) / (60 * 60 * 24);
 			if (tDiffDays > OlderThenDays)
 			{
-				::DeleteFile(file.c_str());
+				std::filesystem::remove(file);
 			}
 		}
 	}
@@ -513,7 +508,7 @@ void CFileUtilities::DeleteOldFiles(const std::wstring& directory, CRegex fileNa
 			auto tDiffDays = (tNow - tFile) / (60 * 60 * 24);
 			if (tDiffDays > OlderThenDays)
 			{
-				::DeleteFile(file.c_str());
+				std::filesystem::remove(file);
 			}
 		}
 	}
