@@ -52,30 +52,30 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #define DEG_TO_RAD		(PI/180.0)
 #define RAD_TO_DEG		(180.0/PI)
 
-inline double pow(__in int _X, __in int _Y)
-{
-	return pow((double)_X, (double)_Y);
-}
+// inline double pow(__in int _X, __in int _Y)
+// {
+// 	return pow((double)_X, (double)_Y);
+// }
 
-inline double  sqrt(__in int _X)
-{
-	return sqrt((double)_X);
-}
+// inline double  sqrt(__in int _X)
+// {
+// 	return sqrt((double)_X);
+// }
 
-inline double  log(__in int _X)
-{
-	return log((double)_X);
-}
+// inline double  log(__in int _X)
+// {
+// 	return log((double)_X);
+// }
 
-inline double  atan2(__in int _Y, __in int _X)
-{
-	return atan2((double)_Y, (double)_X);
-}
+// inline double  atan2(__in int _Y, __in int _X)
+// {
+// 	return atan2((double)_Y, (double)_X);
+// }
 
-inline double  fabs(__in int _X)
-{
-	return fabs((double)_X);
-}
+// inline double  fabs(__in int _X)
+// {
+// 	return fabs((double)_X);
+// }
 
 class  CMathTools
 {
@@ -99,7 +99,6 @@ public:
 	static double CalculateDistance(const CVector2d<double>& vPt1, const CVector2d<double>& vPt2);
 	static double CalculateAngle(const CVector2d<double>& vPt1, const CVector2d<double>& vPt2);
 
-
 	static int RoundValue(float fValue);
 	static int RoundValue(double fValue);
 	static int RoundTowardsZero(float fValue);
@@ -111,20 +110,22 @@ public:
 	static double Modulo(double value, int divisor);
 	static float Modulo(float value, float divisor);
 	static float Modulo(float value, int divisor);
+
 	static double arsinh(double x);
 	static double Square(double x);
 
-	static int          NextPowOf2(int             nValue);
-	static long         NextPowOf2(long            nValue);
-	static __int64      NextPowOf2(__int64         nValue);
-	static unsigned int NextPowOf2(unsigned int    nValue);
-	static size_t       NextPowOf2(size_t          nValue);
+	static int                NextPowOf2(int                nValue);
+	static long               NextPowOf2(long               nValue);
+	static long long          NextPowOf2(long long          nValue);
+	static unsigned int       NextPowOf2(unsigned int       nValue);
+	static unsigned long      NextPowOf2(unsigned long      nValue);
+	static unsigned long long NextPowOf2(unsigned long long nValue);
 
-	static bool IsPowerOf2(int           nValue);
-	static bool IsPowerOf2(long          nValue);
-	static bool IsPowerOf2(__int64       nValue);
-	static bool IsPowerOf2(unsigned int  nValue);
-	static bool IsPowerOf2(unsigned long nValue);
-	static bool IsPowerOf2(size_t        nValue);
+	static bool IsPowerOf2(int                nValue);
+	static bool IsPowerOf2(long               nValue);
+	static bool IsPowerOf2(long long          nValue);
+	static bool IsPowerOf2(unsigned int       nValue);
+	static bool IsPowerOf2(unsigned long      nValue);
+	static bool IsPowerOf2(unsigned long long nValue);
 
 };

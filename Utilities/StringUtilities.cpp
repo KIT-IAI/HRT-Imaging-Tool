@@ -57,11 +57,11 @@ bool CStringUtilities::ParseString(const std::wstring& sIn, long& nOut)
 	}
 }
 
-bool CStringUtilities::ParseString(const std::wstring& sIn, __int64& nOut)
+bool CStringUtilities::ParseString(const std::wstring& sIn, long long& nOut)
 {
 	try
 	{
-		nOut = boost::lexical_cast<__int64>(sIn);
+		nOut = boost::lexical_cast<long long>(sIn);
 		return true;
 	}
 	catch (const std::exception&)
@@ -109,11 +109,11 @@ bool CStringUtilities::ParseString(const std::wstring& sIn, unsigned short& nOut
 	}
 }
 
-bool CStringUtilities::ParseString(const std::wstring& sIn, unsigned __int64& nOut)
+bool CStringUtilities::ParseString(const std::wstring& sIn, unsigned long long& nOut)
 {
 	try
 	{
-		nOut = boost::lexical_cast<unsigned __int64>(sIn);
+		nOut = boost::lexical_cast<unsigned long long>(sIn);
 		return true;
 	}
 	catch (const std::exception&)
@@ -196,7 +196,7 @@ std::wstring CStringUtilities::ToString(long nIn)
 	return boost::lexical_cast<std::wstring>(nIn);
 }
 
-std::wstring CStringUtilities::ToString(__int64 nIn)
+std::wstring CStringUtilities::ToString(long long nIn)
 {
 	return boost::lexical_cast<std::wstring>(nIn);
 }
@@ -211,7 +211,7 @@ std::wstring CStringUtilities::ToString(unsigned long nIn)
 	return boost::lexical_cast<std::wstring>(nIn);
 }
 
-std::wstring CStringUtilities::ToString(unsigned __int64 nIn)
+std::wstring CStringUtilities::ToString(unsigned long long nIn)
 {
 	return boost::lexical_cast<std::wstring>(nIn);
 }

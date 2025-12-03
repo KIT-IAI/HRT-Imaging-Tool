@@ -358,20 +358,6 @@ int CMathTools::NextPowOf2(int nValue)
  *
  *	\param[in] nValue Eine Zahl.
  */
-size_t CMathTools::NextPowOf2(size_t nValue)
-{
-	int i = 0;
-	for (; pow(2, i) < nValue; i++);
-	return static_cast<int>(pow(2, i));
-}
-
-/**	\brief Berechnet die kleinste Potenz von 2, die größer oder gleich
- *	\a nValue ist.
- *
- *	\return Die kleinste Potenz von 2, die größer oder gleich \a nValue ist.
- *
- *	\param[in] nValue Eine Zahl.
- */
 long CMathTools::NextPowOf2(long nValue)
 {
 	long i = 0;
@@ -386,11 +372,11 @@ long CMathTools::NextPowOf2(long nValue)
  *
  *	\param[in] nValue Eine Zahl.
  */
-__int64 CMathTools::NextPowOf2(__int64 nValue)
+long long CMathTools::NextPowOf2(long long nValue)
 {
-	__int64 i = 0;
-	for (; pow(2, static_cast<int>(i)) < nValue; i++);
-	return static_cast<__int64>(pow(2, static_cast<int>(i)));
+	long long i = 0;
+	for (; pow(2, i) < nValue; i++);
+	return static_cast<long long>(pow(2, i));
 }
 
 /**	\brief Berechnet die kleinste Potenz von 2, die größer oder gleich
@@ -407,6 +393,34 @@ unsigned int CMathTools::NextPowOf2(unsigned int nValue)
 	return static_cast<unsigned int>(pow(2, i));
 }
 
+/**	\brief Berechnet die kleinste Potenz von 2, die größer oder gleich
+ *	\a nValue ist.
+ *
+ *	\return Die kleinste Potenz von 2, die größer oder gleich \a nValue ist.
+ *
+ *	\param[in] nValue Eine Zahl.
+ */
+unsigned long CMathTools::NextPowOf2(unsigned long nValue)
+{
+	unsigned long i = 0;
+	for (; pow(2, i) < nValue; i++);
+	return static_cast<unsigned long>(pow(2, i));
+}
+
+/**	\brief Berechnet die kleinste Potenz von 2, die größer oder gleich
+ *	\a nValue ist.
+ *
+ *	\return Die kleinste Potenz von 2, die größer oder gleich \a nValue ist.
+ *
+ *	\param[in] nValue Eine Zahl.
+ */
+unsigned long long CMathTools::NextPowOf2(unsigned long long nValue)
+{
+	unsigned long long i = 0;
+	for (; pow(2, i) < nValue; i++);
+	return static_cast<unsigned long long>(pow(2, i));
+}
+
 bool CMathTools::IsPowerOf2(int nValue)
 {
 	return !(nValue == 0) && !(nValue & (nValue - 1));
@@ -417,7 +431,7 @@ bool CMathTools::IsPowerOf2(long nValue)
 	return !(nValue == 0) && !(nValue & (nValue - 1));
 }
 
-bool CMathTools::IsPowerOf2(__int64 nValue)
+bool CMathTools::IsPowerOf2(long long nValue)
 {
 	return !(nValue == 0) && !(nValue & (nValue - 1));
 }
@@ -432,7 +446,7 @@ bool CMathTools::IsPowerOf2(unsigned long nValue)
 	return !(nValue == 0) && !(nValue & (nValue - 1));
 }
 
-bool CMathTools::IsPowerOf2(size_t nValue)
+bool CMathTools::IsPowerOf2(unsigned long long nValue)
 {
 	return !(nValue == 0) && !(nValue & (nValue - 1));
 }

@@ -43,11 +43,11 @@ public:
 
 	static bool ParseString(const std::wstring& sIn, int& nOut);
 	static bool ParseString(const std::wstring& sIn, long& nOut);
-	static bool ParseString(const std::wstring& sIn, __int64& nOut);
+	static bool ParseString(const std::wstring& sIn, long long& nOut);
 	static bool ParseString(const std::wstring& sIn, unsigned int& nOut);
 	static bool ParseString(const std::wstring& sIn, unsigned long& nOut);
 	static bool ParseString(const std::wstring& sIn, unsigned short& nOut);
-	static bool ParseString(const std::wstring& sIn, unsigned __int64& nOut);
+	static bool ParseString(const std::wstring& sIn, unsigned long long& nOut);
 	static bool ParseString(const std::wstring& sIn, float& fOut);
 	static bool ParseString(const std::wstring& sIn, double& fOut);
 	static bool ParseString(const std::wstring& sIn, bool& bOut);
@@ -56,10 +56,10 @@ public:
 
 	static std::wstring ToString(int nIn);
 	static std::wstring ToString(long nIn);
-	static std::wstring ToString(__int64 nIn);
+	static std::wstring ToString(long long nIn);
 	static std::wstring ToString(unsigned int nIn);
 	static std::wstring ToString(unsigned long nIn);
-	static std::wstring ToString(unsigned __int64 nIn);
+	static std::wstring ToString(unsigned long long nIn);
 	static std::wstring ToString(float fIn);
 	static std::wstring ToString(double fIn);
 	static std::wstring ToString(bool bIn);
