@@ -37,6 +37,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 bool CUtilities::IsCurrentProcessElevated()
 {
+#ifdef _WIN32
 	HANDLE hToken;
 	OpenProcessToken(GetCurrentProcess(), TOKEN_READ, &hToken);
 
@@ -51,6 +52,9 @@ bool CUtilities::IsCurrentProcessElevated()
 	CloseHandle(hToken);
 
 	return elevation.TokenIsElevated;
+#else
+	return geteuid() == 0;
+#endif
 }
 
 std::wstring CUtilities::Exec(std::wstring command)
