@@ -433,7 +433,7 @@ std::wstring CFileUtilities::GetAbsolutePath(const std::wstring& sReferencePath,
 	{
 		absPath = absPath.parent_path();
 	}
-	return std::filesystem::weakly_canonical(absPath / sTargetPath);
+	return std::filesystem::weakly_canonical(absPath / sTargetPath).wstring();
 }
 
 /**	\brief Löscht alte Dateien in einem Verzeichnis.
