@@ -47,30 +47,28 @@ public:
 		UserDB(nullptr)
 		, MachineDB(nullptr)
 	{
-		UserPath = *CStringUtilities::getenv("AppData");
-		UserPath.append("\\KIT-IAI\\");
-		if (!CFileUtilities::PathExists(UserPath))
-		{
-			CFileUtilities::MakeDirectory(UserPath);
-		}
-		UserPath.append(CStringUtilities::ConvertToStdString(product));
-		UserPath.append(".sqlite");
+		std::string configFileName = CStringUtilities::ConvertToStdString(product) + ".sqlite";
 
+#ifdef _WIN32
+		auto userConfigDir = std::filesystem::path(*CStringUtilities::getenv("AppData")) / "kit-iai";
+		auto systemConfigDir = std::filesystem::path(*CStringUtilities::getenv("ProgramData")) / "kit-iai";
+#else  // #ifdef _WIN32
+		auto userConfigDir = std::filesystem::path("~/.config") / "kit-iai";
+		auto systemConfigDir = std::filesystem::path("/etc") / "kit-iai";
+#endif // #ifdef _WIN32
+
+		if (!CFileUtilities::PathExists(userConfigDir))
+		{
+			CFileUtilities::MakeDirectory(userConfigDir);
+		}
+		UserPath = userConfigDir / configFileName;
 		sqlite3_open_v2(UserPath.c_str(), &UserDB, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, nullptr);
 
-		MachinePath = *CStringUtilities::getenv("ProgramData");
-		MachinePath.append("\\KIT-IAI\\");
-
-		if (LocalMachineWriteable())
+		if (LocalMachineWriteable() && !CFileUtilities::PathExists(systemConfigDir))
 		{
-			if (!CFileUtilities::PathExists(MachinePath))
-			{
-				CFileUtilities::MakeDirectory(MachinePath);
-			}
+			CFileUtilities::MakeDirectory(systemConfigDir);
 		}
-		MachinePath.append(CStringUtilities::ConvertToStdString(product));
-		MachinePath.append(".sqlite");
-
+		MachinePath = systemConfigDir / configFileName;
 		if (LocalMachineWriteable())
 		{
 			sqlite3_open_v2(MachinePath.c_str(), &MachineDB, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, nullptr);
@@ -83,11 +81,11 @@ public:
 		{
 			MachinePath = "";
 		}
+
 		InitDB(UserDB);
 		InitDB(MachineDB);
-
-
 	}
+
 	~Impl()
 	{
 		sqlite3_close(UserDB);
@@ -233,7 +231,7 @@ void SettingsStore::DestroyInstance()
 
 bool SettingsStore::LocalMachineWriteable()
 {
-	return CUtilities::IsCurrentProcessElevated() > 0;
+	return CUtilities::IsCurrentProcessElevated();
 }
 
 void SettingsStore::MakeEverythingSystemDefault()
