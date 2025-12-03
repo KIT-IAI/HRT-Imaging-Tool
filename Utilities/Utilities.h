@@ -30,7 +30,7 @@ public:
 	CUtilities() = delete;
 	virtual ~CUtilities() = delete;
 
-	static DWORD IsCurrentProcessElevated();
+	static bool IsCurrentProcessElevated();
 
 	static std::wstring Exec(std::wstring command);
 

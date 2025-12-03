@@ -35,7 +35,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-DWORD CUtilities::IsCurrentProcessElevated()
+bool CUtilities::IsCurrentProcessElevated()
 {
 	HANDLE hToken;
 	OpenProcessToken(GetCurrentProcess(), TOKEN_READ, &hToken);
