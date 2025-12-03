@@ -620,7 +620,7 @@ bool CAbstractVector::ReadVector(const std::wstring& sFilePath)
 	std::wifstream file;
 	std::wstring line;
 
-	file.open(sFilePath);
+	file.open(std::filesystem::path(sFilePath));
 
 	if (!file.good())
 	{
@@ -717,7 +717,7 @@ bool CAbstractVector::WriteVector(const std::wstring& sFilePath, const std::wstr
 
 	std::wofstream file;
 
-	file.open(sFilePath);
+	file.open(std::filesystem::path(sFilePath));
 
 	if (!file.good())
 	{

@@ -21,11 +21,15 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #include "stdafx.h"
-
 #include "TextFileOutput.h"
+
+#include <filesystem>
 #include <fstream>
 #include <string>
+
 #include "DenseMatrix.h"
+
+
 
 /**	\brief Der Standard-Konstruktor legt standardmäßig die Länge der zu
  *	schreibenden Zahlen auf 12 und die Anzahl der Nachkommastellen auf 3
@@ -85,7 +89,8 @@ void CTextFileOutput::Writeln(const CDenseVector& mat)
  */
 bool CTextFileOutput::Save(std::wstring sPathname) const
 {
-	std::wofstream file(sPathname);
+	std::wofstream file;
+	file.open(std::filesystem::path(sPathname));
 
 	if (!file.is_open())
 		return false;

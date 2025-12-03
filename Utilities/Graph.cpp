@@ -94,7 +94,8 @@ size_t CGraph::GetEdgeCount() const
 
 void CGraph::WriteToFile(std::wstring fileName, double bPrintDuplicates /*= false*/) const
 {
-	std::wofstream out(std::filesystem::path(fileName));
+	std::wofstream out;
+	out.open(std::filesystem::path(fileName));
 
 	if (out.bad())
 	{

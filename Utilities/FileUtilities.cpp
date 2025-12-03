@@ -198,7 +198,7 @@ size_t CFileUtilities::CountNumberOfLines(const std::wstring& sPath, bool bSkipE
 	std::wifstream file;
 	std::wstring line;
 
-	file.open(sPath);
+	file.open(std::filesystem::path(sPath));
 
 	if (!file.good())
 	{
@@ -257,7 +257,7 @@ size_t CFileUtilities::CountNumberOfColumns(const std::wstring& sPath, const std
 	std::wifstream file;
 	std::wstring line;
 
-	file.open(sPath);
+	file.open(std::filesystem::path(sPath));
 
 	if (!file.good())
 	{
@@ -419,7 +419,7 @@ std::wstring CFileUtilities::GetRelativePath(const std::wstring& sReferencePath,
 		// sub-folder to start with a dot
 		relPath = std::filesystem::path(L".") / relPath;
 	}
-	return relPath;
+	return relPath.wstring();
 }
 
 /// <summary> Converts a relative path to a target to an absolute path </summary>
@@ -640,7 +640,8 @@ std::vector<std::wstring> CFileUtilities::ByLine(const std::wstring& fileName)
 {
 	std::vector<std::wstring> out;
 
-	auto file = std::wifstream(fileName);
+	std::wifstream file;
+	file.open(std::filesystem::path(fileName));
 
 	// These two lines fix the UTF8-Problem
 	// Careful, it looks like a memory leak, but is internally deleted
