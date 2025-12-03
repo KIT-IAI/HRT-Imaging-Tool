@@ -22,14 +22,19 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #include "stdafx.h"
 #include "BorderCropper.h"
+
+#ifdef _WIN32
 #include <ppl.h>
+#endif
+
+
 
 void CBorderCropper::ProcessImages(const vector<StlImage<float>*>& SourceImages, vector<StlImage<float>*>& DestinationImages)
 {
 	m_nTotalImages += SourceImages.size();
 	bool bInplace = SourceImages == DestinationImages;
 
-
+#ifdef _WIN32
 	concurrency::parallel_for(size_t(0), SourceImages.size(), [&](size_t nIndex)
 		{
 			if (!bInplace && !DestinationImages[nIndex]->IsAllocated())
@@ -39,8 +44,17 @@ void CBorderCropper::ProcessImages(const vector<StlImage<float>*>& SourceImages,
 			CropBorder(DestinationImages[nIndex]);
 			++m_nProcessedImages;
 		});
-
-
+#else
+	for (size_t nIndex = 0; nIndex < SourceImages.size(), nIndex++)
+	{
+		if (!bInplace && !DestinationImages[nIndex]->IsAllocated())
+		{
+			(*DestinationImages[nIndex]) = (*SourceImages[nIndex]);
+		}
+		CropBorder(DestinationImages[nIndex]);
+		++m_nProcessedImages;
+	}
+#endif
 }
 void CBorderCropper::ProcessImages(vector<StlImage<float>*>& Images)
 {

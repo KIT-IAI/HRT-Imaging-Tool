@@ -22,7 +22,12 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #include "stdafx.h"
 #include "ImageMasker.h"
+
+#ifdef _WIN32
 #include <ppl.h>
+#endif
+
+
 
 CImageMasker::CImageMasker(EMaskOptions eMaskType, StlImageSize MaskSize)
 	:m_eMaskOption(eMaskType),
@@ -40,9 +45,9 @@ void CImageMasker::ProcessImages(const vector<StlImage<float>*>& SourceImages, v
 	m_nTotalImages += SourceImages.size();
 	bool bInplace = SourceImages == DestinationImages;
 
-
 	StlImageSize MaskingSize = DetectMaskingSize(SourceImages);
 
+#ifdef _WIN32
 	concurrency::parallel_for(size_t(0), SourceImages.size(), [&](size_t nIndex)
 		{
 			if (bInplace)
@@ -54,8 +59,19 @@ void CImageMasker::ProcessImages(const vector<StlImage<float>*>& SourceImages, v
 			}
 			m_nProcessedImages++;
 		});
-
-
+#else
+	for (size_t nIndex = 0; nIndex < SourceImages.size(); nIndex++)
+	{
+		if (bInplace)
+			ProcessImage(SourceImages[nIndex], MaskingSize);
+		else
+		{
+			(*DestinationImages[nIndex]) = (*SourceImages[nIndex]);
+			ProcessImage(DestinationImages[nIndex], MaskingSize);
+		}
+		m_nProcessedImages++;
+	}
+#endif
 }
 void CImageMasker::ProcessImages(vector<StlImage<float>*>& Images)
 {

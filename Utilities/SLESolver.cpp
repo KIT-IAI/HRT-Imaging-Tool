@@ -25,7 +25,9 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #include <mutex>
 
+#ifdef _WIN32
 #include <ppl.h>
+#endif
 
 #include "solvers.h"
 
@@ -157,6 +159,7 @@ bool CSLESolver::SolveEquationGauss(const CAbstractMatrix& A, const CDenseMatrix
 	size_t* order = new size_t[nCount];
 
 	// copy the input matrix; the constants are put into the last columns
+#ifdef _WIN32
 	concurrency::parallel_for(size_t(0), nCount, [&](size_t nRow)
 		{
 			for (size_t nCol = 0; nCol < nCount; nCol++)
@@ -171,6 +174,22 @@ bool CSLESolver::SolveEquationGauss(const CAbstractMatrix& A, const CDenseMatrix
 
 			order[nRow] = nRow;
 		});
+#else
+	for (size_t nRow = 0; nRow < nCount; nRow++)
+	{
+		for (size_t nCol = 0; nCol < nCount; nCol++)
+		{
+			extA[nRow][nCol] = A.GetValueAt(nRow, nCol);
+		}
+
+		for (size_t nCol2 = 0; nCol2 < nCount2; nCol2++)
+		{
+			extA[nRow][nCount + nCol2] = matInput[nRow][nCol2];
+		}
+
+		order[nRow] = nRow;
+	}
+#endif
 
 	// solve equations using _T("gauss-elimination"):
 	// We want to transform the system:
@@ -249,10 +268,15 @@ bool CSLESolver::SolveEquationGauss(const CAbstractMatrix& A, const CDenseMatrix
 			order[nColMax] = nTemp;
 
 			// swap columns in the matrix
+#ifdef _WIN32
 			concurrency::parallel_for(size_t(0), nCount, [&](size_t nRow)
-				{
-					std::swap(extA[nRow][nIteration], extA[nRow][nColMax]);
-				});
+									  { std::swap(extA[nRow][nIteration], extA[nRow][nColMax]); });
+#else
+			for (size_t nRow = 0; nRow < nCount; nRow++)
+			{
+				std::swap(extA[nRow][nIteration], extA[nRow][nColMax]);
+			}
+#endif
 		}
 
 		// recalculate the matrix using
@@ -273,6 +297,7 @@ bool CSLESolver::SolveEquationGauss(const CAbstractMatrix& A, const CDenseMatrix
 		// diagonal containing non-zero values. The matrix multiplication L_i * A_i
 		// can therefore be calculated much faster by the following code.
 
+#ifdef _WIN32
 		concurrency::parallel_for(size_t(nIteration + 1), nCount, [&](size_t nRow)
 			{
 				double fTemp = -(extA[nRow][nIteration] / extA[nIteration][nIteration]);
@@ -282,6 +307,17 @@ bool CSLESolver::SolveEquationGauss(const CAbstractMatrix& A, const CDenseMatrix
 				}
 				extA[nRow][nIteration] = 0;
 			});
+#else
+		for (size_t nRow = nIteration + 1; nRow < nCount; nRow++)
+		{
+			double fTemp = -(extA[nRow][nIteration] / extA[nIteration][nIteration]);
+			for (size_t nCol = nIteration + 1; nCol < nCount + nCount2; nCol++)
+			{
+				extA[nRow][nCol] += fTemp * extA[nIteration][nCol];
+			}
+			extA[nRow][nIteration] = 0;
+		}
+#endif
 	}
 
 	// if the value of fMaxValue is 0, the matrix is singulary; return false
@@ -330,6 +366,7 @@ bool CSLESolver::SolveEquationCG(const CSparseMatrix& A, const CDenseMatrix& B, 
 	bool bReturn = true;
 	std::mutex criticalMutex;
 
+#ifdef _WIN32
 	concurrency::parallel_for(size_t(0), x.Cols(), [&](size_t i)
 		{
 			CDenseVector xCol;
@@ -353,6 +390,31 @@ bool CSLESolver::SolveEquationCG(const CSparseMatrix& A, const CDenseMatrix& B, 
 				criticalMutex.unlock();
 			}
 		});
+#else
+	for (size_t i = 0; i < x.Cols(); i++)
+	{
+		CDenseVector xCol;
+		CDenseVector bCol;
+
+		{
+			criticalMutex.lock();
+			xCol = x.Col(i);
+			bCol = B.Col(i);
+			criticalMutex.unlock();
+		}
+
+		if (!SolveEquationCG(A, bCol, xCol, param, opt))
+		{
+			bReturn = false;
+		}
+
+		{
+			criticalMutex.lock();
+			x.SetCol(xCol, i);
+			criticalMutex.unlock();
+		}
+	}
+#endif
 
 	return bReturn;
 }
@@ -362,6 +424,7 @@ bool CSLESolver::SolveEquationCGALGLIB(const CSparseMatrix& A, const CDenseMatri
 	bool bReturn = true;
 	std::mutex criticalMutex;
 
+#ifdef _WIN32
 	concurrency::parallel_for(size_t(0), x.Cols(), [&](size_t i)
 		{
 			CDenseVector xCol;
@@ -385,6 +448,31 @@ bool CSLESolver::SolveEquationCGALGLIB(const CSparseMatrix& A, const CDenseMatri
 				criticalMutex.unlock();
 			}
 		});
+#else
+	for (size_t i = 0; i < x.Cols(); i++)
+	{
+		CDenseVector xCol;
+		CDenseVector bCol;
+
+		{
+			criticalMutex.lock();
+			xCol = x.Col(i);
+			bCol = B.Col(i);
+			criticalMutex.unlock();
+		}
+
+		if (!SolveEquationCGALGLIB(A, bCol, xCol, param))
+		{
+			bReturn = false;
+		}
+
+		{
+			criticalMutex.lock();
+			x.SetCol(xCol, i);
+			criticalMutex.unlock();
+		}
+	}
+#endif
 
 	return bReturn;
 }

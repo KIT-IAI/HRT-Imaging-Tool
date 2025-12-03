@@ -22,8 +22,12 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #include "stdafx.h"
 #include "VignettingCorrection.h"
-#include <ppl.h>
+
 #include <filesystem>
+
+#ifdef _WIN32
+#include <ppl.h>
+#endif
 
 
 
@@ -135,6 +139,7 @@ void CVignettingCorrection::ProcessImages(const vector<StlImage<float>*>& Source
 
 	bool bInplace = SourceImages == DestinationImages;
 
+#ifdef _WIN32
 	concurrency::parallel_for(size_t(0), SourceImages.size(), [&](size_t nIndex)
 		{
 			if (!bInplace && !DestinationImages[nIndex]->IsAllocated())
@@ -149,6 +154,22 @@ void CVignettingCorrection::ProcessImages(const vector<StlImage<float>*>& Source
 				ReportProgress();
 			}
 		});
+#else
+	for (size_t nIndex = 0; nIndex < SourceImages.size(); nIndex++)
+	{
+		if (!bInplace && !DestinationImages[nIndex]->IsAllocated())
+		{
+			(*DestinationImages[nIndex]) = (*SourceImages[nIndex]);
+		}
+
+		ProcessImage(DestinationImages[nIndex]);
+
+		if (nPairsDone++ % 10 == 0)
+		{
+			ReportProgress();
+		}
+	}
+#endif
 
 	if (bFreeProfile)
 		m_pVignettingProfile->Free();

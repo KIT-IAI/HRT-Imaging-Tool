@@ -66,8 +66,10 @@ public:
 	CDenseMatrix operator*(const CAbstractMatrix& m) const;
 	CDenseVector operator*(const CAbstractVector& v) const;
 
+#ifdef _WIN32
 	CDenseMatrix ParallelProduct(const CAbstractMatrix& m) const;
 	CDenseVector ParallelProduct(const CAbstractVector& m) const;
+#endif
 
 	CDenseMatrix operator+(double s) const;
 	CDenseMatrix operator-(double s) const;

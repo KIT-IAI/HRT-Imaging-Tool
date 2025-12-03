@@ -22,7 +22,12 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #include "stdafx.h"
 #include "BrightnessCorrection.h"
+
+#ifdef _WIN32
 #include <ppl.h>
+#endif
+
+
 
 CBrightnessCorrection::CBrightnessCorrection()
 {
@@ -41,7 +46,7 @@ void CBrightnessCorrection::ProcessImages(const vector<StlImage<float>*>& Source
 	auto MeanImageBrightnessAndContrast = CalculateMeanBrightnessAndContrast(SourceImages);
 	auto SeriesBrightnessAndContrast = CalculateSeriesBrightnessAndContrast(MeanImageBrightnessAndContrast);
 
-
+#ifdef _WIN32
 	concurrency::parallel_for(size_t(0), SourceImages.size(), [&](size_t nIndex)
 		{
 			if (!m_bIsCanceled)
@@ -61,8 +66,27 @@ void CBrightnessCorrection::ProcessImages(const vector<StlImage<float>*>& Source
 					ReportProgress();
 			}
 		});
+#else
+	for (size_t nIndex = 0; nIndex < SourceImages.size(); nIndex++)
+	{
+		if (!m_bIsCanceled)
+		{
+			if (!bInplace && !DestinationImages[nIndex]->IsAllocated())
+			{
+				(*DestinationImages[nIndex]) = (*SourceImages[nIndex]);
+			}
 
+			ProcessImage(DestinationImages[nIndex],
+						 MeanImageBrightnessAndContrast[nIndex].first,
+						 MeanImageBrightnessAndContrast[nIndex].second,
+						 SeriesBrightnessAndContrast.first,
+						 SeriesBrightnessAndContrast.second);
 
+			if (m_nProcessedImages++ % 10 == 0)
+				ReportProgress();
+		}
+	}
+#endif
 }
 void CBrightnessCorrection::ProcessImages(vector<StlImage<float>*>& Images)
 {
@@ -103,6 +127,7 @@ vector<std::pair<double, double>> CBrightnessCorrection::CalculateMeanBrightness
 {
 	vector<std::pair<double, double>> MeanBrightnessAndContrast(SourceImages.size());
 
+#ifdef _WIN32
 	concurrency::parallel_for(size_t(0), SourceImages.size(), [&](size_t nIndex)
 		{
 			auto pImage = SourceImages[nIndex];
@@ -110,6 +135,15 @@ vector<std::pair<double, double>> CBrightnessCorrection::CalculateMeanBrightness
 			double MeanContrast = sqrt(pImage->MeanSquare());
 			MeanBrightnessAndContrast[nIndex] = { MeanBrightness, MeanContrast };
 		});
+#else
+	for (size_t nIndex = 0; nIndex < SourceImages.size(); nIndex++)
+	{
+		auto pImage = SourceImages[nIndex];
+		double MeanBrightness = pImage->Mean();
+		double MeanContrast = sqrt(pImage->MeanSquare());
+		MeanBrightnessAndContrast[nIndex] = {MeanBrightness, MeanContrast};
+	}
+#endif
 
 	return MeanBrightnessAndContrast;
 }

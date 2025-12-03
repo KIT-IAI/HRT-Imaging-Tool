@@ -25,7 +25,9 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #include <algorithm>
 
+#ifdef _WIN32
 #include <ppl.h>
+#endif
 
 #include "MathTools.h"
 
@@ -268,6 +270,7 @@ CDenseVector CDenseMatrix::operator*(const CAbstractVector& v) const
 	return vv;
 }
 
+#ifdef _WIN32
 CDenseMatrix CDenseMatrix::ParallelProduct(const CAbstractMatrix& m) const
 {
 	assert(m_nCols == m.Rows());
@@ -287,6 +290,7 @@ CDenseMatrix CDenseMatrix::ParallelProduct(const CAbstractMatrix& m) const
 		});
 	return mm;
 }
+
 CDenseVector CDenseMatrix::ParallelProduct(const CAbstractVector& v) const
 {
 	assert(m_nCols == v.Size());
@@ -298,9 +302,7 @@ CDenseVector CDenseMatrix::ParallelProduct(const CAbstractVector& v) const
 		});
 	return vv;
 }
-
-
-
+#endif // #ifdef _WIN32
 
 CDenseMatrix CDenseMatrix::operator+(double s) const
 {

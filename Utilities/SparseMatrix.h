@@ -59,8 +59,10 @@ public:
 	CSparseVector operator*(const CAbstractVector& v) const;
 	CDenseVector operator*(const CDenseVector& v) const;
 
+#ifdef _WIN32
 	CSparseMatrix ParallelProduct(const CAbstractMatrix& m) const;
 	CSparseVector ParallelProduct(const CAbstractVector& m) const;
+#endif
 
 	CSparseMatrix operator+(double s) const;
 	CSparseMatrix operator-(double s) const;

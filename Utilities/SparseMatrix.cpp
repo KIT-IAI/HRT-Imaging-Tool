@@ -23,7 +23,9 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "SparseMatrix.h"
 
+#ifdef _WIN32
 #include <ppl.h>
+#endif
 
 
 
@@ -255,6 +257,7 @@ CDenseVector CSparseMatrix::operator*(const CDenseVector& v) const
 	return vv;
 }
 
+#ifdef _WIN32
 /*
 *
 * This does the same the normal *-Operator also does, but uses parallelization through an omp-for.
@@ -302,6 +305,7 @@ CSparseVector CSparseMatrix::ParallelProduct(const CAbstractVector& v) const
 		});
 	return vv;
 }
+#endif // #ifdef _WIN32
 
 CSparseMatrix CSparseMatrix::operator+(double s) const
 {
