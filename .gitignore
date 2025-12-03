@@ -17,3 +17,4 @@ Thumbs.db
 *.diagsession
 *.pdb
 /vcpkg_installed
+/build
