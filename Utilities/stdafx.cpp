@@ -24,7 +24,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 //	Utilities.pch will be the pre-compiled header
 //	stdafx.obj will contain the pre-compiled type information
 
-#include "StdAfx.h"
+#include "stdafx.h"
 
 
 

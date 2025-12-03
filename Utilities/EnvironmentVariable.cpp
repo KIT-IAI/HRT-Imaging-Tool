@@ -38,7 +38,7 @@ std::wstring CEnvironmentVariable::Get(std::wstring name)
 
 std::wstring CEnvironmentVariable::GetUnitTestDataPath()
 {
-	std::wstring path = CFileUtilities::GetProgramFolder();
+	std::wstring path = CFileUtilities::GetProgramFolder().wstring();
 	path = path.substr(0, path.find_last_of(L"\\"));
 	path += L"\\UnitTestData";
 	return path;

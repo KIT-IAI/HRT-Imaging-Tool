@@ -97,19 +97,28 @@ void CDenseVector::Copy(const CAbstractVector& av)
 	else
 		return CAbstractVector::Copy(av);
 }
+
 void CDenseVector::Copy(const CDenseVector& av)
 {
 	FreeVector();
 	AllocVector(av.Size());
+#ifdef _WIN32
 	memcpy_s(vec, Size() * sizeof(double), av.vec, av.Size() * sizeof(double));
+#else
+	std::memcpy(vec, av.vec, av.Size() * sizeof(double));
+#endif
 }
+
 void CDenseVector::Copy(const std::vector<double>& av)
 {
 	FreeVector();
 	AllocVector(av.size());
+#ifdef _WIN32
 	memcpy_s(vec, Size() * sizeof(double), av.data(), av.size() * sizeof(double));
+#else
+	std::memcpy(vec, av.data(), av.size() * sizeof(double));
+#endif
 }
-
 
 void CDenseVector::SetValueAt(size_t index, double value)
 {
@@ -123,7 +132,11 @@ const double CDenseVector::GetValueAt(size_t index) const
 std::vector<double> CDenseVector::GetValuesAsArray() const
 {
 	std::vector<double> values(Size());
+#ifdef _Win32
 	memcpy_s(values.data(), Size() * sizeof(double), vec, Size() * sizeof(double));
+#else
+	std::memcpy(values.data(), vec, Size() * sizeof(double));
+#endif
 	return values;
 }
 

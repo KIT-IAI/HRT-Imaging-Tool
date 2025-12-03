@@ -796,7 +796,7 @@ bool CAbstractMatrix::ReadMatrix(const std::wstring& sFilePath)
 	std::wifstream file;
 	std::wstring line;
 
-	file.open(sFilePath);
+	file.open(std::filesystem::path(sFilePath));
 
 	if (!file.good())
 	{
@@ -927,7 +927,7 @@ bool CAbstractMatrix::WriteMatrix(const std::wstring& sFilePath, const std::wstr
 {
 	std::wofstream file;
 
-	file.open(sFilePath);
+	file.open(std::filesystem::path(sFilePath));
 
 	if (!file.good())
 	{
@@ -1044,7 +1044,7 @@ bool CAbstractMatrix::WriteMatrixMM(const std::wstring& sFilePath, int nPrecisio
 {
 	std::wofstream file;
 
-	file.open(sFilePath);
+	file.open(std::filesystem::path(sFilePath));
 
 	if (!file.good())
 	{

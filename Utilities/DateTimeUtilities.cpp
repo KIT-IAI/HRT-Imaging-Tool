@@ -23,7 +23,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "DateTimeUtilities.h"
 
-#include <boost\date_time.hpp>
+#include <boost/date_time.hpp>
 
 
 

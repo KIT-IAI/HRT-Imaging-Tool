@@ -23,6 +23,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "Graph.h"
 
+#include <filesystem>
 #include <fstream>
 #include <queue>
 
@@ -93,7 +94,7 @@ size_t CGraph::GetEdgeCount() const
 
 void CGraph::WriteToFile(std::wstring fileName, double bPrintDuplicates /*= false*/) const
 {
-	std::wofstream out(fileName);
+	std::wofstream out(std::filesystem::path(fileName));
 
 	if (out.bad())
 	{

@@ -187,10 +187,13 @@ void CSparseVector::Copy(const CSparseVector& sv)
 
 	AllocVector(sv.Size(), sv.NonZeroSize());
 
-
-
+#ifdef _WIN32
 	memcpy_s(m_pColumns, m_nNonZeroSize * sizeof(size_t), sv.m_pColumns, m_nNonZeroSize * sizeof(size_t));
 	memcpy_s(m_pValues, m_nNonZeroSize * sizeof(double), sv.m_pValues, m_nNonZeroSize * sizeof(double));
+#else
+	std::memcpy(m_pColumns, sv.m_pColumns, m_nNonZeroSize * sizeof(size_t));
+	std::memcpy(m_pValues, sv.m_pValues, m_nNonZeroSize * sizeof(double));
+#endif
 }
 
 /*

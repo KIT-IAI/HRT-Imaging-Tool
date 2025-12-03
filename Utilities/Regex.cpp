@@ -20,7 +20,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "Regex.h"
 
 #include "boost/regex.hpp"

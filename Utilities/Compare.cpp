@@ -20,7 +20,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "Compare.h"
 
 
@@ -63,7 +63,7 @@ bool CCompare::CompareFloat(float nVal1, float nVal2, float nEpsilon)
 
 bool CCompare::CompareFloat(float nVal1, float nVal2, int nPrecision)
 {
-	nPrecision = __max(__min(6, nPrecision), 0);//float hat maximale Genauigkeit von 6 Nachkommastellen
+	nPrecision = std::max(std::min(6, nPrecision), 0);//float hat maximale Genauigkeit von 6 Nachkommastellen
 	double nEpsilon = 1.0;
 	for (int i = 1; i <= nPrecision; i++)
 	{
