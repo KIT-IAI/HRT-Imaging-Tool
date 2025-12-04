@@ -17,4 +17,5 @@ Thumbs.db
 *.diagsession
 *.pdb
 /vcpkg_installed
+/.vscode
 /build
