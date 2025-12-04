@@ -44,8 +44,12 @@ public:
 CRegex::CRegex(const std::wstring& regex, bool CaseSensitive) : pimpl(new CRegex::Impl())
 {
 	wstring sr = regex;
-	regex_constants::syntax_option_type flags = static_cast<regex_constants::syntax_option_type>(CaseSensitive ? (regex_constants::icase) : (regex_constants::match_default));
-	pimpl->rx = basic_regex<wchar_t>(sr.begin(), sr.end(), regex_constants::sed | flags);
+	regex_constants::syntax_option_type flags = regex_constants::sed;
+	if (!CaseSensitive)
+	{
+		flags |= regex_constants::icase;
+	}
+	pimpl->rx = basic_regex<wchar_t>(sr.begin(), sr.end(), flags);
 }
 
 CRegex::~CRegex(void)
