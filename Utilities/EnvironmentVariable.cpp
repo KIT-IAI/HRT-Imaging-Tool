@@ -24,16 +24,23 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "EnvironmentVariable.h"
 
 #include "FileUtilities.h"
+#include "StringUtilities.h"
 
 
 
 std::wstring CEnvironmentVariable::Get(std::wstring name)
 {
+#ifdef _WIN32
 	const size_t size = 10000;
 	std::wstring buffer;
 	buffer.resize(size);
 	GetEnvironmentVariable(name.c_str(), buffer.data(), size);
 	return buffer;
+#else
+	std::string name_s = CStringUtilities::ConvertToStdString(name);
+	std::string value_s = std::getenv(name_s.c_str());
+	return CStringUtilities::ConvertToStdWstring(value_s);
+#endif
 }
 
 std::wstring CEnvironmentVariable::GetUnitTestDataPath()
