@@ -33,6 +33,7 @@ CInstructionSet::~CInstructionSet()
 {
 }
 
+#ifdef _WIN32
 std::string CInstructionSet::Vendor(void) { return CPU_Rep.vendor_; }
 std::string CInstructionSet::Brand(void) { return CPU_Rep.brand_; }
 bool CInstructionSet::SSE3(void) { return CPU_Rep.f_1_ECX_[0]; }
@@ -92,9 +93,6 @@ bool CInstructionSet::MMXEXT(void) { return CPU_Rep.isAMD_ && CPU_Rep.f_81_EDX_[
 bool CInstructionSet::RDTSCP(void) { return CPU_Rep.isIntel_ && CPU_Rep.f_81_EDX_[27]; }
 bool CInstructionSet::_3DNOWEXT(void) { return CPU_Rep.isAMD_ && CPU_Rep.f_81_EDX_[30]; }
 bool CInstructionSet::_3DNOW(void) { return CPU_Rep.isAMD_ && CPU_Rep.f_81_EDX_[31]; }
-
-
-
 
 CInstructionSet::CInstructionSet_Internal::CInstructionSet_Internal()
 	: nIds_{ 0 },
@@ -186,3 +184,86 @@ CInstructionSet::CInstructionSet_Internal::CInstructionSet_Internal()
 };
 
 const CInstructionSet::CInstructionSet_Internal CInstructionSet::CPU_Rep = CInstructionSet::CInstructionSet_Internal();
+#else // #ifdef _WIN32
+std::string CInstructionSet::Vendor(void)
+{
+	constexpr const char* vendor_query_amd = "amd";
+	constexpr const char *vendor_query_intel = "intel";
+
+	const std::string vendor_name_amd("amd");
+	const std::string vendor_name_intel("intel");
+	const std::string vendor_name_unknown("unknown");
+
+	if (__builtin_cpu_is(vendor_query_amd))
+		return vendor_name_amd;
+	else if (__builtin_cpu_is(vendor_query_intel))
+		return vendor_name_intel;
+	else
+		return vendor_name_unknown;
+}
+
+std::string CInstructionSet::Brand(void)
+{
+	const std::string brand_name_unknown("unknown");
+
+	return brand_name_unknown;
+}
+
+bool CInstructionSet::SSE3(void) { return __builtin_cpu_supports("sse3"); }
+bool CInstructionSet::PCLMULQDQ(void) { return __builtin_cpu_supports("vpclmulqdq"); }
+bool CInstructionSet::MONITOR(void) { return __builtin_cpu_supports("sse3"); }
+bool CInstructionSet::SSSE3(void) { return __builtin_cpu_supports("ssse3"); }
+bool CInstructionSet::FMA(void) { return __builtin_cpu_supports("fma"); }
+bool CInstructionSet::CMPXCHG16B(void) { return false; }
+bool CInstructionSet::SSE41(void) { return __builtin_cpu_supports("sse4.1"); }
+bool CInstructionSet::SSE42(void) { return __builtin_cpu_supports("sse4.2"); }
+bool CInstructionSet::MOVBE(void) { return false; }
+bool CInstructionSet::POPCNT(void) { return __builtin_cpu_supports("popcnt"); }
+bool CInstructionSet::AES(void) { return __builtin_cpu_supports("aes"); }
+bool CInstructionSet::XSAVE(void) { return false; }
+bool CInstructionSet::OSXSAVE(void) { return false; }
+bool CInstructionSet::AVX(void) { return __builtin_cpu_supports("avx"); }
+bool CInstructionSet::F16C(void) { return false; }
+bool CInstructionSet::RDRAND(void) { return false; }
+
+bool CInstructionSet::MSR(void) { return false; }
+bool CInstructionSet::CX8(void) { return false; }
+bool CInstructionSet::SEP(void) { return false; }
+bool CInstructionSet::CMOV(void) { return __builtin_cpu_supports("cmov"); }
+bool CInstructionSet::CLFSH(void) { return false; }
+bool CInstructionSet::MMX(void) { return __builtin_cpu_supports("mmx"); }
+bool CInstructionSet::FXSR(void) { return false; }
+bool CInstructionSet::SSE(void) { return __builtin_cpu_supports("sse"); }
+bool CInstructionSet::SSE2(void) { return __builtin_cpu_supports("sse2"); }
+
+bool CInstructionSet::FSGSBASE(void) { return false; }
+bool CInstructionSet::BMI1(void) { return __builtin_cpu_supports("bmi"); }
+bool CInstructionSet::HLE(void) { return false; }
+bool CInstructionSet::AVX2(void) { return __builtin_cpu_supports("avx2"); }
+bool CInstructionSet::BMI2(void) { return __builtin_cpu_supports("bmi2"); }
+bool CInstructionSet::ERMS(void) { return false; }
+bool CInstructionSet::INVPCID(void) { return false; }
+bool CInstructionSet::RTM(void) { return false; }
+bool CInstructionSet::AVX512F(void) { return __builtin_cpu_supports("avx512f"); }
+bool CInstructionSet::RDSEED(void) { return false; }
+bool CInstructionSet::ADX(void) { return false; }
+bool CInstructionSet::AVX512PF(void) { return false; }
+bool CInstructionSet::AVX512ER(void) { return false; }
+bool CInstructionSet::AVX512CD(void) { return __builtin_cpu_supports("avx512cd"); }
+bool CInstructionSet::SHA(void) { return false; }
+
+bool CInstructionSet::PREFETCHWT1(void) { return false; }
+
+bool CInstructionSet::LAHF(void) { return false; }
+bool CInstructionSet::LZCNT(void) { return false; }
+bool CInstructionSet::ABM(void) { return false; }
+bool CInstructionSet::SSE4a(void) { return __builtin_cpu_supports("sse4a"); }
+bool CInstructionSet::XOP(void) { return __builtin_cpu_supports("xop"); }
+bool CInstructionSet::TBM(void) { return false; }
+
+bool CInstructionSet::SYSCALL(void) { return false; }
+bool CInstructionSet::MMXEXT(void) { return false; }
+bool CInstructionSet::RDTSCP(void) { return false; }
+bool CInstructionSet::_3DNOWEXT(void) { return false; }
+bool CInstructionSet::_3DNOW(void) { return false; }
+#endif // #ifdef _WIN32

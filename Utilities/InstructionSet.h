@@ -22,8 +22,10 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #pragma once
 
+#ifdef _WIN32
 #include <bitset>
 #include <vector>
+#endif
 
 class CInstructionSet
 {
@@ -85,6 +87,7 @@ public:
 	static 	bool _3DNOWEXT(void);
 	static 	bool _3DNOW(void);
 
+#ifdef _WIN32
 private:
 	class CInstructionSet_Internal
 	{
@@ -107,5 +110,6 @@ private:
 
 	};
 	static const CInstructionSet_Internal CPU_Rep;
+#endif // #ifdef _WIN32
 };
 
