@@ -28,7 +28,9 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include <boost/asio.hpp>
 #include <boost/process/v1/child.hpp>
 #include <boost/process/v1/io.hpp>
+#ifdef _WIN32
 #include <boost/process/v1/windows.hpp>
+#endif
 #include <boost/process/v1/async_system.hpp>
 
 #include "StringUtilities.h"
@@ -63,7 +65,11 @@ std::wstring CUtilities::Exec(std::wstring command)
 
 	std::future<std::string> data;
 
+#ifdef _WIN32
 	boost::process::v1::child c(command, boost::process::v1::std_in.close(), (boost::process::v1::std_out & boost::process::v1::std_err) > data, ios, ::boost::process::v1::windows::hide);
+#else
+	boost::process::v1::child c(command, boost::process::v1::std_in.close(), (boost::process::v1::std_out & boost::process::v1::std_err) > data, ios);
+#endif
 
 	ios.run();
 
