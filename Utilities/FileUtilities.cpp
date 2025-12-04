@@ -523,11 +523,11 @@ std::vector<std::wstring> CFileUtilities::GetFilesInDirectory(const std::wstring
 
 	if (!exists(dirPath))
 	{
-		throw std::exception("Path does not exist!.");
+		throw std::runtime_error("Path does not exist!.");
 	}
 	if (!is_directory(dirPath))
 	{
-		throw std::exception("Path is not a directory!.");
+		throw std::runtime_error("Path is not a directory!.");
 	}
 
 	std::vector<std::wstring> files;
@@ -563,11 +563,11 @@ std::vector<std::wstring> CFileUtilities::GetDirectorysInDirectory(const std::ws
 
 	if (!exists(dirPath))
 	{
-		throw std::exception("Path does not exist!.");
+		throw std::runtime_error("Path does not exist!.");
 	}
 	if (!is_directory(dirPath))
 	{
-		throw std::exception("Path is not a directory!.");
+		throw std::runtime_error("Path is not a directory!.");
 	}
 
 	std::vector<std::wstring> dirs;

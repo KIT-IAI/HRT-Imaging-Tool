@@ -72,7 +72,7 @@ template <> CDenseMatrix CSQLiteTable::Convert() const
 		return CDenseMatrix();
 
 	if (!std::all_of(begin(), end(), [this](const CSQLiteTableRow& Row) {return Row.size() == GetRow(0).size(); }))
-		throw std::exception("Non-uniform table cannot be converted into a matrix.");
+		throw std::runtime_error("Non-uniform table cannot be converted into a matrix.");
 
 	CDenseMatrix Matrix(size(), GetRow(0).size());
 

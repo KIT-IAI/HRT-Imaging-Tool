@@ -21,7 +21,8 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #pragma once
-class CSQLException : public std::exception
+
+class CSQLException : public std::runtime_error
 {
 public:
 	explicit CSQLException(std::wstring message);

@@ -22,8 +22,12 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #include "stdafx.h"
 #include "SQLiteException.h"
+
 #include "StringUtilities.h"
+
+
+
 CSQLException::CSQLException(std::wstring message)
-	: std::exception(CStringUtilities::ConvertToStdString(message).c_str())
+	: std::runtime_error(CStringUtilities::ConvertToStdString(message))
 {
 }
