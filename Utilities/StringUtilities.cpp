@@ -460,7 +460,11 @@ std::string CStringUtilities::ConvertToStdString(const std::wstring& str)
 {
 	char* a = new char[str.size() + 2];
 	size_t retval;
+#ifdef _WIN32
 	wcstombs_s(&retval, a, str.size() + 2, str.c_str(), str.size());
+#else
+	retval = std::wcstombs(a, str.c_str(), str.size());
+#endif
 	std::string tmp(a);
 	delete[] a;
 	return tmp;
@@ -470,7 +474,11 @@ std::string CStringUtilities::ConvertToStdString(const std::wstring_view str)
 {
 	char* a = new char[str.size() + 2];
 	size_t retval;
+#ifdef _WIN32
 	wcstombs_s(&retval, a, str.size() + 2, str.data(), str.size());
+#else
+	retval = std::wcstombs(a, str.data(), str.size());
+#endif
 	std::string tmp(a);
 	delete[] a;
 	return tmp;
@@ -480,7 +488,11 @@ std::wstring CStringUtilities::ConvertToStdWstring(const std::string& str)
 {
 	wchar_t* w = new wchar_t[str.size() + 2];
 	size_t retval;
+#ifdef _WIN32
 	mbstowcs_s(&retval, w, str.size() + 2, str.c_str(), str.size());
+#else
+	retval = std::mbstowcs(w, str.c_str(), str.size());
+#endif
 	std::wstring tmp(w);
 	delete[] w;
 	return tmp;
@@ -490,7 +502,11 @@ std::wstring CStringUtilities::ConvertToStdWstring(const std::string_view str)
 {
 	wchar_t* w = new wchar_t[str.size() + 2];
 	size_t retval;
+#ifdef _WIN32
 	mbstowcs_s(&retval, w, str.size() + 2, str.data(), str.size());
+#else
+	retval = std::mbstowcs(w, str.data(), str.size());
+#endif
 	std::wstring tmp(w);
 	delete[] w;
 	return tmp;
