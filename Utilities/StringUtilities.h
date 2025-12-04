@@ -77,9 +77,9 @@ public:
 
 	static bool DeleteAfterLastChar(std::wstring& sString, wchar_t chrSearched);
 
-	static void STRCPY(wchar_t* strDestination, const wchar_t* strSource);
-	static std::shared_ptr<std::wstring> getenv(const std::wstring& name);
-	static std::shared_ptr<std::string> getenv(const std::string& name);
+	// static void STRCPY(wchar_t* strDestination, const wchar_t* strSource);
+	// static std::shared_ptr<std::wstring> getenv(const std::wstring& name);
+	// static std::shared_ptr<std::string> getenv(const std::string& name);
 
 	static std::string ConvertToStdString(const std::wstring& str);
 	static std::wstring ConvertToStdWstring(const std::string& str);

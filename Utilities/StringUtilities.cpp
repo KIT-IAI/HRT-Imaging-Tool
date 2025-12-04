@@ -417,44 +417,44 @@ bool CStringUtilities::DeleteAfterLastChar(std::wstring& sString, wchar_t chrSea
 	}
 }
 
-void CStringUtilities::STRCPY(wchar_t* strDestination, const wchar_t* strSource)
-{
-	wcscpy_s(strDestination, wcslen(strSource) + 1, strSource);
-}
+// void CStringUtilities::STRCPY(wchar_t* strDestination, const wchar_t* strSource)
+// {
+// 	wcscpy_s(strDestination, wcslen(strSource) + 1, strSource);
+// }
 
-std::shared_ptr<std::wstring> CStringUtilities::getenv(const std::wstring& name)
-{
-	wchar_t* str;
-	size_t len;
-	auto err = _wdupenv_s(&str, &len, name.c_str());
-	if (err || str == nullptr)
-	{
-		return std::shared_ptr<std::wstring>();
-	}
-	else
-	{
-		std::shared_ptr<std::wstring > ret = std::make_shared<std::wstring>(str);
-		free(str);
-		return ret;
-	}
-}
+// std::shared_ptr<std::wstring> CStringUtilities::getenv(const std::wstring& name)
+// {
+// 	wchar_t* str;
+// 	size_t len;
+// 	auto err = _wdupenv_s(&str, &len, name.c_str());
+// 	if (err || str == nullptr)
+// 	{
+// 		return std::shared_ptr<std::wstring>();
+// 	}
+// 	else
+// 	{
+// 		std::shared_ptr<std::wstring > ret = std::make_shared<std::wstring>(str);
+// 		free(str);
+// 		return ret;
+// 	}
+// }
 
-std::shared_ptr<std::string> CStringUtilities::getenv(const std::string& name)
-{
-	char* str;
-	size_t len;
-	auto err = _dupenv_s(&str, &len, name.c_str());
-	if (err || str == nullptr)
-	{
-		return std::shared_ptr<std::string>();
-	}
-	else
-	{
-		std::shared_ptr<std::string > ret = std::make_shared<std::string>(str);
-		free(str);
-		return ret;
-	}
-}
+// std::shared_ptr<std::string> CStringUtilities::getenv(const std::string& name)
+// {
+// 	char* str;
+// 	size_t len;
+// 	auto err = _dupenv_s(&str, &len, name.c_str());
+// 	if (err || str == nullptr)
+// 	{
+// 		return std::shared_ptr<std::string>();
+// 	}
+// 	else
+// 	{
+// 		std::shared_ptr<std::string > ret = std::make_shared<std::string>(str);
+// 		free(str);
+// 		return ret;
+// 	}
+// }
 
 std::string CStringUtilities::ConvertToStdString(const std::wstring& str)
 {

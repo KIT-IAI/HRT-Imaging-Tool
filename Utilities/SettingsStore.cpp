@@ -22,10 +22,15 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #include "stdafx.h"
 #include "SettingsStore.h"
-#include "FileUtilities.h"
-#include "StringUtilities.h"
-#include "Utilities.h"
+
+#include <filesystem>
+
 #include <sqlite3.h>
+
+#include "EnvironmentVariable.h"
+#include "FileUtilities.h"
+#include "Utilities.h"
+
 
 
 SettingsStore* SettingsStore::m_cInstance = nullptr;
@@ -50,8 +55,8 @@ public:
 		std::string configFileName = CStringUtilities::ConvertToStdString(product) + ".sqlite";
 
 #ifdef _WIN32
-		auto userConfigDir = std::filesystem::path(*CStringUtilities::getenv("AppData")) / "kit-iai";
-		auto systemConfigDir = std::filesystem::path(*CStringUtilities::getenv("ProgramData")) / "kit-iai";
+		auto userConfigDir = std::filesystem::path(CEnvironmentVariable::Get(L"AppData")) / "kit-iai";
+		auto systemConfigDir = std::filesystem::path(CEnvironmentVariable::Get(L"ProgramData")) / "kit-iai";
 #else  // #ifdef _WIN32
 		auto userConfigDir = std::filesystem::path("~/.config") / "kit-iai";
 		auto systemConfigDir = std::filesystem::path("/etc") / "kit-iai";
