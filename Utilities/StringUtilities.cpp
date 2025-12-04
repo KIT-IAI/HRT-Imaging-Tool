@@ -23,12 +23,6 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "StringUtilities.h"
 
-#include <codecvt>
-#include <vector>
-
-#include <boost/algorithm/string.hpp>
-#include <boost/lexical_cast.hpp>
-
 
 
 bool CStringUtilities::ParseString(const std::wstring& sIn, int& nOut)

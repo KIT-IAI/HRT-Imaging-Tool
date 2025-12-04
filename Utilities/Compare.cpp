@@ -45,7 +45,7 @@ bool CCompare::CompareDoubles(double nVal1, double nVal2, double nEpsilon)
 */
 bool CCompare::CompareDoubles(double nVal1, double nVal2, int nPrecision)
 {
-	nPrecision = max(min(15, nPrecision), 0); //double hat maximale Genauigkeit von 15 Nachkommastellen
+	nPrecision = std::max(std::min(15, nPrecision), 0); //double hat maximale Genauigkeit von 15 Nachkommastellen
 	double nEpsilon = 1.0;
 	for (int i = 1; i <= nPrecision; i++)
 	{

@@ -23,14 +23,6 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "SLESolver.h"
 
-#include <mutex>
-
-#ifdef _WIN32
-#include <ppl.h>
-#endif
-
-#include "solvers.h"
-
 #include "StringUtilities.h"
 #include "Log.h"
 
@@ -533,7 +525,7 @@ bool CSLESolver::SolveEquationJacobi(CSparseMatrix& A, const CDenseMatrix& B, CD
 		{
 			double currentXDefect = (newGuess->Row(0).Norm2()) / referenceDefect[0];
 			double currentYDefect = (newGuess->Row(1).Norm2()) / referenceDefect[1];
-			currentDefect = max(currentXDefect, currentYDefect);
+			currentDefect = std::max(currentXDefect, currentYDefect);
 
 			done = currentDefect < fEpsilon;
 		}

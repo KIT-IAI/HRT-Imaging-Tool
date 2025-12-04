@@ -786,7 +786,7 @@ void CSparseVector::RecalculateOptimalCacheLength()
 {
 	// Optimal Cache length ~sqrt(N)
 	size_t oldLength = m_nCacheLength;
-	m_nCacheLength = max(static_cast<int>(sqrt(static_cast<double>(m_nNonZeroSize))), 1);  // The Max(X,1) is needed if Nz = 0 to ensure, that the Cache has at least length 1
+	m_nCacheLength = std::max(static_cast<int>(sqrt(static_cast<double>(m_nNonZeroSize))), 1);  // The Max(X,1) is needed if Nz = 0 to ensure, that the Cache has at least length 1
 
 	if (oldLength != m_nCacheLength)
 	{

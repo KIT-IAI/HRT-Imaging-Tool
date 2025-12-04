@@ -26,23 +26,69 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #pragma once
 
+#ifdef _WIN32
 // Windows stuff
 // This include could be replaced by the single define
 //     #define _WIN32_WINNT 0x0A00
 // This should theoretically allow the Utilities project to be built on
 // non-Windows systems, but we haven't tried it.
-#ifdef _WIN32
 #include <SDKDDKVer.h>
 #endif
 
+// Standard libraries
 #include <algorithm>
-using std::min;
-using std::max;
+#include <array>
 #include <cassert>
+#include <chrono>
+#include <codecvt>
+#include <cstdio>
 #include <ctime>
+#include <filesystem>
+#include <fstream>
+#include <iostream>
 #include <map>
 #include <memory>
+#include <mutex>
+#include <queue>
+#include <sstream>
 #include <string>
+#include <vector>
 
+// boost libraries
+#include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/predicate.hpp>
 #include <boost/asio.hpp>
+#include <boost/date_time.hpp>
+#include <boost/dll/runtime_symbol_info.hpp>
+#include <boost/filesystem.hpp>
 #include <boost/format.hpp>
+#include <boost/lexical_cast.hpp>
+#include <boost/log/attributes.hpp>
+#include <boost/log/common.hpp>
+#include <boost/log/core.hpp>
+#include <boost/log/expressions.hpp>
+#include <boost/log/sinks.hpp>
+#include <boost/log/trivial.hpp>
+#include <boost/log/support/date_time.hpp>
+#include <boost/log/utility/setup/common_attributes.hpp>
+#include <boost/log/utility/setup/file.hpp>
+#include <boost/process/v1/async_system.hpp>
+#include <boost/process/v1/child.hpp>
+#include <boost/process/v1/io.hpp>
+#ifdef _WIN32
+#include <boost/process/v1/windows.hpp>
+#endif
+#include <boost/regex.hpp>
+#include <boost/tokenizer.hpp>
+
+
+// other external libraries
+#ifdef _WIN32
+#include <intrin.h>
+#include <ppl.h>
+#endif
+#include <sqlite3.h>
+
+// alglib project
+#include "interpolation.h"
+#include "solvers.h"

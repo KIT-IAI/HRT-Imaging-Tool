@@ -23,20 +23,10 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "Log.h"
 
+#ifdef _WIN32
 #pragma comment(lib, "Kernel32.lib")
 #pragma comment(lib, "psapi.lib")
-
-#include <boost/log/core.hpp>
-#include <boost/log/trivial.hpp>
-#include <boost/log/expressions.hpp>
-#include <boost/log/sinks/text_file_backend.hpp>
-#include <boost/log/sinks/event_log_backend.hpp>
-#include <boost/log/sinks/debug_output_backend.hpp>
-#include <boost/log/utility/setup/file.hpp>
-#include <boost/log/utility/setup/common_attributes.hpp>
-#include <boost/log/sources/severity_logger.hpp>
-#include <boost/log/sources/record_ostream.hpp>
-#include <boost/log/support/date_time.hpp>
+#endif
 
 #include "StringUtilities.h"
 
@@ -51,8 +41,10 @@ namespace sinks = boost::log::sinks;
 namespace expr = boost::log::expressions;
 namespace src = boost::log::sources;
 namespace trv = boost::log::trivial;
+#ifdef _WIN32
 typedef sinks::synchronous_sink< sinks::debug_output_backend > sink_t;
 typedef sinks::synchronous_sink< sinks::simple_event_log_backend > sink2_t;
+#endif
 typedef sinks::synchronous_sink< sinks::text_file_backend > sink3_t;
 
 
@@ -99,6 +91,7 @@ trv::severity_level TranslateSeverity(CLog::ELogLevel level)
  */
 void CLog::InitLogging(const std::wstring_view sFilePath)
 {
+#ifdef _WIN32
 	if (sFilePath.size() == 0)
 	{
 		// Create an event log sink
@@ -136,6 +129,8 @@ void CLog::InitLogging(const std::wstring_view sFilePath)
 		logging::core::get()->add_sink(sink);
 		return;
 	}
+#endif // #ifdef _WIN32
+
 	std::wstring filePath(sFilePath);
 	filePath.append(L"_%N.log");
 	auto filebackend = logging::add_file_log(
@@ -150,6 +145,8 @@ void CLog::InitLogging(const std::wstring_view sFilePath)
 			<< ">: " << expr::smessage
 			)
 	);
+
+#ifdef _WIN32
 	// Create a new backend
 	boost::shared_ptr< sink_t > debugbackend(new sink_t());
 	debugbackend->set_filter(expr::is_debugger_present());
@@ -163,6 +160,7 @@ void CLog::InitLogging(const std::wstring_view sFilePath)
 
 	// Wrap it into the frontend and register in the core.
 	logging::core::get()->add_sink(debugbackend);
+#endif // #ifdef _WIN32
 
 	logging::add_common_attributes();
 

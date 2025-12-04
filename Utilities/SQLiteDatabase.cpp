@@ -23,12 +23,6 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "SQLiteDatabase.h"
 
-#include <string>
-
-#include <boost/lexical_cast.hpp>
-
-#include "sqlite3.h"
-
 #include "FileUtilities.h"
 #include "SQLiteTable.h"
 #include "StringUtilities.h"

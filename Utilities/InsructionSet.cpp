@@ -24,10 +24,6 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "InstructionSet.h"
 
 
-#include <iostream>
-#include <array>
-#include <string>
-#include <intrin.h>
 
 CInstructionSet::CInstructionSet()
 {

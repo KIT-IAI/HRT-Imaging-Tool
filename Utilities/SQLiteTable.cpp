@@ -22,10 +22,12 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #include "stdafx.h"
 #include "SQLiteTable.h"
+
 #include "SQLiteDatabase.h"
-#include <algorithm>
 
 using namespace std;
+
+
 
 const std::wstring CSQLiteTable::DefaultColumnName = L"col";
 

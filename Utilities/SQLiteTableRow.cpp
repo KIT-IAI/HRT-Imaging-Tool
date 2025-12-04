@@ -22,11 +22,14 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #include "stdafx.h"
 #include "SQLiteTableRow.h"
-#include "StringUtilities.h"
+
 #include "DenseVector.h"
 #include "SQLiteTable.h"
+#include "StringUtilities.h"
 
 using namespace std;
+
+
 
 CSQLiteTableRow::CSQLiteTableRow(size_t size)
 {

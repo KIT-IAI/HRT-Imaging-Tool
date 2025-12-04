@@ -23,10 +23,6 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "SettingsStore.h"
 
-#include <filesystem>
-
-#include <sqlite3.h>
-
 #include "EnvironmentVariable.h"
 #include "FileUtilities.h"
 #include "Utilities.h"

@@ -23,11 +23,6 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "AbstractVector.h"
 
-#include <fstream>
-#include <sstream>
-
-#include <boost/tokenizer.hpp>
-
 #include "Compare.h"
 #include "FileUtilities.h"
 
@@ -782,6 +777,6 @@ bool CAbstractVector::iterator::operator!=(const iterator& rhs) const
 CAbstractVector::iterator& CAbstractVector::iterator::operator+(int i)
 {
 	nIndex += i;
-	nIndex = min(nIndex, Vector.Size());
+	nIndex = std::min(nIndex, Vector.Size());
 	return *this;
 }

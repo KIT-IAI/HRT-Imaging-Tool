@@ -23,12 +23,6 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "DenseMatrix.h"
 
-#include <algorithm>
-
-#ifdef _WIN32
-#include <ppl.h>
-#endif
-
 #include "MathTools.h"
 
 

@@ -23,17 +23,6 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "FileUtilities.h"
 
-#include <chrono>
-#include <codecvt>
-#include <filesystem>
-#include <fstream>
-#include <vector>
-
-#include <boost/algorithm/string/predicate.hpp>
-#include <boost/dll/runtime_symbol_info.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/tokenizer.hpp>
-
 #include "StringUtilities.h"
 
 

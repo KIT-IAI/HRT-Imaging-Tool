@@ -23,10 +23,6 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "SparseMatrix.h"
 
-#ifdef _WIN32
-#include <ppl.h>
-#endif
-
 
 
 CSparseMatrix::CSparseMatrix()

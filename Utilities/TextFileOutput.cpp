@@ -23,10 +23,6 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "TextFileOutput.h"
 
-#include <filesystem>
-#include <fstream>
-#include <string>
-
 #include "DenseMatrix.h"
 
 
