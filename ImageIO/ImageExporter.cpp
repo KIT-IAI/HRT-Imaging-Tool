@@ -20,21 +20,16 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-#include "targetver.h"
-
-//libpng
-#include "png.h"
-
-//libtiff
-#include <tiffio.h>
-
+#include "stdafx.h"
 #include "ImageExporter.h"
+
 #include "IIO_Defines.h"
+
+
 
 CImageExporter::CImageExporter(void)
 {
 }
-
 
 CImageExporter::~CImageExporter(void)
 {

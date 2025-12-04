@@ -20,22 +20,13 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-#include "targetver.h"
-
-//libpng
-#include "png.h"
-
-//libtiff
-#include <tiffio.h>
-#include <jpeglib.h>
-
-#include <algorithm>
-#include <cassert>
-#include <exception>
-
+#include "stdafx.h"
 #include "ImageImporter.h"
+
 #include "IIO_Defines.h"
 #include "ImageIOException.h"
+
+
 
 bool CImageImporter::bIsTiffErrorHandlerSet = false;
 

@@ -20,11 +20,23 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
+// stdafx.h : include file for standard system include files,
+//  or project specific include files that are used frequently, but
+//      are changed infrequently
+
 #pragma once
 
-// Durch Einbeziehen von"SDKDDKVer.h" wird die höchste verfügbare Windows-Plattform definiert.
-
-// Wenn Sie die Anwendung für eine frühere Windows-Plattform erstellen möchten, schließen Sie "WinSDKVer.h" ein, und
-// legen Sie das _WIN32_WINNT-Makro auf die zu unterstützende Plattform fest, bevor Sie "SDKDDKVer.h" einschließen.
-
+#ifdef _WIN32
+// Windows stuff
 #include <SDKDDKVer.h>
+#endif
+
+// standard libraries
+#include <algorithm>
+#include <cassert>
+#include <exception>
+
+// other external libraries
+#include <jpeglib.h>
+#include <png.h>
+#include <tiffio.h>
