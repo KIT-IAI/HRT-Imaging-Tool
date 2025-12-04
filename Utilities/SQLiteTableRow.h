@@ -114,5 +114,6 @@ inline T CSQLiteTableRow::Get(const std::wstring& key) const
 	auto it = std::find(Keys.begin(), Keys.end(), key);
 	if (it == Keys.end())
 		throw CSQLException(L"Key " + key + L"not found.");
-	return Get(it - Keys.begin());
+	size_t col = std::distance(Keys.begin(), it);
+	return Get<T>(col);
 }
