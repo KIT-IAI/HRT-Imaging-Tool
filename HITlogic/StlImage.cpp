@@ -867,13 +867,18 @@ bool StlImage<T>::LoadStrict(std::wstring filename)
 	{
 		if (!CImageImporter::ImportImage(filename, format, bits, h, w, data))
 		{
-			delete[] data;
+			// regardless of the image pixel type, this raw data buffer is
+			// always created with type unsigned char inside
+			// CImageImporter::ImportImage().
+			delete[] static_cast<unsigned char *>(data);
 			return false;
 		}
 	}
 	catch (CImageIOException ex)
 	{
-		delete[] data;
+		// regardless of the image pixel type, this raw data buffer is always
+		// created with type unsigned char inside CImageImporter::ImportImage().
+		delete[] static_cast<unsigned char *>(data);
 		return false;
 	}
 	if (format == IIO_DATA_TYPE::GRAY_UNSIGNED)
@@ -885,7 +890,10 @@ bool StlImage<T>::LoadStrict(std::wstring filename)
 		}
 		else
 		{
-			delete[] data;
+			// regardless of the image pixel type, this raw data buffer is
+			// always created with type unsigned char inside
+			// CImageImporter::ImportImage().
+			delete[] static_cast<unsigned char *>(data);
 			return false;
 		}
 	}
@@ -898,7 +906,10 @@ bool StlImage<T>::LoadStrict(std::wstring filename)
 		}
 		else
 		{
-			delete[] data;
+			// regardless of the image pixel type, this raw data buffer is
+			// always created with type unsigned char inside
+			// CImageImporter::ImportImage().
+			delete[] static_cast<unsigned char *>(data);
 			return false;
 		}
 	}
@@ -911,18 +922,25 @@ bool StlImage<T>::LoadStrict(std::wstring filename)
 		}
 		else
 		{
-			delete[] data;
+			// regardless of the image pixel type, this raw data buffer is
+			// always created with type unsigned char inside
+			// CImageImporter::ImportImage().
+			delete[] static_cast<unsigned char *>(data);
 			return false;
 		}
 	}
 	else
 	{
-		delete[] data;
+		// regardless of the image pixel type, this raw data buffer is always
+		// created with type unsigned char inside CImageImporter::ImportImage().
+		delete[] static_cast<unsigned char *>(data);
 		return false;
 	}
-	delete[] data;
-	return true;
 
+	// regardless of the image pixel type, this raw data buffer is always
+	// created with type unsigned char inside CImageImporter::ImportImage().
+	delete[] static_cast<unsigned char *>(data);
+	return true;
 }
 
 template<typename T>
@@ -942,7 +960,9 @@ bool StlImage<T>::LoadConvert(std::wstring filename)
 	}
 	catch (CImageIOException ex)
 	{
-		delete[] data;
+		// regardless of the image pixel type, this raw data buffer is always
+		// created with type unsigned char inside CImageImporter::ImportImage().
+		delete[] static_cast<unsigned char *>(data);
 		throw;
 	}
 	if (format == IIO_DATA_TYPE::GRAY_UNSIGNED && bits == 8)
@@ -984,16 +1004,23 @@ bool StlImage<T>::LoadConvert(std::wstring filename)
 		}
 		else
 		{
-			delete[] data;
+			// regardless of the image pixel type, this raw data buffer is
+			// always created with type unsigned char inside
+			// CImageImporter::ImportImage().
+			delete[] static_cast<unsigned char *>(data);
 			return false;
 		}
 	}
 	else
 	{
-		delete[] data;
+		// regardless of the image pixel type, this raw data buffer is always
+		// created with type unsigned char inside CImageImporter::ImportImage().
+		delete[] static_cast<unsigned char *>(data);
 		return false;
 	}
-	delete[] data;
+	// regardless of the image pixel type, this raw data buffer is always
+	// created with type unsigned char inside CImageImporter::ImportImage().
+	delete[] static_cast<unsigned char *>(data);
 	return true;
 }
 
@@ -1024,7 +1051,10 @@ bool StlImage<T>::ImportFromMultiPageTiffFile(const std::wstring& filepath, std:
 			{
 				if (data[i] != nullptr)
 				{
-					delete[] data[i];
+					// regardless of the image pixel type, this raw data buffer
+					// is always created with type unsigned char inside
+					// CImageImporter::ImportImage().
+					delete[] static_cast<unsigned char *>(data[i]);
 				}
 			}
 			delete[] data;
@@ -1074,13 +1104,18 @@ bool StlImage<T>::ImportFromMultiPageTiffFile(const std::wstring& filepath, std:
 		{
 			for (size_t j = i; j < n; j++)
 			{
-				delete[] data[j];
+				// regardless of the image pixel type, this raw data buffer is
+				// always created with type unsigned char inside
+				// CImageImporter::ImportImage().
+				delete[] static_cast<unsigned char *>(data[j]);
 			}
 			delete[] data;
 			return false;
 		}
 
-		delete[] data[i];
+		// regardless of the image pixel type, this raw data buffer is always
+		// created with type unsigned char inside CImageImporter::ImportImage().
+		delete[] static_cast<unsigned char *>(data[i]);
 		data[i] = nullptr;
 	}
 	delete[] data;
