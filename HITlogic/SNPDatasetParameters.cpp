@@ -225,7 +225,7 @@ bool CSNPDatasetParameters::VignettingProfileBeforeRegistrationIsValid() const
 
 	if (CFileUtilities::IsRelative(sVignettingFileBeforeRegistration))
 	{
-		auto sAbsolutePath = CFileUtilities::GetAbsolutePath(CFileUtilities::GetProgramFolder(), sVignettingFileBeforeRegistration);
+		auto sAbsolutePath = CFileUtilities::GetAbsolutePath(CFileUtilities::GetProgramFolder().wstring(), sVignettingFileBeforeRegistration);
 		return CFileUtilities::FileExists(sAbsolutePath);
 	}
 	return CFileUtilities::FileExists(sVignettingFileBeforeRegistration);
@@ -239,7 +239,7 @@ bool CSNPDatasetParameters::VignettingProfileBeforeCompositingIsValid() const
 		return true;
 	if (CFileUtilities::IsRelative(sVignettingFileBeforeCompositing))
 	{
-		auto sAbsolutePath = CFileUtilities::GetAbsolutePath(CFileUtilities::GetProgramFolder(), sVignettingFileBeforeCompositing);
+		auto sAbsolutePath = CFileUtilities::GetAbsolutePath(CFileUtilities::GetProgramFolder().wstring(), sVignettingFileBeforeCompositing);
 		return CFileUtilities::FileExists(sAbsolutePath);
 	}
 	return CFileUtilities::FileExists(sVignettingFileBeforeCompositing);

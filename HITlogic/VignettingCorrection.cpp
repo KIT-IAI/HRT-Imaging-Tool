@@ -37,7 +37,7 @@ CVignettingCorrection::CVignettingCorrection(const wstring& ProfileFilePath, siz
 		return;
 	wstring sLocalPath = ProfileFilePath;
 	if (CFileUtilities::IsRelative(ProfileFilePath))
-		sLocalPath = CFileUtilities::GetAbsolutePath(CFileUtilities::GetProgramFolder(), ProfileFilePath);
+		sLocalPath = CFileUtilities::GetAbsolutePath(CFileUtilities::GetProgramFolder().wstring(), ProfileFilePath);
 
 	m_pVignettingProfile->LoadConvert(sLocalPath);
 	SmoothProfile(nSmoothIterations, *m_pVignettingProfile);
