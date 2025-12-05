@@ -41,7 +41,7 @@ int PiezoImageTime::readPiezo(const std::wstring& filepath)
 	m_minPiezoHeight = std::numeric_limits<int>::max();
 	m_maxPiezoHeight = std::numeric_limits<int>::min();
 
-	std::wifstream ifs(filepath);
+	std::wifstream ifs{std::filesystem::path(filepath)};
 	if (!ifs.is_open())
 		return -1;
 
@@ -66,7 +66,7 @@ int PiezoImageTime::readPiezo(const std::wstring& filepath)
 		{
 			// potentially correct line
 			std::replace(heightString.begin(), heightString.end(), L',', L'.');
-			std::wistringstream iss(heightString);
+			std::wistringstream iss{heightString};
 			if ((iss >> height) && iss.eof())
 			{
 				// correct line
@@ -148,7 +148,7 @@ int PiezoImageTime::readImageTime(const std::wstring& filepath)
 	m_allImages.clear();
 	synced = false;
 
-	std::wifstream ifs(filepath);
+	std::wifstream ifs{std::filesystem::path(filepath)};
 	if (!ifs.is_open())
 		return -1;
 

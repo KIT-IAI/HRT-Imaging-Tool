@@ -39,7 +39,7 @@ int CHRTImageClassificationData::ReadFromFile(const wstring& filepath)
 	m_bLoaded = false;
 	m_bDistances = false;
 
-	wifstream ifs(filepath);
+	std::wifstream ifs{std::filesystem::path(filepath)};
 
 	if (!ifs.is_open())
 	{
@@ -61,7 +61,7 @@ int CHRTImageClassificationData::ReadFromFile(const wstring& filepath)
 		};
 
 	auto parseDistance = [](const wstring& str, double& dist) -> bool {
-		wistringstream iss(str);
+		std::wistringstream iss{str};
 		double temp;
 		iss >> temp;
 		if (iss)
@@ -76,7 +76,7 @@ int CHRTImageClassificationData::ReadFromFile(const wstring& filepath)
 		};
 
 	auto parseClass = [](const wstring& str, EHRTImageClassificationClass& cls) -> bool {
-		wistringstream iss(str);
+		std::wistringstream iss{str};
 		int temp;
 		iss >> temp;
 		if (iss)
@@ -148,7 +148,7 @@ int CHRTImageClassificationData::ReadFromFile(const wstring& filepath)
 			set.Filepath = tokens[0];
 		else
 		{
-			wostringstream oss;
+			std::wostringstream oss;
 			oss << std::setw(5) << std::setfill(L'0') << lineindex;
 			set.Filepath = oss.str();
 		}

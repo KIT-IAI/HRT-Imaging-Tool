@@ -109,7 +109,7 @@ bool CHRTImageDepthAndAngleCalculator::givePiezoData(int /*ImageCount*/, wstring
 		if (CFileUtilities::FileExists(filepath))
 		{
 			//gibts in die Zusatzinformationen als Datei?
-			std::wifstream ifstream(filepath);
+			std::wifstream ifstream{filepath};
 			if (ifstream.is_open() && (ifstream >> Offset))
 			{
 				CLog::Log(CLog::eNotice, L"CHRTImageDepthAndAngleCalculator", L"Nutze Offset aus Offset Datei");

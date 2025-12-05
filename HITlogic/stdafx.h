@@ -67,18 +67,6 @@ using std::shared_ptr;
 using std::string;
 using std::wstring;
 using std::wstring_view;
-using std::stringstream;
-using std::istringstream;
-using std::ostringstream;
-using std::wstringstream;
-using std::wistringstream;
-using std::wostringstream;
-using std::fstream;
-using std::ifstream;
-using std::ofstream;
-using std::wfstream;
-using std::wifstream;
-using std::wofstream;
 
 // Boost libraries
 #include <boost/format.hpp>
