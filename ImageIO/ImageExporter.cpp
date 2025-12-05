@@ -110,8 +110,12 @@ bool CImageExporter::ExportImageTif(std::wstring filename, int bit_depth, size_t
 
 	char* ascii = new char[filename.size() + 1];
 	size_t retval;
-	wcstombs_s( &retval,ascii,filename.size() + 1, filename.c_str(), filename.size());
-	TIFF *out=TIFFOpen(ascii, "w");
+#ifdef _WIN32
+	wcstombs_s(&retval, ascii, filename.size() + 1, filename.c_str(), filename.size());
+#else
+	retval = std::wcstombs(ascii, filename.c_str(), filename.size());
+#endif
+	TIFF *out = TIFFOpen(ascii, "w");
 	delete[] ascii;
 	if(!out)
 	{
@@ -150,11 +154,11 @@ bool CImageExporter::ExportImageTif(std::wstring filename, int bit_depth, size_t
 	// Now writing image to the file one strip at a time
 	for (uint32_t row = 0; row < height; row++)
 	{
-		memcpy(buf, &((unsigned char*)data)[row*TIFFScanlineSize(out)], TIFFScanlineSize(out));   
+		std::memcpy(buf, &((unsigned char *)data)[row * TIFFScanlineSize(out)], TIFFScanlineSize(out));
 		if (TIFFWriteScanline(out, buf, row, 0) < 0)
 		{
-			 _TIFFfree(buf);
-			TIFFClose(out); 
+			_TIFFfree(buf);
+			TIFFClose(out);
 			return false;
 		}
 	}
@@ -185,8 +189,12 @@ bool CImageExporter::ExportImageSeriesTif(std::wstring filename, int* bit_depth,
 
 	char* ascii = new char[filename.size() + 1];
 	size_t retval;
-	wcstombs_s( &retval,ascii,filename.size() + 1, filename.c_str(), filename.size());
-	TIFF *out=TIFFOpen(ascii, "w");
+#ifdef _WIN32
+	wcstombs_s(&retval, ascii, filename.size() + 1, filename.c_str(), filename.size());
+#else
+	retval = std::wcstombs(ascii, filename.c_str(), filename.size());
+#endif
+	TIFF *out = TIFFOpen(ascii, "w");
 	delete[] ascii;
 	if(!out)
 	{
@@ -265,8 +273,8 @@ bool CImageExporter::ExportImageSeriesTif(std::wstring filename, int* bit_depth,
 		if(TIFFSetField(out, TIFFTAG_COMPRESSION, compression)==0){TIFFClose(out); return false;} 
 		if(TIFFSetField(out, TIFFTAG_SUBFILETYPE, FILETYPE_PAGE )==0){TIFFClose(out); return false;} 
 		if(TIFFSetField(out, TIFFTAG_PAGENUMBER, ii+1)==0){TIFFClose(out); return false;} 
-		char name[10];
-		sprintf_s(name,"%d",ii+1);
+		char name[11];
+		std::sprintf(name, "%d", ii + 1);
 		if(TIFFSetField(out, TIFFTAG_PAGENAME, name)==0){TIFFClose(out); return false;} 
 		if(TIFFSetField(out, TIFFTAG_IMAGEDESCRIPTION, name)==0){TIFFClose(out); return false;} 
 		if(TIFFSetField(out, TIFFTAG_SOFTWARE, "DIPLOM")==0){TIFFClose(out); return false;} 
@@ -294,7 +302,7 @@ bool CImageExporter::ExportImageSeriesTif(std::wstring filename, int* bit_depth,
 		// Now writing image to the file one strip at a time
 		for (uint32_t row = 0; row < height[ii]; row++)
 		{
-			memcpy(buf, &((unsigned char*)data[ii])[row*TIFFScanlineSize(out)], TIFFScanlineSize(out));   
+			std::memcpy(buf, &((unsigned char*)data[ii])[row*TIFFScanlineSize(out)], TIFFScanlineSize(out));   
 			if (TIFFWriteScanline(out, buf, row, 0) < 0)
 			{
 				 _TIFFfree(buf);

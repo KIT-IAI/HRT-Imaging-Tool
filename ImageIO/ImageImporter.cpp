@@ -62,8 +62,12 @@ bool CImageImporter::ImportTif(std::wstring filename, IIO_DATA_TYPE& format, int
 
 	char* ascii = new char[filename.size() + 1];
 	size_t retval;
-	wcstombs_s( &retval,ascii,filename.size() + 1, filename.c_str(), filename.size());
-	TIFF *tif=TIFFOpen(ascii, "r");
+#ifdef _WIN32
+	wcstombs_s(&retval, ascii, filename.size() + 1, filename.c_str(), filename.size());
+#else
+	retval = wcstombs(ascii, filename.c_str(), filename.size());
+#endif
+	TIFF *tif = TIFFOpen(ascii, "r");
 	delete[] ascii;
 	if(!tif)
 	{
@@ -148,7 +152,7 @@ bool CImageImporter::ImportTif(std::wstring filename, IIO_DATA_TYPE& format, int
 				{
 					if(z+y<h)
 					{
-						memcpy(&((unsigned char*)data)[(y+z)*w*(BitsPerSample/8)*SamplesPerPixel+x*(BitsPerSample/8)*SamplesPerPixel],&((unsigned char*)buf)[z*(tilesize/tileLength)],std::min(static_cast<unsigned int>(tilesize/tileWidth),(w-x)*(BitsPerSample/8)*SamplesPerPixel));
+						std::memcpy(&((unsigned char*)data)[(y+z)*w*(BitsPerSample/8)*SamplesPerPixel+x*(BitsPerSample/8)*SamplesPerPixel],&((unsigned char*)buf)[z*(tilesize/tileLength)],std::min(static_cast<unsigned int>(tilesize/tileWidth),(w-x)*(BitsPerSample/8)*SamplesPerPixel));
 					}
 				}
 			}
@@ -167,7 +171,7 @@ bool CImageImporter::ImportTif(std::wstring filename, IIO_DATA_TYPE& format, int
 				TIFFClose(tif);
 				return false;
 			}
-			memcpy(&(((unsigned char*)data)[static_cast<tmsize_t>(row)*scanlinesize]),(unsigned char*)buf,scanlinesize);
+			std::memcpy(&(((unsigned char*)data)[static_cast<tmsize_t>(row)*scanlinesize]),(unsigned char*)buf,scanlinesize);
 		}
 		_TIFFfree(buf);
 	}
@@ -196,7 +200,12 @@ bool CImageImporter::ImportJpg(std::wstring filename, IIO_DATA_TYPE& format, int
 		JSAMPARRAY buffer;      /* Output row buffer */
 		int row_stride;     /* physical row width in output buffer */
 
+#ifdef _WIN32
 		_wfopen_s(&infile, filename.c_str(), L"rb");
+#else
+		std::filesystem::path filepath(filename);
+		infile = std::fopen(filepath.string().c_str(), "rb");
+#endif
 		if (!infile)
 		{
 			throw CImageIOException(std::wstring(filename), CImageIOException::ePngOpeningError, L"Could not open file.");
@@ -240,7 +249,7 @@ bool CImageImporter::ImportJpg(std::wstring filename, IIO_DATA_TYPE& format, int
 		//step 6, read the image line by line
 		while (cinfo.output_scanline < cinfo.output_height) {
 			jpeg_read_scanlines(&cinfo, buffer, 1);
-			memcpy((unsigned char*)data + counter, buffer[0], row_stride);
+			std::memcpy((unsigned char*)data + counter, buffer[0], row_stride);
 			counter += row_stride;
 		}
 
@@ -260,7 +269,7 @@ void CImageImporter::HandleTiffError(const char * module, const char * fmt, va_l
 {
 	const size_t nBufferSize = 100000;
 	char buffer[nBufferSize];
-	vsprintf_s(buffer, fmt, ap);
+	std::vsprintf(buffer, fmt, ap);
 	
 	std::string Module(module);
 	std::string Message(buffer);
@@ -282,7 +291,12 @@ bool CImageImporter::ImportPng(std::wstring filename, IIO_DATA_TYPE& format, int
 	png_bytep * row_pointers;
 
 	FILE *fp;
-	_wfopen_s(&fp,filename.c_str(), L"rb");
+#ifdef _WIN32
+	_wfopen_s(&fp, filename.c_str(), L"rb");
+#else
+	std::filesystem::path filepath(filename);
+	fp = std::fopen(filepath.string().c_str(), "rb");
+#endif
 	if (!fp)
 	{
 		throw CImageIOException(std::wstring(filename), CImageIOException::ePngOpeningError, L"Could not open file.");
@@ -419,7 +433,7 @@ bool CImageImporter::ImportPng(std::wstring filename, IIO_DATA_TYPE& format, int
 	data=new unsigned char[rowbytes*height];
 	for (y=0; y<height; y++)
 	{
-		memcpy(&((unsigned char*)data)[rowbytes*y],row_pointers[y],rowbytes);
+		std::memcpy(&((unsigned char*)data)[rowbytes*y],row_pointers[y],rowbytes);
 		free(row_pointers[y]);
 	}
 
@@ -450,7 +464,12 @@ bool CImageImporter::ImportMultiPageTif(const std::wstring& filename, IIO_DATA_T
 		bIsTiffErrorHandlerSet = true;
 	}
 
-	TIFF* tif = TIFFOpenW(filename.c_str(), "r");
+#ifdef _WIN32
+	TIFF *tif = TIFFOpenW(filename.c_str(), "r");
+#else
+	std::filesystem::path filepath(filename);
+	TIFF *tif = TIFFOpen(filepath.string().c_str(), "r");
+#endif
 	if (!tif)
 	{
 		return false;
@@ -633,7 +652,7 @@ bool CImageImporter::ReadMultiPageTifImageData(TIFF* tif, uint32_t imageLength, 
 					{
 						if (z + y < imageLength)
 						{
-							memcpy(&(reinterpret_cast<unsigned char*>(data[i])[(y + z) * imageWidth * bytesPerPixel + x * bytesPerPixel]), &(reinterpret_cast<unsigned char*>(tileBuffer)[z * (tileSize / tileLength)]), std::min(static_cast<size_t>(tileSize / tileWidth), (imageWidth - x) * bytesPerPixel));
+							std::memcpy(&(reinterpret_cast<unsigned char*>(data[i])[(y + z) * imageWidth * bytesPerPixel + x * bytesPerPixel]), &(reinterpret_cast<unsigned char*>(tileBuffer)[z * (tileSize / tileLength)]), std::min(static_cast<size_t>(tileSize / tileWidth), (imageWidth - x) * bytesPerPixel));
 						}
 					}
 				}
@@ -655,7 +674,7 @@ bool CImageImporter::ReadMultiPageTifImageData(TIFF* tif, uint32_t imageLength, 
 					data = nullptr;
 					return false;
 				}
-				memcpy(&(reinterpret_cast<unsigned char*>(data[i])[row * scanlineSize]), reinterpret_cast<unsigned char*>(scanlineBuffer), scanlineSize);
+				std::memcpy(&(reinterpret_cast<unsigned char*>(data[i])[row * scanlineSize]), reinterpret_cast<unsigned char*>(scanlineBuffer), scanlineSize);
 			}
 			_TIFFfree(scanlineBuffer);
 		}
