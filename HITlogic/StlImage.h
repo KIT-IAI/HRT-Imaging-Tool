@@ -247,8 +247,8 @@ public:
 	void Copy2d(StlImageRect ourRoi, const StlImage<T>& src, StlImagePoint srcPoint = { 0,0 });
 	void Copy2d(StlImageRect ourRoi, const StlImage<T>& src, StlImageRect srcROI);
 
-	void Child2dIndep(StlImage<T>& src, StlImagePoint start, StlImageSize size);
-	void Child2dIndep(StlImage<T>& src, StlImageRect rect);
+	void Child2dIndep(const StlImage<T>& src, StlImagePoint start, StlImageSize size);
+	void Child2dIndep(const StlImage<T>& src, StlImageRect rect);
 
 	template< typename T2 = T>
 	typename std::enable_if<std::is_arithmetic<T2>::value, void>::type Smooth(const StlImage<T>& src);

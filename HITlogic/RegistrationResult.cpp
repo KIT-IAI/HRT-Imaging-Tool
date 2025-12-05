@@ -97,7 +97,7 @@ void CRegistrationResult::CalculateResidual(DPoint referenceImageCoordinates, DP
 	RigidRegistrationResult.SetPhi((float)m_Residual.GetValue());
 }
 
-CResidual CRegistrationResult::CalculateSubImageResidual(CRigidRegistrationResult& registrationresult, std::shared_ptr<CDenseMatrix> pRigidSolution, size_t subImageHeight, size_t subPerImg)
+CResidual CRegistrationResult::CalculateSubImageResidual(const CRigidRegistrationResult& registrationresult, std::shared_ptr<CDenseMatrix> pRigidSolution, size_t subImageHeight, size_t subPerImg)
 {
 	CResidual subImgResidual = CResidual::CreateFromSubimageRegistration(registrationresult, pRigidSolution, subImageHeight, subPerImg);
 	return subImgResidual;

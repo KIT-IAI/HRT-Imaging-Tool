@@ -55,7 +55,7 @@ public:
 	bool IsValid() const;
 
 	void CalculateResidual(DPoint image_coordinates, DPoint coordinates);
-	CResidual CalculateSubImageResidual(CRigidRegistrationResult& registrationresult, std::shared_ptr<CDenseMatrix> pRigidSolution, size_t subImageHeight, size_t subPerImg);
+	CResidual CalculateSubImageResidual(const CRigidRegistrationResult& registrationresult, std::shared_ptr<CDenseMatrix> pRigidSolution, size_t subImageHeight, size_t subPerImg);
 
 	void Scale(const CRegistrationResult& source, double fScalationFactor);
 

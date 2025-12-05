@@ -1123,7 +1123,7 @@ bool StlImage<T>::ImportFromMultiPageTiffFile(const std::wstring& filepath, std:
 }
 
 template<typename T>
-void StlImage<T>::Child2dIndep(StlImage<T>& src, StlImageRect rect)
+void StlImage<T>::Child2dIndep(const StlImage<T>& src, StlImageRect rect)
 {
 	Child2dIndep(src, { rect.x, rect.y }, { rect.sx, rect.sy });
 }
@@ -1216,7 +1216,7 @@ void StlImage<T>::Copy2d(StlImageRect ourRoi, const StlImage<T>& src, StlImageRe
 }
 
 template<typename T>
-void StlImage<T>::Child2dIndep(StlImage<T>& src, StlImagePoint start, StlImageSize size)
+void StlImage<T>::Child2dIndep(const StlImage<T>& src, StlImagePoint start, StlImageSize size)
 {
 	Alloc(size);
 	for (auto y = 0u; y < size.y;y++)
