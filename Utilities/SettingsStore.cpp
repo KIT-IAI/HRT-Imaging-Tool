@@ -62,14 +62,14 @@ public:
 		{
 			CFileUtilities::MakeDirectory(userConfigDir);
 		}
-		UserPath = userConfigDir / configFileName;
+		UserPath = (userConfigDir / configFileName).string();
 		sqlite3_open_v2(UserPath.c_str(), &UserDB, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, nullptr);
 
 		if (LocalMachineWriteable() && !CFileUtilities::PathExists(systemConfigDir))
 		{
 			CFileUtilities::MakeDirectory(systemConfigDir);
 		}
-		MachinePath = systemConfigDir / configFileName;
+		MachinePath = (systemConfigDir / configFileName).string();
 		if (LocalMachineWriteable())
 		{
 			sqlite3_open_v2(MachinePath.c_str(), &MachineDB, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, nullptr);
