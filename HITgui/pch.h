@@ -21,20 +21,24 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #pragma once
+
 #define _CRT_SECURE_NO_WARNINGS 1
 
+#ifdef _WIN32
 // Windows stuff
 #include <SDKDDKVer.h>
 
 //Remove this!
 #include <afxwin.h>
+#endif
 
-// Standard Library
+// standard libraries
+#include <filesystem>
 #include <string>
 using std::string;
 using std::wstring;
 
-// Boost
+// Boost libraries
 #include <boost/algorithm/string.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/filesystem.hpp>
@@ -58,12 +62,27 @@ using boost::property_tree::write_json;
 using boost::property_tree::read_xml;
 using boost::property_tree::write_xml;
 
-// wxWidgets
+// wxWidgets libraries
 #include <wx/wxprec.h>
 #ifndef WX_PRECOMP
 	#include <wx/wx.h>
 #endif
+#include <wx/clipbrd.h>
 #include <wx/filepicker.h>
 #include <wx/spinctrl.h>
 #include <wx/stdpaths.h>
 #include <wx/xrc/xmlres.h>
+
+// Utilities project
+#include "FileUtilities.h"
+#if defined(__AVX__) || defined(__AVX2__) || defined (__AVX512F__)
+#include "InstructionSet.h" 
+#endif
+#include "Log.h"
+#include "SettingsStore.h"
+#include "Utilities.h"
+
+// HITlogic project
+#include "SNPDatasetLoader.h"
+#include "SNPDatasetParameterExporter.h"
+#include "SNPDatasetParameterLoader.h"

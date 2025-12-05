@@ -20,11 +20,10 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-#include "pch.h" 
-#include "HRTImagingToolIncludes.h"
-#include "Utilities.h" 
-#include "HRTImagingToolParameterDialog.h"
-#include <wx/clipbrd.h>
+#include "pch.h"
+#include "HRTImagingToolApp.h"
+
+
 
 wxIMPLEMENT_APP(HRTImagingToolApp);
 

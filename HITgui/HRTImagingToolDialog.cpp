@@ -21,11 +21,9 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #include "pch.h"
-#include "HRTImagingToolIncludes.h"
+#include "HRTImagingToolDialog.h"
 
-#include <filesystem>
 
-#include "Utilities.h"
 
 const wxString HRTImagingToolDialog::s_sModuleName = L"CHRTImagingToolDlg";
 const wxColour HRTImagingToolDialog::c_crNoError = wxColour(150, 200, 255);

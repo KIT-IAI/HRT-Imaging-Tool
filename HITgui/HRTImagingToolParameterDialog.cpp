@@ -21,7 +21,9 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #include "pch.h"
-#include "HRTImagingToolIncludes.h"
+#include "HRTImagingToolParameterDialog.h"
+
+
 
 const std::vector<std::pair<wxString, wxString>> HRTImagingToolParameterDialog::s_parameterHelpStrings = {
 	{L"nMaxSequenceLength (default: 0)",
