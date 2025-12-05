@@ -117,13 +117,29 @@ size_t CSubImageCorrelation::SearchBestCorrelatedRowInOverlappingArea(StlImagePo
 	assert(OverlappingRectangles.first.Size() == OverlappingRectangles.second.Size());
 
 	StlImage<float> OverlappingReferenceChild;
-	if (m_Images.GetReferenceImageSmooth() == nullptr)	OverlappingReferenceChild.Child2dIndep(SmoothImage(*m_Images.GetReferenceImage()), OverlappingRectangles.first);
-	else 	OverlappingReferenceChild.Child2dIndep(*m_Images.GetReferenceImageSmooth(), OverlappingRectangles.first);
-	//OverlappingReferenceChild.Child2dIndep(SmoothedReferenceImage, OverlappingRectangles.first);
+	auto refImgSmooth = m_Images.GetReferenceImageSmooth();
+	if (refImgSmooth == nullptr)
+	{
+		auto refImg = m_Images.GetReferenceImage();
+		OverlappingReferenceChild.Child2dIndep(SmoothImage(*refImg), OverlappingRectangles.first);
+	}
+	else
+	{
+		OverlappingReferenceChild.Child2dIndep(*refImgSmooth, OverlappingRectangles.first);
+	}
+	// OverlappingReferenceChild.Child2dIndep(SmoothedReferenceImage, OverlappingRectangles.first);
 	StlImage<float> OverlappingTemplateChild;
-	if (m_Images.GetTemplateImageSmooth() == nullptr)	OverlappingTemplateChild.Child2dIndep(SmoothImage(*m_Images.GetTemplateImage()), OverlappingRectangles.first);
-	else 	OverlappingTemplateChild.Child2dIndep(*m_Images.GetTemplateImageSmooth(), OverlappingRectangles.second);
-	//OverlappingTemplateChild.Child2dIndep(m_Images.GetTemplateImageSmooth() == nullptr ? SmoothImage(*m_Images.GetTemplateImage()) : *m_Images.GetTemplateImageSmooth(), OverlappingRectangles.second);
+	auto templImgSmooth = m_Images.GetTemplateImageSmooth();
+	if (templImgSmooth == nullptr)
+	{
+		auto templImg = m_Images.GetTemplateImage();
+		OverlappingTemplateChild.Child2dIndep(SmoothImage(*templImg), OverlappingRectangles.first);
+	}
+	else
+	{
+		OverlappingTemplateChild.Child2dIndep(*templImgSmooth, OverlappingRectangles.second);
+	}
+	// OverlappingTemplateChild.Child2dIndep(m_Images.GetTemplateImageSmooth() == nullptr ? SmoothImage(*m_Images.GetTemplateImage()) : *m_Images.GetTemplateImageSmooth(), OverlappingRectangles.second);
 
 	assert(OverlappingReferenceChild.GetSize() == OverlappingTemplateChild.GetSize());
 
