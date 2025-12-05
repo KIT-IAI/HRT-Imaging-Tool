@@ -34,10 +34,11 @@ CImageExporter::CImageExporter(void)
 CImageExporter::~CImageExporter(void)
 {
 }
+
 bool CImageExporter::ExportImageTif(std::wstring filename, int bit_depth, size_t height, size_t width, const void* const data, IIO_DATA_TYPE in_format, IIO_TIF_COMPRESSION flags)
 {
-	uint16 BitsPerSample=static_cast<uint16>(bit_depth), SamplesPerPixel, SampleFormat, photo, compression;
-	switch(in_format)
+	uint16_t BitsPerSample = static_cast<uint16_t>(bit_depth), SamplesPerPixel, SampleFormat, photo, compression;
+	switch (in_format)
 	{
 	case IIO_DATA_TYPE::RGB_UNSIGNED:
 		SamplesPerPixel=3;
@@ -139,10 +140,15 @@ bool CImageExporter::ExportImageTif(std::wstring filename, int bit_depth, size_t
 	}
 
 	// We set the strip size of the file to be size of one row of pixels
-	if(TIFFSetField(out, TIFFTAG_ROWSPERSTRIP, TIFFDefaultStripSize(out, static_cast<uint32>(TIFFScanlineSize(out))))==0){ _TIFFfree(buf);TIFFClose(out); return false;} 
+	if (TIFFSetField(out, TIFFTAG_ROWSPERSTRIP, TIFFDefaultStripSize(out, static_cast<uint32_t>(TIFFScanlineSize(out)))) == 0)
+	{
+		_TIFFfree(buf);
+		TIFFClose(out);
+		return false;
+	}
 
-	//Now writing image to the file one strip at a time
-	for (uint32 row = 0; row < height; row++)
+	// Now writing image to the file one strip at a time
+	for (uint32_t row = 0; row < height; row++)
 	{
 		memcpy(buf, &((unsigned char*)data)[row*TIFFScanlineSize(out)], TIFFScanlineSize(out));   
 		if (TIFFWriteScanline(out, buf, row, 0) < 0)
@@ -188,8 +194,8 @@ bool CImageExporter::ExportImageSeriesTif(std::wstring filename, int* bit_depth,
 	}
 	for(int ii = 0;ii<images_count;ii++)
 	{
-		uint16 BitsPerSample=static_cast<uint16>(bit_depth[ii]), SamplesPerPixel, SampleFormat, photo, compression;
-		switch(in_format[ii])
+		uint16_t BitsPerSample = static_cast<uint16_t>(bit_depth[ii]), SamplesPerPixel, SampleFormat, photo, compression;
+		switch (in_format[ii])
 		{
 		case IIO_DATA_TYPE::RGB_UNSIGNED:
 			SamplesPerPixel=3;
@@ -278,10 +284,15 @@ bool CImageExporter::ExportImageSeriesTif(std::wstring filename, int* bit_depth,
 		}
 
 		// We set the strip size of the file to be size of one row of pixels
-		if(TIFFSetField(out, TIFFTAG_ROWSPERSTRIP, TIFFDefaultStripSize(out, static_cast<uint32>(TIFFScanlineSize(out))))==0){ _TIFFfree(buf);TIFFClose(out); return false;} 
+		if (TIFFSetField(out, TIFFTAG_ROWSPERSTRIP, TIFFDefaultStripSize(out, static_cast<uint32_t>(TIFFScanlineSize(out)))) == 0)
+		{
+			_TIFFfree(buf);
+			TIFFClose(out);
+			return false;
+		}
 
-		//Now writing image to the file one strip at a time
-		for (uint32 row = 0; row < height[ii]; row++)
+		// Now writing image to the file one strip at a time
+		for (uint32_t row = 0; row < height[ii]; row++)
 		{
 			memcpy(buf, &((unsigned char*)data[ii])[row*TIFFScanlineSize(out)], TIFFScanlineSize(out));   
 			if (TIFFWriteScanline(out, buf, row, 0) < 0)
