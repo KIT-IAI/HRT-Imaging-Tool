@@ -441,7 +441,7 @@ void C3DBuffer<T>::loadFromImageSeries(const std::wstring_view folderName)
 	assert(files.size() > 0);
 
 	int maxZ = -1;
-	for each(auto file in files) //Suche höchste Z-Koordinate 
+	for (auto file : files) // Suche höchste Z-Koordinate
 	{
 		auto fileName = file.substr(file.find_last_of('\\') + 1);
 		int imgNum = std::stoi(fileName.substr(0, fileName.size() - 4));
