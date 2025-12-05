@@ -41,7 +41,7 @@ void CBorderCropper::ProcessImages(const vector<StlImage<float>*>& SourceImages,
 			++m_nProcessedImages;
 		});
 #else
-	for (size_t nIndex = 0; nIndex < SourceImages.size(), nIndex++)
+	for (size_t nIndex = 0; nIndex < SourceImages.size(); nIndex++)
 	{
 		if (!bInplace && !DestinationImages[nIndex]->IsAllocated())
 		{
