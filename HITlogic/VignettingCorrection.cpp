@@ -79,7 +79,7 @@ void CVignettingCorrection::SmoothProfile(size_t nTimes, StlImage<float>& Profil
 StlImage<float> CVignettingCorrection::CreateVignettingProfile(const vector<StlImage<float>*>& InputImages, size_t nMaxImages, size_t nSmoothIterations)
 {
 	if (InputImages.size() == 0)
-		throw std::exception("Invalid argument \"InputImages\". An empty vector was passed.");
+		throw std::runtime_error("Invalid argument \"InputImages\". An empty vector was passed.");
 
 	StlImage<float> NewProfile;
 	NewProfile.Alloc(InputImages[0]->GetSize());
@@ -94,7 +94,7 @@ StlImage<float> CVignettingCorrection::CreateVignettingProfile(const vector<StlI
 	for (const auto& pImage : InputImages)
 	{
 		if (pImage->GetSize() != NewProfile.GetSize())
-			throw std::exception("Image sizes differ. Could not create VignettingProfile.");
+			throw std::runtime_error("Image sizes differ. Could not create VignettingProfile.");
 		NewProfile += *pImage;
 		nCount++;
 		if (nCount >= nMaxImages)

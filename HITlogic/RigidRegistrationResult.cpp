@@ -558,12 +558,12 @@ vector<CRigidRegistrationResult> CRigidRegistrationResult::LoadFromFile(const ws
 	auto nLineCount = CFileUtilities::CountNumberOfLines(fileName, true);
 
 	if (nLineCount <= 0)
-		throw std::exception("File is empty.");
+		throw std::runtime_error("File is empty.");
 
 	CDenseMatrix m(nLineCount, m_nValueCount);
 
 	if (!m.ReadMatrix(fileName))
-		throw std::exception("Could not read File.");
+		throw std::runtime_error("Could not read File.");
 
 	results.reserve(m.Rows());
 	for (size_t i = 0; i < m.Rows(); i++)

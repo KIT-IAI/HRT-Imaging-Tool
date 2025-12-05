@@ -96,7 +96,7 @@ void CImageMasker::ProcessImage(StlImage<float>* pImage, StlImageSize MaskingSiz
 	if (
 		MaskingSize.x < pImage->GetSize().x ||
 		MaskingSize.y < pImage->GetSize().y)
-		throw std::exception("Masking Size was set lower than the biggest image size. Information would have been thrown away.");
+		throw std::runtime_error("Masking Size was set lower than the biggest image size. Information would have been thrown away.");
 
 	if (MaskingSize != pImage->GetSize())
 		pImage->AddBorders(*pImage, 0, 0, MaskingSize.x - pImage->GetSize().x, MaskingSize.y - pImage->GetSize().y, 0.0);

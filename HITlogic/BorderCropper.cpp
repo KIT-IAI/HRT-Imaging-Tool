@@ -69,7 +69,7 @@ void CBorderCropper::GetWorkUnits(size_t& nCompletedWorkUnits, size_t& nTotalWor
 void CBorderCropper::CropBorder(StlImage<float>* pImage)
 {
 	if (ContainsNegativeValues(pImage))
-		throw std::exception("Image contains negative values.");
+		throw std::runtime_error("Image contains negative values.");
 
 	pImage->CropBorders(*pImage);
 }

@@ -1613,7 +1613,7 @@ void StlImage<T>::Resize(StlImage<T>& src, boost::rational<int> ratio)
 {
 	if (ratio.numerator() != 1)
 	{
-		throw new std::exception("not done yet");
+		throw std::runtime_error("not done yet");
 	}
 	Alloc(StlImageSize(src.GetSize().x / ratio.denominator(), src.GetSize().y / ratio.denominator()));
 	for (auto y = 0;y < m_size.y;y++)

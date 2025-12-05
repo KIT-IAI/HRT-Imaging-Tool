@@ -211,7 +211,7 @@ void CImageRegistrationResult::RemapIndices()
 		size_t templateImage = NewRegistrationResult.GetTemplateImageIndex();
 
 		if ((referenceImage > maxImageIndex) || (indexMap[referenceImage] < 0) || (templateImage > maxImageIndex) || (indexMap[templateImage] < 0))
-			throw std::exception("Error when trying to remap indices for a registration group.");
+			throw std::runtime_error("Error when trying to remap indices for a registration group.");
 
 		NewRegistrationResult.SetReferenceImageIndex(indexMap[referenceImage]);
 		NewRegistrationResult.SetTemplateImageIndex(indexMap[templateImage]);

@@ -28,11 +28,11 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 CSNPFusionDataset CSNPDatasetLoader::FromMultiPageTifFile(const std::wstring& datasetFilePath, bool exportImages, const std::wstring& exportPath)
 {
 	if (datasetFilePath.empty() || (CFileUtilities::GetExtension(datasetFilePath) != L"tif" && CFileUtilities::GetExtension(datasetFilePath) != L"tiff"))
-		throw std::exception("Invalid Inputfile.");
+		throw std::runtime_error("Invalid Inputfile.");
 
 	std::vector<StlImage<float>> images;
 	if (!StlImage<float>::ImportFromMultiPageTiffFile(datasetFilePath, images))
-		throw std::exception("Extraction of image sequence from multi-page TIFF file failed.");
+		throw std::runtime_error("Extraction of image sequence from multi-page TIFF file failed.");
 
 	// we need a vector of StlImage pointers further down; the dataset object will
 	// take possession of the pointers
@@ -92,7 +92,7 @@ vector<CSNPFusionDataset> CSNPDatasetLoader::FromTextFile(wstring sPath)
 		else						// File Path
 		{
 			if (ListOfFileLists.empty())
-				throw std::exception("No dataset header was found.");
+				throw std::runtime_error("No dataset header was found.");
 
 			line = CFileUtilities::GetAbsolutePath(sPath, line);
 
@@ -107,7 +107,7 @@ vector<CSNPFusionDataset> CSNPDatasetLoader::FromTextFile(wstring sPath)
 		Datasets[i].SetImageFileList(ListOfFileLists[i]);
 
 		if (ListOfFileLists[i].empty())
-			throw std::exception("Empty dataset detected.");
+			throw std::runtime_error("Empty dataset detected.");
 	}
 	return Datasets;
 }
@@ -122,7 +122,7 @@ vector<CSNPFusionDataset> CSNPDatasetLoader::FromAnyFile(wstring sPath)
 	if (Extension == L"tif" || Extension == L"tiff")
 		return { FromMultiPageTifFile(sPath) };
 
-	throw std::exception("Unknown file format.");
+	throw std::runtime_error("Unknown file format.");
 }
 
 CSNPFusionDataset CSNPDatasetLoader::FromSQLiteDatabase(CSQLiteDatabase& Database)

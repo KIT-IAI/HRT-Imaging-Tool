@@ -48,7 +48,7 @@ void CStrategyStep::SetParameters(const CRegistrationStrategyParameters& paramet
 	m_nMaxDistance = parameters.nMaxDistance;
 
 	if (m_nWindow == 0)
-		throw std::exception("Window size cannot be zero.");
+		throw std::runtime_error("Window size cannot be zero.");
 }
 
 

@@ -132,7 +132,7 @@ template <> vector<CRigidRegistrationResult> CSQLiteTable::Convert() const
 		return{};
 
 	if (!std::all_of(begin(), end(), [this](const CSQLiteTableRow& Row) {return Row.size() == (*begin()).size(); }))
-		throw std::exception("Non-uniform table cannot be converted into a registration result.");
+		throw std::runtime_error("Non-uniform table cannot be converted into a registration result.");
 
 	vector<CRigidRegistrationResult> Result;
 
