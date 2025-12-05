@@ -49,7 +49,7 @@ protected:
 	static void SolveRigidPositioning(const std::vector<CRegistrationResult>& RegistrationResults, std::shared_ptr<CDenseMatrix> pRigidSolution, CSLESolver::EAlgorithm eSolverAlgorithm, size_t nImageCount);
 
 	static std::vector<CResidual> GetAllResiduals(const std::vector<CRegistrationResult>& RegistrationResults);
-	static std::vector<CResidual> CRegistrationPostProcessor::GetSubImageResiduals(const vector<CRegistrationResult>& RegistrationResults);
+	static std::vector<CResidual> GetSubImageResiduals(const vector<CRegistrationResult>& RegistrationResults);
 
 	static void RemoveRegistration(const CRegistrationResult& registration, std::vector<CRegistrationResult>& validResults, std::vector<CRegistrationResult>& invalidResults);
 

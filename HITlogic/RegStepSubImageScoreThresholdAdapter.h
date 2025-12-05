@@ -46,7 +46,7 @@ public:
 
 private:
 	void AdaptScoreThreshold();
-	void CRegStepSubImageScoreThresholdAdapter::ChangeValidity(std::vector<CRegistrationResult>& validRegistrationResults);
+	void ChangeValidity(std::vector<CRegistrationResult>& validRegistrationResults);
 
 	CDenseMatrix SolveFlexiblePositioning(const vector<StlImage<float>*>& images, const vector<CRegistrationResult>& validRegistrationResults, const vector<std::list<size_t>>& imagegroups) const;
 

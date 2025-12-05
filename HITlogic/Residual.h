@@ -40,7 +40,7 @@ public:
 	static double CalculateMedianResidual(const std::vector<CResidual>& allResiduals);
 	static double CalculateQuantileResidual(const std::vector<CResidual>& allResiduals, double quantile);
 	static double CalculateMaximumResidual(const std::vector<CResidual>& allResiduals);
-	static int CResidual::CountResidualsAboveThreshold(const std::vector<CResidual>& allResiduals, double lowerBound, double upperBound);
+	static int CountResidualsAboveThreshold(const std::vector<CResidual>& allResiduals, double lowerBound, double upperBound);
 
 	double GetValue() const { return m_fValue; };
 	double GetX() const { return m_fX; };
