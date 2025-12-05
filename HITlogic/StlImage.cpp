@@ -471,7 +471,7 @@ typename std::enable_if<std::is_arithmetic<T2>::value, void>::type StlImage<T>::
 
 template<typename T>
 template< typename T2>
-typename inline std::enable_if<std::is_arithmetic<T2>::value, T>::type StlImage<T>::calcPixelDistChamfer(int x, int y)
+inline typename std::enable_if<std::is_arithmetic<T2>::value, T>::type StlImage<T>::calcPixelDistChamfer(int x, int y)
 {
 	/*
 		1 2 3		4 3 4

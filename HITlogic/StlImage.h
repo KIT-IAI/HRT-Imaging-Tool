@@ -294,5 +294,5 @@ public:
 	typename std::enable_if<std::is_arithmetic<T2>::value, void>::type DistanceChamfer();
 private:
 	template< typename T2 = T>
-	typename inline std::enable_if<std::is_arithmetic<T2>::value, T>::type calcPixelDistChamfer(int x, int y);
+	inline typename std::enable_if<std::is_arithmetic<T2>::value, T>::type calcPixelDistChamfer(int x, int y);
 };
