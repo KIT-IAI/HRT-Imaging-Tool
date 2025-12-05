@@ -314,7 +314,7 @@ namespace std
 	};
 };
 
-template<typename T> static std::vector<T> CArrayUtilities::FilterByIndex(const std::vector<T>& Input, const std::list<size_t>& Indices)
+template<typename T> std::vector<T> CArrayUtilities::FilterByIndex(const std::vector<T>& Input, const std::list<size_t>& Indices)
 {
 	// This could be done with an std::copy_if
 	std::vector<T> Out;
