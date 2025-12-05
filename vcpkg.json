@@ -19,7 +19,8 @@
     "libpng",
     "wxwidgets",
     "tiff",
-    "intel-mkl"
+    "intel-mkl",
+    "libjpeg-turbo"
   ],
   "builtin-baseline": "ef97fc17c79603d33b13833db54bb77f8f747306"
 }
