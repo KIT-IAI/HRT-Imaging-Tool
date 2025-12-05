@@ -64,7 +64,7 @@ void CRegistrationPostProcessor::CalculateSubImageResiduals(std::vector<CRegistr
 
 		for (auto& FlexibleRegistration : Registration.FlexibleRegistrationResults)
 		{
-			CResidual& residual = Registration.CalculateSubImageResidual(FlexibleRegistration, pSolution, nSubImageHeight, Registration.FlexibleRegistrationResults.size());
+			CResidual residual = Registration.CalculateSubImageResidual(FlexibleRegistration, pSolution, nSubImageHeight, Registration.FlexibleRegistrationResults.size());
 
 			if (residual.GetValidity() > 0) {
 				validSubImageResiduals.push_back(residual);
