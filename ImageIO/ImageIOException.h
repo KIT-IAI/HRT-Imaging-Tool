@@ -47,7 +47,7 @@ public:
 	explicit CImageIOException(const std::wstring& sImagePath, EReason eReason, const std::wstring& sAdditionalInfo = L"");
 	~CImageIOException() = default;
 
-	const char* what() const override;
+	virtual const char* what() const noexcept override;
 
 	std::wstring sImagePath;
 	EReason eReason;

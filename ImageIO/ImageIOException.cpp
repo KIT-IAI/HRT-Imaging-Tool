@@ -34,7 +34,7 @@ CImageIOException::CImageIOException(const std::wstring & sImagePath, EReason eR
 	sCompleteErrorMessage = GetExceptionMessage(*this);
 }
 
-const char* CImageIOException::what() const
+const char* CImageIOException::what() const noexcept
 {
 	return sCompleteErrorMessage.c_str();
 }
