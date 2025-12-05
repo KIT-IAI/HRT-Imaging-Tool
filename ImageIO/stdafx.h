@@ -34,7 +34,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 // standard libraries
 #include <algorithm>
 #include <cassert>
-#include <exception>
+#include <stdexcept>
 
 // other external libraries
 #include <jpeglib.h>

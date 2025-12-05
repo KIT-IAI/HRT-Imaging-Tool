@@ -26,7 +26,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 CImageIOException::CImageIOException(const std::wstring & sImagePath, EReason eReason, const std::wstring & sAdditionalInfo)
-	: std::exception(std::string(sAdditionalInfo.begin(), sAdditionalInfo.end()).c_str())
+	: std::runtime_error(std::string(sAdditionalInfo.begin(), sAdditionalInfo.end()).c_str())
 	, sImagePath(sImagePath)
 	, eReason(eReason)
 	, sAdditionalInfo(sAdditionalInfo)
