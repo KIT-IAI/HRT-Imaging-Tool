@@ -643,7 +643,8 @@ bool CImageImporter::ReadMultiPageTifImageData(TIFF* tif, uint32_t imageLength, 
 					{
 						_TIFFfree(tileBuffer);
 						TIFFClose(tif);
-						for (size_t j = 0; j <= i; j++) delete[] data[j];
+						for (size_t j = 0; j <= i; j++)
+							delete[] static_cast<unsigned char *>(data[j]);
 						delete[] data;
 						data = nullptr;
 						return false;
@@ -669,7 +670,8 @@ bool CImageImporter::ReadMultiPageTifImageData(TIFF* tif, uint32_t imageLength, 
 				{
 					_TIFFfree(scanlineBuffer);
 					TIFFClose(tif);
-					for (size_t j = 0; j <= i; j++) delete[] data[j];
+					for (size_t j = 0; j <= i; j++)
+						delete[] static_cast<unsigned char *>(data[j]);
 					delete[] data;
 					data = nullptr;
 					return false;
