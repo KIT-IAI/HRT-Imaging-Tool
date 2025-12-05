@@ -411,8 +411,8 @@ template< typename T2>
 typename std::enable_if<std::is_same<T2, float>::value, void>::type StlImage<T>::Abs(const StlImage<std::complex<T>>& src)
 {
 	Alloc(src.GetSize());
-	long long size = m_data.size();
-	vcabs((int*)&size, (MKL_Complex8*)src.m_data.data(), m_data.data());
+	MKL_INT size = static_cast<MKL_INT>(m_data.size());
+	vcAbs(size, (MKL_Complex8*)src.m_data.data(), m_data.data());
 	//std::transform(src.m_data.cbegin(), src.m_data.cend(), m_data.begin(), [](std::complex<T> elem)-> T {return abs(elem);});
 }
 
