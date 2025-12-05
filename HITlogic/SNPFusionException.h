@@ -22,9 +22,8 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #pragma once
 
-class CSNPFusionException : public std::exception
+class CSNPFusionException : public std::runtime_error
 {
 public:
 	explicit CSNPFusionException(std::wstring message);
 };
-
