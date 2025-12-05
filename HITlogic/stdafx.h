@@ -20,13 +20,13 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-// stdafx.h : Includedatei für Standardsystem-Includedateien
-// oder häufig verwendete projektspezifische Includedateien,
-// die nur in unregelmäßigen Abständen geändert werden.
-//
+// stdafx.h : include file for standard system include files,
+//  or project specific include files that are used frequently, but
+//      are changed infrequently
 
 #pragma once
 
+#ifdef _WIN32
 // Windows stuff
 #include <SDKDDKVer.h>
 
@@ -43,15 +43,19 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 // all, it may turn out that this is not the last problem on the long way to
 // true portability.
 #include <afxwin.h>         // MFC core and standard components
+#endif
 
-// Standard library
+// standard libraries
 #include <algorithm>
 #include <array>
 #include <chrono>
 #include <filesystem>
 #include <fstream>
+#include <future>
 #include <iomanip>
+#include <iostream>
 #include <memory>
+#include <numeric>
 #include <sstream>
 #include <string>
 #include <string_view>
@@ -78,10 +82,33 @@ using std::wofstream;
 
 // Boost libraries
 #include <boost/format.hpp>
+#include <boost/thread/barrier.hpp>
+
+// other external libraries
+#ifdef _WIN32
+#include <ppl.h>
+#endif
+#include <mkl.h>
+#include <mkl_dfti.h>
+
+// alglib project
+#include "interpolation.h"
+
+// ImageIO project
+#include "ImageExporter.h"
+#include "ImageImporter.h"
+#include "ImageIOException.h"
 
 // Utilities project
 #include "ArrayUtilities.h"
+#include "Compare.h"
+#include "DateTimeUtilities.h"
+#include "EnvironmentVariable.h"
 #include "FileUtilities.h"
 #include "Log.h"
 #include "MathTools.h"
+#include "Point.h"
+#include "SettingsStore.h"
 #include "StringUtilities.h"
+#include "TextFileOutput.h"
+#include "TimeMeasurement.h"

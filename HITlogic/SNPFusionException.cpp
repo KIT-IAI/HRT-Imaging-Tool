@@ -23,6 +23,8 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "SNPFusionException.h"
 
+
+
 CSNPFusionException::CSNPFusionException(wstring message)
 	: std::exception(CStringUtilities::ConvertToStdString(message).c_str())
 {

@@ -23,6 +23,8 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "CorrelationOffset.h"
 
+
+
 void CCorrelationOffset::Inverse()
 {
 	xOffset = -xOffset;

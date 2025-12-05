@@ -22,7 +22,8 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #include "stdafx.h"
 #include "SNPDatasetParameterExporter.h"
-#include "SettingsStore.h"
+
+
 
 void CSNPDatasetParameterExporter::ExportChangesToRegistry(const wstring& regPath, const CSNPDatasetParameters& parameters, const CSNPDatasetParameters& reference)
 {

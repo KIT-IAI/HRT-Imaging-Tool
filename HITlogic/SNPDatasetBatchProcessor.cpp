@@ -22,8 +22,11 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #include "stdafx.h"
 #include "SNPDatasetBatchProcessor.h"
+
 #include "SNPDatasetLoader.h"
 #include "SNPFusionException.h"
+
+
 
 void CSNPDatasetBatchProcessor::OnCancel()
 {

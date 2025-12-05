@@ -24,6 +24,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "NoPairVerificator.h"
 
 
+
 CNoPairVerificator::CNoPairVerificator(const CRegistrationVerificationParameters& Parameters)
 	:CImagePairVerificator(Parameters)
 {

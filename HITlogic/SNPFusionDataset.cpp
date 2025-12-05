@@ -21,21 +21,20 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #include "stdafx.h"
-
 #include "SNPFusionDataset.h"
 
-#include "SNPFusionException.h"
-#include <TimeMeasurement.h>
-#include "ImageRegistrator.h"
-#include "ImageLoader.h"
-#include "HrtPreProcessingPipeline.h"
-#include "HRTGlobalPositioning.h"
-#include "SNPDatasetResultLoader.h"
 #include "CompositingFactory.h"
 #include "CompositingFusion.h"
+#include "HRTGlobalPositioning.h"
+#include "HrtPreProcessingPipeline.h"
+#include "ImageLoader.h"
+#include "ImageRegistrator.h"
 #include "RegStepScoreThresholdAdapter.h"
+#include "SNPDatasetResultLoader.h"
+#include "SNPFusionException.h"
 
 using namespace std;
+
 
 
 /**	\brief Die Bezeichnung des Moduls.

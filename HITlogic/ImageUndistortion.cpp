@@ -23,10 +23,6 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "ImageUndistortion.h"
 
-#include <algorithm>
-
-#include "interpolation.h"
-
 
 
 CImageUndistortion::CImageUndistortion(EInterpolationMode eInterpolationModeX, EInterpolationMode eInterpolationModeY)

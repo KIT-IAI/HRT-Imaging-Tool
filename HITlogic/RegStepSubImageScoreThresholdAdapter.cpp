@@ -23,8 +23,6 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "RegStepSubImageScoreThresholdAdapter.h"
 
-#include <iostream>
-
 #include "HRTGlobalPositioning.h"
 #include "SNPDatasetOutputParameters.h"
 #include "SNPGroupResult.h"

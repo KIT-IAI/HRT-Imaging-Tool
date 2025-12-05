@@ -24,6 +24,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "ImagePair.h"
 
 
+
 CImagePair::CImagePair(StlImage<float>* pReferenceImage, StlImage<float>* pTemplateImage, size_t nReferenceIndex, size_t nTemplateIndex)
 	: m_pReferenceImage(pReferenceImage)
 	, m_pTemplateImage(pTemplateImage)

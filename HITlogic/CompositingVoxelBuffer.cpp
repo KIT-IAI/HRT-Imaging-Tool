@@ -23,8 +23,6 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "CompositingVoxelBuffer.h"
 
-#include <future>
-
 
 
 CCompositingVoxelBuffer::CCompositingVoxelBuffer(const CCompositingParameters& Param)

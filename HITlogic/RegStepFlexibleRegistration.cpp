@@ -23,10 +23,6 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "RegStepFlexibleRegistration.h"
 
-#include <ppl.h>
-
-#include <boost/thread/barrier.hpp>
-
 #include "ScoreContainer.h"
 #include "SubImageCorrelator.h"
 

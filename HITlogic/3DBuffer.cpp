@@ -23,14 +23,9 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "3DBuffer.h"
 
-#include <algorithm>
-#include <numeric>
-
 #pragma comment(lib, "mkl_core.lib")
 #pragma comment(lib, "mkl_intel_ilp64.lib")
 #pragma comment(lib, "mkl_sequential.lib")
-#include <mkl_dfti.h>
-#include <mkl.h>
 
 
 

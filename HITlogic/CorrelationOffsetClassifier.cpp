@@ -23,7 +23,11 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "CorrelationOffsetClassifier.h"
 
+
+
 #define SCORE m_scoreNorm1
+
+
 
 CCorrelationOffsetClassifier::CCorrelationOffsetClassifier(CRegistrationScoreParameters ScoreParameters)
 	:m_ScoreParameters(ScoreParameters)

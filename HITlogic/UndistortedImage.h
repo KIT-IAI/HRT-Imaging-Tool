@@ -21,7 +21,9 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #pragma once
+
 #include "StlImage.h"
+
 class CUndistortedImage
 {
 public:

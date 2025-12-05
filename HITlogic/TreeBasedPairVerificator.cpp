@@ -24,6 +24,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "TreeBasedPairVerificator.h"
 
 
+
 CTreeBasedPairVerificator::CTreeBasedPairVerificator(const CRegistrationVerificationParameters& param)
 	: CImagePairVerificator(param),
 	m_nImageCount(0)

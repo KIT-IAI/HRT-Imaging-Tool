@@ -21,9 +21,11 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #include "stdafx.h"
-
 #include "ImageCorrelator.h"
+
 #include "SubImageCorrelator.h"
+
+
 
 CImageCorrelator::CImageCorrelator(CCorrelationParameters correlationParameters, CScoreContainer& scoreContainer)
 	: m_CorrelationParameters(correlationParameters), m_ScoreContainer(scoreContainer)

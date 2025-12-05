@@ -23,6 +23,8 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "HrtIterativeSLEWorker.h"
 
+
+
 CHrtIterativeSLEWorker::CHrtIterativeSLEWorker(CGlobalPositioningParameters positioningParameters, size_t nMaximumImageCount, size_t nSubImageCount, size_t nSubImageIndexOffset, bool bGenerateRegularisation)
 	: m_PositioningParameters(positioningParameters),
 	m_nSubImageCount(nSubImageCount),

@@ -21,8 +21,9 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #include "stdafx.h"
-
 #include "ImageRegistrationResult.h"
+
+
 
 CImageRegistrationResult::CImageRegistrationResult(const vector<CRegistrationResult>& RegistrationResults, const vector<std::list<size_t>>& ImageGroups)
 	: RegistrationResults(RegistrationResults)

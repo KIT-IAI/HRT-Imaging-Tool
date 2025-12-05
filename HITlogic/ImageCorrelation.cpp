@@ -22,10 +22,10 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #include "stdafx.h"
 #include "ImageCorrelation.h"
-#include <Compare.h>
+
 #include "ScoreNormalizer.h"
-#include <algorithm>
-#include <numeric>
+
+
 
 CImageCorrelation::CImageCorrelation(CCorrelationParameters procParams, const CImagePair imgParams, CScoreContainer& scoreContainer)
 	: m_CorrelationParameters(procParams),

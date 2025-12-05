@@ -23,6 +23,8 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "RegistrationProcedureParameters.h"
 
+
+
 /*
 This method is necessary in order to adjust the ImageSize and SubImageHeight parameters of subsequent calculations
 */

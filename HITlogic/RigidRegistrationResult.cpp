@@ -21,10 +21,9 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #include "stdafx.h"
-
 #include "RigidRegistrationResult.h"
-#include "Point.h"
-#include "TextFileOutput.h"
+
+
 
 /**	\brief Der Standard-Konstruktor.
  */

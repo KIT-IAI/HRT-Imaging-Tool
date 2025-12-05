@@ -21,18 +21,17 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #include "stdafx.h"
-
 #include "CompositingTiling.h"
+
+
 
 const int CCompositingTiling::s_FrameHeightDiff = 2;
 const double CCompositingTiling::s_FrameSizeFactor = 0.9;
-
 
 CCompositingTiling::CCompositingTiling(const CCompositingParameters& Param)
 	: CCompositing(Param)
 {
 }
-
 
 void CCompositingTiling::PerformCompositing(const CImageRegistrationData& ImageData, const CDenseMatrix& PositioningSolution)
 {

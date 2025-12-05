@@ -22,9 +22,11 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #include "stdafx.h"
 #include "PairVerificatorFactory.h"
+
 #include "NoPairVerificator.h"
 #include "TreeBasedPairVerificator.h"
 #include "PositionAwarePairVerificator.h"
+
 
 
 std::shared_ptr<CImagePairVerificator> CPairVerificatorFactory::CreatePairVerificator(EImagePairVerificator ePairVerificator, const CRegistrationVerificationParameters& Parameter)

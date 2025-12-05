@@ -21,15 +21,17 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #include "stdafx.h"
-
 #include "RegistrationStrategyFactory.h"
+
 #include "StrategyBackForth.h"
 #include "StrategyComplete.h"
-#include "StrategyWindow.h"
-#include "StrategyStep.h"
-#include "StrategySector.h"
 #include "StrategyGraph.h"
 #include "StrategyPlanes.h"
+#include "StrategySector.h"
+#include "StrategyStep.h"
+#include "StrategyWindow.h"
+
+
 
 std::shared_ptr<CRegistrationStrategy> CRegistrationStrategyFactory::CreateStrategy(ERegistrationStrategy eRegistrationStrategy, const CRegistrationStrategyParameters& param)
 {

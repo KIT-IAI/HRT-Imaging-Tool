@@ -23,10 +23,6 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "BorderCropper.h"
 
-#ifdef _WIN32
-#include <ppl.h>
-#endif
-
 
 
 void CBorderCropper::ProcessImages(const vector<StlImage<float>*>& SourceImages, vector<StlImage<float>*>& DestinationImages)

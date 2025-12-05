@@ -29,6 +29,8 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "BrightnessCorrection.h"
 #include "VignettingCorrection.h"
 
+
+
 CHrtPreProcessingPipeline::CHrtPreProcessingPipeline()
 	:CHrtPreProcessingPipeline(CHrtPreProcessingParameters())
 {

@@ -21,8 +21,9 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #include "stdafx.h"
-
 #include "RegStepImageScalation.h"
+
+
 
 CRegStepImageScalation::CRegStepImageScalation(double fScalationFactor)
 	:m_bScaleUp(false),

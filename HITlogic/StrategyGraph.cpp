@@ -24,6 +24,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "StrategyGraph.h"
 
 
+
 CStrategyGraph::CStrategyGraph()
 	:
 	m_LockList(0),

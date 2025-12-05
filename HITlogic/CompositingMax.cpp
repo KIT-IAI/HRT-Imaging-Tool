@@ -23,6 +23,8 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "CompositingMax.h"
 
+
+
 CCompositingMax::CCompositingMax(const CCompositingParameters& Param) : CCompositing(Param)
 {
 }

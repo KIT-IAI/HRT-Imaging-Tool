@@ -22,8 +22,8 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #include "stdafx.h"
 #include "SNPDatasetOutputParameters.h"
-#include "EnvironmentVariable.h"
-#include <DateTimeUtilities.h>
+
+
 
 const wstring CSNPDatasetOutputParameters::TableName = L"OutputParameters";
 

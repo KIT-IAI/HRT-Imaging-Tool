@@ -21,6 +21,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #pragma once
+
 class CHrtValidityCodes
 {
 public:

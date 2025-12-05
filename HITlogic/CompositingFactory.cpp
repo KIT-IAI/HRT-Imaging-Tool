@@ -21,13 +21,15 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #include "stdafx.h"
-
 #include "CompositingFactory.h"
+
 #include "CompositingFusion.h"
 #include "CompositingTiling.h"
 #include "Compositing3DCloud.h"
 #include "CompositingVoxelBuffer.h"
 #include "CompositingMax.h"
+
+
 
 std::shared_ptr<CCompositing> CCompositingFactory::CreateCompositing(const CCompositingParameters& param)
 {

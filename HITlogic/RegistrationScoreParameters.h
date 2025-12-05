@@ -21,12 +21,12 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #pragma once
-/*
-* Beinhaltet alle Schwellwerte von Score-Werten
-*/
 
 using namespace std;
 
+/*
+* Beinhaltet alle Schwellwerte von Score-Werten
+*/
 class CRegistrationScoreParameters
 {
 public:

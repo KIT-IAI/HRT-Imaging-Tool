@@ -21,10 +21,11 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #include "stdafx.h"
-
 #include "RegistrationResultLoader.h"
-#include "TextFileOutput.h"
+
 #include "DIPLOMTable.h"
+
+
 
 void CRegistrationResultLoader::SaveToTextFile(const CImageRegistrationResult& Result, const wstring& folder, const wstring& sFilePrefix)
 {

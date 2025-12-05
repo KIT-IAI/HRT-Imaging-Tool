@@ -23,12 +23,12 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "RegStepRigidRegistration.h"
 
-using namespace std;
-
 #include "ImageCorrelation.h"
 #include "ImageCorrelator.h"
 #include "PairVerificatorFactory.h"
 #include "RegistrationStrategyFactory.h"
+
+using namespace std;
 
 
 

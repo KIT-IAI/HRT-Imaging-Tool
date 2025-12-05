@@ -21,8 +21,9 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #include "stdafx.h"
-
 #include "SubImageCorrelation.h"
+
+
 
 const int CSubImageCorrelation::s_nNonBestSubImages = 2;
 
@@ -33,8 +34,6 @@ const double CSubImageCorrelation::s_fWeakConvergenceCriteria = 1;
 
 const double CSubImageCorrelation::s_fDivergenceCriteriaX = 1.25;
 const double CSubImageCorrelation::s_fDivergenceCriteriaY = 0.375;
-
-
 
 CSubImageCorrelation::CSubImageCorrelation(CCorrelationParameters& procedureParams, CImagePair& imageParams, CScoreContainer& scoreContainer, CRegistrationResult& correlationResult)
 	:m_Images(imageParams),

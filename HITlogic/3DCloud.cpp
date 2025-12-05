@@ -36,6 +36,8 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #pragma warning("PCL not installed.")
 #endif*/
 
+
+
 class C3DCloud::Impl {
 public:
 #ifdef HAS_PCL

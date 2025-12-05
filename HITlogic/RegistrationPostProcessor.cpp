@@ -21,10 +21,12 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #include "stdafx.h"
-
 #include "RegistrationPostProcessor.h"
-#include "HRTGlobalPositioning.h"
+
 #include "Compositing.h"
+#include "HRTGlobalPositioning.h"
+
+
 
 /// <summary> Checks whether all residuals are initialized </summary>
 /// <remarks> The code checks whether no residual is uninitialized. </remarks>

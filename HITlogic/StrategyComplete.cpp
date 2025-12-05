@@ -20,9 +20,9 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-#include "StdAfx.h"
-
+#include "stdafx.h"
 #include "StrategyComplete.h"
+
 
 
 /**	\brief Standard-Konstruktor

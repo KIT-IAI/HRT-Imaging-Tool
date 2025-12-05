@@ -21,16 +21,18 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #include "stdafx.h"
-
 #include "ImageRegistrator.h"
-#include "RegStepRigidRegistration.h"
-#include "RegStepResidualFilter.h"
-#include "RegStepZeroOffsetFilter.h"
-#include "RegStepScoreThresholdOptimizer.h"
-#include "RegStepScoreThresholdApproximator.h"
+
 #include "RegStepFlexibleRegistration.h"
 #include "RegStepImageScalation.h"
+#include "RegStepResidualFilter.h"
+#include "RegStepRigidRegistration.h"
+#include "RegStepScoreThresholdApproximator.h"
+#include "RegStepScoreThresholdOptimizer.h"
 #include "RegStepSubImageScoreThresholdAdapter.h"
+#include "RegStepZeroOffsetFilter.h"
+
+
 
 CImageRegistrator::CImageRegistrator(CRegistrationProcedureParameters registration_parameters)
 	:m_Parameters(registration_parameters)

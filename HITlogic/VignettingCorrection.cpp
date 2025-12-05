@@ -23,12 +23,6 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "VignettingCorrection.h"
 
-#include <filesystem>
-
-#ifdef _WIN32
-#include <ppl.h>
-#endif
-
 
 
 CVignettingCorrection::CVignettingCorrection(const wstring& ProfileFilePath)

@@ -22,7 +22,10 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #include "stdafx.h"
 #include "DIPLOMTable.h"
+
 #include "DIPLOMTableRow.h"
+
+
 
 CSQLiteTable CDIPLOMTable::From(const wstring& Name, const CSNPDatasetOutputParameters& Parameters)
 {

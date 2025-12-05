@@ -21,10 +21,9 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #include "stdafx.h"
-
 #include "HRTGlobalPositioning.h"
 
-#include <ppl.h>
+
 
 const double CHRTGlobalPositioning::s_fLocalCurvatureCorrectionParameter = 0.0;
 const double CHRTGlobalPositioning::s_fGlobalCurvatureCorrectionParameter = 1.0;
@@ -33,7 +32,6 @@ const double CHRTGlobalPositioning::s_fGlobalGradientCorrectionParameter = 0.0;
 
 const double CHRTGlobalPositioning::s_fEpsilon1 = 0.001;
 const double CHRTGlobalPositioning::s_fEpsilon2 = 0.0000001;
-
 
 CHRTGlobalPositioning::CHRTGlobalPositioning(const CGlobalPositioningParameters& parameters) :
 	m_Parameters(parameters) {

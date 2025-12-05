@@ -35,7 +35,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include <SDKDDKVer.h>
 #endif
 
-// Standard libraries
+// standard libraries
 #include <algorithm>
 #include <array>
 #include <cassert>
@@ -54,7 +54,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include <string>
 #include <vector>
 
-// boost libraries
+// Boost libraries
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/asio.hpp>
