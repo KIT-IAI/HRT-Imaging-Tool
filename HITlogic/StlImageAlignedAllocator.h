@@ -22,8 +22,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #pragma once
 
-
-#include <Win32HeapRAII.h>
+#include "Win32HeapRAII.h"
 
 #define STLIMAGE_HEAP_MINSIZE (102ull * 1024ull * 1024ull)
 

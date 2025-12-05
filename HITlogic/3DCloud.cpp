@@ -25,7 +25,6 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-#undef max		//max wird durch die mfc definiert, damit std::max wieder funktioniert
 /*#if __has_include(<pcl/pcl_base.h>)
 #include <pcl/common/projection_matrix.h>
 #include <pcl/point_types.h>
