@@ -59,6 +59,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include <sstream>
 #include <string>
 #include <string_view>
+#include <thread>
 #include <vector>
 
 using std::array;
