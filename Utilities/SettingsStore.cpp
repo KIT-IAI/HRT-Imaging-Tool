@@ -53,10 +53,10 @@ public:
 #ifdef _WIN32
 		auto userConfigDir = std::filesystem::path(CEnvironmentVariable::Get(L"AppData")) / "kit-iai";
 		auto systemConfigDir = std::filesystem::path(CEnvironmentVariable::Get(L"ProgramData")) / "kit-iai";
-#else  // #ifdef _WIN32
-		auto userConfigDir = std::filesystem::path("~/.config") / "kit-iai";
+#else
+		auto userConfigDir = std::filesystem::path(CEnvironmentVariable::Get(L"HOME")) / ".config" / "kit-iai";
 		auto systemConfigDir = std::filesystem::path("/etc") / "kit-iai";
-#endif // #ifdef _WIN32
+#endif
 
 		if (!CFileUtilities::PathExists(userConfigDir))
 		{

@@ -133,10 +133,18 @@ bool HRTImagingToolApp::InitLogging() const
 	}
 
 	// Initialize logging
+#ifdef _WIN32
 	CLog::InitLogging(wxString::Format(L"%s\\HIT_%s", sLogDir.GetPath(), date).wc_str());
+#else
+	CLog::InitLogging(wxString::Format(L"%s/HIT_%s", sLogDir.GetPath(), date).wc_str());
+#endif
 
 	// Remove old log files
-	//CFileUtilities::DeleteOldFiles(wxString::Format(L"%s\\HIT_*.log", sLogDir.GetPath()).wc_str(), 90);
+// #ifdef _WIN32
+// 	//CFileUtilities::DeleteOldFiles(wxString::Format(L"%s\\HIT_*.log", sLogDir.GetPath()).wc_str(), 90);
+// #else
+// 	//CFileUtilities::DeleteOldFiles(wxString::Format(L"%s/HIT_*.log", sLogDir.GetPath()).wc_str(), 90);
+// #endif
 
 	return true;
 }
