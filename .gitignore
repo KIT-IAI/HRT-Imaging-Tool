@@ -19,3 +19,4 @@ Thumbs.db
 /vcpkg_installed
 /.vscode
 /build
+CMakeUserPresets.json
