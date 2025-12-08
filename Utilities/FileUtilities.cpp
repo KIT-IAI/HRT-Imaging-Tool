@@ -71,12 +71,14 @@ bool CFileUtilities::DeleteDirectory(const std::wstring& sPath, bool bOnlyIfEmpt
 
 bool CFileUtilities::PathExists(const std::wstring& path)
 {
-	return boost::filesystem::exists(path) && boost::filesystem::is_directory(path);
+	std::filesystem::path p(path);
+	return std::filesystem::exists(p) && std::filesystem::is_directory(p);
 }
 
 bool CFileUtilities::PathExists(const std::string& path)
 {
-	return boost::filesystem::exists(path) && boost::filesystem::is_directory(path);
+	std::filesystem::path p(path);
+	return std::filesystem::exists(p) && std::filesystem::is_directory(p);
 }
 
 bool CFileUtilities::PathExists(const std::wstring_view path)
