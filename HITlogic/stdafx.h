@@ -63,13 +63,6 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include <thread>
 #include <vector>
 
-using std::array;
-using std::vector;
-using std::shared_ptr;
-using std::string;
-using std::wstring;
-using std::wstring_view;
-
 // Boost libraries
 #include <boost/format.hpp>
 #include <boost/thread/barrier.hpp>

@@ -119,14 +119,14 @@ void CSNPDatasetBatchProcessor::OnDatsetFailed(CSNPFusionDataset* pDataset)
 	m_FailedDatasets.push_back(pFailedDataset);
 }
 
-void CSNPDatasetBatchProcessor::AddDatasetsFromFile(wstring filePath)
+void CSNPDatasetBatchProcessor::AddDatasetsFromFile(std::wstring filePath)
 {
 	auto newDatasets = CSNPDatasetLoader::FromAnyFile(filePath);
 
 	ClearDatasets();
 	AddDatasets(newDatasets);
 }
-void CSNPDatasetBatchProcessor::AddDatasets(vector<CSNPFusionDataset> Datasets)
+void CSNPDatasetBatchProcessor::AddDatasets(std::vector<CSNPFusionDataset> Datasets)
 {
 	for (auto& Dataset : Datasets)
 		AddDataset(Dataset);
@@ -153,7 +153,7 @@ void CSNPDatasetBatchProcessor::ClearDatasets()
 	m_FinishedDatasets.clear();
 	m_FailedDatasets.clear();
 }
-void CSNPDatasetBatchProcessor::RemoveDataset(wstring sDatasetName)
+void CSNPDatasetBatchProcessor::RemoveDataset(std::wstring sDatasetName)
 {
 	assert(!m_bProcessing);
 
@@ -164,7 +164,7 @@ void CSNPDatasetBatchProcessor::RemoveDataset(wstring sDatasetName)
 
 }
 
-const vector<std::shared_ptr<CSNPFusionDataset>>& CSNPDatasetBatchProcessor::GetAllDatasets() const
+const std::vector<std::shared_ptr<CSNPFusionDataset>>& CSNPDatasetBatchProcessor::GetAllDatasets() const
 {
 	return m_AllDatasets;
 }

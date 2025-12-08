@@ -50,7 +50,7 @@ void CRegStepRigidRegistration::DoWork(CImageRegistrationData& registrationData,
 
 	finalResult.RegistrationResults.insert(finalResult.RegistrationResults.end(), registrationResults.begin(), registrationResults.end());
 }
-list<CRegistrationResult> CRegStepRigidRegistration::RegisterImages(vector<StlImage<float>*>& Images)
+list<CRegistrationResult> CRegStepRigidRegistration::RegisterImages(std::vector<StlImage<float>*>& Images)
 {
 	std::list<CRegistrationResult> listRegistrationResults;
 	CScoreContainer scoreContainer(m_RegistrationParameters.ScoreParameters);

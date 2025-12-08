@@ -36,7 +36,7 @@ CImageMasker::~CImageMasker()
 {
 }
 
-void CImageMasker::ProcessImages(const vector<StlImage<float>*>& SourceImages, vector<StlImage<float>*>& DestinationImages)
+void CImageMasker::ProcessImages(const std::vector<StlImage<float>*>& SourceImages, std::vector<StlImage<float>*>& DestinationImages)
 {
 	m_nTotalImages += SourceImages.size();
 	bool bInplace = SourceImages == DestinationImages;
@@ -69,17 +69,17 @@ void CImageMasker::ProcessImages(const vector<StlImage<float>*>& SourceImages, v
 	}
 #endif
 }
-void CImageMasker::ProcessImages(vector<StlImage<float>*>& Images)
+void CImageMasker::ProcessImages(std::vector<StlImage<float>*>& Images)
 {
 	ProcessImages(Images, Images);
 }
 void CImageMasker::ProcessImages(StlImage<float>* pImage)
 {
-	vector<StlImage<float>*> ImageVector{ pImage };
+	std::vector<StlImage<float>*> ImageVector{ pImage };
 	ProcessImages(ImageVector);
 }
 
-void CImageMasker::DoWork(const vector<StlImage<float>*>& SourceImages, vector<StlImage<float>*>& DestinationImages)
+void CImageMasker::DoWork(const std::vector<StlImage<float>*>& SourceImages, std::vector<StlImage<float>*>& DestinationImages)
 {
 	ProcessImages(SourceImages, DestinationImages);
 }
@@ -102,7 +102,7 @@ void CImageMasker::ProcessImage(StlImage<float>* pImage, StlImageSize MaskingSiz
 		pImage->AddBorders(*pImage, 0, 0, MaskingSize.x - pImage->GetSize().x, MaskingSize.y - pImage->GetSize().y, 0.0);
 }
 
-StlImageSize CImageMasker::DetectMaskingSize(const vector<StlImage<float>*>& SourceImages) const
+StlImageSize CImageMasker::DetectMaskingSize(const std::vector<StlImage<float>*>& SourceImages) const
 {
 	StlImageSize MaskSize;
 	switch (m_eMaskOption)
@@ -123,7 +123,7 @@ StlImageSize CImageMasker::DetectMaskingSize(const vector<StlImage<float>*>& Sou
 	}
 	return MaskSize;
 }
-StlImageSize CImageMasker::DetermineBiggestImageSize(const vector<StlImage<float>*>& SourceImages) const
+StlImageSize CImageMasker::DetermineBiggestImageSize(const std::vector<StlImage<float>*>& SourceImages) const
 {
 	StlImageSize MaxSize;
 	for (const auto& pImage : SourceImages)

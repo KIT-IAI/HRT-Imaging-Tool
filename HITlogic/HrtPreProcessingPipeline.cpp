@@ -68,24 +68,24 @@ void CHrtPreProcessingPipeline::GetWorkUnits(size_t& nCompletedWorkUnits, size_t
 	nCompletedWorkUnits = m_nProcessedImages;
 	nTotalWorkUnits = m_nImageCount;
 }
-void CHrtPreProcessingPipeline::ProcessImagesInplace(vector<StlImage<float>*>& Images)
+void CHrtPreProcessingPipeline::ProcessImagesInplace(std::vector<StlImage<float>*>& Images)
 {
 	Compute(Images, Images);
 }
-void CHrtPreProcessingPipeline::ProcessImages(const vector<StlImage<float>*>& InImages, vector<StlImage<float>*>& OutImages)
+void CHrtPreProcessingPipeline::ProcessImages(const std::vector<StlImage<float>*>& InImages, std::vector<StlImage<float>*>& OutImages)
 {
 	Compute(InImages, OutImages);
 }
-vector<StlImage<float>*> CHrtPreProcessingPipeline::ProcessImages(const vector<StlImage<float>*>& InImages)
+std::vector<StlImage<float>*> CHrtPreProcessingPipeline::ProcessImages(const std::vector<StlImage<float>*>& InImages)
 {
-	vector<StlImage<float>*> OutImages(InImages.size());
+	std::vector<StlImage<float>*> OutImages(InImages.size());
 	std::generate(OutImages.begin(), OutImages.end(), []() {return new StlImage<float>(); });
 
 	Compute(InImages, OutImages);
 
 	return OutImages;
 }
-void CHrtPreProcessingPipeline::DoWork(const vector<StlImage<float>*>& SourceImages, vector<StlImage<float>*>& /*DestinationImages*/)
+void CHrtPreProcessingPipeline::DoWork(const std::vector<StlImage<float>*>& SourceImages, std::vector<StlImage<float>*>& /*DestinationImages*/)
 {
 	m_nImageCount += SourceImages.size();
 	// Intentionally empty

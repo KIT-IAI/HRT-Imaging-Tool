@@ -47,7 +47,7 @@ void CRegStepSubImageScoreThresholdAdapter::EnableDetailedLogging(bool bEnable /
 	s_bDetailedLogging = bEnable;
 }
 
-void CRegStepSubImageScoreThresholdAdapter::ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults, const vector<std::list<size_t>>& imagegroups)
+void CRegStepSubImageScoreThresholdAdapter::ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults, const std::vector<std::list<size_t>>& imagegroups)
 {
 	CLog::Log(CLog::eInformational, L"SubImageScoreThresholdAdapter", L"SubImageScoreThresholdAdapter started");
 
@@ -109,7 +109,7 @@ void CRegStepSubImageScoreThresholdAdapter::ChangeValidity(std::vector<CRegistra
 	}
 }
 
-CDenseMatrix CRegStepSubImageScoreThresholdAdapter::SolveFlexiblePositioning(const vector<StlImage<float>*>& images, const vector<CRegistrationResult>& validRegistrationResults, const vector<std::list<size_t>>& imagegroups) const
+CDenseMatrix CRegStepSubImageScoreThresholdAdapter::SolveFlexiblePositioning(const std::vector<StlImage<float>*>& images, const std::vector<CRegistrationResult>& validRegistrationResults, const std::vector<std::list<size_t>>& imagegroups) const
 {
 	StlImage<float>* pImage = images[0];
 	StlImageSize size = pImage->GetSize();

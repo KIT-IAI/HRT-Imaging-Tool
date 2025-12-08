@@ -27,14 +27,14 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-CSQLiteTable CDIPLOMTable::From(const wstring& Name, const CSNPDatasetOutputParameters& Parameters)
+CSQLiteTable CDIPLOMTable::From(const std::wstring& Name, const CSNPDatasetOutputParameters& Parameters)
 {
 	CSQLiteTable Table(Name);
 
 	Table.AddColumn(L"Name", L"TEXT PRIMARY KEY");
 	Table.AddColumn(L"Value", L"TEXT");
 
-#define ADD_PARAM(NAME, VALUE)	Table.AddRow(CSQLiteTableRow::From(vector<wstring>{ NAME, CStringUtilities::ToString(VALUE) }));
+#define ADD_PARAM(NAME, VALUE)	Table.AddRow(CSQLiteTableRow::From(std::vector<std::wstring>{ NAME, CStringUtilities::ToString(VALUE) }));
 
 	ADD_PARAM(L"ImageCount", Parameters.nImageCount);
 	ADD_PARAM(L"ProcessedImageSizeX", Parameters.ImageParameters.ImageSize.x);
@@ -62,7 +62,7 @@ template <> CSNPDatasetOutputParameters CSQLiteTable::Convert() const
 
 	CSNPDatasetOutputParameters Parameters;
 
-#define APPLY_PARAM(NAME,VALUE) if (TableRow.Get<wstring>(0) == NAME) {VALUE = TableRow.Get<decltype(VALUE)>(1);continue;}
+#define APPLY_PARAM(NAME,VALUE) if (TableRow.Get<std::wstring>(0) == NAME) {VALUE = TableRow.Get<decltype(VALUE)>(1);continue;}
 
 	for (const auto& TableRow : *this)
 	{
@@ -95,7 +95,7 @@ template <> CSNPDatasetOutputParameters CSQLiteTable::Convert() const
 	return Parameters;
 }
 
-CSQLiteTable CDIPLOMTable::From(const wstring& Name, const vector<CRigidRegistrationResult>& RegResults)
+CSQLiteTable CDIPLOMTable::From(const std::wstring& Name, const std::vector<CRigidRegistrationResult>& RegResults)
 {
 	CSQLiteTable Table(Name);
 
@@ -126,7 +126,7 @@ CSQLiteTable CDIPLOMTable::From(const wstring& Name, const vector<CRigidRegistra
 	return Table;
 }
 
-template <> vector<CRigidRegistrationResult> CSQLiteTable::Convert() const
+template <> std::vector<CRigidRegistrationResult> CSQLiteTable::Convert() const
 {
 	if (size() == 0)
 		return{};
@@ -134,7 +134,7 @@ template <> vector<CRigidRegistrationResult> CSQLiteTable::Convert() const
 	if (!std::all_of(begin(), end(), [this](const CSQLiteTableRow& Row) {return Row.size() == (*begin()).size(); }))
 		throw std::runtime_error("Non-uniform table cannot be converted into a registration result.");
 
-	vector<CRigidRegistrationResult> Result;
+	std::vector<CRigidRegistrationResult> Result;
 
 	for (const auto& TableRow : *this)
 		Result.push_back(TableRow.Convert<CRigidRegistrationResult>());
@@ -142,7 +142,7 @@ template <> vector<CRigidRegistrationResult> CSQLiteTable::Convert() const
 	return Result;
 }
 
-CSQLiteTable CDIPLOMTable::From(const wstring& Name, const CSNPDatasetParameters& Parameters)
+CSQLiteTable CDIPLOMTable::From(const std::wstring& Name, const CSNPDatasetParameters& Parameters)
 {
 	CSQLiteTable Table(Name);
 	Table.AddColumn(L"Name", L"TEXT PRIMARY KEY");
@@ -151,7 +151,7 @@ CSQLiteTable CDIPLOMTable::From(const wstring& Name, const CSNPDatasetParameters
 #define ADD_PARAM(name,value) Table.AddRow(CSQLiteTableRow::From({name,CStringUtilities::ToString(value)}));
 #define ADD_ENUM_PARAM(name,value) Table.AddRow(CSQLiteTableRow::From({name,CStringUtilities::ToString(static_cast<int>(value))}));
 
-	vector<std::pair<wstring, wstring>> TableRows;
+	std::vector<std::pair<std::wstring, std::wstring>> TableRows;
 
 	ADD_PARAM(L"nMaxSequenceLength", Parameters.nMaxSequenceLength)
 		ADD_ENUM_PARAM(L"eProcessType", Parameters.eProcessType)
@@ -208,8 +208,8 @@ template <> CSNPDatasetParameters CSQLiteTable::Convert() const
 
 	for (const auto& Row : *this)
 	{
-		auto ParameterName = Row.Get<wstring>(0);
-		auto ParameterValue = Row.Get<wstring>(1);
+		auto ParameterName = Row.Get<std::wstring>(0);
+		auto ParameterValue = Row.Get<std::wstring>(1);
 
 		ADD_PARAM(L"nMaxSequenceLength", Param.nMaxSequenceLength);
 		ADD_ENUM_PARAM(L"eProcessType", Param.eProcessType);
@@ -267,7 +267,7 @@ template <> CSNPDatasetParameters CSQLiteTable::Convert() const
 	return Param;
 }
 
-CSQLiteTable CDIPLOMTable::From(const wstring& Name, const vector<CMosaicImageProperties>& Properties)
+CSQLiteTable CDIPLOMTable::From(const std::wstring& Name, const std::vector<CMosaicImageProperties>& Properties)
 {
 	CSQLiteTable Table(Name);
 	Table.AddColumn(L"GroupID", L"INTEGER PRIMARY KEY");

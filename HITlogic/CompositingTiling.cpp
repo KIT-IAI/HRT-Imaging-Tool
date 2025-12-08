@@ -45,7 +45,7 @@ void CCompositingTiling::PerformCompositing(const CImageRegistrationData& ImageD
 *	\param [in] nEdgeBlendingLength Uberlappungsbereich zum verschmelzen der Kanten
 *	\see CCompositing::SetMatrix
 */
-void CCompositingTiling::Combining(const vector<StlImage<float>*>& Images, const CDenseMatrix& PositioningSolution)
+void CCompositingTiling::Combining(const std::vector<StlImage<float>*>& Images, const CDenseMatrix& PositioningSolution)
 {
 	ProcessSolutionMatrix(PositioningSolution, Images.size());
 
@@ -138,17 +138,17 @@ void CCompositingTiling::SelectImageToUse()
 *	\param[in] Ux, Uy Verzerrungsfunktionen
 *	\param[in] BoundX Minimal- und Maximalwerte der Verzerrungsfunktionen
 */
-void CCompositingTiling::GenerateImage(const vector<StlImage<float>*>& Images, const StlImageSize& MosaicImageSize)
+void CCompositingTiling::GenerateImage(const std::vector<StlImage<float>*>& Images, const StlImageSize& MosaicImageSize)
 {
 	size_t nMosaicImageArea = static_cast<size_t>(MosaicImageSize.x * MosaicImageSize.y);
 
-	vector<float> pDest(nMosaicImageArea);
+	std::vector<float> pDest(nMosaicImageArea);
 	std::fill(pDest.begin(), pDest.end(), static_cast<float>(m_Parameters.cBackgroundColor));
 
-	vector<float> pWeight(nMosaicImageArea);
+	std::vector<float> pWeight(nMosaicImageArea);
 	std::fill(pWeight.begin(), pWeight.end(), 0.0f);
 
-	vector<bool> bDrawn(nMosaicImageArea);
+	std::vector<bool> bDrawn(nMosaicImageArea);
 	std::fill(bDrawn.begin(), bDrawn.end(), false);
 
 	m_result.emplace<StlImage<float>>(StlImage<float>());

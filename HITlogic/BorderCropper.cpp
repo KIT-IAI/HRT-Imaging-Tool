@@ -25,7 +25,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-void CBorderCropper::ProcessImages(const vector<StlImage<float>*>& SourceImages, vector<StlImage<float>*>& DestinationImages)
+void CBorderCropper::ProcessImages(const std::vector<StlImage<float>*>& SourceImages, std::vector<StlImage<float>*>& DestinationImages)
 {
 	m_nTotalImages += SourceImages.size();
 	bool bInplace = SourceImages == DestinationImages;
@@ -52,12 +52,12 @@ void CBorderCropper::ProcessImages(const vector<StlImage<float>*>& SourceImages,
 	}
 #endif
 }
-void CBorderCropper::ProcessImages(vector<StlImage<float>*>& Images)
+void CBorderCropper::ProcessImages(std::vector<StlImage<float>*>& Images)
 {
 	ProcessImages(Images, Images);
 }
 
-void CBorderCropper::DoWork(const vector<StlImage<float>*>& SourceImages, vector<StlImage<float>*>& DestinationImages)
+void CBorderCropper::DoWork(const std::vector<StlImage<float>*>& SourceImages, std::vector<StlImage<float>*>& DestinationImages)
 {
 	ProcessImages(SourceImages, DestinationImages);
 }

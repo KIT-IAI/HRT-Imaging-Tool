@@ -43,7 +43,7 @@ void CScoreThresholdAdapter::EnableDetailedLogging(bool bEnable /* = true*/)
 	s_bDetailedLogging = bEnable;
 }
 
-void CScoreThresholdAdapter::ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults, const vector<std::list<size_t>>& imagegroups)
+void CScoreThresholdAdapter::ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults, const std::vector<std::list<size_t>>& imagegroups)
 {
 	size_t nValidRegistrations = validRegistrationResults.size();
 	auto fThreshold = m_ScoreParameters.GetScoreThreshold();
@@ -53,7 +53,7 @@ void CScoreThresholdAdapter::ProcessRegistrationData(std::vector<StlImage<float>
 	CRegistrationPostProcessor::SolveRigidPositioning(validRegistrationResults, pRigidSolution, m_eSolverAlgorithm, m_nImageCount);
 	CRegistrationPostProcessor::CalculateResiduals(validRegistrationResults, pRigidSolution);
 
-	auto logStep = [](double fCurrentThreshold, double fPreviousThreshold, size_t nPreviousRegs, const vector<CRegistrationResult>& regResults)->void {
+	auto logStep = [](double fCurrentThreshold, double fPreviousThreshold, size_t nPreviousRegs, const std::vector<CRegistrationResult>& regResults)->void {
 		auto allResiduals = CRegistrationPostProcessor::GetAllResiduals(regResults);
 		double fMean = CResidual::CalculateMeanResidual(allResiduals);
 		double fStdev = CResidual::CalculateStdevResidual(allResiduals, fMean);
@@ -102,7 +102,7 @@ void CScoreThresholdAdapter::AdaptScoreThreshold()
 		m_ScoreParameters.SetScoreThreshold(m_ScoreParameters.fCertainScore);
 }
 
-void CScoreThresholdAdapter::RemoveWrongRegistrations(vector<CRegistrationResult>& validRegistrationResults, vector<CRegistrationResult>& invalidRegistrationResults) const
+void CScoreThresholdAdapter::RemoveWrongRegistrations(std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults) const
 {
 	auto condition = [&](const CRegistrationResult& reg)
 		{
@@ -115,7 +115,7 @@ void CScoreThresholdAdapter::RemoveWrongRegistrations(vector<CRegistrationResult
 	move_if(validRegistrationResults, invalidRegistrationResults, condition, invalidOperation);
 }
 
-bool CScoreThresholdAdapter::IsThresholdSufficient(vector<CRegistrationResult>& RegistrationResults)
+bool CScoreThresholdAdapter::IsThresholdSufficient(std::vector<CRegistrationResult>& RegistrationResults)
 {
 	return !IsMaximumThresholdReached() && IsScoreThresholdSufficient(RegistrationResults);
 }

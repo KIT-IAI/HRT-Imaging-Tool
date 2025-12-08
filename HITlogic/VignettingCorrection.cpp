@@ -25,17 +25,17 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-CVignettingCorrection::CVignettingCorrection(const wstring& ProfileFilePath)
+CVignettingCorrection::CVignettingCorrection(const std::wstring& ProfileFilePath)
 	:CVignettingCorrection(ProfileFilePath, 0)
 {
 }
 
-CVignettingCorrection::CVignettingCorrection(const wstring& ProfileFilePath, size_t nSmoothIterations)
+CVignettingCorrection::CVignettingCorrection(const std::wstring& ProfileFilePath, size_t nSmoothIterations)
 {
 	m_nSmoothIterations = nSmoothIterations;
 	if (ProfileFilePath == L"")	// Autocreate
 		return;
-	wstring sLocalPath = ProfileFilePath;
+	std::wstring sLocalPath = ProfileFilePath;
 	if (CFileUtilities::IsRelative(ProfileFilePath))
 		sLocalPath = CFileUtilities::GetAbsolutePath(CFileUtilities::GetProgramFolder().wstring(), ProfileFilePath);
 
@@ -76,7 +76,7 @@ void CVignettingCorrection::SmoothProfile(size_t nTimes, StlImage<float>& Profil
 	}
 }
 
-StlImage<float> CVignettingCorrection::CreateVignettingProfile(const vector<StlImage<float>*>& InputImages, size_t nMaxImages, size_t nSmoothIterations)
+StlImage<float> CVignettingCorrection::CreateVignettingProfile(const std::vector<StlImage<float>*>& InputImages, size_t nMaxImages, size_t nSmoothIterations)
 {
 	if (InputImages.size() == 0)
 		throw std::runtime_error("Invalid argument \"InputImages\". An empty vector was passed.");
@@ -109,17 +109,17 @@ StlImage<float> CVignettingCorrection::CreateVignettingProfile(const vector<StlI
 	return NewProfile;
 }
 
-void CVignettingCorrection::DoWork(const vector<StlImage<float>*>& SourceImages, vector<StlImage<float>*>& DestinationImages)
+void CVignettingCorrection::DoWork(const std::vector<StlImage<float>*>& SourceImages, std::vector<StlImage<float>*>& DestinationImages)
 {
 	ProcessImages(SourceImages, DestinationImages);
 }
 
-void CVignettingCorrection::ProcessImages(vector<StlImage<float>*>& Images)
+void CVignettingCorrection::ProcessImages(std::vector<StlImage<float>*>& Images)
 {
 	ProcessImages(Images, Images);
 }
 
-void CVignettingCorrection::ProcessImages(const vector<StlImage<float>*>& SourceImages, vector<StlImage<float>*>& DestinationImages)
+void CVignettingCorrection::ProcessImages(const std::vector<StlImage<float>*>& SourceImages, std::vector<StlImage<float>*>& DestinationImages)
 {
 	nTotalPairs = SourceImages.size();
 	nPairsDone = 0;

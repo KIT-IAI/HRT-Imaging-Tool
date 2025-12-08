@@ -75,7 +75,7 @@ bool CSubImageCorrelator::IsPlausible(CRegistrationResult& correlation_result) c
 {
 	auto& flexRes = correlation_result.FlexibleRegistrationResults;
 
-	//vector<CRigidRegistrationResult> validRegistrations;
+	//std::vector<CRigidRegistrationResult> validRegistrations;
 
 	//auto bIsPlausible = [this](const auto & refRes, const auto & checkRes)
 	//{
@@ -146,7 +146,7 @@ void CSubImageCorrelator::CorrelatePreviousSubImages(CSubImageCorrelation& subIm
 
 
 
-void CSubImageCorrelator::InvalidateAllFollowingSubImages(size_t nImageIndex, vector<CRigidRegistrationResult>& FlexRegistrationResults) const
+void CSubImageCorrelator::InvalidateAllFollowingSubImages(size_t nImageIndex, std::vector<CRigidRegistrationResult>& FlexRegistrationResults) const
 {
 	for (auto lk = nImageIndex; lk < FlexRegistrationResults.size(); lk++)
 	{
@@ -155,7 +155,7 @@ void CSubImageCorrelator::InvalidateAllFollowingSubImages(size_t nImageIndex, ve
 	// If the current reference window is outside the template image,
 	// all windows below the current will also be
 }
-void CSubImageCorrelator::InvalidateAllPreviousSubImages(size_t nImageIndex, vector<CRigidRegistrationResult>& FlexRegistrationResults) const
+void CSubImageCorrelator::InvalidateAllPreviousSubImages(size_t nImageIndex, std::vector<CRigidRegistrationResult>& FlexRegistrationResults) const
 {
 	for (auto lk = static_cast<int>(nImageIndex); lk >= 0; lk--)
 	{
@@ -165,7 +165,7 @@ void CSubImageCorrelator::InvalidateAllPreviousSubImages(size_t nImageIndex, vec
 	// all windows below the current will also be
 }
 
-void CSubImageCorrelator::InvalidateValidSubImages(vector<CRigidRegistrationResult>& FlexRegistrationResults) const
+void CSubImageCorrelator::InvalidateValidSubImages(std::vector<CRigidRegistrationResult>& FlexRegistrationResults) const
 {
 	for (size_t index = 0; index < FlexRegistrationResults.size(); index++)
 	{

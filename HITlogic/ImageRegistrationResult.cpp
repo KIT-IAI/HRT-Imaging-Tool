@@ -25,13 +25,13 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-CImageRegistrationResult::CImageRegistrationResult(const vector<CRegistrationResult>& RegistrationResults, const vector<std::list<size_t>>& ImageGroups)
+CImageRegistrationResult::CImageRegistrationResult(const std::vector<CRegistrationResult>& RegistrationResults, const std::vector<std::list<size_t>>& ImageGroups)
 	: RegistrationResults(RegistrationResults)
 	, ImageGroups(ImageGroups)
 {
 };
 
-CImageRegistrationResult::CImageRegistrationResult(const vector<CRigidRegistrationResult>& RigidRegistrations, const vector<CRigidRegistrationResult>& FlexibleRegistrations)
+CImageRegistrationResult::CImageRegistrationResult(const std::vector<CRigidRegistrationResult>& RigidRegistrations, const std::vector<CRigidRegistrationResult>& FlexibleRegistrations)
 {
 	RegistrationResults = GenerateRegistrationResults(RigidRegistrations, FlexibleRegistrations);
 	RecalulateImageGroups();
@@ -83,9 +83,9 @@ size_t CImageRegistrationResult::DetermineImageCount() const
 	return nMaxTemplateImageIndex + 1;
 }
 
-vector<CRegistrationResult> CImageRegistrationResult::GenerateRegistrationResults(const vector<CRigidRegistrationResult>& RigidRegistrations, const vector<CRigidRegistrationResult>& FlexibleRegistrations) const
+std::vector<CRegistrationResult> CImageRegistrationResult::GenerateRegistrationResults(const std::vector<CRigidRegistrationResult>& RigidRegistrations, const std::vector<CRigidRegistrationResult>& FlexibleRegistrations) const
 {
-	vector<CRegistrationResult> Result;
+	std::vector<CRegistrationResult> Result;
 	for (const auto& RigidReg : RigidRegistrations)
 	{
 		CRegistrationResult Reg(RigidReg);
@@ -107,9 +107,9 @@ bool CImageRegistrationResult::HasOnlySingleImageGroups() const
 	return all_of(ImageGroups.begin(), ImageGroups.end(), [&](const std::list<size_t>& group) {return group.size() == 1; });
 }
 
-vector<CRigidRegistrationResult> CImageRegistrationResult::GetRigidRegistrationResults() const
+std::vector<CRigidRegistrationResult> CImageRegistrationResult::GetRigidRegistrationResults() const
 {
-	vector<CRigidRegistrationResult> RigidRegistrationResults;
+	std::vector<CRigidRegistrationResult> RigidRegistrationResults;
 	RigidRegistrationResults.reserve(RegistrationResults.size());
 
 	for (auto result : RegistrationResults)
@@ -117,9 +117,9 @@ vector<CRigidRegistrationResult> CImageRegistrationResult::GetRigidRegistrationR
 	return RigidRegistrationResults;
 }
 
-vector<CRigidRegistrationResult> CImageRegistrationResult::GetFlexibleRegistrationResults() const
+std::vector<CRigidRegistrationResult> CImageRegistrationResult::GetFlexibleRegistrationResults() const
 {
-	vector<CRigidRegistrationResult> FlexibleRegistrationResults;
+	std::vector<CRigidRegistrationResult> FlexibleRegistrationResults;
 
 	for (auto result : RegistrationResults)
 		FlexibleRegistrationResults.insert(FlexibleRegistrationResults.end(), result.FlexibleRegistrationResults.begin(), result.FlexibleRegistrationResults.end());
@@ -132,9 +132,9 @@ vector<CRigidRegistrationResult> CImageRegistrationResult::GetFlexibleRegistrati
 * It contains all valid registration results of this group.
 * Additionally ImageGroups[0] contains a list of all image indices in this group.
 */
-vector<CImageRegistrationResult> CImageRegistrationResult::GetResultsByGroup() const
+std::vector<CImageRegistrationResult> CImageRegistrationResult::GetResultsByGroup() const
 {
-	vector<CImageRegistrationResult> ResultsByGroup;
+	std::vector<CImageRegistrationResult> ResultsByGroup;
 
 	for (auto ImageGroup : ImageGroups)
 	{
@@ -155,16 +155,16 @@ vector<CImageRegistrationResult> CImageRegistrationResult::GetResultsByGroup() c
 	return ResultsByGroup;
 }
 
-vector<CRegistrationResult> CImageRegistrationResult::FindRegistrationResultsByGroup(const std::list<size_t>& ImageGroup) const
+std::vector<CRegistrationResult> CImageRegistrationResult::FindRegistrationResultsByGroup(const std::list<size_t>& ImageGroup) const
 {
 	// maximum image index (in group)
 	size_t maxImageIndex = *std::max_element(ImageGroup.begin(), ImageGroup.end());
 
 	// lookup table (LUT) that marks the group images
-	vector<bool> groupLUT(maxImageIndex + 1, false);
+	std::vector<bool> groupLUT(maxImageIndex + 1, false);
 	std::for_each(ImageGroup.begin(), ImageGroup.end(), [&groupLUT](size_t imageIndex) { groupLUT[imageIndex] = true; });
 
-	vector<CRegistrationResult> GroupRegResults;
+	std::vector<CRegistrationResult> GroupRegResults;
 	for (auto& RegResult : RegistrationResults)
 	{
 		// reference and template image of a valid registration have to be in the same image group
@@ -179,7 +179,7 @@ vector<CRegistrationResult> CImageRegistrationResult::FindRegistrationResultsByG
 
 CImageRegistrationResult CImageRegistrationResult::GetValidResults() const
 {
-	vector<CRegistrationResult> ValidResults;
+	std::vector<CRegistrationResult> ValidResults;
 
 	for (const auto& Result : RegistrationResults)
 	{
@@ -200,7 +200,7 @@ void CImageRegistrationResult::RemapIndices()
 	size_t maxImageIndex = *std::max_element(group.begin(), group.end());
 
 	// group image index table (-1 indicates images not in group)
-	vector<ptrdiff_t> indexMap(maxImageIndex + 1, -1);
+	std::vector<ptrdiff_t> indexMap(maxImageIndex + 1, -1);
 	size_t newIndex = 0;
 	std::for_each(group.begin(), group.end(), [&indexMap, &newIndex](size_t oldIndex) { indexMap[oldIndex] = newIndex++; });
 

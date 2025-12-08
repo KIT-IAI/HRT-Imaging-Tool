@@ -43,7 +43,7 @@ using namespace std;
 *
 *	\see CLog::Log()
 */
-const wstring CSNPFusionDataset::s_sModuleName = L"SNP-FusionDataset Batch";
+const std::wstring CSNPFusionDataset::s_sModuleName = L"SNP-FusionDataset Batch";
 
 
 void CSNPFusionDataset::SetParameters(const CSNPDatasetParameters& Parameters)
@@ -51,12 +51,12 @@ void CSNPFusionDataset::SetParameters(const CSNPDatasetParameters& Parameters)
 	m_Parameters = Parameters;
 }
 
-void CSNPFusionDataset::SetImageFileList(const vector<wstring>& ImageFileList)
+void CSNPFusionDataset::SetImageFileList(const std::vector<std::wstring>& ImageFileList)
 {
 	m_ImageFiles = ImageFileList;
 }
 
-void CSNPFusionDataset::SetVolImageList(const vector<StlImage<float>*>& VolImageFileList)
+void CSNPFusionDataset::SetVolImageList(const std::vector<StlImage<float>*>& VolImageFileList)
 {
 	for (auto img : m_VolImages)
 	{
@@ -75,7 +75,7 @@ void CSNPFusionDataset::SetImageClassificationData(const CHRTImageClassification
 	m_ImageClasses = ImageClassificationData;
 }
 
-void CSNPFusionDataset::SetOutputDirectory(const wstring& OutputPath)
+void CSNPFusionDataset::SetOutputDirectory(const std::wstring& OutputPath)
 {
 	this->sOutputPath = OutputPath;
 }
@@ -115,7 +115,7 @@ void CSNPFusionDataset::RaiseEvent(CSNPFusionEvent Event)
 		listener->OnSNPFusionEvent(Event);
 }
 
-void CSNPFusionDataset::RaiseEvent(CSNPFusionDataset* parpSource, CSNPFusionEvent::EEventType parSeverity, CSNPFusionEvent::EEventSubType subType, wstring parsMessage)
+void CSNPFusionDataset::RaiseEvent(CSNPFusionDataset* parpSource, CSNPFusionEvent::EEventType parSeverity, CSNPFusionEvent::EEventSubType subType, std::wstring parsMessage)
 {
 	RaiseEvent(CSNPFusionEvent(parpSource, parSeverity, subType, parsMessage));
 }
@@ -227,13 +227,13 @@ bool CSNPFusionDataset::ProcessDataset()
 	}
 	catch (std::exception& ex)
 	{
-		RaiseEvent(this, CSNPFusionEvent::eError, CSNPFusionEvent::eNone, CStringUtilities::ConvertToStdWstring(string_view(ex.what())));
+		RaiseEvent(this, CSNPFusionEvent::eError, CSNPFusionEvent::eNone, CStringUtilities::ConvertToStdWstring(std::string_view(ex.what())));
 		bSuccess = false;
 	}
 
 	stopWatch.Stop();
 
-	RaiseEvent(this, CSNPFusionEvent::eInformation, CSNPFusionEvent::eCalculationTime, L"Total process duration: " + wstring(stopWatch.GetTimeStr()));
+	RaiseEvent(this, CSNPFusionEvent::eInformation, CSNPFusionEvent::eCalculationTime, L"Total process duration: " + std::wstring(stopWatch.GetTimeStr()));
 
 	if (m_bIsCanceled)
 	{
@@ -294,7 +294,7 @@ void CSNPFusionDataset::ApplyGlobalParameters() const
 	CScoreThresholdAdapter::EnableDetailedLogging(m_Parameters.bDetailedLogging);
 }
 
-CSNPGroupResult CSNPFusionDataset::ProcessRegistrationGroup(const CImageRegistrationResult& RegistrationResult, const CImageRegistrationData& GroupImageData, const vector<wstring>& GroupImagePaths)
+CSNPGroupResult CSNPFusionDataset::ProcessRegistrationGroup(const CImageRegistrationResult& RegistrationResult, const CImageRegistrationData& GroupImageData, const std::vector<std::wstring>& GroupImagePaths)
 {
 	CSNPGroupResult GroupResult;
 	GroupResult.RegistrationResult = RegistrationResult;
@@ -307,9 +307,9 @@ CSNPGroupResult CSNPFusionDataset::ProcessRegistrationGroup(const CImageRegistra
 	return GroupResult;
 }
 
-vector<std::list<size_t>> CSNPFusionDataset::CreateDistinctImageGroups() const
+std::vector<std::list<size_t>> CSNPFusionDataset::CreateDistinctImageGroups() const
 {
-	vector<std::list<size_t>> Groups;
+	std::vector<std::list<size_t>> Groups;
 
 	for (size_t i = 0; i < m_ImageFiles.size(); i++)
 		Groups.push_back({ i });
@@ -317,12 +317,12 @@ vector<std::list<size_t>> CSNPFusionDataset::CreateDistinctImageGroups() const
 	return Groups;
 }
 
-vector<CSNPGroupResult> CSNPFusionDataset::ProcessRegistrationGroups(const CImageRegistrationResult& AllRegistrationResults, const CImageRegistrationData& ImageData)
+std::vector<CSNPGroupResult> CSNPFusionDataset::ProcessRegistrationGroups(const CImageRegistrationResult& AllRegistrationResults, const CImageRegistrationData& ImageData)
 {
 	if (m_bIsCanceled)
 		return{};
 
-	vector<CSNPGroupResult> Results;
+	std::vector<CSNPGroupResult> Results;
 
 	auto PreprocessedImages = PreprocessImagesForCompositing(ImageData.Images);
 
@@ -352,7 +352,7 @@ vector<CSNPGroupResult> CSNPFusionDataset::ProcessRegistrationGroups(const CImag
 	return Results;
 }
 
-void CSNPFusionDataset::FreeImages(vector<StlImage<float>*>& Images)
+void CSNPFusionDataset::FreeImages(std::vector<StlImage<float>*>& Images)
 {
 	for (auto pImage : Images)
 		delete pImage;
@@ -362,7 +362,7 @@ void CSNPFusionDataset::FreeImages(vector<StlImage<float>*>& Images)
 void CSNPFusionDataset::StartProcessing()
 {
 	m_bIsCanceled = false;
-	wstring sLogLine = L"Starting process (" + std::to_wstring(m_ImageFiles.size()) + L" images)";
+	std::wstring sLogLine = L"Starting process (" + std::to_wstring(m_ImageFiles.size()) + L" images)";
 	RaiseEvent(this, CSNPFusionEvent::eInformation, CSNPFusionEvent::eProcessingStart, sLogLine);
 }
 
@@ -382,7 +382,7 @@ void CSNPFusionDataset::TruncateImageFileList()
 	}
 }
 
-vector<StlImage<float>*> CSNPFusionDataset::LoadImages()
+std::vector<StlImage<float>*> CSNPFusionDataset::LoadImages()
 {
 	if (m_bIsCanceled)
 		return{};
@@ -405,7 +405,7 @@ vector<StlImage<float>*> CSNPFusionDataset::LoadImages()
 	{
 		RaiseEvent(this, CSNPFusionEvent::eProgress, CSNPFusionEvent::eLoadingImages, L"Copying image data");
 
-		vector<StlImage<float>*> result;
+		std::vector<StlImage<float>*> result;
 		for (auto img : m_VolImages)
 		{
 			result.push_back(new StlImage<float>());
@@ -415,7 +415,7 @@ vector<StlImage<float>*> CSNPFusionDataset::LoadImages()
 	}
 }
 
-vector<StlImage<float>*> CSNPFusionDataset::PreprocessImagesForRegistration(const vector<StlImage<float>*>& InputImages)
+std::vector<StlImage<float>*> CSNPFusionDataset::PreprocessImagesForRegistration(const std::vector<StlImage<float>*>& InputImages)
 {
 	auto Result = PreprocessImages(InputImages, m_Parameters.GeneratePreProcessingParameters());
 
@@ -441,7 +441,7 @@ vector<StlImage<float>*> CSNPFusionDataset::PreprocessImagesForRegistration(cons
 	return Result;
 }
 
-vector<StlImage<float>*> CSNPFusionDataset::PreprocessImages(const vector<StlImage<float>*>& InputImages, const CHrtPreProcessingParameters& Parameters)
+std::vector<StlImage<float>*> CSNPFusionDataset::PreprocessImages(const std::vector<StlImage<float>*>& InputImages, const CHrtPreProcessingParameters& Parameters)
 {
 	if (m_bIsCanceled)
 		return{};
@@ -475,7 +475,7 @@ CImageRegistrationResult CSNPFusionDataset::RegisterImages(const CImageRegistrat
 	return result;
 }
 
-vector<StlImage<float>*> CSNPFusionDataset::PreprocessImagesForCompositing(const vector<StlImage<float>*>& InputImages)
+std::vector<StlImage<float>*> CSNPFusionDataset::PreprocessImagesForCompositing(const std::vector<StlImage<float>*>& InputImages)
 {
 	return PreprocessImages(InputImages, m_Parameters.GenerateCompositingPreProcessingParameters());
 }
@@ -501,7 +501,7 @@ void CSNPFusionDataset::Compose(const CImageRegistrationData& GroupImageData, CS
 		return;
 
 	auto Compositer = CCompositingFactory::CreateCompositing(m_Parameters.GenerateCompositingParameters());
-	wstring modeName = L"mosaic image";
+	std::wstring modeName = L"mosaic image";
 
 	//je nach Modus andere Ausgabe
 	if (m_Parameters.eCompositingMode == CCompositingParameters::ECompositingType::e3DCloud) {
@@ -528,7 +528,7 @@ void CSNPFusionDataset::Compose(const CImageRegistrationData& GroupImageData, CS
 	m_pCurrentCancelable = nullptr;
 }
 
-void CSNPFusionDataset::OutputResults(const CImageRegistrationResult& AllRegistrationResults, const vector<CSNPGroupResult>& GroupResults)
+void CSNPFusionDataset::OutputResults(const CImageRegistrationResult& AllRegistrationResults, const std::vector<CSNPGroupResult>& GroupResults)
 {
 	if (m_bIsCanceled)
 		return;
@@ -541,8 +541,8 @@ void CSNPFusionDataset::OutputResults(const CImageRegistrationResult& AllRegistr
 
 	auto OutputParameters = GenerateOutputParameters(ImageGroups.size());
 
-	vector<CDenseMatrix> AllSolutions;
-	vector<CSNPCompositingResult*> AllResults;
+	std::vector<CDenseMatrix> AllSolutions;
+	std::vector<CSNPCompositingResult*> AllResults;
 	for (const auto& Group : GroupResults)
 	{
 		AllSolutions.push_back(Group.PositioningSolution);

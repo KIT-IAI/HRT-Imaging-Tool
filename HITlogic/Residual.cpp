@@ -101,7 +101,7 @@ CResidual::~CResidual()
 {
 }
 
-double CResidual::CalculateMeanResidual(const vector<CResidual>& allResiduals)
+double CResidual::CalculateMeanResidual(const std::vector<CResidual>& allResiduals)
 {
 	if (allResiduals.empty())
 		return 0;
@@ -113,7 +113,7 @@ double CResidual::CalculateMeanResidual(const vector<CResidual>& allResiduals)
 	return fMean;
 }
 
-double CResidual::CalculateStdevResidual(const vector<CResidual>& allResiduals, double fMean)
+double CResidual::CalculateStdevResidual(const std::vector<CResidual>& allResiduals, double fMean)
 {
 	if (allResiduals.empty())
 		return 0;
@@ -125,7 +125,7 @@ double CResidual::CalculateStdevResidual(const vector<CResidual>& allResiduals, 
 	return fStdev;
 }
 
-double CResidual::CalculateMedianResidual(const vector<CResidual>& allResiduals)
+double CResidual::CalculateMedianResidual(const std::vector<CResidual>& allResiduals)
 {
 	if (allResiduals.empty())
 		return 0.0;
@@ -145,7 +145,7 @@ double CResidual::CalculateMedianResidual(const vector<CResidual>& allResiduals)
 		return values[n / 2];
 }
 
-double CResidual::CalculateQuantileResidual(const vector<CResidual>& allResiduals, double quantile)
+double CResidual::CalculateQuantileResidual(const std::vector<CResidual>& allResiduals, double quantile)
 {
 	if (allResiduals.empty() || quantile <= 0.0 || quantile >= 1.0)
 		return 0.0;
@@ -165,7 +165,7 @@ double CResidual::CalculateQuantileResidual(const vector<CResidual>& allResidual
 	return values[index];
 }
 
-double CResidual::CalculateMaximumResidual(const vector<CResidual>& allResiduals)
+double CResidual::CalculateMaximumResidual(const std::vector<CResidual>& allResiduals)
 {
 	if (allResiduals.empty())
 		return 0.0;

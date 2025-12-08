@@ -29,7 +29,7 @@ CRegStepResidualFilter::~CRegStepResidualFilter()
 {
 }
 
-void CRegStepResidualFilter::ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults, const vector<std::list<size_t>>& imagegroups)
+void CRegStepResidualFilter::ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults, const std::vector<std::list<size_t>>& imagegroups)
 {
 	size_t validRegistrationCount = validRegistrationResults.size();
 	auto pRigidSolution = std::make_shared<CDenseMatrix>(m_nImageCount, 2);
@@ -47,7 +47,7 @@ void CRegStepResidualFilter::ProcessRegistrationData(std::vector<StlImage<float>
 		boost::wformat(L"Removed %d registration due to a high residual.") % (validRegistrationCount - validRegistrationResults.size()));
 }
 
-bool CRegStepResidualFilter::AreResidualsAcceptable(vector<CRegistrationResult>& RegistrationResults) const
+bool CRegStepResidualFilter::AreResidualsAcceptable(std::vector<CRegistrationResult>& RegistrationResults) const
 {
 	assert(CRegistrationPostProcessor::AreResidualsInitialized(RegistrationResults));
 
@@ -55,9 +55,9 @@ bool CRegStepResidualFilter::AreResidualsAcceptable(vector<CRegistrationResult>&
 	return none_of(RegistrationResults.begin(), RegistrationResults.end(), condition);
 }
 
-void CRegStepResidualFilter::RemoveWrongRegistrations(vector<CRegistrationResult>& validRegistrationResults, vector<CRegistrationResult>& invalidRegistrationResults) const
+void CRegStepResidualFilter::RemoveWrongRegistrations(std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults) const
 {
-	vector<CRegistrationResult> RemovedRegistrations;
+	std::vector<CRegistrationResult> RemovedRegistrations;
 
 	auto condition = [&](const CRegistrationResult& reg)
 		{
@@ -72,7 +72,7 @@ void CRegStepResidualFilter::RemoveWrongRegistrations(vector<CRegistrationResult
 	move_if(validRegistrationResults, invalidRegistrationResults, condition, invalidOperation);
 	PossiblyInvalidateImages(RemovedRegistrations, validRegistrationResults, invalidRegistrationResults);
 }
-void CRegStepResidualFilter::PossiblyInvalidateImages(vector<CRegistrationResult>& RemovedRegistrations, vector<CRegistrationResult>& validRegistrationResults, vector<CRegistrationResult>& invalidRegistrationResults) const
+void CRegStepResidualFilter::PossiblyInvalidateImages(std::vector<CRegistrationResult>& RemovedRegistrations, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults) const
 {
 	auto RegistrationsForEachImage = GetRegistrationsForEachImage(validRegistrationResults);
 	for (auto registration : RemovedRegistrations)
@@ -98,11 +98,11 @@ void CRegStepResidualFilter::PossiblyInvalidateImages(vector<CRegistrationResult
 }
 
 
-vector<vector<CRegistrationResult>> CRegStepResidualFilter::GetRegistrationsForEachImage(vector<CRegistrationResult>& validRegistrationResults) const
+std::vector<std::vector<CRegistrationResult>> CRegStepResidualFilter::GetRegistrationsForEachImage(std::vector<CRegistrationResult>& validRegistrationResults) const
 {
-	vector<vector<CRegistrationResult>> result;
+	std::vector<std::vector<CRegistrationResult>> result;
 
-	result.assign(m_nImageCount, vector<CRegistrationResult>());
+	result.assign(m_nImageCount, std::vector<CRegistrationResult>());
 	for (auto registration : validRegistrationResults)
 	{
 		result[registration.RigidRegistrationResult.GetReferenceImageIndex()].push_back(registration);
@@ -110,10 +110,10 @@ vector<vector<CRegistrationResult>> CRegStepResidualFilter::GetRegistrationsForE
 	}
 	return result;
 }
-vector<double> CRegStepResidualFilter::GetResidualsForEachImage(vector<CRegistrationResult>& validRegistrationResults) const
+std::vector<double> CRegStepResidualFilter::GetResidualsForEachImage(std::vector<CRegistrationResult>& validRegistrationResults) const
 {
 	auto RegistrationsForEachImage = GetRegistrationsForEachImage(validRegistrationResults);
-	vector<double> ResidualsForEachImage;
+	std::vector<double> ResidualsForEachImage;
 
 	ResidualsForEachImage.assign(m_nImageCount, 0.0);
 

@@ -30,7 +30,7 @@ CImageLoader::CImageLoader()
 
 }
 
-void CImageLoader::DoWork(vector<wstring>& param, vector<StlImage<float>*>& result)
+void CImageLoader::DoWork(std::vector<std::wstring>& param, std::vector<StlImage<float>*>& result)
 {
 	return LoadImages(param, result);
 }
@@ -39,13 +39,13 @@ void CImageLoader::GetWorkUnits(size_t& nCompletedWorkUnits, size_t& nTotalWorkU
 	nTotalWorkUnits = m_nImageCount;
 	nCompletedWorkUnits = m_nLoadedImages;
 }
-StlImage<float>* CImageLoader::LoadImageFromFile(const wstring& fileName)
+StlImage<float>* CImageLoader::LoadImageFromFile(const std::wstring& fileName)
 {
 	StlImage<float>* Image = new StlImage<float>();
 	Image->LoadConvert(fileName);
 	return Image;
 }
-void CImageLoader::LoadImages(const vector<wstring>& ImageFiles, vector<StlImage<float>*>& result)
+void CImageLoader::LoadImages(const std::vector<std::wstring>& ImageFiles, std::vector<StlImage<float>*>& result)
 {
 	m_nImageCount = ImageFiles.size();
 	for (const auto& fileName : ImageFiles)
@@ -61,30 +61,30 @@ void CImageLoader::LoadImages(const vector<wstring>& ImageFiles, vector<StlImage
 	}
 	ReportProgress();
 }
-vector<StlImage<float>*> CImageLoader::LoadImages(const vector<wstring>& ImageFiles)
+std::vector<StlImage<float>*> CImageLoader::LoadImages(const std::vector<std::wstring>& ImageFiles)
 {
-	vector<StlImage<float>*> out;
+	std::vector<StlImage<float>*> out;
 	CImageLoader loader;
 	loader.LoadImages(ImageFiles, out);
 	return out;
 }
 
-vector<StlImage<float>*> CImageLoader::LoadImagesFromFolder(const wstring& folderPath)
+std::vector<StlImage<float>*> CImageLoader::LoadImagesFromFolder(const std::wstring& folderPath)
 {
 	return LoadImagesFromFolder(folderPath, 0);
 }
-vector<StlImage<float>*> CImageLoader::LoadImagesFromFolder(const wstring& folderPath, size_t nCount)
+std::vector<StlImage<float>*> CImageLoader::LoadImagesFromFolder(const std::wstring& folderPath, size_t nCount)
 {
 	return LoadImagesFromFolder(folderPath, CRegex(L".*"), nCount);
 }
 
-vector<StlImage<float>*> CImageLoader::LoadImagesFromFolder(const wstring& folderPath, const  CRegex& regex)
+std::vector<StlImage<float>*> CImageLoader::LoadImagesFromFolder(const std::wstring& folderPath, const  CRegex& regex)
 {
 	return LoadImagesFromFolder(folderPath, regex, 0);
 }
-vector<StlImage<float>*> CImageLoader::LoadImagesFromFolder(const wstring& folderPath, const  CRegex& regex, size_t nCount)
+std::vector<StlImage<float>*> CImageLoader::LoadImagesFromFolder(const std::wstring& folderPath, const  CRegex& regex, size_t nCount)
 {
-	vector<StlImage<float>*> resultImages;
+	std::vector<StlImage<float>*> resultImages;
 	auto filePaths = CFileUtilities::GetFilesInDirectory(folderPath, regex);
 
 	if (nCount > 0 && nCount < filePaths.size())
@@ -100,21 +100,21 @@ vector<StlImage<float>*> CImageLoader::LoadImagesFromFolder(const wstring& folde
 	return resultImages;
 }
 
-vector<StlImage<float>*> CImageLoader::Load(const vector<wstring>& FilePaths)
+std::vector<StlImage<float>*> CImageLoader::Load(const std::vector<std::wstring>& FilePaths)
 {
-	vector<StlImage<float>*> resultImages;
+	std::vector<StlImage<float>*> resultImages;
 	CImageLoader loader;
 	loader.LoadImages(FilePaths, resultImages);
 	return resultImages;
 }
-vector<StlImage<float>*> CImageLoader::LoadImagesFromSQLite(CSQLiteDatabase& Database, const wstring& sTable, const wstring sColumn)
+std::vector<StlImage<float>*> CImageLoader::LoadImagesFromSQLite(CSQLiteDatabase& Database, const std::wstring& sTable, const std::wstring sColumn)
 {
 	auto ResultTable = Database.SelectAll(sTable, { sColumn });
-	vector<wstring> filePaths;
+	std::vector<std::wstring> filePaths;
 	for (const auto& Row : ResultTable)
 	{
 		assert(Row.size() == 1);
-		filePaths.push_back(Row.Get <wstring>(0));
+		filePaths.push_back(Row.Get <std::wstring>(0));
 	}
 	return Load(filePaths);
 }

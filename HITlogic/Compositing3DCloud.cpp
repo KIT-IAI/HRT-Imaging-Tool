@@ -121,7 +121,7 @@ void CCompositing3DCloud::PerformCompositing(const CImageRegistrationData& Image
 
 		int imgSizeX = ImageData.Images[nBild]->GetSize().x;
 
-		CDenseMatrix Distortion(vector<CDenseVector>{ matPosX.Col(nBild), matPosY.Col(nBild) }, true);
+		CDenseMatrix Distortion(std::vector<CDenseVector>{ matPosX.Col(nBild), matPosY.Col(nBild) }, true);
 
 		for (int imgY = 0; imgY < 384; imgY++) {	//Bildzeile
 			auto x = Distortion[imgY][0];
@@ -161,7 +161,7 @@ size_t CCompositing3DCloud::GetMonotonyViolationCount(const CDenseMatrix& matPos
 	return nMonotonyViolatedCount;
 }
 
-const vector<CUndistortedImage>& CCompositing3DCloud::GetUndistortedImages() const
+const std::vector<CUndistortedImage>& CCompositing3DCloud::GetUndistortedImages() const
 {
 	return m_UndistortedImages;
 }

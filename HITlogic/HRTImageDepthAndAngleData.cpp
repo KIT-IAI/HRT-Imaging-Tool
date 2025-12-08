@@ -164,22 +164,22 @@ CHRTImageDepthAndAngleData CHRTImageDepthAndAngleData::filter(std::list<size_t>f
 	return ret;
 }
 
-void CHRTImageDepthAndAngleData::setPiezoFilePath(wstring path)
+void CHRTImageDepthAndAngleData::setPiezoFilePath(std::wstring path)
 {
 	m_filePath = path;
 }
 
-void CHRTImageDepthAndAngleData::setSnpPath(wstring path)
+void CHRTImageDepthAndAngleData::setSnpPath(std::wstring path)
 {
 	m_snpPath = path;
 }
 
-wstring CHRTImageDepthAndAngleData::getPiezoFilePath() const
+std::wstring CHRTImageDepthAndAngleData::getPiezoFilePath() const
 {
 	return m_filePath;
 }
 
-wstring CHRTImageDepthAndAngleData::getPiezoSnpPath() const
+std::wstring CHRTImageDepthAndAngleData::getPiezoSnpPath() const
 {
 	return m_snpPath;
 }

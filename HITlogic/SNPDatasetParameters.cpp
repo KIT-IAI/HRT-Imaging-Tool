@@ -25,7 +25,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-const wstring CSNPDatasetParameters::TableName = L"Parameters";
+const std::wstring CSNPDatasetParameters::TableName = L"Parameters";
 
 CRegistrationStrategyParameters CSNPDatasetParameters::GenerateRegistrationStrategyParameters(StlImageSize ImageSize) const
 {

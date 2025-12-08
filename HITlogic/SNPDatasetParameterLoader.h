@@ -31,7 +31,7 @@ public:
 	CSNPDatasetParameterLoader() = delete;
 	~CSNPDatasetParameterLoader() = delete;
 
-	static CSNPDatasetParameters FromSQLite(const wstring& sPath);
+	static CSNPDatasetParameters FromSQLite(const std::wstring& sPath);
 	static CSNPDatasetParameters FromSQLite(CSQLiteDatabase& Database);
-	static CSNPDatasetParameters FromRegistry(const wstring& sPath);
+	static CSNPDatasetParameters FromRegistry(const std::wstring& sPath);
 };

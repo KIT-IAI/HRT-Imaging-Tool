@@ -25,7 +25,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-const wstring CMosaicImageProperties::TableName = L"MosaicImageProperties";
+const std::wstring CMosaicImageProperties::TableName = L"MosaicImageProperties";
 
 bool CMosaicImageProperties::operator==(const CMosaicImageProperties& rhs) const
 {

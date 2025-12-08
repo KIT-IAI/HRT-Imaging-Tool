@@ -423,14 +423,14 @@ std::vector<T> C3DBuffer<T>::AsArray() const
 template<typename T>
 void C3DBuffer<T>::saveAsImageSeries(const std::wstring_view folderName) const
 {
-	CFileUtilities::MakeDirectory(wstring(folderName));
+	CFileUtilities::MakeDirectory(std::wstring(folderName));
 	StlImage<T> tmpImage;
 
 	tmpImage.Alloc({ m_size.x, m_size.y });
 
 	for (int zCounter = 0; zCounter < m_size.z; zCounter++) {
 		tmpImage.Put(m_data.data() + (m_size.x * m_size.y * zCounter));
-		auto fileName = CFileUtilities::FullFile({ wstring(folderName), std::to_wstring(zCounter) + L".tif" });
+		auto fileName = CFileUtilities::FullFile({ std::wstring(folderName), std::to_wstring(zCounter) + L".tif" });
 		tmpImage.Export(fileName);
 	}
 	tmpImage.Free();

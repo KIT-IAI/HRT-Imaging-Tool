@@ -106,7 +106,7 @@ void CHrtIterativeSLEWorker::Pause()
 	SnapShotSolution();
 }
 
-void CHrtIterativeSLEWorker::AddRegistrations(const vector<CRigidRegistrationResult>& rigidRegistrationResults)
+void CHrtIterativeSLEWorker::AddRegistrations(const std::vector<CRigidRegistrationResult>& rigidRegistrationResults)
 {
 	std::lock_guard<std::mutex> lock(m_QueueMutex);
 	m_RegistrationQueue.insert(m_RegistrationQueue.end(), rigidRegistrationResults.begin(), rigidRegistrationResults.end());

@@ -29,7 +29,7 @@ CRegStepScoreThresholdApproximator::~CRegStepScoreThresholdApproximator()
 {
 }
 
-bool CRegStepScoreThresholdApproximator::IsScoreThresholdSufficient(vector<CRegistrationResult>& RegistrationResults)
+bool CRegStepScoreThresholdApproximator::IsScoreThresholdSufficient(std::vector<CRegistrationResult>& RegistrationResults)
 {
 	auto allResiduals = CRegistrationPostProcessor::GetAllResiduals(RegistrationResults);
 	double fMean = CResidual::CalculateMeanResidual(allResiduals);

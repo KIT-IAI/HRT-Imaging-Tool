@@ -25,7 +25,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-CSNPFusionEvent::CSNPFusionEvent(CSNPFusionDataset* parpSource, EEventType eEventType, EEventSubType eSubType, wstring parsMessage)
+CSNPFusionEvent::CSNPFusionEvent(CSNPFusionDataset* parpSource, EEventType eEventType, EEventSubType eSubType, std::wstring parsMessage)
 	: pSource(parpSource)
 	, Severity(eEventType)
 	, Type(eSubType)

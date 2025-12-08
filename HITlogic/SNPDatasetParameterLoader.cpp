@@ -25,7 +25,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-CSNPDatasetParameters CSNPDatasetParameterLoader::FromSQLite(const wstring& sPath)
+CSNPDatasetParameters CSNPDatasetParameterLoader::FromSQLite(const std::wstring& sPath)
 {
 	CSQLiteDatabase Database(sPath);
 	return FromSQLite(Database);
@@ -36,7 +36,7 @@ CSNPDatasetParameters CSNPDatasetParameterLoader::FromSQLite(CSQLiteDatabase& Da
 	return Database.SelectAll(L"Parameters").Convert<CSNPDatasetParameters>();
 }
 
-CSNPDatasetParameters CSNPDatasetParameterLoader::FromRegistry(const wstring& regPath)
+CSNPDatasetParameters CSNPDatasetParameterLoader::FromRegistry(const std::wstring& regPath)
 {
 	// We use a signed type variable to read the registry entry, otherwise
 	// negative values would be silently misinterpreted. The parsing of the

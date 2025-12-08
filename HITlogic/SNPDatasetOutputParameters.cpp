@@ -25,7 +25,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-const wstring CSNPDatasetOutputParameters::TableName = L"OutputParameters";
+const std::wstring CSNPDatasetOutputParameters::TableName = L"OutputParameters";
 
 CSNPDatasetOutputParameters::CSNPDatasetOutputParameters()
 {

@@ -121,7 +121,7 @@ int PiezoImageTime::readPiezo(const std::wstring& filepath)
 }
 
 //berechnet Zeiten von erstem Timestamp als Nullpunkt aus
-void PiezoImageTime::recalcTime(vector<Timestamp>* timeVect) {
+void PiezoImageTime::recalcTime(std::vector<Timestamp>* timeVect) {
 	if (timeVect->size() > 0) {
 		int startHms = timeVect->at(0).hms;
 		double startMili = timeVect->at(0).mili;
@@ -229,13 +229,13 @@ int PiezoImageTime::readImageTime(const std::wstring& filepath)
 	return errorlines;
 }
 
-void PiezoImageTime::giveImageFilterByNames(vector<wstring> tmp) {  //Gibt Dateinamen der verwendeten Bilder um Zeitdaten zu nicht verwendeten Bildern zu filtern
+void PiezoImageTime::giveImageFilterByNames(std::vector<std::wstring> tmp) {  //Gibt Dateinamen der verwendeten Bilder um Zeitdaten zu nicht verwendeten Bildern zu filtern
 	m_iImageFilter.clear();
 	m_ImageValues.clear();
 	m_missingImages.clear();
 	if (!tmp.empty()) {
 		for (auto el : tmp) {
-			wstring inum = el.substr(el.size() - 9, 5);
+			std::wstring inum = el.substr(el.size() - 9, 5);
 			//CLog::Log(CLog::eDebug,L"test: ",inum.c_str());
 			m_iImageFilter.push_back(std::stoi(inum));
 		}
@@ -515,7 +515,7 @@ void PiezoImageTime::syncImagePiezoHeight(int Pstep, int Inum) {
 	synced = true;
 }
 
-void PiezoImageTime::recalcTime(vector<Timestamp>* timeVect, int offsetHms, double OffsetMili) {
+void PiezoImageTime::recalcTime(std::vector<Timestamp>* timeVect, int offsetHms, double OffsetMili) {
 	if (timeVect->size() > 0) {
 		int startHms = timeVect->at(0).hms - offsetHms;
 		double startMili = timeVect->at(0).mili - OffsetMili;

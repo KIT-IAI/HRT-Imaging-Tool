@@ -109,7 +109,7 @@ CDenseMatrix CHRTGlobalPositioning::SolvePositioningBlockbased(const CImageRegis
 ///	<param name="nSubImagesWithGaps"> The number of sub-images per image, including the gap. </param>
 ///	<param name="algo"> The solver algorithm. </param>
 ///	<param name="RigidRegistrationResultArray"> The rigid registration results for the image group. </param>
-CDenseMatrix CHRTGlobalPositioning::CreateStartVector(const index_pair_t& minMaxImageIndexes, size_t nSubImagesWithGaps, CSLESolver::EAlgorithm algo, const vector<CRigidRegistrationResult>& RigidRegistrationResultArray)
+CDenseMatrix CHRTGlobalPositioning::CreateStartVector(const index_pair_t& minMaxImageIndexes, size_t nSubImagesWithGaps, CSLESolver::EAlgorithm algo, const std::vector<CRigidRegistrationResult>& RigidRegistrationResultArray)
 {
 	size_t nImages = minMaxImageIndexes.second - minMaxImageIndexes.first + 1;
 
@@ -170,7 +170,7 @@ bool CHRTGlobalPositioning::SolvePositioning(
 	size_t nSubimageRowOffset,
 	size_t nColumnCount,
 	CDenseMatrix* pSolution,
-	const vector<CRigidRegistrationResult>& LocalRegistrationSolutions)
+	const std::vector<CRigidRegistrationResult>& LocalRegistrationSolutions)
 {
 	size_t nImages = minMaxImageIndexes.second - minMaxImageIndexes.first + 1;
 
@@ -279,7 +279,7 @@ bool CHRTGlobalPositioning::SolvePositioningWithConsistencyCheck(
 	size_t nSubImagesPerImageWithGap,
 	size_t nSubimageRowOffset,
 	CDenseMatrix* pSolution,
-	vector<CRigidRegistrationResult>& LocalRegistrationSolutions,
+	std::vector<CRigidRegistrationResult>& LocalRegistrationSolutions,
 	double fThreshold /* = 5.0 */)
 {
 	std::list<CDenseMatrix> listSolutions;
@@ -373,7 +373,7 @@ bool CHRTGlobalPositioning::SolvePositioningWithConsistencyCheck(
 ///	<param name="eProcessType"> The processing template for the solution process. </param>
 void CHRTGlobalPositioning::AddSystemData(
 	const index_pair_t& minMaxImageIndexes,
-	const vector<CRigidRegistrationResult>& LocalRegistrationSolution,
+	const std::vector<CRigidRegistrationResult>& LocalRegistrationSolution,
 	size_t SubImagesRowCount,
 	size_t nSubimageRowOffset,
 	size_t SubImagesColumnCount,

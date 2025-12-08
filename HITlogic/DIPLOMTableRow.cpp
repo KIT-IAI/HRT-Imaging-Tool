@@ -101,7 +101,7 @@ template <> CMosaicImageProperties CSQLiteTableRow::Convert() const
 	Properties.MosaicImageSize.x = Get<long long>(1);
 	Properties.MosaicImageSize.y = Get<long long>(2);
 	Properties.nDefinedMosaicArea = Get<size_t>(3);
-	Properties.sFilePath = Get<wstring>(4);
+	Properties.sFilePath = Get<std::wstring>(4);
 
 	return Properties;
 }

@@ -33,8 +33,6 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include <filesystem>
 #include <string>
 #include <thread>
-using std::string;
-using std::wstring;
 
 // Boost libraries
 #include <boost/algorithm/string.hpp>
@@ -44,21 +42,6 @@ using std::wstring;
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/property_tree/xml_parser.hpp>
-
-using boost::posix_time::ptime;
-using boost::posix_time::time_duration;
-using boost::posix_time::microsec_clock;
-using boost::posix_time::time_from_string;
-using boost::posix_time::time_from_string;
-using boost::posix_time::not_a_date_time;
-using boost::filesystem::path;
-using boost::lexical_cast;
-using boost::property_tree::ptree;
-using boost::property_tree::wptree;
-using boost::property_tree::read_json;
-using boost::property_tree::write_json;
-using boost::property_tree::read_xml;
-using boost::property_tree::write_xml;
 
 // wxWidgets libraries
 #include <wx/wxprec.h>

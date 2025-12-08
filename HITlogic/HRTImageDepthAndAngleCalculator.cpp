@@ -81,13 +81,13 @@ bool CHRTImageDepthAndAngleCalculator::giveBasicInfo(int ImageCount, int PlaneCo
 	return false;
 }
 
-bool CHRTImageDepthAndAngleCalculator::givePiezoData(int /*ImageCount*/, wstring filePathAndSeriesName, wstring snpFolder, bool useOffsetVar, double Offset)
+bool CHRTImageDepthAndAngleCalculator::givePiezoData(int /*ImageCount*/, std::wstring filePathAndSeriesName, std::wstring snpFolder, bool useOffsetVar, double Offset)
 {
-	wstring seriesName;
-	vector<wstring> filecut = CFileUtilities::FileParts(filePathAndSeriesName);
+	std::wstring seriesName;
+	std::vector<std::wstring> filecut = CFileUtilities::FileParts(filePathAndSeriesName);
 	seriesName = filecut.back();
-	wstring ParameterFile = snpFolder + L"\\" + seriesName + L"_Parameters.txt";
-	wstring PiezoFile = filePathAndSeriesName + L"_piezo1.txt";
+	std::wstring ParameterFile = snpFolder + L"\\" + seriesName + L"_Parameters.txt";
+	std::wstring PiezoFile = filePathAndSeriesName + L"_piezo1.txt";
 
 	if (!((CFileUtilities::FileExists(ParameterFile)) && (CFileUtilities::FileExists(PiezoFile))))
 	{
@@ -144,7 +144,7 @@ bool CHRTImageDepthAndAngleCalculator::givePiezoData(int /*ImageCount*/, wstring
 	return true;
 }
 
-bool CHRTImageDepthAndAngleCalculator::giveCombined(int ImageCount, int PlaneCount, wstring filePathAndSeriesName, wstring snpFolder, int PlaneIncrement, bool useOffsetVar, double Offset)
+bool CHRTImageDepthAndAngleCalculator::giveCombined(int ImageCount, int PlaneCount, std::wstring filePathAndSeriesName, std::wstring snpFolder, int PlaneIncrement, bool useOffsetVar, double Offset)
 {
 	if (!givePiezoData(ImageCount, filePathAndSeriesName, snpFolder, useOffsetVar, Offset))
 	{

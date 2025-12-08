@@ -182,16 +182,16 @@ std::vector<float> CSubImageCorrelation::CalculateDeviation(const StlImage<float
 
 	auto OverlappingSize = sumImage.GetSize();
 
-	vector<float> afStdDev(OverlappingSize.y);
+	std::vector<float> afStdDev(OverlappingSize.y);
 
-	vector<float> bufferS = sumImage.AsArray();
-	vector<float> bufferD = differenceImage.AsArray();
+	std::vector<float> bufferS = sumImage.AsArray();
+	std::vector<float> bufferD = differenceImage.AsArray();
 
 	auto itS = bufferS.cbegin();
 	auto itD = bufferD.cbegin();
 
-	vector<double> lineS(OverlappingSize.x);
-	vector<double> lineD(OverlappingSize.x);
+	std::vector<double> lineS(OverlappingSize.x);
+	std::vector<double> lineD(OverlappingSize.x);
 
 	for (size_t y = 0; y < OverlappingSize.y; y++)
 	{
@@ -215,10 +215,10 @@ std::vector<float> CSubImageCorrelation::CalculateDeviation(const StlImage<float
  *	\param[in] nNeighbours Anzahl der Nachbarwerte, die links- und
  *		rechtsseitig in den gleitenden Durchschnitt einbezogen werden sollen.
  */
-void CSubImageCorrelation::MovingAverage(vector<float>& afStdDev, int nNeighbours) const
+void CSubImageCorrelation::MovingAverage(std::vector<float>& afStdDev, int nNeighbours) const
 {
 	size_t nSize = afStdDev.size();
-	vector<float> solutionVector(nSize);
+	std::vector<float> solutionVector(nSize);
 
 	size_t nMinIndex;
 	size_t nMaxIndex;
@@ -645,7 +645,7 @@ size_t CSubImageCorrelation::GetSubImageHeight() const
  *	die Pixel des Referenzbildes passt.
  */
 StlImage<float> CSubImageCorrelation::InterpolateImage(const StlImage<float>& TemplateImage,
-	const vector<CVector2d<float>>& offsetArray, StlImageRect DefinedWindow) const
+	const std::vector<CVector2d<float>>& offsetArray, StlImageRect DefinedWindow) const
 {
 	assert(offsetArray.size() == static_cast<size_t>(TemplateImage.GetSize().y));
 	assert(DefinedWindow.x >= 0);
@@ -691,7 +691,7 @@ CVector2d<float> CSubImageCorrelation::GetCorrespondingPixelInReferenceImage(CVe
 	return fCorrespondingReferenceImagePixel;
 }
 
-float CSubImageCorrelation::InterpolatePixelValue(const vector<float>& InputBuffer, const CVector2d<float>& fCorrespondingReferencePixel, const CVector2d<long long>& nCorrespondingReferencePixel, long long ImageWidth) const
+float CSubImageCorrelation::InterpolatePixelValue(const std::vector<float>& InputBuffer, const CVector2d<float>& fCorrespondingReferencePixel, const CVector2d<long long>& nCorrespondingReferencePixel, long long ImageWidth) const
 {
 	CVector2d<float> fDist = fCorrespondingReferencePixel - CVector2d<float>(nCorrespondingReferencePixel);
 

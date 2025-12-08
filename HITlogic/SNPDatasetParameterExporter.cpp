@@ -25,7 +25,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-void CSNPDatasetParameterExporter::ExportChangesToRegistry(const wstring& regPath, const CSNPDatasetParameters& parameters, const CSNPDatasetParameters& reference)
+void CSNPDatasetParameterExporter::ExportChangesToRegistry(const std::wstring& regPath, const CSNPDatasetParameters& parameters, const CSNPDatasetParameters& reference)
 {
 #define PARAM(NAME, VALUE, REF) if (VALUE != REF) {GetGSS()->WriteValueCurrentUser(regPath, NAME, VALUE);}
 #define PARAM_ENUM(NAME, VALUE, REF) if (VALUE != REF) {typename std::underlying_type<decltype(VALUE)>::type tmp = static_cast<typename std::underlying_type<decltype(VALUE)>::type>(VALUE); GetGSS()->WriteValueCurrentUser(regPath, NAME, tmp);}

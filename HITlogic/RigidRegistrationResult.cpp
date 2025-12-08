@@ -514,9 +514,9 @@ CRigidRegistrationResult::CRigidRegistrationResult(CDenseVector pResultLine)
  *
  *	\return Eine Zeichenkette mit ausgewählten Werten des Objekts.
  */
-wstring CRigidRegistrationResult::ToString() const
+std::wstring CRigidRegistrationResult::ToString() const
 {
-	wstring out = L"";
+	std::wstring out = L"";
 	out += L"\t" + std::to_wstring(m_fX);
 	out += L"\t" + std::to_wstring(m_fY);
 	out += L"\t" + std::to_wstring(m_fPhi);
@@ -551,9 +551,9 @@ bool CRigidRegistrationResult::IsValid() const
 	return GetValidity() > 0;
 }
 
-vector<CRigidRegistrationResult> CRigidRegistrationResult::LoadFromFile(const wstring& fileName)
+std::vector<CRigidRegistrationResult> CRigidRegistrationResult::LoadFromFile(const std::wstring& fileName)
 {
-	vector<CRigidRegistrationResult> results;
+	std::vector<CRigidRegistrationResult> results;
 
 	auto nLineCount = CFileUtilities::CountNumberOfLines(fileName, true);
 
@@ -572,7 +572,7 @@ vector<CRigidRegistrationResult> CRigidRegistrationResult::LoadFromFile(const ws
 	return results;
 }
 
-bool CRigidRegistrationResult::WriteToFile(const wstring& fileName, const vector<CRigidRegistrationResult>& results)
+bool CRigidRegistrationResult::WriteToFile(const std::wstring& fileName, const std::vector<CRigidRegistrationResult>& results)
 {
 	CTextFileOutput file;
 
@@ -584,12 +584,12 @@ bool CRigidRegistrationResult::WriteToFile(const wstring& fileName, const vector
 	return file.Save(fileName);
 }
 
-vector<CRigidRegistrationResult> CRigidRegistrationResult::FilterRegistrationResults(const vector<CRigidRegistrationResult>& listIn, const std::list<size_t>& listIndexes)
+std::vector<CRigidRegistrationResult> CRigidRegistrationResult::FilterRegistrationResults(const std::vector<CRigidRegistrationResult>& listIn, const std::list<size_t>& listIndexes)
 {
 	if (listIndexes.empty())
 		return{};
 
-	vector<CRigidRegistrationResult> listOut;
+	std::vector<CRigidRegistrationResult> listOut;
 
 	for (size_t i = 0; i < listIn.size(); i++)
 	{
@@ -620,7 +620,7 @@ vector<CRigidRegistrationResult> CRigidRegistrationResult::FilterRegistrationRes
 	return listOut;
 }
 
-void CRigidRegistrationResult::SearchRegistrationResults(const vector<CRigidRegistrationResult>& listIn, vector<CRigidRegistrationResult>& listOut, size_t searchedImage)
+void CRigidRegistrationResult::SearchRegistrationResults(const std::vector<CRigidRegistrationResult>& listIn, std::vector<CRigidRegistrationResult>& listOut, size_t searchedImage)
 {
 	listOut.clear();
 
@@ -634,7 +634,7 @@ void CRigidRegistrationResult::SearchRegistrationResults(const vector<CRigidRegi
 /*
 Returns a List containing all registrations that involve the searched image AND where the other image is inbetween the interval from <= i < to.
 */
-void CRigidRegistrationResult::SearchRegistrationResults(const vector<CRigidRegistrationResult>& listIn, vector<CRigidRegistrationResult>& listOut, size_t searchedImage, size_t from, size_t to)
+void CRigidRegistrationResult::SearchRegistrationResults(const std::vector<CRigidRegistrationResult>& listIn, std::vector<CRigidRegistrationResult>& listOut, size_t searchedImage, size_t from, size_t to)
 {
 	listOut.clear();
 

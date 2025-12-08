@@ -33,7 +33,7 @@ CHRTImageClassificationData::~CHRTImageClassificationData()
 {
 }
 
-int CHRTImageClassificationData::ReadFromFile(const wstring& filepath)
+int CHRTImageClassificationData::ReadFromFile(const std::wstring& filepath)
 {
 	m_Data.clear();
 	m_bLoaded = false;
@@ -47,11 +47,11 @@ int CHRTImageClassificationData::ReadFromFile(const wstring& filepath)
 	}
 
 	const wchar_t delim = L';';
-	auto tokenizeLine = [delim](const wstring& line, vector<wstring>& tokens) -> void {
+	auto tokenizeLine = [delim](const std::wstring& line, std::vector<std::wstring>& tokens) -> void {
 		tokens.clear();
 		size_t ind1 = 0;
 		size_t ind2 = line.find(delim, ind1);
-		while (ind2 != wstring::npos)
+		while (ind2 != std::wstring::npos)
 		{
 			tokens.push_back(line.substr(ind1, ind2 - ind1));
 			ind1 = ind2 + 1;
@@ -60,7 +60,7 @@ int CHRTImageClassificationData::ReadFromFile(const wstring& filepath)
 		tokens.push_back(line.substr(ind1));
 		};
 
-	auto parseDistance = [](const wstring& str, double& dist) -> bool {
+	auto parseDistance = [](const std::wstring& str, double& dist) -> bool {
 		std::wistringstream iss{str};
 		double temp;
 		iss >> temp;
@@ -75,7 +75,7 @@ int CHRTImageClassificationData::ReadFromFile(const wstring& filepath)
 		}
 		};
 
-	auto parseClass = [](const wstring& str, EHRTImageClassificationClass& cls) -> bool {
+	auto parseClass = [](const std::wstring& str, EHRTImageClassificationClass& cls) -> bool {
 		std::wistringstream iss{str};
 		int temp;
 		iss >> temp;
@@ -91,11 +91,11 @@ int CHRTImageClassificationData::ReadFromFile(const wstring& filepath)
 		};
 
 	int errorlines = 0;
-	wstring line;
+	std::wstring line;
 	bool bNamePresent = false;
 	ptrdiff_t lineindex = -1;
 	size_t ntokens = 0;
-	vector<wstring> tokens;
+	std::vector<std::wstring> tokens;
 	while (std::getline(ifs, line))
 	{
 		lineindex++;
@@ -194,7 +194,7 @@ const CHRTImageClassificationSet& CHRTImageClassificationData::GetDataset(size_t
 	return m_Data[ind];
 }
 
-const wstring& CHRTImageClassificationData::GetFilepath(size_t ind) const
+const std::wstring& CHRTImageClassificationData::GetFilepath(size_t ind) const
 {
 	assert(ind < GetSize());
 	return m_Data[ind].Filepath;
@@ -206,7 +206,7 @@ EHRTImageClassificationClass CHRTImageClassificationData::GetClass(size_t ind) c
 	return m_Data[ind].Class;
 }
 
-const array<double, 3>& CHRTImageClassificationData::GetDistances(size_t ind) const
+const std::array<double, 3>& CHRTImageClassificationData::GetDistances(size_t ind) const
 {
 	assert(ind < GetSize());
 	return m_Data[ind].Distances;

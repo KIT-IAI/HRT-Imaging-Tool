@@ -117,7 +117,7 @@ void CCompositingVoxelBuffer::PerformCompositing(const CImageRegistrationData& I
 		int imgSizeX = ImageData.Images[imgNr]->GetSize().x;
 		imgLineBuff.resize(imgSizeX);
 		divBuff.resize(imgSizeX);
-		CDenseMatrix Distortion(vector<CDenseVector>{ matPosX.Col(imgNr), matPosY.Col(imgNr) }, true);
+		CDenseMatrix Distortion(std::vector<CDenseVector>{ matPosX.Col(imgNr), matPosY.Col(imgNr) }, true);
 		//Distortion.WriteMatrix(L"E://tmp//Matrix_" + std::to_wstring(imgNr) + L".txt");	//debug
 
 		for (int j = 0; j < 384; j++) {	//j = Bildzeile
@@ -200,7 +200,7 @@ size_t CCompositingVoxelBuffer::GetMonotonyViolationCount(const CDenseMatrix& ma
 	return nMonotonyViolatedCount;
 }
 
-const vector<CUndistortedImage>& CCompositingVoxelBuffer::GetUndistortedImages() const
+const std::vector<CUndistortedImage>& CCompositingVoxelBuffer::GetUndistortedImages() const
 {
 	return m_UndistortedImages;
 }

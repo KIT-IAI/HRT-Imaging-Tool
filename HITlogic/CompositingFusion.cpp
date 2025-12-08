@@ -152,7 +152,7 @@ void CCompositingFusion::Fusion(const CImageRegistrationData& ImageData, const C
 
 		auto imgWeight = GenerateWeightImage(*ImageData.Images[nBild]);
 
-		CDenseMatrix Distortion(vector<CDenseVector>{ matPosX.Col(nBild), matPosY.Col(nBild) }, true);
+		CDenseMatrix Distortion(std::vector<CDenseVector>{ matPosX.Col(nBild), matPosY.Col(nBild) }, true);
 		auto Undistorted = Undistorter.UndistortImage(*ImageData.Images[nBild], Distortion);
 		auto UndistortedWeight = Undistorter.UndistortImage(imgWeight, Distortion);
 		m_UndistortedImages[nBild] = Undistorted;
@@ -265,7 +265,7 @@ size_t CCompositingFusion::GetMonotonyViolationCount(const CDenseMatrix& matPosY
 	return nMonotonyViolatedCount;
 }
 
-const vector<CUndistortedImage>& CCompositingFusion::GetUndistortedImages() const
+const std::vector<CUndistortedImage>& CCompositingFusion::GetUndistortedImages() const
 {
 	return m_UndistortedImages;
 }
@@ -327,8 +327,8 @@ StlImage<float> CCompositingFusion::GenerateWeightImgCos2(const StlImageSize& Im
 	// calls to the probably computationally expensive sin function instead
 	// of O(N^2) if it was done in the x-y-loop below. N is equal to the
 	// larger dimension of the buffer size.
-	vector<double> pSinX(nSizeX);
-	vector<double> pSinY(nSizeY);
+	std::vector<double> pSinX(nSizeX);
+	std::vector<double> pSinY(nSizeY);
 
 	// NOTE: The addition of 0.5 to the x and y coordinates is for symmetry
 	//		 reasons. It shifts the scan interval of the sine function from

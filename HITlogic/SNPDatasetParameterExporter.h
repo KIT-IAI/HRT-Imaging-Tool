@@ -30,7 +30,7 @@ public:
 	CSNPDatasetParameterExporter() = delete;
 	~CSNPDatasetParameterExporter() = delete;
 
-	//static CSNPDatasetParameters ExportToSQLite(const wstring& sPath, const CSNPDatasetParameters& parameters);
+	//static CSNPDatasetParameters ExportToSQLite(const std::wstring& sPath, const CSNPDatasetParameters& parameters);
 	//static CSNPDatasetParameters ExportToSQLite(CSQLiteDatabase& Database, const CSNPDatasetParameters& parameters);
-	static void ExportChangesToRegistry(const wstring& sPath, const CSNPDatasetParameters& parameters, const CSNPDatasetParameters& reference);
+	static void ExportChangesToRegistry(const std::wstring& sPath, const CSNPDatasetParameters& parameters, const CSNPDatasetParameters& reference);
 };

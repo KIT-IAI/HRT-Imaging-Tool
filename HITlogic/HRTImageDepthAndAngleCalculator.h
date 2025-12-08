@@ -35,9 +35,9 @@ public:
 
 	//filePath without extension (justSeriesName) Example: E:\EGAFT1_001-S\EGAFT1_001-S_S01_01 (Path like Vol-File, but without Vol)
 	//Offset: if useOffset = false: lookup / calculate Offset from file
-	bool givePiezoData(int ImageCount, wstring filePathAndSeriesName, wstring snpFolder, bool useOffsetVar = false, double Offset = 0.0);
+	bool givePiezoData(int ImageCount, std::wstring filePathAndSeriesName, std::wstring snpFolder, bool useOffsetVar = false, double Offset = 0.0);
 
-	bool giveCombined(int ImageCount, int PlaneCount, wstring filePathAndSeriesName, wstring snpFolder, int PlaneIncrement = 1, bool useOffsetVar = false, double Offset = 0.0);
+	bool giveCombined(int ImageCount, int PlaneCount, std::wstring filePathAndSeriesName, std::wstring snpFolder, int PlaneIncrement = 1, bool useOffsetVar = false, double Offset = 0.0);
 
 	bool isResultAvailable();
 	CHRTImageDepthAndAngleData getResults();

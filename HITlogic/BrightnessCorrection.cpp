@@ -34,7 +34,7 @@ CBrightnessCorrection::~CBrightnessCorrection()
 {
 }
 
-void CBrightnessCorrection::ProcessImages(const vector<StlImage<float>*>& SourceImages, vector<StlImage<float>*>& DestinationImages)
+void CBrightnessCorrection::ProcessImages(const std::vector<StlImage<float>*>& SourceImages, std::vector<StlImage<float>*>& DestinationImages)
 {
 	m_nTotalImages = SourceImages.size();
 	bool bInplace = SourceImages == DestinationImages;
@@ -84,13 +84,13 @@ void CBrightnessCorrection::ProcessImages(const vector<StlImage<float>*>& Source
 	}
 #endif
 }
-void CBrightnessCorrection::ProcessImages(vector<StlImage<float>*>& Images)
+void CBrightnessCorrection::ProcessImages(std::vector<StlImage<float>*>& Images)
 {
 	ProcessImages(Images, Images);
 }
 
 
-void CBrightnessCorrection::DoWork(const vector<StlImage<float>*>& SourceImages, vector<StlImage<float>*>& DestinationImages)
+void CBrightnessCorrection::DoWork(const std::vector<StlImage<float>*>& SourceImages, std::vector<StlImage<float>*>& DestinationImages)
 {
 	ProcessImages(SourceImages, DestinationImages);
 }
@@ -104,8 +104,8 @@ void CBrightnessCorrection::ProcessImage(StlImage<float>* pImage, double fImageB
 {
 	auto sizeS = pImage->GetSize();
 
-	vector<float> vInImage = pImage->AsArray();
-	vector<float> vOutImage(vInImage.size());
+	std::vector<float> vInImage = pImage->AsArray();
+	std::vector<float> vOutImage(vInImage.size());
 
 	for (size_t j = 0; j < vInImage.size(); j++)
 	{
@@ -119,9 +119,9 @@ void CBrightnessCorrection::ProcessImage(StlImage<float>* pImage, double fImageB
 
 	pImage->Put(vOutImage.data());
 }
-vector<std::pair<double, double>> CBrightnessCorrection::CalculateMeanBrightnessAndContrast(const vector<StlImage<float>*>& SourceImages)
+std::vector<std::pair<double, double>> CBrightnessCorrection::CalculateMeanBrightnessAndContrast(const std::vector<StlImage<float>*>& SourceImages)
 {
-	vector<std::pair<double, double>> MeanBrightnessAndContrast(SourceImages.size());
+	std::vector<std::pair<double, double>> MeanBrightnessAndContrast(SourceImages.size());
 
 #ifdef _WIN32
 	concurrency::parallel_for(size_t(0), SourceImages.size(), [&](size_t nIndex)
@@ -143,7 +143,7 @@ vector<std::pair<double, double>> CBrightnessCorrection::CalculateMeanBrightness
 
 	return MeanBrightnessAndContrast;
 }
-std::pair<double, double> CBrightnessCorrection::CalculateSeriesBrightnessAndContrast(vector<std::pair<double, double>> MeanImageBrightnessAndContrast)
+std::pair<double, double> CBrightnessCorrection::CalculateSeriesBrightnessAndContrast(std::vector<std::pair<double, double>> MeanImageBrightnessAndContrast)
 {
 	double fSeriesBrightness = 0.0;
 	double fSeriesContrast = 0.0;

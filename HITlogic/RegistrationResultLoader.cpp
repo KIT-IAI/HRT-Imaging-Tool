@@ -27,7 +27,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-void CRegistrationResultLoader::SaveToTextFile(const CImageRegistrationResult& Result, const wstring& folder, const wstring& sFilePrefix)
+void CRegistrationResultLoader::SaveToTextFile(const CImageRegistrationResult& Result, const std::wstring& folder, const std::wstring& sFilePrefix)
 {
 	if (!CFileUtilities::PathExists(folder))
 		CFileUtilities::MakeDirectory(folder, true);
@@ -36,7 +36,7 @@ void CRegistrationResultLoader::SaveToTextFile(const CImageRegistrationResult& R
 	WriteRegistrationsToFile(CFileUtilities::FullFile({ folder, sFilePrefix + L"pResultFlexible.txt" }), Result.GetFlexibleRegistrationResults());
 }
 
-void CRegistrationResultLoader::WriteRegistrationsToFile(const wstring& fileName, const vector<CRigidRegistrationResult>& RegResults)
+void CRegistrationResultLoader::WriteRegistrationsToFile(const std::wstring& fileName, const std::vector<CRigidRegistrationResult>& RegResults)
 {
 	CTextFileOutput file;
 
@@ -54,8 +54,8 @@ void CRegistrationResultLoader::SaveToSQLite(const CImageRegistrationResult& Res
 
 CImageRegistrationResult CRegistrationResultLoader::LoadFromSQLite(CSQLiteDatabase& Database)
 {
-	auto RigidResults = Database.SelectAll(L"pResult").Convert<vector<CRigidRegistrationResult>>();
-	auto FlexibleResults = Database.SelectAll(L"pResultFlexible").Convert<vector<CRigidRegistrationResult>>();
+	auto RigidResults = Database.SelectAll(L"pResult").Convert<std::vector<CRigidRegistrationResult>>();
+	auto FlexibleResults = Database.SelectAll(L"pResultFlexible").Convert<std::vector<CRigidRegistrationResult>>();
 
 	return CImageRegistrationResult(RigidResults, FlexibleResults);
 }

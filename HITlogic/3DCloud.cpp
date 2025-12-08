@@ -86,7 +86,7 @@ void C3DCloud::reserve(size_t size)
 #endif
 }
 
-void C3DCloud::savePCD(const wstring_view file_name, EWriteMode mode) const
+void C3DCloud::savePCD(const std::wstring_view file_name, EWriteMode mode) const
 {
 #ifdef HAS_PCL
 	auto name = CStringUtilities::ConvertToStdString(file_name);
@@ -110,7 +110,7 @@ void C3DCloud::savePCD(const wstring_view file_name, EWriteMode mode) const
 #endif
 }
 
-void C3DCloud::savePLY(const wstring_view file_name, EWriteMode mode) const
+void C3DCloud::savePLY(const std::wstring_view file_name, EWriteMode mode) const
 {
 #ifdef HAS_PCL
 	auto name = CStringUtilities::ConvertToStdString(file_name);

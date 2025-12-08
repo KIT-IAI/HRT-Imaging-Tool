@@ -30,15 +30,15 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 /// <summary> Checks whether all residuals are initialized </summary>
 /// <remarks> The code checks whether no residual is uninitialized. </remarks>
-bool CRegistrationPostProcessor::AreResidualsInitialized(const vector<CRegistrationResult>& CorrelationResults)
+bool CRegistrationPostProcessor::AreResidualsInitialized(const std::vector<CRegistrationResult>& CorrelationResults)
 {
 	auto residualIsUninitialized = [](const CRegistrationResult& result) {return !result.GetResidual().IsInitialized(); };
 	return none_of(CorrelationResults.begin(), CorrelationResults.end(), residualIsUninitialized);
 }
 
-vector<CRigidRegistrationResult> CRegistrationPostProcessor::GetRigidRegistrationResults(const vector<CRegistrationResult>& RegistrationResults)
+std::vector<CRigidRegistrationResult> CRegistrationPostProcessor::GetRigidRegistrationResults(const std::vector<CRegistrationResult>& RegistrationResults)
 {
-	vector<CRigidRegistrationResult> out;
+	std::vector<CRigidRegistrationResult> out;
 	out.reserve(RegistrationResults.size());
 
 	for (const auto result : RegistrationResults)
@@ -46,7 +46,7 @@ vector<CRigidRegistrationResult> CRegistrationPostProcessor::GetRigidRegistratio
 	return out;
 }
 
-void CRegistrationPostProcessor::CalculateResiduals(vector<CRegistrationResult>& RegistrationResults, std::shared_ptr<CDenseMatrix> pRigidSolution)
+void CRegistrationPostProcessor::CalculateResiduals(std::vector<CRegistrationResult>& RegistrationResults, std::shared_ptr<CDenseMatrix> pRigidSolution)
 {
 	for (auto& Registration : RegistrationResults)
 	{
@@ -85,7 +85,7 @@ void CRegistrationPostProcessor::CalculateSubImageResiduals(std::vector<CRegistr
 	}
 }
 
-void CRegistrationPostProcessor::SolveRigidPositioning(const vector<CRegistrationResult>& RegistrationResults, std::shared_ptr<CDenseMatrix> pRigidSolution, CSLESolver::EAlgorithm eSolverAlgorithm, size_t nImageCount)
+void CRegistrationPostProcessor::SolveRigidPositioning(const std::vector<CRegistrationResult>& RegistrationResults, std::shared_ptr<CDenseMatrix> pRigidSolution, CSLESolver::EAlgorithm eSolverAlgorithm, size_t nImageCount)
 {
 	CGlobalPositioningParameters SolverParameters;
 	SolverParameters.eAlgorithm = eSolverAlgorithm;
@@ -102,9 +102,9 @@ void CRegistrationPostProcessor::SolveRigidPositioning(const vector<CRegistratio
 		throw L"Solution of Rigid Registration-System unsuccesful.";
 }
 
-vector<CResidual> CRegistrationPostProcessor::GetAllResiduals(const vector<CRegistrationResult>& RegistrationResults)
+std::vector<CResidual> CRegistrationPostProcessor::GetAllResiduals(const std::vector<CRegistrationResult>& RegistrationResults)
 {
-	vector<CResidual> residuals;
+	std::vector<CResidual> residuals;
 	residuals.reserve(RegistrationResults.size());
 	for (const auto& registrationResult : RegistrationResults)
 	{
@@ -113,9 +113,9 @@ vector<CResidual> CRegistrationPostProcessor::GetAllResiduals(const vector<CRegi
 	return residuals;
 }
 
-std::vector<CResidual> CRegistrationPostProcessor::GetSubImageResiduals(const vector<CRegistrationResult>& RegistrationResults)
+std::vector<CResidual> CRegistrationPostProcessor::GetSubImageResiduals(const std::vector<CRegistrationResult>& RegistrationResults)
 {
-	vector<CResidual> subImageResiduals;
+	std::vector<CResidual> subImageResiduals;
 	for (const auto& registrationResult : RegistrationResults)
 	{
 		for (const auto& res : registrationResult.GetValidSubImageResiduals())
@@ -126,7 +126,7 @@ std::vector<CResidual> CRegistrationPostProcessor::GetSubImageResiduals(const ve
 	return subImageResiduals;
 }
 
-void CRegistrationPostProcessor::move_if(vector<CRegistrationResult>& valid, vector<CRegistrationResult>& invalid, std::function<bool(const CRegistrationResult&)> condition)
+void CRegistrationPostProcessor::move_if(std::vector<CRegistrationResult>& valid, std::vector<CRegistrationResult>& invalid, std::function<bool(const CRegistrationResult&)> condition)
 {
 	return move_if(valid, invalid, condition, [](CRegistrationResult&) {});
 }
@@ -135,7 +135,7 @@ void CRegistrationPostProcessor::move_if(vector<CRegistrationResult>& valid, vec
 condition specifies the condition, which if positive will result in the Registration being moved from valid to invalid
 invalidOperation specifies the function, that is being called IF the result is being moved.
 */
-void CRegistrationPostProcessor::move_if(vector<CRegistrationResult>& valid, vector<CRegistrationResult>& invalid, std::function<bool(const CRegistrationResult&)> condition, std::function<void(CRegistrationResult&)> invalidOperation)
+void CRegistrationPostProcessor::move_if(std::vector<CRegistrationResult>& valid, std::vector<CRegistrationResult>& invalid, std::function<bool(const CRegistrationResult&)> condition, std::function<void(CRegistrationResult&)> invalidOperation)
 {
 	for (auto& reg : valid)
 	{
@@ -148,7 +148,7 @@ void CRegistrationPostProcessor::move_if(vector<CRegistrationResult>& valid, vec
 	valid.erase(remove_if(valid.begin(), valid.end(), condition), valid.end());
 }
 
-void CRegistrationPostProcessor::RemoveRegistration(const CRegistrationResult& registration, vector<CRegistrationResult>& validResults, vector<CRegistrationResult>& invalidResults)
+void CRegistrationPostProcessor::RemoveRegistration(const CRegistrationResult& registration, std::vector<CRegistrationResult>& validResults, std::vector<CRegistrationResult>& invalidResults)
 {
 	auto iterator = find(validResults.begin(), validResults.end(), registration);
 
@@ -167,8 +167,8 @@ void CRegistrationPostProcessor::RemoveRegistration(const CRegistrationResult& r
 */
 void CRegistrationPostProcessor::DoWork(CImageRegistrationData& registrationData, CImageRegistrationResult& allRegistrationResults)
 {
-	vector<CRegistrationResult>& validRegistrationResults = allRegistrationResults.RegistrationResults;
-	vector<CRegistrationResult> invalidRegistrationResults;
+	std::vector<CRegistrationResult>& validRegistrationResults = allRegistrationResults.RegistrationResults;
+	std::vector<CRegistrationResult> invalidRegistrationResults;
 
 	auto isInvalid = [&](const CRegistrationResult& reg)
 		{

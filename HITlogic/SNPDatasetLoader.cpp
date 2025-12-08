@@ -73,12 +73,12 @@ CSNPFusionDataset CSNPDatasetLoader::FromMultiPageTifFile(const std::wstring& da
 	return Dataset;
 }
 
-vector<CSNPFusionDataset> CSNPDatasetLoader::FromTextFile(wstring sPath)
+std::vector<CSNPFusionDataset> CSNPDatasetLoader::FromTextFile(std::wstring sPath)
 {
 	auto fileByLine = CFileUtilities::ByLine(sPath);
 
-	vector<vector<wstring>> ListOfFileLists;
-	vector<wstring> ListOfDatasetNames;
+	std::vector<std::vector<std::wstring>> ListOfFileLists;
+	std::vector<std::wstring> ListOfDatasetNames;
 
 	for (auto& line : fileByLine)
 	{
@@ -100,7 +100,7 @@ vector<CSNPFusionDataset> CSNPDatasetLoader::FromTextFile(wstring sPath)
 		}
 	}
 
-	vector<CSNPFusionDataset> Datasets(ListOfDatasetNames.size());
+	std::vector<CSNPFusionDataset> Datasets(ListOfDatasetNames.size());
 	for (size_t i = 0; i < ListOfDatasetNames.size(); i++)
 	{
 		Datasets[i].Name = ListOfDatasetNames[i];
@@ -112,7 +112,7 @@ vector<CSNPFusionDataset> CSNPDatasetLoader::FromTextFile(wstring sPath)
 	return Datasets;
 }
 
-vector<CSNPFusionDataset> CSNPDatasetLoader::FromAnyFile(wstring sPath)
+std::vector<CSNPFusionDataset> CSNPDatasetLoader::FromAnyFile(std::wstring sPath)
 {
 	auto Extension = CFileUtilities::GetExtension(sPath);
 	if (Extension == L"txt")
@@ -138,27 +138,27 @@ CSNPFusionDataset CSNPDatasetLoader::FromSQLiteDatabase(CSQLiteDatabase& Databas
 	return Dataset;
 }
 
-CSNPFusionDataset CSNPDatasetLoader::FromSQLiteDatabase(wstring sPath)
+CSNPFusionDataset CSNPDatasetLoader::FromSQLiteDatabase(std::wstring sPath)
 {
 	CSQLiteDatabase Database(sPath);
 	return FromSQLiteDatabase(Database);
 }
 
-vector<wstring> CSNPDatasetLoader::ReadImagesFromSQLite(CSQLiteDatabase& Database)
+std::vector<std::wstring> CSNPDatasetLoader::ReadImagesFromSQLite(CSQLiteDatabase& Database)
 {
 	auto resultRows = Database.SelectAll(L"Images", { L"Path" }, L"1", L"ID");
 
-	vector<wstring> ImageFiles;
+	std::vector<std::wstring> ImageFiles;
 	for (const auto& row : resultRows)
 	{
-		auto sRelativePath = row.Get<wstring>(0);
+		auto sRelativePath = row.Get<std::wstring>(0);
 		auto sAbsolutePath = CFileUtilities::GetAbsolutePath(Database.GetPath(), sRelativePath);
 		ImageFiles.push_back(sAbsolutePath);
 	}
 	return ImageFiles;
 }
 
-wstring CSNPDatasetLoader::DefaultImageExportFolderPath(const std::wstring& datasetFilePath)
+std::wstring CSNPDatasetLoader::DefaultImageExportFolderPath(const std::wstring& datasetFilePath)
 {
 	std::wstring baseFolderPath(CFileUtilities::GetParentDirectory(datasetFilePath));
 	std::wstring datasetName(CFileUtilities::GetFileName(datasetFilePath));
@@ -166,7 +166,7 @@ wstring CSNPDatasetLoader::DefaultImageExportFolderPath(const std::wstring& data
 	return CFileUtilities::FullFile({ baseFolderPath, datasetName, datasetName + L"_snp" });
 }
 
-wstring CSNPDatasetLoader::DefaultTissueClassFilePath(const std::wstring& datasetFilePath)
+std::wstring CSNPDatasetLoader::DefaultTissueClassFilePath(const std::wstring& datasetFilePath)
 {
 	std::wstring baseFolderPath(CFileUtilities::GetParentDirectory(datasetFilePath));
 	std::wstring datasetName(CFileUtilities::GetFileName(datasetFilePath));

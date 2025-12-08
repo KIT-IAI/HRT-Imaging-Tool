@@ -37,7 +37,7 @@ CRegStepFlexibleRegistration::~CRegStepFlexibleRegistration()
 {
 }
 
-void CRegStepFlexibleRegistration::ProcessRegistrationData(vector<StlImage<float>*>& images, vector<CRegistrationResult>& validRegistrationResults, vector<CRegistrationResult>& /*invalidRegistrationResults*/, const vector<std::list<size_t>>& imagegroups)
+void CRegStepFlexibleRegistration::ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& /*invalidRegistrationResults*/, const std::vector<std::list<size_t>>& imagegroups)
 {
 	// StlImage<float>* --> StlImage<float> ???
 	RegisterImages(images, validRegistrationResults);
@@ -45,7 +45,7 @@ void CRegStepFlexibleRegistration::ProcessRegistrationData(vector<StlImage<float
 	ReportProgress();
 }
 
-void CRegStepFlexibleRegistration::RegisterImages(vector<StlImage<float>*>& Images, std::vector<CRegistrationResult>& ValidRegistrationResults)
+void CRegStepFlexibleRegistration::RegisterImages(std::vector<StlImage<float>*>& Images, std::vector<CRegistrationResult>& ValidRegistrationResults)
 {
 	auto registrationIterator = ValidRegistrationResults.begin();
 
@@ -123,7 +123,7 @@ void CRegStepFlexibleRegistration::RegisterImages(vector<StlImage<float>*>& Imag
 	CLog::Log(CLog::eNotice, L"CRegStepFlexibleRegistration", oss.str().c_str());
 }
 
-CImagePair CRegStepFlexibleRegistration::GenerateImageParameters(CRegistrationResult registrationResult, vector<StlImage<float>*>& Images, vector<StlImage<float>>& ImagesSmooth) const
+CImagePair CRegStepFlexibleRegistration::GenerateImageParameters(CRegistrationResult registrationResult, std::vector<StlImage<float>*>& Images, std::vector<StlImage<float>>& ImagesSmooth) const
 {
 	auto refIndex = registrationResult.RigidRegistrationResult.GetReferenceImageIndex();
 	auto tempIndex = registrationResult.RigidRegistrationResult.GetTemplateImageIndex();

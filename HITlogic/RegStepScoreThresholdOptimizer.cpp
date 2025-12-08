@@ -30,7 +30,7 @@ CRegStepScoreThresholdOptimizer::~CRegStepScoreThresholdOptimizer()
 }
 
 
-bool CRegStepScoreThresholdOptimizer::IsScoreThresholdSufficient(vector<CRegistrationResult>& RegistrationResults)
+bool CRegStepScoreThresholdOptimizer::IsScoreThresholdSufficient(std::vector<CRegistrationResult>& RegistrationResults)
 {
 	auto allResiduals = CRegistrationPostProcessor::GetAllResiduals(RegistrationResults);
 	double fMean = CResidual::CalculateMeanResidual(allResiduals);

@@ -107,8 +107,8 @@ void CRegistrationResult::Scale(const CRegistrationResult& source, double fScala
 {
 	RigidRegistrationResult.Scale(source.RigidRegistrationResult, fScalationFactor);
 
-	vector<CRigidRegistrationResult> newFlexResults;
-	vector<CVector2d<float>> newOffsetArray;
+	std::vector<CRigidRegistrationResult> newFlexResults;
+	std::vector<CVector2d<float>> newOffsetArray;
 
 	newFlexResults.assign(source.FlexibleRegistrationResults.size(), CRigidRegistrationResult());
 	for (unsigned int i = 0; i < source.FlexibleRegistrationResults.size(); i++)

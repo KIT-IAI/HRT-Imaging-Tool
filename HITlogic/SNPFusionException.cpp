@@ -25,7 +25,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-CSNPFusionException::CSNPFusionException(wstring message)
+CSNPFusionException::CSNPFusionException(std::wstring message)
 	: std::runtime_error(CStringUtilities::ConvertToStdString(message).c_str())
 {
 }

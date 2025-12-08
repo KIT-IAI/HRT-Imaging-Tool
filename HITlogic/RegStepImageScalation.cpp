@@ -38,7 +38,7 @@ CRegStepImageScalation::~CRegStepImageScalation()
 		FreeResizedImages(m_OriginalImages);
 }
 
-void CRegStepImageScalation::FreeResizedImages(vector<StlImage<float>*>& images)
+void CRegStepImageScalation::FreeResizedImages(std::vector<StlImage<float>*>& images)
 {
 	for (auto pImage : images)
 	{
@@ -47,7 +47,7 @@ void CRegStepImageScalation::FreeResizedImages(vector<StlImage<float>*>& images)
 	}
 }
 
-void CRegStepImageScalation::RescaleImagesToOriginalSize(vector<StlImage<float>*>& images)
+void CRegStepImageScalation::RescaleImagesToOriginalSize(std::vector<StlImage<float>*>& images)
 {
 	FreeResizedImages(images);
 	images.swap(m_OriginalImages);
@@ -55,7 +55,7 @@ void CRegStepImageScalation::RescaleImagesToOriginalSize(vector<StlImage<float>*
 	m_OriginalImages.resize(0);
 }
 
-void CRegStepImageScalation::ResizeImages(vector<StlImage<float>*>& images)
+void CRegStepImageScalation::ResizeImages(std::vector<StlImage<float>*>& images)
 {
 	if (m_bScaleUp)
 		return RescaleImagesToOriginalSize(images);
