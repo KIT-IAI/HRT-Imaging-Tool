@@ -35,12 +35,12 @@ CSNPDatasetParameters HRTImagingToolDialog::GenerateParameters()
 	auto parameters = CSNPDatasetParameterLoader::FromRegistry(regpath);
 
 	if (!parameters.VignettingProfileBeforeRegistrationIsValid())
-		throw std::exception("Vignetting profile (for image registration) could not be loaded.");
+		throw std::runtime_error("Vignetting profile (for image registration) could not be loaded.");
 	if (!parameters.VignettingProfileBeforeCompositingIsValid())
-		throw std::exception("Vignetting profile (for mosaic image montage) could not be loaded.");
+		throw std::runtime_error("Vignetting profile (for mosaic image montage) could not be loaded.");
 
 	if (!parameters.IsValidParameterset())
-		throw std::exception("Invalid process parameters in the parameter database file.");
+		throw std::runtime_error("Invalid process parameters in the parameter database file.");
 
 	return parameters;
 }
