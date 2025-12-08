@@ -325,9 +325,9 @@ void HRTImagingToolDialog::UnpackDataset(const wxString& datasetFilePath, CSNPFu
 void HRTImagingToolDialog::ClassifyDataset(const wxString& datasetFilePath, CSNPFusionDataset& dataset)
 {
 	std::filesystem::path datasetFile(datasetFilePath.ToStdWstring());
-	std::filesystem::path imageFolder(CSNPDatasetLoader::DefaultImageExportFolderPath(datasetFile));
+	std::filesystem::path imageFolder(CSNPDatasetLoader::DefaultImageExportFolderPath(datasetFile.wstring()));
 	std::filesystem::path createdClassFile(imageFolder.parent_path() / (imageFolder.filename().wstring() + L"_results.csv"));
-	std::filesystem::path targetClassFile(CSNPDatasetLoader::DefaultTissueClassFilePath(datasetFile));
+	std::filesystem::path targetClassFile(CSNPDatasetLoader::DefaultTissueClassFilePath(datasetFile.wstring()));
 
 	std::wstring xpiwit = L"";
 	wxString sLogLine;
@@ -353,7 +353,7 @@ void HRTImagingToolDialog::ClassifyDataset(const wxString& datasetFilePath, CSNP
 	}
 
 	CHRTImageClassificationData ClassData;
-	int nErrorLines = ClassData.ReadFromFile(targetClassFile);
+	int nErrorLines = ClassData.ReadFromFile(targetClassFile.wstring());
 	if (nErrorLines == -1)
 	{
 		sLogLine = wxString::Format(L"Dataset %s: Tissue class file could not be loaded, continuing without tissue class data", dataset.Name);
