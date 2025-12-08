@@ -39,6 +39,14 @@ std::wstring CEnvironmentVariable::Get(std::wstring name)
 	return buffer;
 #else
 	std::string name_s = CStringUtilities::ConvertToStdString(name);
+	auto res = std::getenv(name_s.c_str());
+	if (!res)
+	{
+		auto err = boost::format("Environment variable %s is not set") % name_s;
+		auto werr = boost::wformat(L"Environment variable %s is not set") % name;
+		CLog::Log(CLog::eError, L"CEnvironmentVariable", werr.str());
+		throw std::runtime_error(err.str());
+	}
 	std::string value_s = std::getenv(name_s.c_str());
 	return CStringUtilities::ConvertToStdWstring(value_s);
 #endif
