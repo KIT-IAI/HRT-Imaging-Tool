@@ -49,6 +49,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include <algorithm>
 #include <array>
 #include <chrono>
+#include <execution>
 #include <filesystem>
 #include <fstream>
 #include <future>

@@ -22,13 +22,6 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #pragma once
 
-#include <type_traits>
-#include <execution>
-#include <tuple>
-#include <boost/rational.hpp>
-#include <complex>
-#include <functional>
-
 #include "StlImage.h"
 
 //#ifdef HIT_STLIMAGE_USE_CUSTOM_HEAP_MANAGEMENT

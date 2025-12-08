@@ -24,6 +24,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "EnvironmentVariable.h"
 
 #include "FileUtilities.h"
+#include "Log.h"
 #include "StringUtilities.h"
 
 

@@ -25,16 +25,14 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #define _CRT_SECURE_NO_WARNINGS 1
 
 #ifdef _WIN32
-// Windows stuff
 #include <SDKDDKVer.h>
-
-//Remove this!
 #include <afxwin.h>
 #endif
 
 // standard libraries
 #include <filesystem>
 #include <string>
+#include <thread>
 using std::string;
 using std::wstring;
 

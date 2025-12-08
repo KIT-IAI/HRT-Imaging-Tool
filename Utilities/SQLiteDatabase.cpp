@@ -27,7 +27,9 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "SQLiteTable.h"
 #include "StringUtilities.h"
 
+#ifdef _WIN32
 #pragma comment(lib,"sqlite3.lib")
+#endif
 
 
 
