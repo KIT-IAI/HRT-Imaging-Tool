@@ -117,12 +117,10 @@ int HRTImagingToolApp::OnExit()
 
 bool HRTImagingToolApp::InitLogging() const
 {
-	time_t t;
-	t = time(nullptr);
-	struct tm ts;
-	localtime_s(&ts, &t);
+	time_t t = time(nullptr);
+	std::tm* ts = std::localtime(&t);
 	wchar_t date[100];
-	wcsftime(date, 100, L"%Y%m%d%H%M%S", &ts);
+	wcsftime(date, 100, L"%Y%m%d%H%M%S", ts);
 
 	wxFileName f(wxStandardPaths::Get().GetExecutablePath());
 	wxFileName sLogDir(f);
