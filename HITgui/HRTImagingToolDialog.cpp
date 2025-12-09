@@ -266,7 +266,11 @@ void HRTImagingToolDialog::RaiseLogError()
 void HRTImagingToolDialog::AppendOutputLine(const wxString& sLine, CLog::ELogLevel logLevel)
 {
 	CLog::Log(logLevel, s_sModuleName.wc_str(), sLine.wc_str());
-	m_textCtrlLog->AppendText(wxString::Format(L"%s\r\n", sLine));
+	m_textCtrlLog->CallAfter(
+		[=]
+		{
+			m_textCtrlLog->AppendText(wxString::Format(L"%s\r\n", sLine));
+		});
 }
 
 void HRTImagingToolDialog::Start()
