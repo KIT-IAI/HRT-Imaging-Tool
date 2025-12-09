@@ -1691,6 +1691,7 @@ template double StlImage<float>::StandardDeviation<float>() const;
 template std::tuple<float, DPoint> StlImage<float>::FindMax<float>() const;
 template std::tuple<float, DPoint> StlImage<float>::FindMin<float>() const;
 template DPoint StlImage<float>::FindMaxSubPixelPosition<float>() const;
+template DPoint StlImage<float>::FindMaxSubPixelPosition<float>(const DPoint maximumPixelPosition) const;
 template double StlImage<float>::MeanSquare<float>() const;
 template void StlImage<float>::TranslateBilinear<float>(StlImage<float>& src, const float x_shift, const float y_shift);
 template void StlImage<float>::Clamp<float>(float, float);
@@ -1707,6 +1708,7 @@ template double StlImage<unsigned char>::StandardDeviation<unsigned char>() cons
 template std::tuple<unsigned char, DPoint> StlImage<unsigned char>::FindMax<unsigned char>() const;
 template std::tuple<unsigned char, DPoint> StlImage<unsigned char>::FindMin<unsigned char>() const;
 template DPoint StlImage<unsigned char>::FindMaxSubPixelPosition<unsigned char>() const;
+template DPoint StlImage<unsigned char>::FindMaxSubPixelPosition<unsigned char>(const DPoint maximumPixelPosition) const;
 template double StlImage<unsigned char>::MeanSquare<unsigned char>() const;
 template void StlImage<unsigned char>::TranslateBilinear<unsigned char>(StlImage<unsigned char>& src, const float x_shift, const float y_shift);
 template void StlImage<unsigned char>::Clamp<unsigned char>(unsigned char, unsigned char);
