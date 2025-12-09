@@ -28,7 +28,6 @@
         <object class="wxTextCtrl" name="m_textCtrlLog">
           <style>wxTE_MULTILINE|wxTE_READONLY</style>
           <value></value>
-          <maxlength>0</maxlength>
         </object>
       </object>
       <object class="sizeritem">
