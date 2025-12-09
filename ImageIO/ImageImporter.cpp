@@ -65,7 +65,8 @@ bool CImageImporter::ImportTif(std::wstring filename, IIO_DATA_TYPE& format, int
 #ifdef _WIN32
 	wcstombs_s(&retval, ascii, filename.size() + 1, filename.c_str(), filename.size());
 #else
-	retval = wcstombs(ascii, filename.c_str(), filename.size());
+	retval = wcstombs(ascii, filename.c_str(), filename.size() + 1);
+	assert(ascii[retval] == 0);
 #endif
 	TIFF *tif = TIFFOpen(ascii, "r");
 	delete[] ascii;

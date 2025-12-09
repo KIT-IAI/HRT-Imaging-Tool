@@ -113,7 +113,8 @@ bool CImageExporter::ExportImageTif(std::wstring filename, int bit_depth, size_t
 #ifdef _WIN32
 	wcstombs_s(&retval, ascii, filename.size() + 1, filename.c_str(), filename.size());
 #else
-	retval = std::wcstombs(ascii, filename.c_str(), filename.size());
+	retval = std::wcstombs(ascii, filename.c_str(), filename.size() + 1);
+	assert(ascii[retval] == 0);
 #endif
 	TIFF *out = TIFFOpen(ascii, "w");
 	delete[] ascii;
@@ -192,7 +193,8 @@ bool CImageExporter::ExportImageSeriesTif(std::wstring filename, int* bit_depth,
 #ifdef _WIN32
 	wcstombs_s(&retval, ascii, filename.size() + 1, filename.c_str(), filename.size());
 #else
-	retval = std::wcstombs(ascii, filename.c_str(), filename.size());
+	retval = std::wcstombs(ascii, filename.c_str(), filename.size() + 1);
+	assert(ascii[retval] == 0);
 #endif
 	TIFF *out = TIFFOpen(ascii, "w");
 	delete[] ascii;
