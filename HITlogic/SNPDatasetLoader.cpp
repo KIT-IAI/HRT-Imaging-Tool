@@ -53,7 +53,7 @@ CSNPFusionDataset CSNPDatasetLoader::FromMultiPageTifFile(const std::wstring& da
 	std::vector<std::wstring> extractedImageFiles;
 	for (size_t i = 0; i < images.size(); i++)
 	{
-		auto formatted = boost::wformat(L"%s_%.5d.tif") % datasetName % i;
+		auto formatted = boost::wformat(L"%s_%05d.tif") % datasetName % i;
 		std::wstring extractedImageFileName = formatted.str();
 		std::wstring extractedImageFilePath = CFileUtilities::FullFile({ imageExportFolderPath, extractedImageFileName });
 		if (exportImages)
