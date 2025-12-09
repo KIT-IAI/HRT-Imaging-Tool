@@ -23,6 +23,9 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "SNPDatasetOutputParameters.h"
 
+#ifndef _WIN32
+#include <unistd.h>
+#endif
 
 
 const std::wstring CSNPDatasetOutputParameters::TableName = L"OutputParameters";
@@ -36,8 +39,30 @@ CSNPDatasetOutputParameters CSNPDatasetOutputParameters::ConstructWithCurrentUse
 {
 	CSNPDatasetOutputParameters param;
 
-	param.sComputer = CEnvironmentVariable::Get(L"COMPUTERNAME");
-	param.sUser = CEnvironmentVariable::Get(L"USERNAME");
+#ifdef _WIN32
+	try
+	{
+		param.sComputer = CEnvironmentVariable::Get(L"COMPUTERNAME");
+		param.sUser = CEnvironmentVariable::Get(L"USERNAME");
+	}
+	catch (const std::exception &e)
+	{
+	}
+#else
+	size_t hostNameSize = HOST_NAME_MAX + 1;
+	char hostName[hostNameSize];
+	if (gethostname(hostName, hostNameSize) == 0)
+	{
+		param.sComputer = CStringUtilities::ConvertToStdWstring(std::string(hostName));
+	}
+	try
+	{
+		param.sUser = CEnvironmentVariable::Get(L"LOGNAME");
+	}
+	catch (const std::exception &e)
+	{
+	}
+#endif
 	param.sDate = CDateTimeUtilities::Now().ToString();
 
 	return param;
