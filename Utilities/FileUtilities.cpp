@@ -591,29 +591,13 @@ std::vector<std::wstring> CFileUtilities::GetDirectorysInDirectory(const std::ws
 std::wstring CFileUtilities::FullFile(const std::vector<std::wstring>& FileParts)
 {
 	auto iterator = FileParts.begin();
-	std::wstring fullFile = *iterator++;
+	std::filesystem::path fullFile(*iterator++);
 
 	while (iterator != FileParts.end())
 	{
-		if (*iterator == L"")
-		{
-			++iterator;
-			continue;
-		}
-
-		if (!boost::ends_with(fullFile, L"\\") && !boost::starts_with(*iterator, L"\\"))
-		{
-			fullFile += L"\\";
-		}
-		else if (boost::ends_with(fullFile, L"\\") && boost::starts_with(*iterator, L"\\"))
-		{
-			fullFile = fullFile.substr(0, fullFile.size() - 1);
-		}
-
-		fullFile += *iterator;
-		++iterator;
+		fullFile /= *iterator++;
 	}
-	return fullFile;
+	return fullFile.wstring();
 }
 
 std::wstring CFileUtilities::GetExtension(const std::wstring& fileName)
@@ -670,17 +654,14 @@ std::vector<std::wstring> CFileUtilities::FileParts(const std::wstring& Path)
 	return Parts;
 }
 
-std::wstring CFileUtilities::GetParentDirectory(const std::wstring& File)
+std::wstring CFileUtilities::GetParentDirectory(const std::wstring& filepath)
 {
-	if (File == L"")
-		return L"";
+	return GetParentDirectory(std::filesystem::path(filepath)).wstring();
+}
 
-	auto Parts = FileParts(File);
-	if (Parts.size() == 1)
-		return L"";
-
-	std::vector<std::wstring> subVector(Parts.begin(), Parts.end() - 1);
-	return FullFile(subVector);
+std::filesystem::path CFileUtilities::GetParentDirectory(const std::filesystem::path& filepath)
+{
+	return filepath.parent_path();
 }
 
 bool CFileUtilities::IsAbsolute(const std::wstring& sPath)

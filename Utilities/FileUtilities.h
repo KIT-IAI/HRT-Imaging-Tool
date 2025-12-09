@@ -57,7 +57,8 @@ public:
 	static void DrivePathComponents(const std::wstring& sPath, std::wstring& sDrive, std::wstring& sFilepath);
 
 	static std::wstring CommonParentDirectory(const std::wstring& sPath1, const std::wstring& sPath2);
-	static std::wstring GetParentDirectory(const std::wstring& File);
+	static std::wstring GetParentDirectory(const std::wstring& filepath);
+	static std::filesystem::path GetParentDirectory(const std::filesystem::path& filepath);
 
 	static bool IsAbsolute(const std::wstring& sPath);
 	static bool IsRelative(const std::wstring& sPath);
