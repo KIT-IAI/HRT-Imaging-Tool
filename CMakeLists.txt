@@ -22,6 +22,12 @@ set(MKL_THREADING "sequential")
 
 project(HIT VERSION 1.1)
 
+# Specify MSVC build settings
+if(MSVC)
+	set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+	add_compile_definitions(NOMINMAX)
+endif()
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 

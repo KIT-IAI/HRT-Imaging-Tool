@@ -3,7 +3,7 @@
 #
 
 # Specify build target for the executable
-add_executable(HITgui)
+add_executable(HITgui WIN32)
 
 # Define list of project source files
 set(SRC_FILES
@@ -33,6 +33,13 @@ set(XRC_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/HRTImagingToolResource.xrc
     )
 
+# Define wxrc command
+if(WIN32)
+    set(WXRC_CMD ${wxWidgets_ROOT_DIR}/tools/wxwidgets/wxrc.exe)
+else()
+    set(WXRC_CMD wxrc)
+endif()
+
 # The following line can provide the memcpy_s() and some other ..._s() functions
 # on some systems, but apparently Linux systems are generally not among them
 # target_compile_definitions(HITgui PRIVATE __STDC_WANT_LIB_EXT1__=1)
@@ -42,7 +49,7 @@ add_custom_command(
     OUTPUT
         ${CMAKE_CURRENT_SOURCE_DIR}/HRTImagingToolResource.h
         ${CMAKE_CURRENT_SOURCE_DIR}/HRTImagingToolResource.cpp
-    COMMAND wxrc ${XRC_FILES} -v -c -e -o ${CMAKE_CURRENT_SOURCE_DIR}/HRTImagingToolResource.cpp
+    COMMAND ${WXRC_CMD} ${XRC_FILES} -v -c -e -o ${CMAKE_CURRENT_SOURCE_DIR}/HRTImagingToolResource.cpp
     DEPENDS ${XRC_FILES}
     COMMENT "Compiling XRC resources"
 )
