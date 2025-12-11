@@ -11,7 +11,8 @@
       "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
       "cacheVariables": {
         "CMAKE_C_COMPILER": "cl.exe",
-        "CMAKE_CXX_COMPILER": "cl.exe"
+        "CMAKE_CXX_COMPILER": "cl.exe",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": true
       },
       "architecture": {
         "value": "x64",
@@ -33,15 +34,59 @@
     {
       "name": "windows-x64-release",
       "displayName": "Windows x64 Release",
-      "description": "Target Windows (64-bit) with the Visual Studio development environment. (Release build)",
+      "description": "Target Windows (64-bit) with the Visual Studio development environment (Release build).",
       "inherits": "windows-x64-base",
       "cacheVariables": { "CMAKE_BUILD_TYPE": "Release" }
     },
     {
       "name": "windows-x64-relwithdebinfo",
       "displayName": "Windows x64 RelWithDebInfo",
-      "description": "Target Windows (64-bit) with the Visual Studio development environment. (RelWithDebInfo build)",
+      "description": "Target Windows (64-bit) with the Visual Studio development environment (RelWithDebInfo build).",
       "inherits": "windows-x64-base",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "RelWithDebInfo" }
+    },
+    {
+      "name": "linux-x64-base",
+      "description": "Target Linux (64-bit) with the GCC build tools.",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "installDir": "${sourceDir}/install/${presetName}",
+      "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "cc",
+        "CMAKE_CXX_COMPILER": "c++",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": true
+      },
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      }
+    },
+    {
+      "name": "linux-x64-debug",
+      "displayName": "Linux x64 Debug",
+      "description": "Target Linux (64-bit) with the GCC build tools (Debug build).",
+      "inherits": "linux-x64-base",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" }
+    },
+    {
+      "name": "linux-x64-release",
+      "displayName": "Linux x64 Release",
+      "description": "Target Linux (64-bit) with the GCC build tools (Release build).",
+      "inherits": "linux-x64-base",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release" }
+    },
+    {
+      "name": "linux-x64-relwithdebinfo",
+      "displayName": "Linux x64 RelWithDebInfo",
+      "description": "Target Linux (64-bit) with the GCC build tools (RelWithDebInfo build).",
+      "inherits": "linux-x64-base",
       "cacheVariables": { "CMAKE_BUILD_TYPE": "RelWithDebInfo" }
     }
   ]
