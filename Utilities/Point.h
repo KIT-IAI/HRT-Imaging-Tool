@@ -33,8 +33,6 @@ public:
 	explicit DPoint() :DPoint(0.0, 0.0) {};
 	explicit DPoint(double x, double y) :m_x(x), m_y(y) {};
 
-	static DPoint FromMatrixRow(size_t index, std::shared_ptr<CDenseMatrix> pMatrix);
-
 	double distanceFrom(const DPoint& otherPoint) const;
 	void moveTo(const DPoint& otherPoint);
 

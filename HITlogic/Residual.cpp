@@ -68,9 +68,16 @@ CResidual CResidual::CreateFromSubimageRegistration(const CRigidRegistrationResu
 	size_t subImgIndex21 = residual.m_fTemplateImageIndex * subPerImg + subImg21;
 	size_t subImgIndex22 = residual.m_fTemplateImageIndex * subPerImg + subImg22;
 
-	const DPoint pos1 = DPoint::FromMatrixRow(subImgIndex1, pRigidSolution);
-	const DPoint pos21 = DPoint::FromMatrixRow(subImgIndex21, pRigidSolution);
-	const DPoint pos22 = DPoint::FromMatrixRow(subImgIndex22, pRigidSolution);
+	assert(pRigidSolution->Cols() == 2);
+	auto getSubImagePosition = [&pRigidSolution](size_t subImageIndex)
+		{
+			assert(pRigidSolution->Rows() > subImageIndex);
+			return DPoint((*pRigidSolution)[subImageIndex][0], (*pRigidSolution)[subImageIndex][1]);
+		};
+
+	DPoint pos1 = getSubImagePosition(subImgIndex1);
+	DPoint pos21 = getSubImagePosition(subImgIndex21);
+	DPoint pos22 = getSubImagePosition(subImgIndex22);
 
 	double q = subImg2 - std::floor(subImg2);
 	double p = 1.0 - q;

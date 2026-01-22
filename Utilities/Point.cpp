@@ -36,13 +36,6 @@ void DPoint::moveTo(const DPoint& otherPoint)
 	m_y = otherPoint.m_y;
 }
 
-DPoint DPoint::FromMatrixRow(size_t index, std::shared_ptr<CDenseMatrix> pMatrix)
-{
-	assert(pMatrix->Rows() > index);
-	assert(pMatrix->Cols() > 1);
-	return DPoint((*pMatrix)[index][0], (*pMatrix)[index][1]);
-}
-
 bool DPoint::operator==(const DPoint& other) const
 {
 	return other.m_x == m_x && other.m_y == m_y;

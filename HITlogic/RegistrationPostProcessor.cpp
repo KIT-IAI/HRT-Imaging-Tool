@@ -48,11 +48,19 @@ std::vector<CRigidRegistrationResult> CRegistrationPostProcessor::GetRigidRegist
 
 void CRegistrationPostProcessor::CalculateResiduals(std::vector<CRegistrationResult>& RegistrationResults, std::shared_ptr<CDenseMatrix> pRigidSolution)
 {
+	assert(pRigidSolution->Cols() == 2);
+
+	auto getImagePosition = [&pRigidSolution](size_t imageIndex) -> DPoint
+		{
+			assert(pRigidSolution->Rows() > imageIndex);
+			return DPoint((*pRigidSolution)[imageIndex][0], (*pRigidSolution)[imageIndex][1]);
+		};
+
 	for (auto& Registration : RegistrationResults)
 	{
 		auto nReferenceIndex = Registration.RigidRegistrationResult.GetReferenceImageIndex();
 		auto nTemplateIndex = Registration.RigidRegistrationResult.GetTemplateImageIndex();
-		Registration.CalculateResidual(DPoint::FromMatrixRow(nReferenceIndex, pRigidSolution), DPoint::FromMatrixRow(nTemplateIndex, pRigidSolution));
+		Registration.CalculateResidual(getImagePosition(nReferenceIndex), getImagePosition(nTemplateIndex));
 	}
 }
 
