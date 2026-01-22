@@ -42,9 +42,6 @@ public:
 
 	CDenseMatrix SolvePositioning(const CImageRegistrationResult& RegistrationResult, const CHrtImageParameters& ImageParameters);
 
-	bool SolvePositioning(const index_pair_t& minMaxImageIndexes, size_t nSubImagesPerImageWithGap, size_t nSubimageRowOffset, size_t ColumnCount, CDenseMatrix& solution, const std::vector<CRigidRegistrationResult>& LocalRegistrationSolutions);
-	bool SolvePositioningWithConsistencyCheck(const index_pair_t& minMaxImageIndexes, size_t nSubImagesPerImageWithGap, size_t nSubimageRowOffset, CDenseMatrix& solution, std::vector<CRigidRegistrationResult>& LocalRegistrationSolutions, double fThreshold = 5.0);
-
 	static void RemoveGap(const CDenseMatrix& source, CDenseMatrix& destination, size_t nSubImagesWithoutGap, size_t nGapBefore, size_t nGapAfter);
 	static void RemoveGap(CDenseMatrix& inPlace, size_t nSubImagesWithoutGap, size_t nGapBefore, size_t nGapAfter);
 
@@ -77,6 +74,9 @@ private:
 
 	static void RemoveExcludedImages(const CDenseMatrix& source, CDenseMatrix& destination, size_t nSubImagesWithoutGap, const std::list<size_t>& group);
 	static void RemoveExcludedImages(CDenseMatrix& inPlace, size_t nSubImagesWithoutGap, const std::list<size_t>& group);
+
+	bool SolvePositioning(const index_pair_t& minMaxImageIndexes, size_t nSubImagesPerImageWithGap, size_t nSubimageRowOffset, size_t ColumnCount, CDenseMatrix& solution, const std::vector<CRigidRegistrationResult>& LocalRegistrationSolutions);
+	bool SolvePositioningWithConsistencyCheck(const index_pair_t& minMaxImageIndexes, size_t nSubImagesPerImageWithGap, size_t nSubimageRowOffset, CDenseMatrix& solution, std::vector<CRigidRegistrationResult>& LocalRegistrationSolutions, double fThreshold = 5.0);
 
 protected:
 	virtual CProgress GetProgress() override;

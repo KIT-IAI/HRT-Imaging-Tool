@@ -100,14 +100,19 @@ void CRegistrationPostProcessor::SolveRigidPositioning(const std::vector<CRegist
 	SolverParameters.eProcessType = CProcessType::eRigidRegistration;
 	CHRTGlobalPositioning SolverObject(SolverParameters);
 
-	imagePositions.Fill(0.0);
+	// we assume that we process an entire dataset as a single image group here
+	std::list<size_t> imageGroup(nImageCount);
+	std::iota(imageGroup.begin(), imageGroup.end(), 0);
+	std::vector<std::list<size_t>> imageGroups({imageGroup});
+	CImageRegistrationResult imageRegistrationResultObject(RegistrationResults, imageGroups);
 
-	auto RigidResults = GetRigidRegistrationResults(RegistrationResults);
+	// these parameters are of course not correct, but this is ok, because
+	// SolvePositioning() only uses them to calculate the number of sub-images
+	// per image, so as long as the sub-image height is the same as the image
+	// height, it works as intended
+	CHrtImageParameters hrtImageParametersObject(StlImageSize(1, 1), 1);
 
-	// we assume that we process an entire dataset here, i.e. the image indexes
-	// in the registration results must all be in the range [0,nImageCount)
-	if (!SolverObject.SolvePositioning({ 0, nImageCount - 1 }, 1, 0, 1, imagePositions, RigidResults))
-		throw L"Solution of Rigid Registration-System unsuccesful.";
+	imagePositions = SolverObject.SolvePositioning(imageRegistrationResultObject, hrtImageParametersObject);
 }
 
 std::vector<CResidual> CRegistrationPostProcessor::GetAllResiduals(const std::vector<CRegistrationResult>& RegistrationResults)
