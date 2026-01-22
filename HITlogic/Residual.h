@@ -33,7 +33,7 @@ public:
 	~CResidual();
 
 	static CResidual CreateFromRegistration(const CRigidRegistrationResult& regResult, DPoint referenceImageCoordinates, DPoint templateImageCoordinates);
-	static CResidual CreateFromSubimageRegistration(const CRigidRegistrationResult& reg, std::shared_ptr<CDenseMatrix> pRigidSolution, size_t subImageHeight, size_t subPerImg);
+	static CResidual CreateFromSubimageRegistration(const CRigidRegistrationResult& reg, const CDenseMatrix& subImagePositions, size_t subImageHeight, size_t subPerImg);
 
 	static double CalculateMeanResidual(const std::vector<CResidual>& allResiduals);
 	static double CalculateStdevResidual(const std::vector<CResidual>& allResiduals, double fMean);

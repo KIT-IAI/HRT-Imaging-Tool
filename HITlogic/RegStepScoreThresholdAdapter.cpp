@@ -48,10 +48,10 @@ void CScoreThresholdAdapter::ProcessRegistrationData(std::vector<StlImage<float>
 	size_t nValidRegistrations = validRegistrationResults.size();
 	auto fThreshold = m_ScoreParameters.GetScoreThreshold();
 
-	auto pRigidSolution = std::make_shared<CDenseMatrix>(m_nImageCount, 2);
+	CDenseMatrix imagePositions(m_nImageCount, 2);
 
-	CRegistrationPostProcessor::SolveRigidPositioning(validRegistrationResults, pRigidSolution, m_eSolverAlgorithm, m_nImageCount);
-	CRegistrationPostProcessor::CalculateResiduals(validRegistrationResults, pRigidSolution);
+	CRegistrationPostProcessor::SolveRigidPositioning(validRegistrationResults, imagePositions, m_eSolverAlgorithm, m_nImageCount);
+	CRegistrationPostProcessor::CalculateResiduals(validRegistrationResults, imagePositions);
 
 	auto logStep = [](double fCurrentThreshold, double fPreviousThreshold, size_t nPreviousRegs, const std::vector<CRegistrationResult>& regResults)->void {
 		auto allResiduals = CRegistrationPostProcessor::GetAllResiduals(regResults);
@@ -78,8 +78,8 @@ void CScoreThresholdAdapter::ProcessRegistrationData(std::vector<StlImage<float>
 	{
 		AdaptScoreThreshold();
 		RemoveWrongRegistrations(validRegistrationResults, invalidRegistrationResults);
-		CRegistrationPostProcessor::SolveRigidPositioning(validRegistrationResults, pRigidSolution, m_eSolverAlgorithm, m_nImageCount);
-		CRegistrationPostProcessor::CalculateResiduals(validRegistrationResults, pRigidSolution);
+		CRegistrationPostProcessor::SolveRigidPositioning(validRegistrationResults, imagePositions, m_eSolverAlgorithm, m_nImageCount);
+		CRegistrationPostProcessor::CalculateResiduals(validRegistrationResults, imagePositions);
 
 		if (s_bDetailedLogging)
 		{

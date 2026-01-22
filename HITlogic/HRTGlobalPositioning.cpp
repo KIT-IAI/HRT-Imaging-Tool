@@ -66,14 +66,14 @@ CDenseMatrix CHRTGlobalPositioning::SolvePositioning(const CImageRegistrationRes
 	{
 	case CProcessType::eBlockBasedRegistration:
 		m_Parameters.eProcessType = CProcessType::eRigidRegistration;
-		bPositioningSuccessful = SolvePositioningWithConsistencyCheck(minMaxImageIndexes, ImageParameters.nSubImagesPerImageWithoutGap, ImageParameters.nGapsBeforeImage, &Solution, RigidRegistrationResults);
+		bPositioningSuccessful = SolvePositioningWithConsistencyCheck(minMaxImageIndexes, ImageParameters.nSubImagesPerImageWithoutGap, ImageParameters.nGapsBeforeImage, Solution, RigidRegistrationResults);
 		break;
 	case CProcessType::eRigidRegistration:
-		bPositioningSuccessful = SolvePositioning(minMaxImageIndexes, 1, 0, 1, &Solution, RigidRegistrationResults);
+		bPositioningSuccessful = SolvePositioning(minMaxImageIndexes, 1, 0, 1, Solution, RigidRegistrationResults);
 		break;
 	case CProcessType::eHRTImageRegistration:
 	case CProcessType::eHRTStreamRegistration:
-		bPositioningSuccessful = SolvePositioning(minMaxImageIndexes, ImageParameters.GetSubImageCountWithGap(), ImageParameters.nGapsBeforeImage, 1, &Solution, RegistrationResult.GetFlexibleRegistrationResults());
+		bPositioningSuccessful = SolvePositioning(minMaxImageIndexes, ImageParameters.GetSubImageCountWithGap(), ImageParameters.nGapsBeforeImage, 1, Solution, RegistrationResult.GetFlexibleRegistrationResults());
 		break;
 	default:
 		assert(false);
@@ -123,7 +123,7 @@ CDenseMatrix CHRTGlobalPositioning::CreateStartVector(const index_pair_t& minMax
 		CDenseMatrix RigidSolution(nImages, 2);
 
 		// Solve Rigid SLE
-		rigidSolver.SolvePositioning(minMaxImageIndexes, 1, 0, 1, &RigidSolution, RigidRegistrationResultArray);
+		rigidSolver.SolvePositioning(minMaxImageIndexes, 1, 0, 1, RigidSolution, RigidRegistrationResultArray);
 
 		// Prolong rigid Solution
 		Solution.ProlongMatrix(RigidSolution, nSubImagesWithGaps, 1);
@@ -144,20 +144,20 @@ CDenseMatrix CHRTGlobalPositioning::CreateStartVector(const index_pair_t& minMax
 ///	<param name="nSubImagesPerImageWithGap"> The number of sub-images per image (along the y-dimension), including the gap. </param>
 ///	<param name="nSubimageRowOffset"> An offset value to add to sub-image indexes to account for the gap part preceding each image. </param>
 ///	<param name="nColumnCount"> The number of sub-images per image (along the x-dimension). </param>
-///	<param name="pSolution"> A 2-column matrix containing x- and y-coordinates of the calculated positions upon return; must be correctly allocated and may be initialized with position estimations before the call. </param>
+///	<param name="solution"> A 2-column matrix containing x- and y-coordinates of the calculated positions upon return; must be correctly allocated and may be initialized with position estimations before the call. </param>
 ///	<param name="LocalRegistrationSolutions"> The image or sub-image registration results for the image group. </param>
 bool CHRTGlobalPositioning::SolvePositioning(
 	const index_pair_t& minMaxImageIndexes,
 	size_t nSubImagesPerImageWithGap,
 	size_t nSubimageRowOffset,
 	size_t nColumnCount,
-	CDenseMatrix* pSolution,
+	CDenseMatrix& solution,
 	const std::vector<CRigidRegistrationResult>& LocalRegistrationSolutions)
 {
 	size_t nImages = minMaxImageIndexes.second - minMaxImageIndexes.first + 1;
 
-	assert(pSolution->Rows() == nSubImagesPerImageWithGap * nImages * nColumnCount);
-	assert(pSolution->Cols() == 2);
+	assert(solution.Rows() == nSubImagesPerImageWithGap * nImages * nColumnCount);
+	assert(solution.Cols() == 2);
 
 	// Initialize matrices
 	std::shared_ptr<CAbstractMatrix> pWtW = nullptr;
@@ -196,13 +196,13 @@ bool CHRTGlobalPositioning::SolvePositioning(
 		}
 		else
 		{
-			*pSolution = invA * (*pWtd);
+			solution = invA * (*pWtd);
 		}
 	}
 	break;
 	case CSLESolver::EAlgorithm::eGauss:
 	{
-		bSuccess = CSLESolver::SolveEquationGauss(*pWtW, *pWtd, *pSolution);
+		bSuccess = CSLESolver::SolveEquationGauss(*pWtW, *pWtd, solution);
 	}
 	break;
 	case CSLESolver::EAlgorithm::eRigidStartIteration:
@@ -212,7 +212,7 @@ bool CHRTGlobalPositioning::SolvePositioning(
 		pSWtW->Flush();
 
 		CSLESolver::CIterationParameters param = CSLESolver::CreateIterationParameters(m_Parameters.eAlgorithm);
-		bSuccess = CSLESolver::SolveEquationJacobi(*pSWtW, *pWtd, *pSolution, param);
+		bSuccess = CSLESolver::SolveEquationJacobi(*pSWtW, *pWtd, solution, param);
 	}
 	break;
 	case CSLESolver::EAlgorithm::eCGStartIteration:
@@ -222,7 +222,7 @@ bool CHRTGlobalPositioning::SolvePositioning(
 		CSparseMatrix* pSWtW = static_cast<CSparseMatrix*>(pWtW.get());
 		pSWtW->Flush();
 
-		bSuccess = CSLESolver::SolveEquationCG(*pSWtW, *pWtd, *pSolution, param, true);
+		bSuccess = CSLESolver::SolveEquationCG(*pSWtW, *pWtd, solution, param, true);
 	}
 	break;
 	case CSLESolver::EAlgorithm::eCGALGLIBStartIteration:
@@ -231,7 +231,7 @@ bool CHRTGlobalPositioning::SolvePositioning(
 		CSLESolver::CIterationParameters param = CSLESolver::CreateIterationParameters(m_Parameters.eAlgorithm);
 		CSparseMatrix* pSWtW = static_cast<CSparseMatrix*>(pWtW.get());
 		pSWtW->Flush();
-		bSuccess = CSLESolver::SolveEquationCGALGLIB(*pSWtW, *pWtd, *pSolution, param);
+		bSuccess = CSLESolver::SolveEquationCGALGLIB(*pSWtW, *pWtd, solution, param);
 
 	}
 	break;
@@ -242,7 +242,7 @@ bool CHRTGlobalPositioning::SolvePositioning(
 
 	if (!bSuccess)
 	{
-		pSolution->Fill(0.0);
+		solution.Fill(0.0);
 	}
 
 	return bSuccess;
@@ -253,14 +253,14 @@ bool CHRTGlobalPositioning::SolvePositioning(
 ///	<param name="minMaxImageIndexes"> The minimum and maximum image indexes of the image group. </param>
 ///	<param name="nSubImagesPerImageWithGap"> The number of sub-images per image (along the y-dimension), including the gap. </param>
 ///	<param name="nSubimageRowOffset"> An offset value to add to sub-image indexes to account for the gap part preceding each image. </param>
-///	<param name="pSolution"> A 2-column matrix containing x- and y-coordinates of the calculated positions upon return; must be correctly allocated and may be initialized with position estimations before the call. </param>
+///	<param name="solution"> A 2-column matrix containing x- and y-coordinates of the calculated positions upon return; must be correctly allocated and may be initialized with position estimations before the call. </param>
 ///	<param name="LocalRegistrationSolutions"> The image or sub-image registration results for the image group. </param>
 ///	<param name="fThreshold"> A threshold value for the residuals of the registration results to evaluate their consistency. </param>
 bool CHRTGlobalPositioning::SolvePositioningWithConsistencyCheck(
 	const index_pair_t& minMaxImageIndexes,
 	size_t nSubImagesPerImageWithGap,
 	size_t nSubimageRowOffset,
-	CDenseMatrix* pSolution,
+	CDenseMatrix& solution,
 	std::vector<CRigidRegistrationResult>& LocalRegistrationSolutions,
 	double fThreshold /* = 5.0 */)
 {
@@ -271,19 +271,19 @@ bool CHRTGlobalPositioning::SolvePositioningWithConsistencyCheck(
 
 	while (true)
 	{
-		bSuccess = SolvePositioning(minMaxImageIndexes, nSubImagesPerImageWithGap, nSubimageRowOffset, 1, pSolution, LocalRegistrationSolutions);
+		bSuccess = SolvePositioning(minMaxImageIndexes, nSubImagesPerImageWithGap, nSubimageRowOffset, 1, solution, LocalRegistrationSolutions);
 		if (!bSuccess)
 		{
 			break;
 		}
 
-		listSolutions.push_back(*pSolution);
+		listSolutions.push_back(solution);
 
 		CDenseVector residuals(LocalRegistrationSolutions.size());
 
 		// calculate maximum residual
 		double fMaxResidual = 0;
-		size_t    nMaxResidualIndex = 0;
+		size_t nMaxResidualIndex = 0;
 		for (size_t i = 0; i < LocalRegistrationSolutions.size(); i++)
 		{
 			const CRigidRegistrationResult& reg = LocalRegistrationSolutions[i];
@@ -292,8 +292,8 @@ bool CHRTGlobalPositioning::SolvePositioningWithConsistencyCheck(
 			// trust all registration results with scores greater than or equal to 40
 			if ((reg.GetValidity() > 0) && (reg.GetScore() < 40))
 			{
-				double dx = abs(abs(reg.GetX()) - abs((*pSolution)[reg.GetReferenceImageIndex()][0] - (*pSolution)[reg.GetTemplateImageIndex()][0]));
-				double dy = abs(abs(reg.GetY()) - abs((*pSolution)[reg.GetReferenceImageIndex()][1] - (*pSolution)[reg.GetTemplateImageIndex()][1]));
+				double dx = abs(abs(reg.GetX()) - abs(solution[reg.GetReferenceImageIndex()][0] - solution[reg.GetTemplateImageIndex()][0]));
+				double dy = abs(abs(reg.GetY()) - abs(solution[reg.GetReferenceImageIndex()][1] - solution[reg.GetTemplateImageIndex()][1]));
 				fResidual = std::max(dx, dy);
 				if (fResidual > fMaxResidual)
 				{
@@ -315,7 +315,7 @@ bool CHRTGlobalPositioning::SolvePositioningWithConsistencyCheck(
 			// throw worst result away and reiterate
 			assert(nMaxResidualIndex >= 0);
 			LocalRegistrationSolutions[nMaxResidualIndex].SetValidity(CHrtValidityCodes::eConsistencyCheckFailed);
-			pSolution->Fill(0);
+			solution.Fill(0);
 		}
 	}
 
@@ -331,7 +331,7 @@ bool CHRTGlobalPositioning::SolvePositioningWithConsistencyCheck(
 	}
 
 	i = 0;
-	CDenseMatrix matSolutions(pSolution->Rows(), 2 * listSolutions.size());
+	CDenseMatrix matSolutions(solution.Rows(), 2 * listSolutions.size());
 	while (!listSolutions.empty())
 	{
 		assert(listSolutions.front().Rows() == matSolutions.Rows());

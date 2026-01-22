@@ -21,13 +21,14 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 #pragma once
-#include "RegistrationPostProcessor.h"
-#include "RegistrationScoreParameters.h"
-#include <SLESolver.h>
 
-class CRegStepResidualFilter :
-	public CRegistrationPostProcessor
+#include "SLESolver.h"
+
+#include "RegistrationPostProcessor.h"
+
+class CRegStepResidualFilter : public CRegistrationPostProcessor
 {
+
 public:
 	CRegStepResidualFilter(size_t nImageCount, CSLESolver::EAlgorithm eSolverAlgorithm, double fMaxResidual = 90.0)
 		: m_fMaximumResidual(fMaxResidual),
@@ -36,14 +37,13 @@ public:
 	}
 
 	~CRegStepResidualFilter();
-	virtual void ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults, const vector<std::list<size_t>>& imagegroups) override;
+	virtual void ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults, const std::vector<std::list<size_t>>& imagegroups) override;
 
 private:
 	bool AreResidualsAcceptable(std::vector<CRegistrationResult>& RegistrationResults) const;
 	void RemoveWrongRegistrations(std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults) const;
 
 	void PossiblyInvalidateImages(std::vector<CRegistrationResult>& RemovedRegistrations, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults) const;
-
 
 	std::vector<std::vector<CRegistrationResult>> GetRegistrationsForEachImage(std::vector<CRegistrationResult>& validRegistrationResults) const;
 	std::vector<double> GetResidualsForEachImage(std::vector<CRegistrationResult>& validRegistrationResults) const;
@@ -52,5 +52,5 @@ private:
 
 	const size_t m_nImageCount;
 	CSLESolver::EAlgorithm m_eSolverAlgorithm;
-};
 
+};

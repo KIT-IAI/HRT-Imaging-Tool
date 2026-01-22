@@ -46,14 +46,14 @@ std::vector<CRigidRegistrationResult> CRegistrationPostProcessor::GetRigidRegist
 	return out;
 }
 
-void CRegistrationPostProcessor::CalculateResiduals(std::vector<CRegistrationResult>& RegistrationResults, std::shared_ptr<CDenseMatrix> pRigidSolution)
+void CRegistrationPostProcessor::CalculateResiduals(std::vector<CRegistrationResult>& RegistrationResults, const CDenseMatrix& imagePositions)
 {
-	assert(pRigidSolution->Cols() == 2);
+	assert(imagePositions.Cols() == 2);
 
-	auto getImagePosition = [&pRigidSolution](size_t imageIndex) -> DPoint
+	auto getImagePosition = [&imagePositions](size_t imageIndex) -> DPoint
 		{
-			assert(pRigidSolution->Rows() > imageIndex);
-			return DPoint((*pRigidSolution)[imageIndex][0], (*pRigidSolution)[imageIndex][1]);
+			assert(imagePositions.Rows() > imageIndex);
+			return DPoint(imagePositions[imageIndex][0], imagePositions[imageIndex][1]);
 		};
 
 	for (auto& Registration : RegistrationResults)
@@ -64,7 +64,7 @@ void CRegistrationPostProcessor::CalculateResiduals(std::vector<CRegistrationRes
 	}
 }
 
-void CRegistrationPostProcessor::CalculateSubImageResiduals(std::vector<CRegistrationResult>& RegistrationResults, const std::shared_ptr<CDenseMatrix> pSolution, size_t nSubImageHeight)
+void CRegistrationPostProcessor::CalculateSubImageResiduals(std::vector<CRegistrationResult>& RegistrationResults, const CDenseMatrix& subImagePositions, size_t nSubImageHeight)
 {
 	for (auto& Registration : RegistrationResults)
 	{
@@ -72,7 +72,7 @@ void CRegistrationPostProcessor::CalculateSubImageResiduals(std::vector<CRegistr
 
 		for (auto& FlexibleRegistration : Registration.FlexibleRegistrationResults)
 		{
-			CResidual residual = CResidual::CreateFromSubimageRegistration(FlexibleRegistration, pSolution, nSubImageHeight, Registration.FlexibleRegistrationResults.size());
+			CResidual residual = CResidual::CreateFromSubimageRegistration(FlexibleRegistration, subImagePositions, nSubImageHeight, Registration.FlexibleRegistrationResults.size());
 
 			if (residual.GetValidity() > 0) {
 				validSubImageResiduals.push_back(residual);
@@ -93,20 +93,20 @@ void CRegistrationPostProcessor::CalculateSubImageResiduals(std::vector<CRegistr
 	}
 }
 
-void CRegistrationPostProcessor::SolveRigidPositioning(const std::vector<CRegistrationResult>& RegistrationResults, std::shared_ptr<CDenseMatrix> pRigidSolution, CSLESolver::EAlgorithm eSolverAlgorithm, size_t nImageCount)
+void CRegistrationPostProcessor::SolveRigidPositioning(const std::vector<CRegistrationResult>& RegistrationResults, CDenseMatrix& imagePositions, CSLESolver::EAlgorithm eSolverAlgorithm, size_t nImageCount)
 {
 	CGlobalPositioningParameters SolverParameters;
 	SolverParameters.eAlgorithm = eSolverAlgorithm;
 	SolverParameters.eProcessType = CProcessType::eRigidRegistration;
 	CHRTGlobalPositioning SolverObject(SolverParameters);
 
-	pRigidSolution->Fill(0.0);
+	imagePositions.Fill(0.0);
 
 	auto RigidResults = GetRigidRegistrationResults(RegistrationResults);
 
 	// we assume that we process an entire dataset here, i.e. the image indexes
 	// in the registration results must all be in the range [0,nImageCount)
-	if (!SolverObject.SolvePositioning({ 0, nImageCount - 1 }, 1, 0, 1, pRigidSolution.get(), RigidResults))
+	if (!SolverObject.SolvePositioning({ 0, nImageCount - 1 }, 1, 0, 1, imagePositions, RigidResults))
 		throw L"Solution of Rigid Registration-System unsuccesful.";
 }
 

@@ -32,16 +32,16 @@ CRegStepResidualFilter::~CRegStepResidualFilter()
 void CRegStepResidualFilter::ProcessRegistrationData(std::vector<StlImage<float>*>& images, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults, const std::vector<std::list<size_t>>& imagegroups)
 {
 	size_t validRegistrationCount = validRegistrationResults.size();
-	auto pRigidSolution = std::make_shared<CDenseMatrix>(m_nImageCount, 2);
+	CDenseMatrix imagePositions(m_nImageCount, 2);
 
-	CRegistrationPostProcessor::SolveRigidPositioning(validRegistrationResults, pRigidSolution, m_eSolverAlgorithm, m_nImageCount);
-	CRegistrationPostProcessor::CalculateResiduals(validRegistrationResults, pRigidSolution);
+	CRegistrationPostProcessor::SolveRigidPositioning(validRegistrationResults, imagePositions, m_eSolverAlgorithm, m_nImageCount);
+	CRegistrationPostProcessor::CalculateResiduals(validRegistrationResults, imagePositions);
 
 	while (!AreResidualsAcceptable(validRegistrationResults))
 	{
 		RemoveWrongRegistrations(validRegistrationResults, invalidRegistrationResults);
-		CRegistrationPostProcessor::SolveRigidPositioning(validRegistrationResults, pRigidSolution, m_eSolverAlgorithm, m_nImageCount);
-		CRegistrationPostProcessor::CalculateResiduals(validRegistrationResults, pRigidSolution);
+		CRegistrationPostProcessor::SolveRigidPositioning(validRegistrationResults, imagePositions, m_eSolverAlgorithm, m_nImageCount);
+		CRegistrationPostProcessor::CalculateResiduals(validRegistrationResults, imagePositions);
 	}
 	CLog::Log(CLog::eInformational, L"ResidualFilter",
 		boost::wformat(L"Removed %d registration due to a high residual.") % (validRegistrationCount - validRegistrationResults.size()));
@@ -72,6 +72,7 @@ void CRegStepResidualFilter::RemoveWrongRegistrations(std::vector<CRegistrationR
 	move_if(validRegistrationResults, invalidRegistrationResults, condition, invalidOperation);
 	PossiblyInvalidateImages(RemovedRegistrations, validRegistrationResults, invalidRegistrationResults);
 }
+
 void CRegStepResidualFilter::PossiblyInvalidateImages(std::vector<CRegistrationResult>& RemovedRegistrations, std::vector<CRegistrationResult>& validRegistrationResults, std::vector<CRegistrationResult>& invalidRegistrationResults) const
 {
 	auto RegistrationsForEachImage = GetRegistrationsForEachImage(validRegistrationResults);
@@ -97,7 +98,6 @@ void CRegStepResidualFilter::PossiblyInvalidateImages(std::vector<CRegistrationR
 	}
 }
 
-
 std::vector<std::vector<CRegistrationResult>> CRegStepResidualFilter::GetRegistrationsForEachImage(std::vector<CRegistrationResult>& validRegistrationResults) const
 {
 	std::vector<std::vector<CRegistrationResult>> result;
@@ -110,6 +110,7 @@ std::vector<std::vector<CRegistrationResult>> CRegStepResidualFilter::GetRegistr
 	}
 	return result;
 }
+
 std::vector<double> CRegStepResidualFilter::GetResidualsForEachImage(std::vector<CRegistrationResult>& validRegistrationResults) const
 {
 	auto RegistrationsForEachImage = GetRegistrationsForEachImage(validRegistrationResults);
@@ -127,5 +128,3 @@ std::vector<double> CRegStepResidualFilter::GetResidualsForEachImage(std::vector
 	}
 	return ResidualsForEachImage;
 }
-
-

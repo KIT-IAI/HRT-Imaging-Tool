@@ -39,7 +39,7 @@ CResidual CResidual::CreateFromRegistration(const CRigidRegistrationResult& regR
 	return residual;
 }
 
-CResidual CResidual::CreateFromSubimageRegistration(const CRigidRegistrationResult& reg, std::shared_ptr<CDenseMatrix> pRigidSolution, size_t subImageHeight, size_t subPerImg)
+CResidual CResidual::CreateFromSubimageRegistration(const CRigidRegistrationResult& reg, const CDenseMatrix& subImagePositions, size_t subImageHeight, size_t subPerImg)
 {
 	CResidual residual;
 
@@ -68,11 +68,11 @@ CResidual CResidual::CreateFromSubimageRegistration(const CRigidRegistrationResu
 	size_t subImgIndex21 = residual.m_fTemplateImageIndex * subPerImg + subImg21;
 	size_t subImgIndex22 = residual.m_fTemplateImageIndex * subPerImg + subImg22;
 
-	assert(pRigidSolution->Cols() == 2);
-	auto getSubImagePosition = [&pRigidSolution](size_t subImageIndex)
+	assert(subImagePositions.Cols() == 2);
+	auto getSubImagePosition = [&subImagePositions](size_t subImageIndex)
 		{
-			assert(pRigidSolution->Rows() > subImageIndex);
-			return DPoint((*pRigidSolution)[subImageIndex][0], (*pRigidSolution)[subImageIndex][1]);
+			assert(subImagePositions.Rows() > subImageIndex);
+			return DPoint(subImagePositions[subImageIndex][0], subImagePositions[subImageIndex][1]);
 		};
 
 	DPoint pos1 = getSubImagePosition(subImgIndex1);

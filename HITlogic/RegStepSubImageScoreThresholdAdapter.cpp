@@ -53,8 +53,8 @@ void CRegStepSubImageScoreThresholdAdapter::ProcessRegistrationData(std::vector<
 
 	m_ScoreParameters.SetScoreThreshold(m_ScoreParameters.fMinScoreFlexible);
 
-	std::shared_ptr<CDenseMatrix> solution = std::make_shared<CDenseMatrix>(SolveFlexiblePositioning(images, validRegistrationResults, imagegroups));
-	CRegistrationPostProcessor::CalculateSubImageResiduals(validRegistrationResults, solution, m_nSubImageHeight);
+	CDenseMatrix& subImagePositions = SolveFlexiblePositioning(images, validRegistrationResults, imagegroups);
+	CRegistrationPostProcessor::CalculateSubImageResiduals(validRegistrationResults, subImagePositions, m_nSubImageHeight);
 	auto allResiduals = CRegistrationPostProcessor::GetSubImageResiduals(validRegistrationResults);
 	CalculateStochasticValues(allResiduals);
 
@@ -64,8 +64,8 @@ void CRegStepSubImageScoreThresholdAdapter::ProcessRegistrationData(std::vector<
 		lastThreshold = m_ScoreParameters.GetScoreThreshold();
 		AdaptScoreThreshold();
 		ChangeValidity(validRegistrationResults);
-		std::shared_ptr<CDenseMatrix> solution = std::make_shared<CDenseMatrix>(SolveFlexiblePositioning(images, validRegistrationResults, imagegroups));
-		CRegistrationPostProcessor::CalculateSubImageResiduals(validRegistrationResults, solution, m_nSubImageHeight);
+		subImagePositions = SolveFlexiblePositioning(images, validRegistrationResults, imagegroups);
+		CRegistrationPostProcessor::CalculateSubImageResiduals(validRegistrationResults, subImagePositions, m_nSubImageHeight);
 		auto allResiduals = CRegistrationPostProcessor::GetSubImageResiduals(validRegistrationResults);
 		CalculateStochasticValues(allResiduals);
 	}

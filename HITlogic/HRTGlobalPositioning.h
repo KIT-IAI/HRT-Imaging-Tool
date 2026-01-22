@@ -42,8 +42,8 @@ public:
 
 	CDenseMatrix SolvePositioning(const CImageRegistrationResult& RegistrationResult, const CHrtImageParameters& ImageParameters);
 
-	bool SolvePositioning(const index_pair_t& minMaxImageIndexes, size_t nSubImagesPerImageWithGap, size_t nSubimageRowOffset, size_t ColumnCount, CDenseMatrix* pSolution, const std::vector<CRigidRegistrationResult>& LocalRegistrationSolutions);
-	bool SolvePositioningWithConsistencyCheck(const index_pair_t& minMaxImageIndexes, size_t nSubImagesPerImageWithGap, size_t nSubimageRowOffset, CDenseMatrix* pSolution, std::vector<CRigidRegistrationResult>& LocalRegistrationSolutions, double fThreshold = 5.0);
+	bool SolvePositioning(const index_pair_t& minMaxImageIndexes, size_t nSubImagesPerImageWithGap, size_t nSubimageRowOffset, size_t ColumnCount, CDenseMatrix& solution, const std::vector<CRigidRegistrationResult>& LocalRegistrationSolutions);
+	bool SolvePositioningWithConsistencyCheck(const index_pair_t& minMaxImageIndexes, size_t nSubImagesPerImageWithGap, size_t nSubimageRowOffset, CDenseMatrix& solution, std::vector<CRigidRegistrationResult>& LocalRegistrationSolutions, double fThreshold = 5.0);
 
 	static void RemoveGap(const CDenseMatrix& source, CDenseMatrix& destination, size_t nSubImagesWithoutGap, size_t nGapBefore, size_t nGapAfter);
 	static void RemoveGap(CDenseMatrix& inPlace, size_t nSubImagesWithoutGap, size_t nGapBefore, size_t nGapAfter);
