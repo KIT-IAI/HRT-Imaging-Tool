@@ -78,7 +78,6 @@ private:
 	static void RemoveExcludedImages(const CDenseMatrix& source, CDenseMatrix& destination, size_t nSubImagesWithoutGap, const std::list<size_t>& group);
 	static void RemoveExcludedImages(CDenseMatrix& inPlace, size_t nSubImagesWithoutGap, const std::list<size_t>& group);
 
-	CDenseMatrix SolvePositioningBlockbased(const CImageRegistrationResult& RegistrationResult, const CHrtImageParameters& ImageParameters);
 protected:
 	virtual CProgress GetProgress() override;
 	virtual void OnCancel() override;

@@ -85,24 +85,6 @@ CDenseMatrix CHRTGlobalPositioning::SolvePositioning(const CImageRegistrationRes
 	return Solution;
 }
 
-CDenseMatrix CHRTGlobalPositioning::SolvePositioningBlockbased(const CImageRegistrationResult& RegistrationResult, const CHrtImageParameters& ImageParameters)
-{
-	assert(!RegistrationResult.ImageGroups[0].empty());
-	assert(std::is_sorted(RegistrationResult.ImageGroups[0].begin(), RegistrationResult.ImageGroups[0].end()));
-
-	index_pair_t minMaxImageIndexes = { RegistrationResult.ImageGroups[0].front(), RegistrationResult.ImageGroups[0].back() };
-	auto RigidRegistrationResults = RegistrationResult.GetRigidRegistrationResults();
-	CDenseMatrix Solution = CreateStartVector(minMaxImageIndexes, ImageParameters.GetSubImageCountWithGap(), m_Parameters.eAlgorithm, RigidRegistrationResults);
-
-	if (RigidRegistrationResults.size() == 0)
-		return Solution;
-
-	m_Parameters.eProcessType = CProcessType::eRigidRegistration;
-
-	SolvePositioningWithConsistencyCheck(minMaxImageIndexes, ImageParameters.nSubImagesPerImageWithoutGap, ImageParameters.nGapsBeforeImage, &Solution, RigidRegistrationResults);
-	return Solution;
-}
-
 ///	<summary> Create an initial estimation of the solution matrix for the given group of images. </summary>
 ///	<returns> A 2-column matrix containing the x- and y-coordinates of the initial position estimations. </returns>
 ///	<param name="minMaxImageIndexes"> The minimum and maximum image indexes of the image group. </param>
