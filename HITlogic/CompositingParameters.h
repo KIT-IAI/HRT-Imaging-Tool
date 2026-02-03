@@ -60,7 +60,7 @@ public:
 	long				nMaximumGridLength = 0;					/** Only Used for Combining-mode*/
 	long				nEdgeBlendingLength = 0;				/** Only Used for Combining-mode*/
 	float				fIntensityLimit = 0;					/**	Für 3D-Compositer: Wenn Punkte herausgefiltert werden sollen.*/
-	float				fZMultiplier = 2;						/**	Für 3D-Compositer: Legt fest ob Punktwolke in x_achse gestreckt werden soll.*/
+	float				fZMultiplier = 1.0;						/**	Für 3D-Compositer: Legt fest ob Punktwolke in x_achse gestreckt werden soll.*/
 	bool				bExcludeNonSNPImages = false;
 
 };

@@ -30,12 +30,12 @@ using namespace std;
 class CRegistrationScoreParameters
 {
 public:
-	explicit CRegistrationScoreParameters(double minscoreRigid = 8.0, double minscoreFlexible = 16.0, double certaintyScoreRigid = 24.0, double residualthreshold = 10.0)
+	explicit CRegistrationScoreParameters(double minscoreRigid = 8.0, double minscoreFlexible = 12.0, double certaintyScoreRigid = 30.0, double residualthreshold = 8.0)
 		:
 		fMinScore(minscoreRigid),
 		fCertainScore(certaintyScoreRigid),
 		fMinScoreFlexible(minscoreFlexible),
-		bAutomaticThresholdDetection(false),
+		bAutomaticThresholdDetection(true),
 		fResidualThreshold(residualthreshold)
 	{
 		fScoreThrehold = std::make_shared<double>(fMinScore);

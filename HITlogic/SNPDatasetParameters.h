@@ -108,11 +108,11 @@ public:
 
 	// Score Parameters
 	double										fMinScore = 8.0;										// Index = 20
-	double										fCertainScore = 24.0;									// Index = 21
-	double										fMinScoreFlexible = 16.0;								// Index = 22
+	double										fCertainScore = 30.0;									// Index = 21
+	double										fMinScoreFlexible = 12.0;								// Index = 22
 	std::shared_ptr<double>						fScoreThreshold = std::make_shared<double>(fMinScore);	// Index = 23
-	bool										bAutomaticThresholdDetection = false;					// Index = 24
-	double										fResidualThreshold = 10.0;
+	bool										bAutomaticThresholdDetection = true;					// Index = 24
+	double										fResidualThreshold = 8.0;
 
 	// Compositing Preprocessing
 	bool										bVignettingCorrectionBeforeCompositing = true;			// Index = 25
@@ -131,7 +131,7 @@ public:
 	double										cBackgroundColor = 0.0;													/**	\brief Hintergrundfarbe des Mosaikbilds.*/
 	CCompositingParameters::ECompositingType	eCompositingMode = CCompositingParameters::ECompositingType::eFusion;	/**	\brief Algorithmus zur Bildmontage.*/
 	float										fIntensityLimit = 0.0;													/**	Für 3D-Compositer: Wenn Punkte herausgefiltert werden sollen.*/
-	float										fZMultiplier = 2.0;														/**	Für 3D-Compositer: Legt fest ob Punktwolke in x_achse gestreckt werden soll.*/
+	float										fZMultiplier = 1.0;														/**	Für 3D-Compositer: Legt fest ob Punktwolke in x_achse gestreckt werden soll.*/
 	bool										bExcludeNonSNPImages = false;
 
 	// Export

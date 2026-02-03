@@ -108,12 +108,12 @@ const std::vector<std::pair<wxString, wxString>> HRTImagingToolParameterDialog::
 		L"results with a lower correlation value are considered to be incorrect. "
 		L"Registration results with a higher correlation value may be considered "
 		L"to be correct after further validation."},
-	{L"fMinScoreFlexible (default: 16.0)",
+	{L"fMinScoreFlexible (default: 12.0)",
 		L"Correlation value threshold for sub-image registration. Registration "
 		L"results with a lower correlation value are considered to be incorrect. "
 		L"Registration results with a higher correlation value may be considered "
 		L"to be correct after further validation."},
-	{L"fCertainScore (default: 24.0)",
+	{L"fCertainScore (default: 30.0)",
 		L"Correlation value threshold for rigid image registration. Registration "
 		L"results with a higher correlation value are considered to be correct "
 		L"without further validation. Registration results with a lower "
@@ -139,14 +139,14 @@ const std::vector<std::pair<wxString, wxString>> HRTImagingToolParameterDialog::
 		L"used with the 'simple forward' or 'forward/backward' image pair "
 		L"selection strategies. It only works well for a relatively small number "
 		L"of inconsistent equations."},
-	{L"bAutomaticThresholdDetection (default: off)",
+	{L"bAutomaticThresholdDetection (default: on)",
 		L"Determine the correlation value threshold (for rigid image registration "
 		L"or sub-image registration, depending on the selected image registration "
 		L"approach) automatically. In case of rigid image registration, it is "
 		L"recommended to also activate consistency checking. Deactivate this "
 		L"option and find appropriate fixed threshold values if the resulting "
 		L"images become very fragmented."},
-	{L"fResidualThreshold (default: 10.0)",
+	{L"fResidualThreshold (default: 8.0)",
 		L"Largest allowed residual error value during automatic correlation value "
 		L"threshold detection. The correlation value threshold is increased until "
 		L"all residual errors are smaller than this value.This parameter has no "
@@ -193,7 +193,7 @@ const std::vector<std::pair<wxString, wxString>> HRTImagingToolParameterDialog::
 		L"Ignore image pixels with an intensity value less than this value for the "
 		L"point cloud. This parameter has no effect for result image composition "
 		L"methods other than '3D point cloud'."},
-	{L"f3dZMultiplier (default: 2.0)",
+	{L"f3dZMultiplier (default: 1.0)",
 		L"Stretch factor for the depth coordinate. A value greater than 1.0 means "
 		L"that the resulting volume is expanded along the z-coordinate by the "
 		L"respective factor, and vice versa. A value of 1.0 means that the volume "
@@ -532,14 +532,14 @@ CSNPDatasetParameters HRTImagingToolParameterDialog::CreateDefaults()
 	parameters.eImagePairVerificator = EImagePairVerificator::eNone;
 	parameters.eProcessType = CProcessType::eHRTImageRegistration;
 	parameters.fMinScore = 8.0;
-	parameters.fMinScoreFlexible = 16.0;
-	parameters.fCertainScore = 24.0;
+	parameters.fMinScoreFlexible = 12.0;
+	parameters.fCertainScore = 30.0;
 	parameters.fScalation = 3.0;
 	parameters.fScalationSubImages = 2.0;
 	parameters.nSubImageHeight = 32;
 	parameters.bConsistencyCheck = false;
-	parameters.bAutomaticThresholdDetection = false;
-	parameters.fResidualThreshold = 10.0;
+	parameters.bAutomaticThresholdDetection = true;
+	parameters.fResidualThreshold = 8.0;
 	parameters.eSolver = CSLESolver::EAlgorithm::eCGALGLIB;
 	parameters.bBrightnessCorrectionBeforeCompositing = false;
 	parameters.bVignettingCorrectionBeforeCompositing = true;
@@ -550,7 +550,7 @@ CSNPDatasetParameters HRTImagingToolParameterDialog::CreateDefaults()
 	parameters.nBorder = 0;
 	parameters.cBackgroundColor = 0.0;
 	parameters.fIntensityLimit = 0.0;
-	parameters.fZMultiplier = 2.0;
+	parameters.fZMultiplier = 1.0;
 	parameters.bExcludeNonSNPImages = false;
 	parameters.bForceExportMotionCorrectedImages = false;
 	parameters.bDetailedLogging = false;
@@ -562,13 +562,6 @@ CSNPDatasetParameters HRTImagingToolParameterDialog::CreateDefaults2D()
 {
 	CSNPDatasetParameters parameters = CreateDefaults();
 
-	parameters.fMinScore = 8.0;
-	parameters.fMinScoreFlexible = 12.0;
-	parameters.fCertainScore = 30.0;
-	parameters.bAutomaticThresholdDetection = true;
-	parameters.fResidualThreshold = 10.0;
-	parameters.fZMultiplier = 1.0;
-
 	return parameters;
 }
 
@@ -576,12 +569,6 @@ CSNPDatasetParameters HRTImagingToolParameterDialog::CreateDefaultsSNP()
 {
 	CSNPDatasetParameters parameters = CreateDefaults();
 
-	parameters.fMinScore = 8.0;
-	parameters.fMinScoreFlexible = 12.0;
-	parameters.fCertainScore = 30.0;
-	parameters.bAutomaticThresholdDetection = true;
-	parameters.fResidualThreshold = 10.0;
-	parameters.fZMultiplier = 1.0;
 	parameters.bExcludeNonSNPImages = true;
 
 	return parameters;
@@ -593,12 +580,7 @@ CSNPDatasetParameters HRTImagingToolParameterDialog::CreateDefaults3DVoxel()
 
 	parameters.eStrategie = ERegistrationStrategy::ePlaneSelect;
 	parameters.fSelectionHeight = 8.0;
-	parameters.fMinScore = 8.0;
-	parameters.fMinScoreFlexible = 12.0;
-	parameters.fCertainScore = 30.0;
-	parameters.bAutomaticThresholdDetection = true;
 	parameters.eCompositingMode = CCompositingParameters::ECompositingType::eVoxelBuffer;
-	parameters.fZMultiplier = 1.0;
 	parameters.bExcludeNonSNPImages = true;
 
 	return parameters;
