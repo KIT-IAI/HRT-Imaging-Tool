@@ -20,7 +20,7 @@ set(MKL_LINK "static")
 set(MKL_INTERFACE "ilp64")
 set(MKL_THREADING "sequential")
 
-project(HIT VERSION 1.1)
+project(HIT VERSION 1.2.0)
 
 # Specify MSVC build settings
 if(MSVC)
