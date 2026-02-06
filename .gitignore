@@ -21,3 +21,4 @@ HRTImagingToolResource.h
 *.gpc
 *.diagsession
 *.pdb
+.gitlab-ci-local

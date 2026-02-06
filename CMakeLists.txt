@@ -1,8 +1,8 @@
-﻿# CMakeList.txt: CMake top-level project file.
+# CMakeList.txt: CMake top-level project file.
 # Specify any global configuration and include sub-projects here.
 #
 
-cmake_minimum_required(VERSION 3.30)
+cmake_minimum_required(VERSION 3.22)
 
 # Specify vcpkg settings
 if(WIN32)
