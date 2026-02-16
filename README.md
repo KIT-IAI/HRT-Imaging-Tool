@@ -4,6 +4,8 @@
 
 This project is licensed under the GNU General Public License v2.
 
+Copyright: Karlsruhe Institute of Technology (KIT)
+
 ## Installation
 
 _HIT_ does not require any installation, you just run the executable HITgui.exe, that's all. There are two ways to obtain the executable:
