@@ -23,7 +23,7 @@ The datasets can either be continuous consecutive _HRT_ image sequences (which i
 
 In addition to the source code, this repository also offers the option to download precompiled binaries for convenient usage. __HIT__ does not need installation, you can simply start the (downloaded or compiled) executable `HITgui.exe`. This opens a simple graphical user interface, which let's you add or remove datasets to be processed and finally start the process.
 
-If you use __HIT__ for the first time, you should open the process parameter dialog once (using the `-p` switch from the command line, see the _Advanced_ section below) and choose one of the process parameter presets available via the buttons at the very top. If you are unsure which one is the correct one for your purpose, then chances are good that it's the first one, titled "Defaults for 2D datasets without oscillation".
+If you use __HIT__ for the first time, you should open the process parameter dialog once (using the `-p` switch from the command line, see the _Advanced_ section below) and choose one of the process parameter presets available via the buttons at the very top. If you are unsure which one is the correct one for your purpose, then chances are good that it's the first one, titled "Defaults for 2D datasets".
 
 ## Dataset preparation
 
@@ -68,7 +68,7 @@ Before compilation, open a terminal window from within _Visual Studio_ and execu
 
 - [Stephan Allgeier](https://www.iai.kit.edu/english/2154_2149.php) (email: stephan.allgeier (at) kit.edu)
 - [Klaus-Martin Reichert](https://www.iai.kit.edu/english/2154_2422.php)
-- [Ekaterina Korn](https://www.iai.kit.edu/english/2154_4363.php) (geb. Sorokovaia)
+- Ekaterina Korn (geb. Sorokovaia)
 - Many, many former colleagues and students (please contact me (Stephan Allgeier) if you want to be named here, I will gladly add any of you with your approval)
 
 ## Literature
