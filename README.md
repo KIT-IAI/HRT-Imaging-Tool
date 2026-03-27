@@ -2,9 +2,11 @@
 
 ## License
 
-This project is licensed under the GNU General Public License v2.
+The source code of this project is licensed under the GNU General Public License v2.0 (GPL 2.0).
 
 Copyright: Karlsruhe Institute of Technology (KIT)
+
+The example image data in `/img_data/` is licensed under the Creative Commons Attribution 4.0 International license (CC BY 4.0) and includes its own license file. Please check the subdirectory for details.
 
 ## Installation
 
@@ -28,6 +30,17 @@ If you use __HIT__ for the first time, you should open the process parameter dia
 __HIT__ requires datasets in the form of multi-page TIFF files. Since the _HRT_ doesn't offer such an export option, you need to create the dataset files yourself. There are plenty of tools that can create multi-page TIFF files from a given set of single-page TIFF files (or other image formats). One option is the free image viewer software [_IrfanView_](https://www.irfanview.com/), which offers either a graphical user interface or alternatively also a command line interface for this. On the command line, you can create a multi-page TIFF file as follows:
 
 `i_view64.exe /cmdexit /multitif=("C:\path\to\outputfile.tif","C:\path\to\inputfolder\*.tif")`
+
+## Example Data
+
+The subdirectory `/imgdata/` contains an example dataset file `01_LE.tif`. The image data are from a public repository [9], the dataset file has been created as described above. The results have been created with __HIT__ using the default process parameters (which can be reset by clicking the button "Defaults for 2D datasets" in the parameter dialog). To reproduce the results,
+
+1. make sure that the default process parameters are set (open the parameter dialog window as described below, press the button titled "Defaults for 2D datasets", and exit with "OK"),
+2. start __HIT__,
+3. add the dataset file, and
+4. press "Start".
+
+This will create a subfolder named `01_LE` next to the dataset file, which contains the result files.
 
 ## Advanced
 
@@ -75,3 +88,5 @@ Before compilation, open a terminal window from within _Visual Studio_ and execu
 [7] Lagali NS, Allgeier S, Guimarães P, Badian RA, Ruggeri A, Köhler B, Utheim TP, Peebo B, Peterson M, Dahlin LB, Rolandsson O. "Wide-field corneal subbasal nerve plexus mosaics in age-controlled healthy and type 2 diabetes populations". Sci Data. 2018;5:180075. doi: [10.1038/sdata.2018.75](https://doi.org/10.1038/sdata.2018.75).
 
 [8] Lagali NS, Allgeier S, Guimarães P, Badian RA, Ruggeri A, Köhler B, Utheim TP, Peebo B, Peterson M, Dahlin LB, Rolandsson O. "Reduced corneal nerve fiber density in type 2 diabetes by wide-area mosaic analysis". Invest Ophthalmol Vis Sci. 2017;58(14):6318-6327. doi: [10.1167/iovs.17-22257](https://doi.org/10.1167/iovs.17-22257).
+
+[9] Badian RA, Lagali N, Allgeier S, Scarpa F, Andreasson M, Bartschat A, Mikut R, Colona A, Bellisario M, Paaske Utheim T, Köhler B, Svenningsson P. "Wide-field mosaic dataset of the corneal subbasal nerve plexus in Parkinson’s disease using in vivo confocal microscopy". figshare. 2021. doi: [10.6084/m9.figshare.14481249.v2](https://doi.org/10.6084/m9.figshare.14481249.v2).
