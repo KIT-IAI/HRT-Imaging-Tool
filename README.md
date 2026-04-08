@@ -49,6 +49,8 @@ __HIT__ knows two switches that you can only use on the command line:
 - `HITgui.exe -p` will open another dialog window that provides you with access to all process parameters. The parameter settings are stored in an SQLite database file which resides under `%APPDATA%\KIT-IAI\HIT.sqlite`. If you know what you're doing, you can also change the parameter settings directly in the database file.
 - `HITgui.exe -a "C:\path\to\datasetfile.tif"` will open the __HIT__ GUI, process the given dataset file, and automatically close __HIT__ again when finished. This option can be used for automated workflows.
 
+More details, including a description of the important process parameters, are provided in the accompanying file `hit_supplementary_details.pdf` in the repository root directory.
+
 ## Requirements for Compiling
 
 If you prefer to compile the source code yourself, there are a few prerequisites to be fulfilled. This project includes build files for _MS Visual Studio 2022_; this is the only IDE and build system that is explicitly supported and has been tested. The following description assumes the usage of _MS Visual Studio 2022_.
