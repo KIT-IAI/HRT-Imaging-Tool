@@ -61,9 +61,9 @@ bool CFileUtilities::DeleteDirectory(const std::wstring& sPath, bool bOnlyIfEmpt
 	}
 	try
 	{
-		return boost::filesystem::remove_all(sPath) > 0;
+		return std::filesystem::remove_all(sPath) > 0;
 	}
-	catch (boost::filesystem::filesystem_error ex)
+	catch (std::filesystem::filesystem_error ex)
 	{
 		return false;
 	}
@@ -88,12 +88,12 @@ bool CFileUtilities::PathExists(const std::wstring_view path)
 
 bool CFileUtilities::FileExists(const std::wstring& file)
 {
-	return boost::filesystem::exists(file) && boost::filesystem::is_regular_file(file);
+	return std::filesystem::exists(file) && std::filesystem::is_regular_file(file);
 }
 
 bool CFileUtilities::FileExists(const std::string& file)
 {
-	return boost::filesystem::exists(file) && boost::filesystem::is_regular_file(file);
+	return std::filesystem::exists(file) && std::filesystem::is_regular_file(file);
 }
 
 /**	\brief Gibt an, ob die Zeichenkette \a sPath ein gültiger UNC-Pfad ist.
@@ -427,83 +427,75 @@ std::wstring CFileUtilities::GetAbsolutePath(const std::wstring& sReferencePath,
 	return std::filesystem::weakly_canonical(absPath / sTargetPath).wstring();
 }
 
-/**	\brief Löscht alte Dateien in einem Verzeichnis.
+/**	\brief Deletes old files from a folder.
  *
- *	In dem Verzeichnis \a directory werden alle Dateien gelöscht, die vor mehr
- *	als \a OlderThanDays Tagen gespeichert wurden (relevant ist die letzte Zeit
- *	eines schreibenden Zugriffs).
+ *	File age for this method is calculated with respect to the last writing
+ *	access to the file.
  *
- *	\param[in] directory Der Pfad zum Verzeichnis, aus dem Dateien gelöscht
- *		werden sollen.
- *	\param[in] OlderThenDays Das Mindestalter der zu löschenden Dateien (in
- *		Tagen).
+ *	\param[in] folderPath The folder path.
+ *	\param[in] olderThanDays The minimum age of files to be deleted (in days).
  *
  *	\author Klaus-Martin Reichert
  *	\author Stephan Allgeier
  *
  *	\see DeleteOldFiles(const std::wstring&, CRegex, int)
  *	\see GetFilesInDirectory(const std::wstring&)
+ *	\see GetLastWriteTime()
  *	\see DeleteDirectory()
  */
-void CFileUtilities::DeleteOldFiles(const std::wstring& directory, int OlderThenDays)
+void CFileUtilities::DeleteOldFiles(const std::wstring& folderPath, int olderThanDays)
 {
-	time_t tNow = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-	auto files = GetFilesInDirectory(directory);
+	auto tNow = std::chrono::system_clock::now();
+	auto files = GetFilesInDirectory(folderPath);
 	try
 	{
 		for (const auto& file : files)
 		{
-			time_t tFile = boost::filesystem::last_write_time(file);
-			auto tDiffDays = (tNow - tFile) / (60 * 60 * 24);
-			if (tDiffDays > OlderThenDays)
+			auto tDiffDays = std::chrono::duration_cast<std::chrono::hours>(tNow - GetLastWriteTime(file)).count() / 24;
+			if (tDiffDays > olderThanDays)
 			{
 				std::filesystem::remove(file);
 			}
 		}
 	}
-	catch (const boost::filesystem::filesystem_error&)
+	catch (const std::filesystem::filesystem_error&)
 	{
 	}
 }
 
-/**	\brief Löscht alte Dateien in einem Verzeichnis.
+/**	\brief Deletes old files from a folder.
  *
- *	In dem Verzeichnis \a directory werden alle Dateien gelöscht, deren
- *	Dateiname dem Muster \a fileNamePattern entspricht und die vor mehr als
- *	\a OlderThanDays Tagen gespeichert wurden (relevant ist die letzte Zeit
- *	eines schreibenden Zugriffs).
+ *	File age for this method is calculated with respect to the last writing
+ *	access to the file.
  *
- *	\param[in] directory Der Pfad zum Verzeichnis, aus dem Dateien gelöscht
- *		werden sollen.
- *	\param[in] fileNamePattern Das Muster für die Dateinamen der zu löschenden
- *		Dateien.
- *	\param[in] OlderThenDays Das Mindestalter der zu löschenden Dateien (in
- *		Tagen).
+ *	\param[in] folderPath The folder path.
+ *	\param[in] fileNamePattern The file name pattern for files to be deleted.
+ *	\param[in] olderThanDays The minimum age of files to be deleted (in days).
  *
  *	\author Klaus-Martin Reichert
  *	\author Stephan Allgeier
  *
  *	\see DeleteOldFiles(const std::wstring&, int)
  *	\see GetFilesInDirectory(const std::wstring&, CRegex)
+ *	\see GetLastWriteTime()
  *	\see DeleteDirectory()
  */
-void CFileUtilities::DeleteOldFiles(const std::wstring& directory, CRegex fileNamePattern, int OlderThenDays)
+void CFileUtilities::DeleteOldFiles(const std::wstring& folderPath, CRegex fileNamePattern, int olderThanDays)
 {
-	time_t tNow = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-	auto files = GetFilesInDirectory(directory, fileNamePattern);
+	auto tNow = std::chrono::system_clock::now();
+	auto files = GetFilesInDirectory(folderPath, fileNamePattern);
 	try
 	{
 		for (const auto& file : files)
 		{
-			time_t tFile = boost::filesystem::last_write_time(file);
-			auto tDiffDays = (tNow - tFile) / (60 * 60 * 24);
-			if (tDiffDays > OlderThenDays)
+			auto tDiffDays = std::chrono::duration_cast<std::chrono::hours>(tNow - GetLastWriteTime(file)).count() / 24;
+			if (tDiffDays > olderThanDays)
 			{
 				std::filesystem::remove(file);
 			}
 		}
 	}
-	catch (const boost::filesystem::filesystem_error&)
+	catch (const std::filesystem::filesystem_error&)
 	{
 	}
 }
@@ -710,4 +702,17 @@ std::filesystem::path CFileUtilities::GetProgramFolder()
 {
 	std::filesystem::path path = GetProgramFullPath();
 	return path.parent_path();
+}
+
+/**	\brief Queries the time of the last file save event.
+ *
+ *	\param[in] fileName The file path.
+ *
+ *	\return The time point of the last file save event.
+ *
+ *	\author Stephan Allgeier
+ */
+std::chrono::system_clock::time_point CFileUtilities::GetLastWriteTime(const std::wstring& fileName)
+{
+	return (std::filesystem::last_write_time(std::filesystem::path(fileName)) - std::filesystem::file_time_type::clock::now()) + std::chrono::system_clock::now();
 }

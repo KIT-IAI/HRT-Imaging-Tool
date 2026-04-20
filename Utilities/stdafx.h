@@ -60,7 +60,6 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include <boost/asio.hpp>
 #include <boost/date_time.hpp>
 #include <boost/dll/runtime_symbol_info.hpp>
-#include <boost/filesystem.hpp>
 #include <boost/format.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/log/attributes.hpp>

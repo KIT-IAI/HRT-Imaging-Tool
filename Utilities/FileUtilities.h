@@ -22,6 +22,7 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 
 #pragma once
 
+#include <chrono>
 #include <filesystem>
 #include <vector>
 
@@ -66,8 +67,8 @@ public:
 	static std::wstring GetAbsolutePath(const std::wstring& sReferencePath, const std::wstring& sTargetPath);
 	static std::wstring GetRelativePath(const std::wstring& sReferencePath, const std::wstring& sTargetPath);
 
-	static void DeleteOldFiles(const std::wstring& directory, int OlderThenDays);
-	static void DeleteOldFiles(const std::wstring& directory, CRegex fileNamePattern, int OlderThenDays);
+	static void DeleteOldFiles(const std::wstring& folderPath, int olderThanDays);
+	static void DeleteOldFiles(const std::wstring& folderPath, CRegex fileNamePattern, int olderThanDays);
 
 	static std::vector<std::wstring> GetFilesInDirectory(const std::wstring& directory);
 	static std::vector<std::wstring> GetFilesInDirectory(const std::wstring& directory, CRegex fileNamePattern);
@@ -80,6 +81,7 @@ public:
 
 	static std::wstring GetExtension(const std::wstring& fileName);
 	static std::wstring GetFileName(const std::wstring& fileName);
+	static std::chrono::system_clock::time_point GetLastWriteTime(const std::wstring& fileName);
 
 	static std::vector<std::wstring> ByLine(const std::wstring& fileName);
 
