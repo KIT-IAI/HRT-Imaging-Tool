@@ -1,12 +1,10 @@
 variables:
-  GIT_SUBMODULE_STRATEGY: recursive
+  GIT_SUBMODULE_STRATEGY: "recursive"
+  VCPKG_DISABLE_METRICS: "1"
 
 stages:
   - build
   - deploy
-
-variables:
-  VCPKG_DISABLE_METRICS: 1
 
 .setup_ubuntu_environment:
   variables:
@@ -103,6 +101,7 @@ build-windows-x64-debug:
     expire_in: 1 weeks
     paths:
       - Debug/
+
 build-windows-x64-release:
   extends: .setup_windows_environment
   stage: build
@@ -121,6 +120,7 @@ build-windows-x64-release:
     expire_in: 1 weeks
     paths:
       - Release/
+
 deploy-windows-x64-release:
   needs:
     - job: "build-windows-x64-release"
