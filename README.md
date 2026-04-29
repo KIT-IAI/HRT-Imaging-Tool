@@ -8,6 +8,10 @@ Copyright: Karlsruhe Institute of Technology (KIT)
 
 The example image data in `/img_data/` is licensed under the Creative Commons Attribution 4.0 International license (CC BY 4.0) and includes its own license file. Please check the subdirectory for details.
 
+## How to Cite
+
+If you use _HIT_ please cite our _SoftwareX_ paper: Allgeier S, Reichert KM, Korn E, et al. HIT: A fully automated mosaicking software for corneal confocal microscopy. SoftwareX. 2026;34:102669. doi: [10.1016/j.softx.2026.102669](https://doi.org/10.1016/j.softx.2026.102669).
+
 ## Installation
 
 _HIT_ does not require any installation, you just run the executable HITgui.exe, that's all. There are two ways to obtain the executable:
@@ -25,7 +29,7 @@ In addition to the source code, this repository also offers the option to downlo
 
 If you use __HIT__ for the first time, you should open the process parameter dialog once (using the `-p` switch from the command line, see the _Advanced_ section below) and choose one of the process parameter presets available via the buttons at the very top. If you are unsure which one is the correct one for your purpose, then chances are good that it's the first one, titled "Defaults for 2D datasets".
 
-## Dataset preparation
+## Dataset Preparation
 
 __HIT__ requires datasets in the form of multi-page TIFF files. Since the _HRT_ doesn't offer such an export option, you need to create the dataset files yourself. There are plenty of tools that can create multi-page TIFF files from a given set of single-page TIFF files (or other image formats). One option is the free image viewer software [_IrfanView_](https://www.irfanview.com/), which offers either a graphical user interface or alternatively also a command line interface for this. On the command line, you can create a multi-page TIFF file as follows:
 
