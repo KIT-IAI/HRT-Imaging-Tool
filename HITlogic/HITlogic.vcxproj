@@ -70,7 +70,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(MKLROOT)\include;$(SolutionDir)alglib;$(SolutionDir)Utilities;$(SolutionDir)ImageIO;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)alglib;$(SolutionDir)Utilities;$(SolutionDir)ImageIO;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ConformanceMode>false</ConformanceMode>
     </ClCompile>
     <Link>
@@ -93,7 +93,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(MKLROOT)\include;$(SolutionDir)alglib;$(SolutionDir)Utilities;$(SolutionDir)ImageIO;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)alglib;$(SolutionDir)Utilities;$(SolutionDir)ImageIO;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ConformanceMode>false</ConformanceMode>
     </ClCompile>
     <Link>
