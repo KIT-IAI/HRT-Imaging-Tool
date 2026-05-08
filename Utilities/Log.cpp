@@ -23,11 +23,6 @@ Fifth Floor, Boston, MA 02110-1301, USA.
 #include "stdafx.h"
 #include "Log.h"
 
-#ifdef _WIN32
-#pragma comment(lib, "Kernel32.lib")
-#pragma comment(lib, "psapi.lib")
-#endif
-
 #include "StringUtilities.h"
 
 //Be carefull this supresses a lot of noise and the Unreferenced Parameter warning for this file.

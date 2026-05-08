@@ -78,6 +78,10 @@
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>mkl_intel_ilp64.lib;mkl_sequential.lib;mkl_core.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(VcpkgManifestRoot)\vcpkg_installed\$(VcpkgTriplet)\$(VcpkgTriplet)\lib;</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -99,6 +103,10 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>mkl_intel_ilp64.lib;mkl_sequential.lib;mkl_core.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(VcpkgManifestRoot)\vcpkg_installed\$(VcpkgTriplet)\$(VcpkgTriplet)\lib;</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="3DBuffer.cpp" />

@@ -77,8 +77,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(VcpkgManifestRoot)\vcpkg_installed\$(VcpkgTriplet)\$(VcpkgTriplet)\lib\intel64;$(SolutionDir)alglib/$(Configuration);$(SolutionDir)ImageIO/$(Configuration);$(SolutionDir)HITlogic/$(Configuration);$(SolutionDir)Utilities/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Rpcrt4.lib;alglib.lib;HITlogic.lib;Utilities.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)alglib/$(Configuration);$(SolutionDir)ImageIO/$(Configuration);$(SolutionDir)HITlogic/$(Configuration);$(SolutionDir)Utilities/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Rpcrt4.lib;alglib.lib;ImageIO.lib;Utilities.lib;HITlogic.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -100,8 +100,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(VcpkgManifestRoot)\vcpkg_installed\$(VcpkgTriplet)\$(VcpkgTriplet)\lib\intel64;$(SolutionDir)alglib/$(Configuration);$(SolutionDir)ImageIO/$(Configuration);$(SolutionDir)HITlogic/$(Configuration);$(SolutionDir)Utilities/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Rpcrt4.lib;alglib.lib;HITlogic.lib;Utilities.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)alglib/$(Configuration);$(SolutionDir)ImageIO/$(Configuration);$(SolutionDir)HITlogic/$(Configuration);$(SolutionDir)Utilities/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Rpcrt4.lib;alglib.lib;ImageIO.lib;Utilities.lib;HITlogic.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
