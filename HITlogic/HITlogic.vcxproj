@@ -80,7 +80,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>mkl_intel_ilp64.lib;mkl_sequential.lib;mkl_core.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(VcpkgManifestRoot)\vcpkg_installed\$(VcpkgTriplet)\$(VcpkgTriplet)\lib;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(VcpkgManifestRoot)\vcpkg_installed\$(VcpkgTriplet)\$(VcpkgTriplet)\lib\intel64</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -105,7 +105,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>mkl_intel_ilp64.lib;mkl_sequential.lib;mkl_core.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(VcpkgManifestRoot)\vcpkg_installed\$(VcpkgTriplet)\$(VcpkgTriplet)\lib;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(VcpkgManifestRoot)\vcpkg_installed\$(VcpkgTriplet)\$(VcpkgTriplet)\lib\intel64</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
