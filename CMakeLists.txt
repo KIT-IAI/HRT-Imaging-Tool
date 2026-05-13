@@ -16,6 +16,7 @@ else()
 endif()
 
 # Specify MKL settings
+set(MKL_ROOT ${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET})
 set(MKL_LINK "static")
 set(MKL_INTERFACE "ilp64")
 set(MKL_THREADING "sequential")
